@@ -97,11 +97,11 @@
 	
 		<!-- Add Breadcrumb -->
 		{% if self.get_ancestors|length > 1 %}
-			<div class="breadcrumb" style="font-size: 0.8em; margin: 20px 0px 0px 50px;">
+			<div class="breadcrumb-new" style="font-size: 0.8em; margin: 20px 0px 0px 50px;">
 				Du bist hier: 
 				{% for page in self.get_ancestors %}
 					{% if page.is_root == False %}
-					<a style="font-size: 0.8em;" href=”{% pageurl page %}”>{{ page.title }}</a> >
+					<a style="color: initial; text-decoration: none;" href=”{% pageurl page %}”>{{ page.title }}</a> >
 					{% endif %}
 				{% endfor %}
 				{{ self.title }}
