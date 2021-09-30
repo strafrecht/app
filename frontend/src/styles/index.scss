@@ -3,6 +3,7 @@ $yellow: #FFE200;
 $green: #ADD345;
 $bg-gray: #E8E7DF;
 $line-gray:#E8E7E0;
+$serif-font: 'Roboto Slab';
 
 
 body {
@@ -14,6 +15,7 @@ body {
 h2 {
     font-size: 1.8rem !important;
     font-weight: 800 !important;
+    font-family: $serif-font;
 }
 
 h3 {
