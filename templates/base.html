@@ -95,8 +95,7 @@
 		</section>
 		{% endif %}
 	
-		<!-- Add Breadcrumb -->
-		{% if self.get_ancestors|length > 1 %}
+		{% if self.get_ancestors|length > 2 %}
 			<div class="breadcrumb-new" style="font-size: 0.8em; margin: 20px 0px 0px 50px;">
 				Du bist hier: 
 				{% for page in self.get_ancestors %}
