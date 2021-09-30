@@ -2,6 +2,7 @@
 {% load pwa %}
 {% load static wagtailuserbar menu_tags %}
 {% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -93,7 +94,20 @@
 			</div>
 		</section>
 		{% endif %}
+	
+		<!-- Add Breadcrumb -->
+		{% if self.get_ancestors|length > 1 %}
+			<ul class=”breadcrumb”>
+				{% for page in self.get_ancestors %}
+					{% if page.is_root == False %}
+					<li><a href=”{% pageurl page %}”>{{ page.title }}</a></li>
+					{% endif %}
+				{% endfor %}
+				<li class=”active”>{{ self.title }}</li>
+			</ul>
+		{% endif %}
 
+	
 				{% if page.slug != "strafrecht-online" %}
 				<main role="main" class="{% if page.slug == 'juracoach' %}'w-full'{% else %}container{% endif %}">
 					<div class="container-inner flex-column flex-md-row p-0 w-full">
