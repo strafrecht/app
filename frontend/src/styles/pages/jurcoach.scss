@@ -106,9 +106,13 @@
     font-size: 14px;
 }
 #jurcoach-page .line {
-    height: 39px;
+    height: 20px;
     border-bottom: 3px solid;
     border-color: $line-gray;
+    z-index: -999;
+    position: relative;
+    top: 70px;
+    margin-top: -20px;
 }
 #jurcoach-page .triangle {
     background: white;
@@ -118,7 +122,7 @@
     transform: rotate(-45deg);
     position: relative;
     left: 50%;
-    top: 27px;
+    top: 8px;
     width: 20px;
     height: 20px;
 }
