@@ -6,6 +6,8 @@ __pycache__
 db.sqlite3
 frontend/node_modules/
 static/
+/media/
+
 .idea/
 
 # Backup files # 
@@ -120,4 +122,4 @@ GitHub.sublime-settings
 .vscode/settings.json
 .idea/app.iml
 .idea/app.iml
-/media/
+
