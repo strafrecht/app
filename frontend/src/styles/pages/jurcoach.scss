@@ -5,6 +5,7 @@
 #jurcoach-page h1 {
     font-size: 24px;
     font-weight: 800;
+    font-family: $serif-font;
 }
 
 #jurcoach-page h2 {
@@ -12,6 +13,7 @@
     display: inline-block;
     font-size: 28px;
     font-weight: 800 !important;
+    font-family: $serif-font;
 }
 
 #jurcoach-page section {
@@ -60,7 +62,7 @@
     font-weight: 900;
     color: #333 !important;
     margin-top: 40px;
-    font-family: 'Roboto Slab';
+    font-family: $serif-font;
     font-size: 1.2rem;
     font-weight: 800 !important;
 }
