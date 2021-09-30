@@ -90,6 +90,23 @@
     font-weight: 800;
     font-size: 14px;
 }
+#jurcoach-page .line {
+    height: 39px;
+    border-bottom: 3px solid;
+    border-color: $line-gray;
+}
+#jurcoach-page .triangle {
+    background: white;
+    border: 3px solid;
+    border-color: $line-gray;
+    border-width: 3px 3px 0 0;
+    transform: rotate(-45deg);
+    position: relative;
+    left: 50%;
+    top: 28px;
+    width: 20px;
+    height: 20px;
+}
 
 @media (min-width: 768px) {
     /* show 3 items */
