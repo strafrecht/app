@@ -38,6 +38,9 @@
 #jurcoach-page h3.highlighted.green {
     background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $green 14px, $green 32px);
 }
+#jurcoach-page a:hover {
+    text-decoration: none !important;
+}
 #jurcoach-page section {
     display: flex;
     flex-direction: column;
