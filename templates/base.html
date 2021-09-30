@@ -97,14 +97,14 @@
 	
 		<!-- Add Breadcrumb -->
 		{% if self.get_ancestors|length > 1 %}
-			<ul class=”breadcrumb”>
+			<div class=”breadcrumb”>
 				{% for page in self.get_ancestors %}
 					{% if page.is_root == False %}
-					<li><a href=”{% pageurl page %}”>{{ page.title }}</a></li>
+					<a href=”{% pageurl page %}”>{{ page.title }}</a> >
 					{% endif %}
 				{% endfor %}
 				<li class=”active”>{{ self.title }}</li>
-			</ul>
+			</div>
 		{% endif %}
 
 	
