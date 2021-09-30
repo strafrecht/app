@@ -16,6 +16,16 @@
     font-family: $serif-font;
 }
 
+#jurcoach-page h3 {
+    font-size: 20px;
+    font-weight: 900;
+    color: #333 !important;
+    margin-top: 40px;
+    font-family: $serif-font;
+    font-size: 1.2rem;
+    font-weight: 800 !important;
+}
+
 #jurcoach-page section {
     display: flex;
     flex-direction: column;
@@ -56,15 +66,6 @@
     bottom: -30px;
     padding-top: 50px;
     width: 180px !important;
-}
-#jurcoach-page .carousel-item h3 {
-    font-size: 20px;
-    font-weight: 900;
-    color: #333 !important;
-    margin-top: 40px;
-    font-family: $serif-font;
-    font-size: 1.2rem;
-    font-weight: 800 !important;
 }
 #jurcoach-page .carousel-item p {
     font-size: 13px;
