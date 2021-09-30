@@ -1,0 +1,29 @@
+footer {
+	border-top: 1px solid #eee;
+	margin-top: 50px;
+	padding: 10px 0 10px 0;
+}
+footer .container {
+	max-width: 900px;
+}
+footer ul {
+	margin: 0px;
+	padding: 0px;
+}
+footer ul li {
+	display: inline-block;
+	font-size: 13px;
+	margin: 0 15px 0 0;
+}
+a.social-media-icon {
+	font-size: 25px !important;
+	width: 25px !important;
+	text-align: center;
+	text-decoration: none;
+	margin: 0px 2px;
+	color: #6c757d !important;
+}
+a.social-media-icon:hover {
+	text-decoration: none;
+	color: #6c757d !important;
+}
