@@ -41,6 +41,28 @@
 #jurcoach-page a:hover {
     text-decoration: none !important;
 }
+#jurcoach-page .underlined {
+    $border-bottom: 4px solid white;
+    border-bottom: $border-bottom;
+    &.hover {
+        border-bottom: 0px;
+        &:hover{
+            border-bottom: $border-bottom;
+            &.yellow {
+                border-color: $yellow;
+            }
+            &.green {
+                border-color: $green;
+            }
+        }
+    }
+    &.yellow {
+        border-color: $yellow;
+    }
+    &.green {
+        border-color: $green;
+    }
+} 
 #jurcoach-page section {
     display: flex;
     flex-direction: column;
