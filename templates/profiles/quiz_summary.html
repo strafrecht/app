@@ -1,0 +1,31 @@
+{% extends "profiles/index.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block contents %}
+<div class="flex">
+	<h4>Quiz Summary</h4>
+
+	{% for user_answer in quiz.useranswer_set.all %}
+		<div class="bg-white mb-4 p-2" style="border: 2px solid #ddd; border-radius: 8px;">
+			{{ user_answer.question.title }}
+			<ul>
+				{% for answer in user_answer.question.answer_set.all %}
+					{% if answer.correct %}
+						<li class="text-success">{{ answer.text }}</li>
+					{% else %}
+						<li class="text-danger">{{ answer.text }}</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+	<script src="/static/js/chartist-plugin-fill-donut.js"></script>
+{% endblock %}

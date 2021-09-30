@@ -1,0 +1,29 @@
+{% load i18n %}
+{% if items %}
+<table class="listing">
+    <col />
+    <col  />
+    <col width="16%" />
+    <thead>
+        <tr class="table-headers">
+            <th>{% trans "Title" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for snippet in items %}
+            <tr>
+                <td class="title">
+                    {% if choosing %}
+                        <h2><a class="snippet-choice" href="{% url 'wagtailpolls_chosen' snippet.id %}">{{ snippet }}</a></h2>
+                    {% else %}
+                        <h2><a href="{% url 'wagtailpolls_choose' snippet.id %}">{{ snippet }}</a></h2>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+{% url 'wagtailpolls_create' as wagtailpolls_create_url %}
+<p class="no-results-message">{% blocktrans %}No polls have been created. Why not <a href="{{ wagtailpolls_create_url }}">add one</a>?{% endblocktrans %}</p>
+{% endif %}

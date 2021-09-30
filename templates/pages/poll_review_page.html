@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+{% load poll_tags %}
+
+{% block body_class %}template-websitepage{% endblock %}
+
+{% block content %}
+	<div class="col-md-8">
+		<h2 class="font-weight-bold">{{ poll.title }}</h2>
+		<p>Von <a href="#">{{ poll.author_name }}</a></p>
+		<p class="meta badge badge-dark">{{ poll.date }}</p>
+
+		<div class="richtext">{{ poll.body|richtext }}</div>
+
+		<br>
+		<p><a href="{{ poll.get_parent.url }}">More poll reviews</a></p>
+	</div>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="col-md-4 sidebar">
+		<div class="row no-gutters bg-white rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250     position-relative">
+			{% poll %}
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends "profiles/index.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<style>
+.donut-inner-text {
+	font-size: 32px;
+	font-weight: bold;
+}
+.ct-chart {
+	width: 200px;
+}
+.ct-series-a .ct-slice-donut {
+	stroke: rgb(176,223,229);
+	stroke: #17a2b8;
+	stroke: #007bff;
+}
+.ct-series-b .ct-slice-donut {
+	stroke: #ddd;
+}
+
+</style>
+{% endblock %}
+
+{% block contents %}
+<div class="flex">
+	<div class="d-flex flex-row align-items-center justify-content-between">
+		<h4>Your Quizzes</h4>
+		<a href="{% url 'quiz:index' %}" class="">Browse all Quizzes</a>
+	</div>
+
+	<div style="display: flex; justify-content: space-between; width: 100%;">
+		<div style="display: flex; flex-direction: column;">
+			<label>Filter by</label>
+			<select id="filter_by" name="filter_by" onchange="handleFilter(this)">
+				<option value="all" {% if filter == "all" %}selected{% endif %}>All</option>
+				<option value="completed" {% if filter == "completed" %}selected{% endif %}>Completed</option>
+				<option value="incomplete" {% if filter == "incomplete" %}selected{% endif %}>Incomplete</option>
+			</select>
+		</div>
+
+		<div style="display: flex; flex-direction: column;">
+			<label>Order by</label>
+			<select id="order_by" name="order_by" onchange="handleOrder(this)">
+				<option value="updated-new" {% if filter == "updated-new" %}selected{% endif %}>Updated (newest)</option>
+				<option value="updated-old" {% if filter == "updated-old" %}selected{% endif %}>Updated (oldest)</option>
+				<option value="created-new" {% if filter == "created-new" %}selected{% endif %}>Started (newest)</option>
+				<option value="created-old" {% if filter == "created-old" %}selected{% endif %}>Started (oldest)</option>
+				<option value="score-high" {% if filter == "score-high" %}selected{% endif %}>Score (highest)</option>
+				<option value="score-low" {% if filter == "score-low" %}selected{% endif %}>Score (lowest)</option>
+			</select>
+		</div>
+	</div>
+
+	<script>
+		const filter_by = document.querySelector('#filter_by').value
+		const order_by = document.querySelector('#filter_by').value
+
+		function handleFilter(e) {
+			window.location = `?filter_by=${e.value}&order_by=${order_by}`
+		}
+
+		function handleOrder(e) {
+			window.location = `?filter_by=${filter_by}&order_by=${e.value}`
+		}
+	</script>
+
+		{% if quizzes %}
+			{% for quiz in quizzes %}
+				<div class="d-flex flex-col bg-white rounded-lg p-3 my-2">
+					<div class="">
+						<div class="ct-chart ct-chart-{{forloop.counter}}"></div>
+						<script src="https://cdn.jsdelivr.net/npm/chartist@0.11.4/dist/chartist.min.js"></script>
+						<script src="/static/js/chartist-plugin-fill-donut.js"></script>
+						<script>
+							var score = parseInt({{  quiz.calculate_score }})
+							var total = parseInt({{  quiz.total_questions }})
+
+							var chart = Chartist.Pie('.ct-chart-{{forloop.counter}}', {
+								series: [score, total-score],
+								labels: ['', '']
+							}, {
+								donut: true,
+								donutWidth: 15,
+								startAngle: 210,
+								total: total,
+								showLabel: false,
+								plugins: [
+									Chartist.plugins.fillDonut({
+										items: [{ //Item 1
+											content: '<i class="fa fa-tachometer text-muted"></i>',
+											position: 'bottom',
+											offsetY : 10,
+											offsetX: -2
+										}, { //Item 2
+											content: `<h3 class='donut-inner-text'>${score}/${total}<span class="small"></span></h3>`
+										}]
+									})
+								],
+							});
+						//Animation for the first series
+						chart.on('draw', function(data) {
+							if(data.type === 'slice' && data.index == 0) {
+								var pathLength = data.element._node.getTotalLength();
+
+								data.element.attr({
+										'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+								});
+
+								var animationDefinition = {
+										'stroke-dashoffset': {
+												id: 'anim' + data.index,
+												dur: 1200,
+												from: -pathLength + 'px',
+												to:  '0px',
+												easing: Chartist.Svg.Easing.easeOutQuint,
+												fill: 'freeze'
+										}
+								};
+								data.element.attr({
+									'stroke-dashoffset': -pathLength + 'px'
+								});
+									data.element.animate(animationDefinition, true);
+								}
+						});
+						</script>
+					</div>
+					<div class="">
+						<h5 href="#" class="text-primary">
+							{{ quiz.category }}
+						</h5>
+						<div>Date: {{ quiz.updated }}</div>
+						<div>
+							<a href="{% url 'quiz:category' quiz.category.id %}" class="btn btn-success" style="border-width: 2px; font-weight: bold;">Retake Quiz</a>
+							<a href="{% url 'profile:quiz_summary' quiz.id %}" class="btn btn-outline-light" style="font-weight: bold; border: 2px solid #ddd; color: #444;">View Summary</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<p>No completed quizzes</p>
+		{% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+	<script src="/static/js/chartist-plugin-fill-donut.js"></script>
+{% endblock %}

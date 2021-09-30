@@ -1,0 +1,21 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load poll_tags %}
+
+{% for sidebar in sidebars %}
+	{% if sidebar.type == "standard" %}
+	<div class="sidebar-item">
+		<div class="left">
+			{% image sidebar_placement.sidebar.image fill-100x100 %}
+		</div>
+		<div class="right">
+			<p>{{ sidebar_placement.sidebar.text|richtext }}</p>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if sidebar.type == "poll" %}
+		{% poll %}
+	{% endif %}
+	{{ sidebar.type }}
+{% endfor %}
+

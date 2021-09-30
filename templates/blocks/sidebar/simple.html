@@ -1,0 +1,11 @@
+{% extends "blocks/widget.html" %}
+
+{% load wagtailimages_tags %}
+
+{% block widget %}
+	<div class="sidebar sidebar-simple">
+		<div class="text">
+			{{ value.content }} 
+		</div>
+	</div>
+{% endblock %}

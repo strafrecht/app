@@ -1,0 +1,33 @@
+{% load i18n %}
+{% load comments %}
+{% load wagtailcore_tags wagtailnews_admin_tags %}
+{% load wagtailroutablepage_tags %}
+
+
+{% block widget %}
+<div class="">
+	<h2>Letzte News & Abstimmungen</h2>
+
+	<div class="news-widgets">
+	{% for article in articles %}
+		<div class="news-widget">
+			<div class="news-widget-inner">
+				<div class="date">{{ article.date|date:"d.m.Y" }}</div>
+				<div class="title">{{ article.title }}</div>
+				<div class="body">{{ article.body | richtext | truncatechars:200 }} <a href="{% routablepageurl article.articles_page 'article_by_date' 2020 10 10 article.slug %}">weiterlesen</a></div>
+				{% get_comment_count for article as comment_count %}
+				<div class="comments">
+					{% if comment_count == 0 %}
+						Noch keine Kommentare.
+					{% elif comment_count == 1 %}
+						Ein Kommentar zu diesem Beitrag.
+					{% else %}
+						{{ comment_count }} Kommentar{{ comment_count|pluralize:"e"}} zu diesem Beitrag.
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+</div>
+{% endblock %}

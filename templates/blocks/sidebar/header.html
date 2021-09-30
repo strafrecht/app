@@ -1,0 +1,20 @@
+{% extends "blocks/widget.html" %}
+
+{% load wagtailimages_tags %}
+
+
+{% block widget %}
+	<div class="sidebar sidebar-header">
+		<div class="header">
+			{% image value.image width-400 as thing %}
+			<div class="title" style="background: url({{thing.url}});">
+				<div class="title-text brand" style="color: {{ value.color }};">
+				{{ value.title }}
+				</div>
+			</div>
+		</div>
+		<div class="text">
+			{{ value.content }} 
+		</div>
+	</div>
+{% endblock %}

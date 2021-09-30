@@ -1,0 +1,11 @@
+{% load wagtailcore_tags %}
+
+<div class="row">
+	{% for column, width in columns %}
+		<div class="col-xs-12 col-md-6">
+			Column width = {{ width }}
+			{% include_block column %}
+			{{ column }}
+		</div>
+	{% endfor %}
+</div>

@@ -1,0 +1,1643 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: django-wiki\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2020-10-05 23:37+0200\n"
+"Last-Translator: olf 42 <olf@subsignal.org>\n"
+"Language-Team: German (http://www.transifex.com/django-wiki/django-wiki/"
+"language/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"X-Generator: Poedit 2.4.1\n"
+
+msgid "\"%(att)s\" is already referenced."
+msgstr "\"%(att)s\" ist schon verknüpft."
+
+msgid ""
+"%(cnt)s nested article will also be moved.<br> Be careful, links to this "
+"article and %(cnt)s article nested in this hierarchy will not be updated."
+msgid_plural ""
+"%(cnt)s nested articles will also be moved.<br> Be careful, links to this "
+"article and %(cnt)s articles nested in this hierarchy will not be updated."
+msgstr[0] ""
+"%(cnt)s untergeordnetes Problemfeld wird ebenfalls verschoben.<br>Beachte, "
+"dass Links zu diesem Problemfeld und zu %(cnt)s untergeordneten "
+"Problemfeldern dieser Hierarchie nicht aktualisiert werden."
+msgstr[1] ""
+"%(cnt)s untergeordnete Problemfelder werden ebenfalls verschoben.<br>\n"
+"Beachte, dass Links zu diesem Problemfeld und zu %(cnt)s untergeordneten "
+"Problemfeldern\n"
+"dieser Hierarchie nicht aktualisiert werden."
+
+msgid "%(file)s has been changed to revision #%(revision)d"
+msgstr "%(file)s wurde auf Revision #%(revision)d geändert"
+
+msgid "%(file)s has been saved."
+msgstr "%(file)s wurde gespeichert."
+
+msgid "%(title)s - %(url)s"
+msgstr "%(title)s - %(url)s"
+
+msgid "%(user)s subscribing to %(article)s (%(type)s)"
+msgstr "%(user)s abonniert %(article)s (%(type)s)"
+
+msgid "%d minutes"
+msgstr "%d Minuten"
+
+msgid "%s has been marked as deleted"
+msgstr "%s wurde als gelöscht markiert"
+
+msgid "%s has been restored"
+msgstr "%s wurde gespeichert"
+
+msgid "%s uploaded and replaces old attachment."
+msgstr "%s wurde hochgeladen und ersetzt den alten Anhang."
+
+msgid "%s was successfully added."
+msgstr "%s wurde erfolgreich hinzugefügt."
+
+msgid "'admin' is not a permitted slug name."
+msgstr "'admin' ist nicht als Adresse erlaubt."
+
+msgid "(none)"
+msgstr "(nichts)"
+
+msgid "(root)"
+msgstr "(Wurzel)"
+
+msgid "...and more"
+msgstr "...und mehr"
+
+msgid "...and more!"
+msgstr "...und noch mehr!"
+
+msgid "<em>No description</em>"
+msgstr "<em>Keine Beschreibung</em>"
+
+msgid ""
+"<strong>Warning:</strong> You are not logged in. Your IP address will be "
+"logged."
+msgstr ""
+"<strong>Achtung:</strong> Du bist nicht eingeloggt. Deine IP Addresse wird "
+"gespeichert."
+
+msgid "A 'slug' cannot consist solely of numbers."
+msgstr "Ein 'slug' darf nicht ausschließlich aus Zahlen bestehen."
+
+msgid "A deleted article with slug \"%s\" already exists."
+msgstr "Ein gelöschtes Problemfeld unter der Adresse \"%s\" existiert bereits."
+
+msgid "A file was changed: %s"
+msgstr "Eine Datei wurde geändert: %s"
+
+msgid "A file was deleted: %s"
+msgstr "Eine Datei wurde gelöscht: %s"
+
+msgid "A new revision of the article was successfully added."
+msgstr "Eine neue Revision des Problemfelds wurde erfolgreich hinzugefügt."
+
+msgid ""
+"A new revision was created: Merge between revision #%(r1)d and revision #"
+"%(r2)d"
+msgstr ""
+"Eine neue Revision wurde erstellt: Eine Vereinigung aus Revision #%(r1)d und "
+"Revision #%(r2)d"
+
+msgid "A non-root note must always have a slug."
+msgstr ""
+"Ein Problemfeld muss immer eine Adresse haben (vom Hauptproblemfeld "
+"abgesehen)."
+
+msgid "A plugin was changed"
+msgstr "Ein Plugin wurde geändert"
+
+msgid "A short summary of what the file contains"
+msgstr "Eine kurze Beschreibung, was die Datei enthält"
+
+msgid "A slug may not begin with an underscore."
+msgstr "Die Adresse darf nicht mit _ beginnen."
+
+msgid "A slug named \"%s\" already exists."
+msgstr "Ein Problemfeld unter der Adresse \"%s\" existiert bereits."
+
+msgid "About"
+msgstr "About"
+
+msgid "Account Settings"
+msgstr "Kontoeinstellungen"
+
+msgid "Account info saved!"
+msgstr "Account/Kontoinformationen gespeichert!"
+
+msgid "Account signup is only allowed for administrators."
+msgstr "Die Registrierung ist nur für Administratoren erlaubt."
+
+msgid "Action"
+msgstr "Aktion"
+
+msgid "Add article"
+msgstr "Problemfeld hinzufügen"
+
+msgid "Add attachment from other article"
+msgstr "Anhang von anderem Problemfeld hinzufügen"
+
+msgid "Add file to"
+msgstr "Datei hinzufügen zu"
+
+msgid "Add image"
+msgstr "Bild hinzufügen"
+
+msgid "Add new article"
+msgstr "Neues Problemfeld hinzufügen"
+
+msgid "Add new image"
+msgstr "Neues Bild hinzufügen"
+
+msgid "Add to article"
+msgstr "Zu Problemfeld hinzufügen"
+
+msgid "Added a reference to \"%(att)s\" from \"%(art)s\"."
+msgstr "Es wurde eine Referenz von \"%(art)s\" zu \"%(att)s\" angelegt."
+
+msgid "Adding new articles"
+msgstr "Neue Problemfelder hinzufügen"
+
+msgid "Admin Panel"
+msgstr "Admin-Panel"
+
+msgid "After this, it's important to do a manual review."
+msgstr "Hiernach sollte das Problemfeld noch einmal überprüft werden."
+
+msgid ""
+"After uploading an image, it is attached to this particular article and can "
+"be used only here. Other users may replace the image, but older versions are "
+"kept. To show the image press the Insert button and select the options you "
+"want to use. You can use Markdown in the caption. The Markdown code syntax "
+"for images looks like this"
+msgstr ""
+"Nach dem Hochladen eines Bildes wird es diesem Problemfeld angehängt und "
+"kann nur in diesem verwendet werden. Andere Benutzer können das Bild "
+"ersetzen, aber ältere Versionen werden gespeichert. Zur Anzeige des Bildes "
+"musst du auf den \"Einfügen\"-Button klicken und die gewünschten Optionenn "
+"auswählen. In der Beschreibung kannst du Markdown verwenden. Der Markdown-"
+"Code-Syntax für Bilder ist der folgende"
+
+msgid "Alignment"
+msgstr "Ausrichtung"
+
+msgid "Also receive emails about article edits"
+msgstr "Mails über Problemfeldänderungen senden"
+
+msgid "An external link"
+msgstr "Ein externer Link"
+
+msgid "An image was added: %s"
+msgstr "Ein Bild wurde hinzugefügt: %s"
+
+msgid "Are you sure?"
+msgstr "Bist du dir sicher?"
+
+msgid "Article"
+msgstr "Problemfeld"
+
+msgid "Article deleted"
+msgstr "Problemfeld gelöscht"
+
+msgid "Article deleted: %s"
+msgstr "Problemfeld gelöscht: %s"
+
+msgid "Article for object"
+msgstr "Problemfeld für Objekt"
+
+msgid "Article index"
+msgstr "Problemfeldindex"
+
+msgid "Article is missing title or has an invalid title"
+msgstr "Dem Problemfeld fehlt ein Titel oder der Titel ist ungültig."
+
+msgid "Article list"
+msgstr "Problemfeldliste"
+
+msgid "Article locked for editing"
+msgstr "Problemfeld wurde für die Bearbeitung gesperrt"
+
+msgid "Article modified: %s"
+msgstr "Problemfeld geändert: %s"
+
+msgid "Article moved to {link}"
+msgstr "Problemfeld verschoben nach {link}"
+
+msgid "Article path was moved to this location"
+msgstr "Problemfeldpfad wurde verschoben nach"
+
+msgid "Article properties last modified"
+msgstr "Wann das Problemfeld zuletzt modifiziert wurde"
+
+msgid "Article successfully moved!"
+msgstr "Problemfeld erfolgreich verschoben!"
+
+msgid "Article successfully moved! Created {n} redirect."
+msgid_plural "Article successfully moved! Created {n} redirects."
+msgstr[0] ""
+"Problemfeld erfolgreich verschoben! {n} Weiterleitungen wurden erstellt."
+msgstr[1] ""
+"Problemfelder erfolgreich verschoben! {n} Weiterleitungen wurden erstellt."
+
+msgid "Article unlocked for editing"
+msgstr "Problemfeld wurde für die Bearbeitung freigegeben"
+
+msgid "Article without content (%(id)d)"
+msgstr "Problemfeld ohne Inhalt (%(id)d)"
+
+msgid "Articles for object"
+msgstr "Problemfelder für Objekt"
+
+msgid "Articles that will be deleted"
+msgstr "Problemfelder, die gelöscht werden"
+
+msgid "Articles using %(filename)s"
+msgstr "Problemfelder, die %(filename)s benutzen."
+
+msgid ""
+"Articles who lost their parents\n"
+"===============================\n"
+"\n"
+"The children of this article have had their parents deleted. You should "
+"probably find a new home for them."
+msgstr ""
+"Problemfelder die ihre Eltern verloren haben\n"
+"======================================\n"
+"\n"
+"Die Kinder dieses Problemfelds haben ihre Eltern verloren. Du solltest ihnen "
+"einen neuen Elternknoten zuweisen."
+
+msgid "Attachments"
+msgstr "Anhänge"
+
+msgid "Auto log:"
+msgstr "Automatisches Log:"
+
+msgid "Back to"
+msgstr "Zurück zu"
+
+msgid "Back to article"
+msgstr "Zurück zum Problemfeld"
+
+msgid "Back to edit page"
+msgstr "Zurück zur Bearbeitung"
+
+msgid "Back to editor"
+msgstr "Zurück zum Editor"
+
+msgid "Back to history view"
+msgstr "Zurück zur Versionsübersicht"
+
+msgid "Browse articles in this level"
+msgstr "Problemfelder auf dieser Ebene anzeigen"
+
+msgid ""
+"Browsing <strong><a href=\"%(self_url)s\">/%(path)s</a></strong>. There "
+"%(articles_plur_verb)s <strong>%(cnt)s %(articles_plur)s</strong> in this "
+"level."
+msgstr ""
+"Zeige <strong><a href=\"%(self_url)s\">/%(path)s</a></strong>. Es "
+"%(articles_plur_verb)s <strong>%(cnt)s %(articles_plur)s</strong> auf dieser "
+"Ebene."
+
+msgid ""
+"But since you're logged in as a superuser, we should really get started..."
+msgstr ""
+"Aber da du mit einem Administrator Konto angemeldet bist, sollten wir jetzt "
+"los legen... "
+
+msgid "Can assign permissions to other users"
+msgstr "Darf anderen Benutzern Rechte zuweisen"
+
+msgid "Can change ownership of any article"
+msgstr "Darf den Besitzer jedes Problemfelds ändern"
+
+msgid "Can edit all articles and lock/unlock/restore"
+msgstr ""
+"Darf alle Problemfelder bearbeiten und sie sperren/entsperren/"
+"wiederherstellen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Caption"
+msgstr "Bildunterschrift"
+
+msgid "Change"
+msgstr "Ändern"
+
+msgid "Changes"
+msgstr "Änderungen"
+
+msgid ""
+"Check here to apply the above permissions (excluding group and owner of the "
+"article) recursively to articles below this one."
+msgstr ""
+"Wähle diese Option aus, um die oben angegebenen Rechte (abgesehen von Gruppe "
+"und Besitzer) auf die Unterproblemfelder zu übertragen."
+
+msgid ""
+"Check here to apply the group setting recursively to articles below this one."
+msgstr ""
+"Wähle diese Option aus, um die Gruppeneinstellung auf die Unterproblemfelder "
+"zu übertragen."
+
+msgid ""
+"Check here to apply the ownership setting recursively to articles below this "
+"one."
+msgstr ""
+"Wähle diese Option aus, um die Besitzereinstellung auf die "
+"Unterproblemfelder zu übertragen."
+
+msgid "Choose an image file to replace current image."
+msgstr "Wähle ein Bild aus, mit dem das aktuelle ersetzt werden soll."
+
+msgid "Clear notifications list"
+msgstr "Leere Benachrichtigungsliste"
+
+msgid ""
+"Click each revision to see a list of edited lines. Click the Preview button "
+"to see how the article looked at this stage. At the bottom of this page, you "
+"can change to a particular revision or merge an old revision with the "
+"current one."
+msgstr ""
+"Klicke die Revisionen an, um zu sehen was sich verändert hat. Klicke auf den "
+"Vorschaubutton, um zu sehen, wie das Problemfeld zu diesem Zeitpunkt "
+"ausgesehen hat. Unten auf dieser Seite kannst du das Problemfeld auf eine "
+"andere Revision umschalten oder eine alte Revision mit der aktuellen "
+"vereinigen."
+
+msgid "Click here to log in"
+msgstr "Klicke hier um dich einzuloggen"
+
+msgid "Click here to login"
+msgstr "Klicke hier um dich anzumelden"
+
+msgid "Click to download"
+msgstr "Klicken um Download zu starten"
+
+msgid ""
+"Complete markdown code syntax: <code>[attachment:id title:\"text\" size]</"
+"code><br> &nbsp;&nbsp;title: Link text replacement for the file name. size: "
+"Show file size after the title."
+msgstr ""
+"Vollständige Markdown Syntax: <code>[attachment:id title:\"Text\" size]</"
+"code><br>&nbsp;&nbsp;title: Alternativer Text für die Verlinkungen der "
+"Datei.. size: Zeige die Größe hinter dem Titel an"
+
+msgid "Completely delete"
+msgstr "Vollständig löschen"
+
+msgid "Congratulations!"
+msgstr "Glückwunsch!"
+
+msgid "Contents"
+msgstr "Inhalt"
+
+msgid "Create a redirect page for every moved article?"
+msgstr "Eine Weiterleitungsseite für jedes verschobene Problemfeld erstellen?"
+
+msgid "Create article"
+msgstr "Problemfeld erstellen"
+
+msgid ""
+"Create individual attachments for files in a .zip file - directories do not "
+"work."
+msgstr ""
+"Erstelle individuelle Anhänge für Dateien in einem .zip Archiv - "
+"Verzeichnisse funktionieren nicht."
+
+msgid "Create new merged version"
+msgstr "Erzeuge eine neue vereinigte Version"
+
+msgid "Create root"
+msgstr "Erstelle Hauptproblemfeld"
+
+msgid "Create root article"
+msgstr "Hauptproblemfeld erstellen"
+
+msgid "Created redirect (auto)"
+msgstr "Weiterleitung erstellt (auto)"
+
+msgid "Current revision changed for %s."
+msgstr "Aktuelle Revision ersetzt durch %s."
+
+msgid "Current revision not set!!"
+msgstr "Aktuelle Revision nicht ausgewählt!!"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Date Deleted"
+msgstr "Löschdatum"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Delete article"
+msgstr "Problemfeld löschen"
+
+msgid "Delete it!"
+msgstr "Löschen!"
+
+msgid "Deleted Articles"
+msgstr "Gelöschte Problemfelder"
+
+msgid "Deleted articles"
+msgstr "Gelöschte Problemfelder"
+
+msgid "Deny all users access to edit this article."
+msgstr "Allen Benutzern verbieten, das Problemfeld zu modifizieren."
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Destination"
+msgstr "Ziel"
+
+msgid "Detach"
+msgstr "Trennen"
+
+msgid "Don't have an account?"
+msgstr "Du hast keinen Account?"
+
+msgid "Download"
+msgstr "Download"
+
+msgid ""
+"Each revision contains a title field that must be filled out, even if the "
+"title has not changed"
+msgstr ""
+"Jede Revision enthält ein Titelfeld, das ausgefüllt werden muss, selbst wenn "
+"es nicht geändert wurde"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Email digests"
+msgstr "Email Benachrichtigungen"
+
+msgid "Email on any change"
+msgstr "Email bei jeder Veränderung"
+
+msgid "Enter caption"
+msgstr "Bildunterschrift eingeben"
+
+msgid "Enter the username of the owner."
+msgstr "Gib den Benutzernamen des Besitzers an."
+
+msgid "Error"
+msgstr "Fehler"
+
+msgid "File"
+msgstr "Datei"
+
+msgid "File history"
+msgstr "Datei Revisionen"
+
+msgid "File or zip archive"
+msgstr "Datei oder zip Archiv"
+
+msgid "Filter..."
+msgstr "Filtern..."
+
+msgid ""
+"Give a short reason for your edit, which will be stated in the revision log."
+msgstr ""
+"Gib einen kurzen Grund für deine Änderung an. Er wird bei der Revision "
+"genannt werden."
+
+msgid "Global history"
+msgstr "Globaler Verlauf"
+
+msgid "Go back"
+msgstr "Zurück"
+
+msgid "Go back to previous page"
+msgstr "Zur vorherigen Seite wechseln"
+
+msgid "Go to article"
+msgstr "Zum Problemfeld wechseln"
+
+msgid "Go to article history"
+msgstr "Zum Problemfeld-Verlauf wechseln"
+
+msgid "Group"
+msgstr "Gruppe"
+
+msgid "Headers"
+msgstr "Überschriften"
+
+msgid "Help"
+msgstr "Hilfe"
+
+msgid "History"
+msgstr "Revisionen"
+
+msgid "History of"
+msgstr "Revisionen von"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "How to use images"
+msgstr "Anleitung für Bilder"
+
+msgid "IP address"
+msgstr "IP Adresse"
+
+msgid "Image Revision: %d"
+msgstr "Bildversion: %d"
+
+msgid "Image id"
+msgstr "Bild id"
+
+msgid "Image not found"
+msgstr "Bild nicht gefunden"
+
+msgid "Image: %s"
+msgstr "Bild: %s"
+
+msgid "Images"
+msgstr "Bilder"
+
+msgid ""
+"In the beginning, it will only be editable by administrators, but you can "
+"define permissions after."
+msgstr ""
+"Am Anfang ist dieser nur von Administratoren editierbar, später kannst du "
+"Berechtigungen festlegen."
+
+msgid "Inherit group"
+msgstr "Vererbe Gruppe"
+
+msgid "Inherit owner"
+msgstr "Vererbe den Besitzer"
+
+msgid "Inherit permissions"
+msgstr "Vererbe Rechte"
+
+msgid "Initial title of the article. May be overridden with revision titles."
+msgstr ""
+"Initialer Titel des Problemfelds. Er darf in zukünftigen Revisionen "
+"überschrieben werden."
+
+msgid "Insert"
+msgstr "Einfügen"
+
+msgid "Insert Image"
+msgstr "Bild einfügen"
+
+msgid "Insert a link to another wiki page with a short notation."
+msgstr "Füge einen Link zu einer anderen Wikiseite mittels Kurznotation ein."
+
+msgid "Insert a list of articles in this level."
+msgstr "Füge eine Liste von Problemfeldern auf dieser Ebene ein."
+
+msgid "Insert a table of contents matching the headings."
+msgstr "Füge ein Inhaltsverzeichnis passend zu den Überschriften ein."
+
+msgid "Insert image"
+msgstr "Bild einfügen"
+
+msgid "Last modified"
+msgstr "Zuletzt modifiziert"
+
+msgid ""
+"Like in a UNIX file system, permissions can be given to a user according to "
+"group membership. Groups are handled through the Django auth system."
+msgstr ""
+"Wie auch beim UNIX Dateisystem könnten Nutzern Rechte über Gruppen gegeben "
+"werden.Gruppen werden durch das Django auth System verwaltet."
+
+msgid "Link to another wiki page"
+msgstr "Link zu anderer Wikiseite"
+
+msgid "Links"
+msgstr "Links"
+
+msgid "List of <strong>%(cnt)s change</strong> in the wiki."
+msgid_plural "List of <strong>%(cnt)s changes</strong> in the wiki."
+msgstr[0] "Liste der <strong>%(cnt)s Änderung</strong> im Problemfeldwiki."
+msgstr[1] "Liste aller <strong>%(cnt)s Änderungen</strong> dieses Wikis."
+
+msgid "Listing articles in"
+msgstr "Problemfelder in"
+
+msgid "Lists"
+msgstr "Listen"
+
+msgid "Lock article"
+msgstr "Problemfeld sperren"
+
+msgid "Log in"
+msgstr "Einloggen"
+
+msgid "Log me in..."
+msgstr "Einloggen..."
+
+msgid "Log out"
+msgstr "Abmelden"
+
+msgid "Lost and found"
+msgstr "Unreferenzierte Problemfelder"
+
+msgid "Macros"
+msgstr "Macros"
+
+msgid "Main article"
+msgstr "Hauptproblemfeld"
+
+msgid "Manage how often you receive notifications"
+msgstr "Wähle aus wie oft du Benachrichtigungen erhalten willst"
+
+msgid "Manage images"
+msgstr "Bilder verwalten"
+
+msgid "Markdown tag"
+msgstr "Markdown tag"
+
+msgid "Maximum depth to show levels for."
+msgstr "Maximale Ebenentiefe, für die Problemfelder angezeigt werden sollen."
+
+msgid "Merge between revision #%(r1)d and revision #%(r2)d"
+msgstr "Vereinigung aus Revision #%(r1)d und Revision #%(r2)d"
+
+msgid "Merge selected with current..."
+msgstr "Vereinige ausgewähltes und aktuelles..."
+
+msgid "Merge with current"
+msgstr "Vereinige mir aktueller Version"
+
+msgid "Message"
+msgstr "Nachricht"
+
+msgid "Move"
+msgstr "Verschieben"
+
+msgid "Move article"
+msgstr "Problemfeld verschieben"
+
+msgid "Moved to"
+msgstr "Verschoben nach"
+
+msgid "Moved: {title}"
+msgstr "Verschoben: {title}"
+
+msgid "New article '%s' created."
+msgstr "Neues Problemfeld '%s' wurde erstellt."
+
+msgid "New article below %(title)s"
+msgstr "Neues Problemfeld unter %(title)s"
+
+msgid "New article created: %s"
+msgstr "Neues Problemfeld erstellt: %s"
+
+msgid "New article next to %(title)s"
+msgstr "Neues Problemfeld neben %(title)s"
+
+msgid ""
+"New image %s was successfully uploaded. You can use it by selecting it from "
+"the list of available images."
+msgstr ""
+"Das neue Bild %s wurde erfolgreich hochgeladen. Du kannst es benutzen, indem "
+"du es aus der Liste von verfügbaren Bildern auswählst."
+
+msgid "New title"
+msgstr "Neuer Titel"
+
+msgid "No changes made. Nothing to save."
+msgstr "Da keine Änderungen gemacht wurden ist nichts zu speichern."
+
+msgid "No changes to display !"
+msgstr "Keine anzuzeigenden Änderungen!"
+
+msgid "No deleted articles to display"
+msgstr "Keine gelöschten Problemfelder anzuzeigen"
+
+msgid "No emails"
+msgstr "Keine Emails"
+
+msgid "No file"
+msgstr "Keine Datei"
+
+msgid "No file extension found in filename. That's not okay!"
+msgstr ""
+"Keine Dateierweiterung im Dateinamen gefunden. Das ist nicht in Ordnung!"
+
+msgid "No images found for this article"
+msgstr "Es wurden keine Bilder für dieses Problemfeld gefunden"
+
+msgid "No more changes to display !"
+msgstr "Keine weiteren anzuzeigenden Änderungen!"
+
+msgid "No notifications"
+msgstr "Keine Benachrichtigungen"
+
+msgid "No sub-articles"
+msgstr "Keine Unterproblemfelder"
+
+msgid "No thanks, I'd rather read the documentation"
+msgstr "Nein danke, ich lese lieber die Dokumentation "
+
+msgid "No user with that username"
+msgstr "Es existiert kein Benutzer mit diesem Namen"
+
+msgid "Not a zip file"
+msgstr "Kein zip Archiv"
+
+msgid "Not found"
+msgstr "Nicht gefunden"
+
+msgid ""
+"Not to worry! You simply have to login with a superuser account and create "
+"the first article in the root of the URL hierarchy."
+msgstr ""
+"Mach dir keine Sorgen! Du musst dich nur mit einem Administrator-Konto "
+"anmelden und das erste Problemfeld in der URL Hierarchie anlegen. "
+
+msgid "Nothing below this level"
+msgstr "Es gibt keine Unterproblemfelder"
+
+msgid "Nothing to restore"
+msgstr "Es gibt nichts wiederherzustellen"
+
+msgid "Notification settings"
+msgstr "Benachrichtigungseinstellungen"
+
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+msgid "Owner"
+msgstr "Besitzer"
+
+msgid "Page Title"
+msgstr "Seitentitel"
+
+msgid "Passwords don't match"
+msgstr "Die Passwörter stimmen nicht überein"
+
+msgid "Permission Denied"
+msgstr "Zugriff verweigert"
+
+msgid "Permission settings for the article were updated."
+msgstr "Die Rechte für das Problemfeld wurden aktualisiert."
+
+msgid "Permissions"
+msgstr "Rechte"
+
+msgid "Permissions are inherited from this article"
+msgstr "Die Rechte werden von diesem Problemfeld vererbt"
+
+msgid "Please log in"
+msgstr "Bitte einloggen"
+
+msgid "Please note that your article text has not yet been saved!"
+msgstr "Achtung: Dein Problemfeldtext wurde noch nicht gespeichert!"
+
+msgid "Position of URL path in the tree."
+msgstr "Position des URL-Pfades im Baum."
+
+msgid "Possible values for align are"
+msgstr "Mögliche Ausrichtungswerte sind"
+
+msgid "Possible values for size are"
+msgstr "Mögliche Größen sind"
+
+msgid ""
+"Powered by <a href=\"http://www.django-wiki.org\">django-wiki</a>, an open "
+"source application under the <a href=\"http://www.gnu.org/licenses/quick-"
+"guide-gplv3.html\">GPLv3</a> license. Let knowledge be the cure."
+msgstr ""
+"Powered by <a href=\"http://www.django-wiki.org\">django-wiki</a>, eine Open-"
+"Source-Anwendung unter der <a href=\"http://www.gnu.org/licenses/quick-guide-"
+"gplv3.html\">GPLv3</a> Lizenz. Let knowledge be the cure."
+
+msgid "Preview"
+msgstr "Vorschau"
+
+msgid "Preview this revision"
+msgstr "Vorschau"
+
+msgid "Previewing merge between"
+msgstr "Vereinigungsvorschau zwischen"
+
+msgid "Previewing revision"
+msgstr "Revisionsvorschau"
+
+msgid "Purge"
+msgstr "Für immer löschen"
+
+msgid "Purge deletion"
+msgstr "Für immer löschen"
+
+msgid "Purge image: Completely remove image file and all revisions."
+msgstr ""
+"Löscht das Bild für immer, ohne dass es rückgängig gemacht werden kann."
+
+msgid ""
+"Purge the article: Completely remove it (and all its contents) with no undo. "
+"Purging is a good idea if you want to free the slug such that users can "
+"create new articles in its place."
+msgstr ""
+"Löscht das Problemfeld (und seinen Inhalt) für immer, ohne dass es "
+"rückgängig gemacht werden kann. Dadurch kann die Adresse wieder neu belegt "
+"werden."
+
+msgid "Receive notifications %(interval)s"
+msgstr "Benachrichtigung erhalten %(interval)s"
+
+msgid "Redirect pages"
+msgstr "Seiten weiterleiten"
+
+msgid "Remove"
+msgstr "Löschen"
+
+msgid "Remove image"
+msgstr "Bild löschen"
+
+msgid "Remove it completely!"
+msgstr "Für immer löschen!"
+
+msgid "Remove previous"
+msgstr "Vorherigen entfernen"
+
+msgid "Remove previous attachment revisions and their files (to save space)?"
+msgstr ""
+"Vorherige Versionen des Anhangs samt Dateien entfernen (um Platz zu sparen)?"
+
+msgid "Remove reference"
+msgstr "Lösche Referenz"
+
+msgid "Remove subscriptions"
+msgstr "Abonnement entfernen"
+
+msgid "Replace"
+msgstr "Ersetzen"
+
+msgid "Replace image"
+msgstr "Bild ersetzen"
+
+msgid ""
+"Replacing an attachment means adding a new file that will be used in its "
+"place. All references to the file will be replaced by the one you upload and "
+"the file will be downloaded as <strong>%(filename)s</strong>."
+msgstr ""
+"Das Ersetzen eines Anhangs bedeutet, dass stattdessen eine neue Datei "
+"benutzt wird. Alle Referenzen auf die Datei werden ersetzt durch die, die du "
+"hochlädst. Der Dateiname wird <strong>%(filename)s</strong> sein.\n"
+"  "
+
+msgid ""
+"Replacing an attachment means adding a new file that will be used in its "
+"place. All references to the file will be replaced by the one you upload and "
+"the file will be downloaded as <strong>%(filename)s</strong>. Please note "
+"that this attachment is in use on other articles, you may distort contents. "
+"However, do not hestitate to take advantage of this and make replacements "
+"for the listed articles where necessary. This way of working is more "
+"efficient...."
+msgstr ""
+"Das Ersetzen eines Anhangs bedeutet, dass stattdessen eine neue Datei "
+"benutzt wird. Alle Referenzen auf die Datei werden ersetzt durch die, die du "
+"hochlädst. Der Dateiname wird <strong>%(filename)s</strong> sein. Bitte "
+"beachte, dass diese Datei in anderen Problemfeldern benutzt wird. Es könnte "
+"also zu inhaltlichen Problemen kommen. Zögere dennoch nicht, diese Funktion "
+"zu benutzen und ersetze den Anhang gegebenenfalls in den aufgelisteten "
+"Problemfeldern. Diese Art der Bearbeitung ist effizienter...\n"
+"  "
+
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+msgid "Restore Article"
+msgstr "Problemfeld wiederherstellen"
+
+msgid "Restore attachments"
+msgstr "Anhänge wiederherstellen"
+
+msgid "Restore image"
+msgstr "Bild wiederherstellen"
+
+msgid "Restoring article"
+msgstr "Problemfeld wiederherstellen"
+
+msgid "Restoring to this revision will mark the article as deleted."
+msgstr ""
+"Wenn diese Revision wiederhergestellt wird, wird das Problemfeld als "
+"gelöscht markiert."
+
+msgid "Revert to this version"
+msgstr "Zu dieser Revision zurückkehren"
+
+msgid "Revision ID"
+msgstr "Änderungs-ID"
+
+msgctxt "Revision comment"
+msgid "Summary"
+msgstr "Zusammenfassung"
+
+msgid "Root article"
+msgstr "Hauptproblemfeld"
+
+msgid "Save changes"
+msgstr "Speichern"
+
+msgid "Search and add file"
+msgstr "Datei suchen und hinzufügen"
+
+msgid "Search files and articles"
+msgstr "Suche nach Dateien und Problemfeldern"
+
+msgid "Search from current article..."
+msgstr "Ausgehend vom aktuellen Problemfeld suchen..."
+
+msgid "Search results for:"
+msgstr "Suchergebnisse für:"
+
+msgid "Search whole wiki..."
+msgstr "Gesamtes Problemfeldwiki durchsuchen..."
+
+msgid "Search..."
+msgstr "Suche... "
+
+msgid "Searching in"
+msgstr "Suche in"
+
+msgid "Searching whole wiki"
+msgstr "Gesamtes Problemfeldwiki durchsuchen"
+
+msgid "Select an option"
+msgstr "Wähle eine Option aus"
+
+msgid "Select article subscriptions to remove from notifications"
+msgstr "Problemfeld-Abonnements auswählen, um Benachrichtigungen zu entfernen"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Settings for"
+msgstr "Einstellungen für"
+
+msgid "Settings for plugin"
+msgstr "Plugineinstellungen"
+
+msgid "Show all revisions of all articles"
+msgstr "Alle Versionen aller Problemfelder anzeigen"
+
+msgid "Show last revision of every article"
+msgstr "Letze Version jedes Problemfelds anzeigen"
+
+msgid "Sign me up..."
+msgstr "Registrieren..."
+
+msgid "Sign up"
+msgstr "Registrieren"
+
+msgid "Size"
+msgstr "Größe"
+
+msgid "Slug"
+msgstr "Kürzel/URL"
+
+msgid "Sorry but you cannot have a root article with a slug."
+msgstr "Ein Hauptproblemfeld mit Adresse ist leider nicht möglich."
+
+msgid "Sorry, you don't have permission to access this page."
+msgstr ""
+"Du hast leider nicht die nötigen Rechte, um auf diese Seite zuzugreifen."
+
+msgid "Source of"
+msgstr "Quellcode von"
+
+msgid "Spam protection failed to find both a logged in user and an IP address."
+msgstr ""
+"Dem Spam Schutz war es nicht möglich einen angemeldeten Benutzer oder eine "
+"IP Adresse zu finden."
+
+msgid ""
+"Spam protection: You are only allowed to create or edit %(revisions)d "
+"article(s) per %(interval_name)s."
+msgstr ""
+"Spam Schutz: Du darfst pro %(interval_name)s nur %(revisions)d Problemfelder "
+"erzeugen oder verändern"
+
+msgid "Start page"
+msgstr "Hauptseite"
+
+msgid "Sub-articles for"
+msgstr "Unterproblemfelder für"
+
+msgid "Successfully added: %s"
+msgstr "Erfolgreich hinzugefügt: %s"
+
+msgid "Switch to selected version"
+msgstr "Wechsel zur ausgewählten Version"
+
+msgid "Switch to this version"
+msgstr "Zu dieser Version wechseln"
+
+msgid "Table of contents"
+msgstr "Inhaltsverzeichnis"
+
+msgid "Tables"
+msgstr "Tabellen"
+
+msgid "The article \"%s\" and its children are now restored."
+msgstr ""
+"Das Problemfeld \"%s\" und seine Unterproblemfelder wurden wiederhergestellt."
+
+msgid ""
+"The article \"%s\" is now marked as deleted! Thanks for keeping the site "
+"free from unwanted material!"
+msgstr ""
+"Das Problemfeld \"%s\" wurde als gelöscht markiert! Danke für das "
+"Sauberhalten dieser Seite!"
+
+msgid ""
+"The article %(title)s is now set to display revision #%(revision_number)d"
+msgstr "Das Problemfeld %(title)s zeigt jetzt Revision #%(revision_number)d an"
+
+msgid ""
+"The article is currently locked for editing, and therefore no new "
+"attachments can be added."
+msgstr ""
+"Das Problemfeld ist aktuell für die Bearbeitung gesperrt, weshalb auch keine "
+"neuen Anhänge hinzugefügt werden können."
+
+msgid "The article you were looking for has been deleted."
+msgstr "Das Problemfeld wurde gelöscht."
+
+msgid "The file %s was deleted."
+msgstr "Die Datei %s wurde gelöscht."
+
+msgid ""
+"The file may be referenced on other articles. Deleting it means that they "
+"will loose their references to this file. The following articles reference "
+"this file:"
+msgstr ""
+"Die Datei wird eventuell in anderen Problemfeldern benutzt. Wenn die Datei "
+"gelöscht wird, kann die Datei von ihnen nicht mehr benutzt werden. In "
+"folgenden Problemfeldern ist die Datei eingebunden:"
+
+msgid ""
+"The following filename is illegal: {filename:s}. Extension has to be one of "
+"{extensions:s}"
+msgstr ""
+"Der folgende Dateiname ist unzulässig: {filename:s}. Dateierweiterung muss "
+"eine der folgenden sein: {extensions:s}"
+
+msgid ""
+"The following files are available for this article. Copy the markdown tag to "
+"directly refer to a file from the article text."
+msgstr ""
+"Die folgenden Dateien sind für dieses Problemfeld verfügbar. Kopiere den "
+"Markdown-Tag um die Datei direkt im Text zu verlinken."
+
+msgid ""
+"The following images are available for this article. Copy the markdown tag "
+"to directly refer to an image from the article text."
+msgstr ""
+"Die folgenden Bilder sind für dieses Problemfeld verfügbar. Kopiere den "
+"Markdown-Tag, um ein Bild in das Problemfeld einzubinden."
+
+msgid ""
+"The owner of the article, usually the creator. The owner always has both "
+"read and write access."
+msgstr ""
+"Der Besitzer des Problemfelds (meistens der Ersteller). Der Besitzer hat "
+"immer Schreib- und Lesezugriff."
+
+msgid ""
+"The revision being displayed for this article. If you need to do a roll-"
+"back, simply change the value of this field."
+msgstr ""
+"Die Revision, die für dieses Problemfeld angezeigt wird. Falls du eine "
+"Änderung rückgängig machen willst, ändere einfach dieses Feld."
+
+msgid ""
+"The revision being displayed for this plugin. If you need to do a roll-back, "
+"simply change the value of this field."
+msgstr ""
+"Die Revision die für dieses Plugin angezeigt wird. Falls du etwas rückgängig "
+"machen willst, ändere einfach den Wert dieses Feldes."
+
+msgid ""
+"The revision of this attachment currently in use (on all articles using the "
+"attachment)"
+msgstr ""
+"Diese Revision wird aktuell benutzt (in allen Problemfeldern, die den Anhang "
+"benutzen)"
+
+msgid "There are no articles in this level"
+msgstr "Es gibt keine Problemfelder auf dieser Ebene"
+
+msgid "There are no attachments for this article."
+msgstr "Es gibt keine Anhänge für dieses Problemfeld."
+
+msgid "There are no images for this article."
+msgstr "Es gibt keine Bilder für dieses Problemfeld."
+
+msgid "There is already a root node on %s"
+msgstr "Es gibt bereits einen Wurzelknoten auf %s"
+
+msgid "There was an error creating this article."
+msgstr "Es gab einen Fehler bei der Erstellung des Problemfelds."
+
+msgid "There was an error creating this article: %s"
+msgstr "Es gab einen Fehler bei der Erstellung des Problemfelds: %s"
+
+msgid "There was some sort of error accessing this page. Sorry!"
+msgstr "Es tut uns leid! Es gab einen Fehler beim Zugriff auf diese Seite."
+
+msgid ""
+"This article cannot be deleted because it has children or is a root article."
+msgstr ""
+"Dieses Problemfeld kann nicht gelöscht werden, weil er Unterproblemfelder "
+"besitzt oder ein Hauptproblemfeld ist."
+
+msgid "This article cannot be moved because it is a root article."
+msgstr ""
+"Dieses Problemfeld kann nicht verschoben werden, da es sich um einen "
+"Hauptproblemfeld handelt."
+
+msgid "This article cannot be moved to a child of itself."
+msgstr ""
+"Dieses Problemfeld kann nicht zu einem Kind von sich selbst verschoben "
+"werden."
+
+msgid "This article is currently locked for editing."
+msgstr "Dieses Problemfeld wurde für die Bearbeitung gesperrt."
+
+msgid "This article is locked for editing."
+msgstr "Dieses Problemfeld wurde für die Bearbeitung gesperrt."
+
+msgid "This article is no longer related to the file %s."
+msgstr "Dieses Problemfeld ist nicht mehr im Bezug zu der Datei %s."
+
+msgid ""
+"This article together with all its contents are now completely gone! Thanks!"
+msgstr "Das Problemfeld und sein Inhalt ist jetzt komplett gelöscht!"
+
+msgid "This article was last modified:"
+msgstr "Dieses Problemfeld wurde zuletzt modifiziert:"
+
+msgid "This article was not found, and neither was its parent article."
+msgstr ""
+"Dieses Problemfeld und sein übergeordnetes Problemfeld wurden nicht gefunden."
+
+msgid "This attachment is not permitted on this page."
+msgstr "Diese Anlage ist auf dieser Seite nicht erlaubt. "
+
+msgid ""
+"This field is automatically updated, but you need to populate it when "
+"creating a new URL path."
+msgstr ""
+"Dieses Feld wird automatisch aktualisiert, aber du musst es ausfüllen wenn "
+"ein neuer URL Pfad erstellt wird."
+
+msgid ""
+"This is just the initial contents of your article. After creating it, you "
+"can use more complex features like adding plugins, meta data, related "
+"articles etc..."
+msgstr ""
+"Das ist nur der initiale Inhalt des Problemfelds. Du darfst später "
+"komplexere Features wie Plugins, Metadaten oder abhängige Problemfelder "
+"ergänzen."
+
+msgid "This revision has been deleted."
+msgstr "Diese Revision wurde gelöscht"
+
+msgid "This slug conflicts with an existing URL."
+msgstr "Diese Adresse widerspricht einer existierenden URL."
+
+msgid ""
+"This will be the address where your article can be found. Use only "
+"alphanumeric characters and - or _.<br>Note: If you change the slug later "
+"on, links pointing to this article are <b>not</b> updated."
+msgstr ""
+"Dies ist die Adresse, unter welcher das Problemfeld später aufgerufen werden "
+"kann. Es dürfen nur alphanumerische Zeichen und - oder _ verwendet werden."
+"<br>Hinweis: Wenn der Slug später geändert wird, werden Links auf dieses "
+"Problemfeld <b>nicht</b> aktualisiert."
+
+msgid "Title"
+msgstr "Titel"
+
+msgid ""
+"To create a new wiki article, create a link to it. Clicking the link gives "
+"you the creation page."
+msgstr ""
+"Um einen neues Problemfeld anzulegen, erstelle einen Link dahin. Wenn du auf "
+"den Link klickst, kommst du zum Problemfeldformular."
+
+msgid "Type in some contents"
+msgstr "Gib den Inhalt an"
+
+msgid ""
+"Type in something from another wiki page's title and auto-complete will help "
+"you create a tag for your wiki link. Tags for links look like this:"
+msgstr ""
+"Gib etwas aus dem Titel einer anderen Wiki-Seite ein und Auto-Complete hilft "
+"beim Erstellen eines Tags für deinen Wiki-Link. Tags für Links sehen wie "
+"folgt aus:"
+
+msgid "Typography"
+msgstr "Typografie"
+
+msgid "URL path"
+msgstr "URL Pfad"
+
+msgid "URL paths"
+msgstr "URL Pfade"
+
+msgid "Unchanged (selected on each article)"
+msgstr "Unverändert (bei jedem Problemfeld ausgewählt)"
+
+msgid "Unzip file"
+msgstr "Datei entpacken"
+
+msgid "Up one level"
+msgstr "Zum übergeordneten Problemfeld"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Upload and publish new image"
+msgstr "Neues Bild hochladen und veröffentlichen"
+
+msgid "Upload file"
+msgstr "Datei hochladen"
+
+msgid "Upload new file"
+msgstr "Neue Datei hochladen"
+
+msgid "Upload replacement"
+msgstr "Ersatz hochladen"
+
+msgid "Uploaded by"
+msgstr "Hochgeladen von"
+
+msgid ""
+"Use these codes for headers and to automatically generate Tables of Contents."
+msgstr ""
+"Benutze diese Kodierung für Überschriften und um automatisch ein "
+"Inhaltsverzeichnis zu generieren (TOC)."
+
+msgid "Use this!"
+msgstr "Benutzen"
+
+msgid "User"
+msgstr "Benutzer"
+
+msgid "User not allowed to moderate this article"
+msgstr "Benutzer ist nicht berechtigt, dieses Problemfeld zu moderieren"
+
+msgid "View"
+msgstr "Anzeigen"
+
+msgid "View Source"
+msgstr "Quellcode"
+
+msgid "When this article is edited"
+msgstr "Wenn dieses Problemfeld bearbeitet wird"
+
+msgid ""
+"When you merge a revision with the current, all data will be retained from "
+"both versions and merged at its approximate location from each revision."
+msgstr ""
+"Wenn eine Revision mit der aktuellen vereinigt wird, bleiben alle Daten "
+"erhalten und an den in etwa passenden Stellen eingefügt."
+
+msgid "While you tried to delete this article, it was modified. TAKE CARE!"
+msgstr ""
+"ACHTUNG: Während du das Problemfeld löschen wolltest, wurde es modifiziert!"
+
+msgid ""
+"While you were editing, someone else changed the revision. Your contents "
+"have been automatically merged with the new contents. Please review the text "
+"below."
+msgstr ""
+"Jemand hat das Problemfeld modifiziert, während du es bearbeitet hast. Dein "
+"Inhalt wurde automatisch mit dem neuen Inhalt vereinigt. Bitte kontrolliere "
+"den unten gezeigten Inhalt."
+
+msgid "Wiki"
+msgstr "Problemfeldwiki"
+
+msgid "Wiki Global History"
+msgstr "Gesamter Verlauf"
+
+msgid "Wiki attachments"
+msgstr "Problemfeldwiki Anhänge"
+
+msgid "Wiki help"
+msgstr "Problemfeldwiki Hilfe"
+
+msgid "Wiki images"
+msgstr "Problemfeldwiki Bilder"
+
+msgid "Wiki links"
+msgstr "Problemfeldwiki Verlinkungen"
+
+msgid "Wiki macros"
+msgstr "Problemfeldwiki Makros"
+
+msgid "Wiki notifications"
+msgstr "Problemfeldwiki Benachrichtigungen"
+
+msgid "Wiki red links"
+msgstr "Problemfeldwiki Rote Verlinkungen"
+
+msgid "WikiLinks"
+msgstr "WikiLinks"
+
+msgid "Write a brief message for the article's history log."
+msgstr "Schreibe eine kurze Nachricht für die Versionsübersicht."
+
+msgid "Yes I am sure..."
+msgstr "Ja, ich bin mir sicher..."
+
+msgid "Yes, I am sure"
+msgstr "Ja, ich bin mir sicher"
+
+msgid "Yes, I'll go and create the first article"
+msgstr "Ja, jetzt das erste Problemfeld anlegen "
+
+msgid "You are deleting an article. Please confirm."
+msgstr "Du löschst ein Problemfeld. Bitte bestätige die Aktion."
+
+msgid ""
+"You are deleting an article. This means that its children will be deleted as "
+"well. If you choose to purge, children will also be purged!"
+msgstr ""
+"Du löschst ein Problemfeld. Das bedeutet, dass dessen Unterproblemfelder "
+"ebenfalls gelöscht werden. Wenn du \"Für immer löschen\" auswählst, gilt das "
+"selbe für die Unterproblemfelder."
+
+msgid "You are no longer logged in. Bye bye!"
+msgstr "Du bist jetzt abgemeldet. Bis bald!"
+
+msgid "You are not subscribed to any notifications yet."
+msgstr "Du hast noch keine Benachrichtigungen abonniert."
+
+msgid "You are not sure enough!"
+msgstr "Du scheinst dir nicht sicher zu sein!"
+
+msgid "You are now logged in! Have fun!"
+msgstr "Du bist jetzt eingeloggt! Viel Spaß!"
+
+msgid "You are now signed up... and now you can sign in!"
+msgstr "Du bist jetzt registriert... Jetzt kannst du dich einloggen."
+
+msgid ""
+"You can link to another website simply by inserting an address example.com "
+"or http://example.com or by using the markdown syntax:"
+msgstr ""
+"Du darfst auf eine andere Webseite verlinken indem du einfach eine Adresse "
+"(z.B. example.com oder http://example.com) eingibst oder folgende Syntax "
+"benutzt:"
+
+msgid ""
+"You can remove a reference to a file, but it will retain its references on "
+"other articles."
+msgstr ""
+"Die Referenz zu einer Datei kann entfernt werden, sie wird jedoch von "
+"anderen Problemfeldern weiterhin referenziert werden können. "
+
+msgid ""
+"You can reuse files from other articles. These files are subject to updates "
+"on other articles which may or may not be a good thing."
+msgstr ""
+"Du kannst Dateien von anderen Problemfeldern verwenden. Diese Dateien "
+"könnten Änderungen unterliegen."
+
+msgid "You cannot delete a root article."
+msgstr "Du kannst den Hauptproblemfeld nicht löschen."
+
+msgid ""
+"You cannot delete this article because you do not have permission to delete "
+"articles with children. Try to remove the children manually one-by-one."
+msgstr ""
+"Du darfst dieses Problemfeld nicht löschen, weil du nicht die nötigen Rechte "
+"besitzt, Problemfelder mit Unterproblemfeldern zu löschen. Versuche, die "
+"einzelnen Unterproblemfelder manuell zu löschen."
+
+msgid "You cannot merge with a deleted revision"
+msgstr "Eine Vereinigung mit einer gelöschten Revision ist nicht möglich"
+
+msgid "You do not have permissions to add images."
+msgstr "Du hast nicht die nötigen Rechte um Bilder hinzuzufügen."
+
+msgid ""
+"You have django-wiki installed and it seems to be working. But there are no "
+"articles yet."
+msgstr ""
+"Du hast das Problemfeldwiki installiert und es sieht so aus als ob es "
+"funktioniert. Es gibt aber noch keine Problemfelder. "
+
+msgid ""
+"You have django-wiki installed... but there are no articles. So it's time to "
+"create the first one, the root article."
+msgstr ""
+"Du hast das Problemfeldwiki installiert... aber es gibt keine Problemfelder. "
+"Es ist also Zeit, das erste anzulegen, das Root-Problemfeld."
+
+msgid ""
+"You may remove this article and any children permanently and free their "
+"slugs by clicking the below button. This action cannot be undone."
+msgstr ""
+"Du darfst dieses Problemfeld und seine Unterproblemfelder dauerhaft löschen "
+"und ihre Adressen freigeben, indem du den folgenden Button klickst. Diese "
+"Aktion kann nicht rückgängig gemacht werden."
+
+msgid "You may restore this article and its children by clicking restore."
+msgstr ""
+"Du kannst das Problemfeld und seine Unterproblemfelder wiederherstellen, "
+"indem du \"Wiederherstellen\" klickst"
+
+msgid ""
+"You need to <a href=\"%(login_url)s\">log in</a> or <a href=\"%(signup_url)s"
+"\">sign up</a> to use this function."
+msgstr ""
+"Du musst dich <a href=\"%(login_url)s\">einloggen</a> oder <a href="
+"\"%(signup_url)s\">registrieren</a> um diese Funktionalität benutzen zu "
+"können."
+
+msgid "You need to log in or sign up to use this function."
+msgstr ""
+"Du musst dich einloggen oder registrieren um diese Funktionalität benutzen "
+"zu können."
+
+msgid "You will receive notifications %(interval)s for %(articles)d articles"
+msgstr ""
+"Du erhältst Benachrichtigung alle %(interval)s für %(articles)d Problemfelder"
+
+msgid "Your changes were saved."
+msgstr "Deine Änderungen wurden gespeichert"
+
+msgid "Your file could not be saved: %s"
+msgstr "Deine Datei konnte nicht gespeichert werden: %s"
+
+msgid ""
+"Your new file will automatically be renamed to match the file already "
+"present. Files with different extensions are not allowed."
+msgstr ""
+"Deine Datei wird automatisch umbenannt um dem bereits vorhandenen zu "
+"entsprechen. Andere Dateitypen sind nicht erlaubt."
+
+msgid "Your notification settings"
+msgstr "Deine Benachrichtigungseinstellungen"
+
+msgid "Your notification settings were unchanged, so nothing saved."
+msgstr ""
+"Deine Benachrichtigungseinstellungen sind unverändert. Es ist nicht zu "
+"speichern."
+
+msgid "Your notification settings were updated."
+msgstr "Deine Benachrichtigungseinstellungen wurden aktualisiert."
+
+msgid "Your permission settings were unchanged, so nothing saved."
+msgstr "Da keine Änderungen gemacht wurden ist nichts zu speichern."
+
+msgid "Your search did not return any results"
+msgstr "Deine Suche hat keine Ergebnisse geliefert"
+
+msgid "Your search returned <strong>%(cnt)s</strong> results."
+msgstr "Deine Suche hat <strong>%(cnt)s</strong> Ergebnisse geliefert."
+
+msgid "and"
+msgstr "und"
+
+msgid "anonymous (IP logged)"
+msgstr "anonym (IP gespeichert)"
+
+msgid "article"
+msgstr "Problemfeld"
+
+msgid "article contents"
+msgstr "Problemfeldinhalt"
+
+msgid "article title"
+msgstr "Problemfeldname"
+
+msgid "article,articles"
+msgstr "Problemfeld,Problemfelder"
+
+msgid "articles"
+msgstr "Problemfelder"
+
+msgid "attachment"
+msgstr "Anhang"
+
+msgid "attachment revision"
+msgstr "Revision des Anhangs"
+
+msgid "attachment revisions"
+msgstr "Revisionen des Anhangs"
+
+msgid "attachments"
+msgstr "Anhänge"
+
+msgid "by"
+msgstr "von"
+
+msgid "clear"
+msgstr "entfernen"
+
+msgid "content type"
+msgstr "Inhaltsart"
+
+msgid "created"
+msgstr "erstellt"
+
+msgid "current revision"
+msgstr "aktuelle Revision"
+
+msgid "deleted"
+msgstr "Gelöscht"
+
+msgid "file"
+msgstr "Datei"
+
+msgid "group"
+msgstr "Gruppe"
+
+msgid "group read access"
+msgstr "Lesezugriff für Gruppen"
+
+msgid "group write access"
+msgstr "Schreibzugriff für Gruppen"
+
+msgid "hour"
+msgstr "Stunde"
+
+msgid "image"
+msgstr "Bild"
+
+msgid "image revision"
+msgstr "Bildrevision"
+
+msgid "image revisions"
+msgstr "Bildrevisionen"
+
+msgid "images"
+msgstr "Bilder"
+
+msgid "is,are"
+msgstr "ist,sind"
+
+msgid "locked"
+msgstr "Gesperrt"
+
+msgid "minute"
+msgstr "Minute"
+
+msgid "modified"
+msgstr "modifiziert"
+
+msgid "no log message"
+msgstr "keine Nachricht"
+
+msgid "object ID"
+msgstr "Objekt ID"
+
+msgid "original article"
+msgstr "Ursprüngliches Problemfeld"
+
+msgid "original filename"
+msgstr "ursprünglicher Dateiname"
+
+msgid "others read access"
+msgstr "Lesezugriff für andere"
+
+msgid "others write access"
+msgstr "Schreibzugriff für andere"
+
+msgid "owner"
+msgstr "Besitzer"
+
+msgid "restored"
+msgstr "wiederhergestellt"
+
+msgid "revision number"
+msgstr "Revisionsnummer"
+
+msgid "revisions"
+msgstr "Revisionen"
+
+msgid "slug"
+msgstr "Adresse"
+
+msgid "unlocked"
+msgstr "entsprerrt"
+
+msgid "user"
+msgstr "Benutzer"

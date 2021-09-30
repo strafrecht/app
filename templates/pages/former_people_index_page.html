@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+
+{% block extra_css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/person_index_page.css' %}">
+{% endblock %}
+
+{% block body_class %}template-websitepage{% endblock %}
+
+{% block content %}
+	<div class="person-index-page">
+		<div class="col-md-12">
+			<h2>Ehemalige MitarbeiterInnen</h2>
+      
+			<div class="role-group">
+			{% for person in former_staff|dictsort:"last_name" %}
+				<div>
+					{{ person.first_name }} {{ person.last_name }}
+					<p><small>ehem. {{ person.get_role_display }}</small></p>
+				</div>
+			{% endfor %}
+			</div>
+        
+		</div>
+	</div>
+{% endblock %}

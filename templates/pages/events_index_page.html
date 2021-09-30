@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+{% load wagtailroutablepage_tags %}
+
+{% block body_class %}template-websitepage{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+	<div class="w-full" style="width: 100%;">
+		<div class="header-image">
+			{% image page.cover original %}
+			{% if page.cover_caption %}
+			<div class="header-caption">{{ page.cover_caption }}</div>
+			{% endif %}
+		</div>
+
+		<div class="content">
+			<!--{% include_block page.content %}-->
+
+<p class="roofline">
+Veranstaltungsreihe
+</p>
+<h2>
+TACHELES
+</h2>
+<h3>
+<b>
+Veranstaltungskonzept
+</b>
+</h3>
+<p>
+Der Kampf gegen Kriminalität, 
+die Datensammelwut von Staat und Unternehmen oder schlicht die allgegenwärtige Tendenz zur Ökonomisierung gesellschaftlicher Prozesse werden immer mehr zu Gefahren für Menschen- und Bürgerrechte.
+</p>
+<p>
+Die konkreten Entwicklungen sind zum Teil kompliziert und bedürfen umfassenden Hintergrundwissens, 
+um das Für und Wider gegeneinander abwägen zu können. 
+Viele wünschen sich, 
+zum einen mehr informiert zu werden und zum anderen hierüber zu diskutieren und sich so eine Meinung bilden zu können. 
+Diesem Anliegen will TACHELES ein Forum bieten.
+</p>
+<p>
+TACHELES versteht sich sowohl als Podium für Information und Diskussion als auch als Schnittstelle zwischen Theorie und Praxis. 
+Wir wollen Praktikern und Wissenschaftlern Gehör verschaffen, 
+die uns die gegenwärtige Entwicklung analysieren helfen. 
+Wir wollen Politiker einladen, 
+sie mit den gewonnenen Erkenntnissen konfrontieren und ihre Erklärungen dazu hören. 
+Natürlich wollen wir damit auch Studentinnen und Studenten ansprechen! 
+Gerade in heutiger Zeit, 
+in der das Studium verschlankt und sehr früh auf den Studienabschluss fokussiert wird, 
+wollen wir den Raum bieten, 
+auch über darüber hinausgehende Probleme zu informieren und zu debattieren; 
+kurzum: Wir hoffen, alle gesellschaftspolitisch Interessierten anzusprechen und neugierig zu machen.
+</p>
+<p>
+Geplant sind zwei bis drei Veranstaltungen während der Vorlesungszeit. 
+Die Veranstaltungsreihe TACHELES wird organisiert von der Humanistischen Union Baden-Württemberg und den Mitgliedern des Instituts für Kriminologie und Wirtschaftsstrafrecht der Universität Freiburg. 
+Unterstützung ist herzlich willkommen.
+</p>
+<hr />
+			<div class="role-group" style="display: flex; flex-wrap: wrap;">
+				{% for event in events %}
+				<div class="text-center" style="width: fit-content; padding: 10px 10px; width: 25%;">
+					<a class="text-dark" href="{% routablepageurl page "event" event.id %}">
+						{% image event.poster width-200 %}
+						<!--h6 class="mt-2">{{ event.name }}</h6-->
+						<!--p class="meta badge badge-dark">{{ event.date }}</p-->
+					</a>
+				</div>
+				{% endfor %}
+			</div>
+			
+		</div>
+	</div>
+{% endblock content %}

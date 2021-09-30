@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load comments %}
+{% load wagtailcore_tags wagtailnews_admin_tags %}
+{% load wagtailroutablepage_tags %}
+
+
+{% block widget %}
+<div class="">
+    <h3 style="margin-top:30px;font-weight:600;">Veranstaltungen</h3>
+    {% regroup events by get_semester_display as events_by_semester %}
+        {% for semester in events_by_semester %}
+            <h4 style="margin-top:30px;font-weight:600;">{{ semester.grouper }}</h4>
+            {% for event in semester.list|dictsortreversed:"date" %}
+                <p style="margin-bottom: 7px;">
+                    <a href="{% routablepageurl event.events_page 'event_by_semester' event.semester event.slug %}">{{ event.title }} ({{ event.date|date:"d.m.Y" }})</a>
+                </p>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

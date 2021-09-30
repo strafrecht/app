@@ -1,0 +1,25 @@
+{% load i18n %}
+{% load wagtailcore_tags wagtailnews_admin_tags %}
+
+<div class="">
+	<h3 style="font-weight: bold; margin-bottom: 20px;">Newsletter-Archiv</h3>
+
+	<div class="newsletters">
+		{% for semester in semesters %}
+      <div class="article-group" style="margin-bottom: 50px;">
+        <h4>{{ semester.semester }}</h4>
+
+        <div class="article-cards" style="display: flex; flex-direction: column; flex-wrap: wrap;">
+          {% for newsletter in semester.newsletters %}
+          <div class="article-card" style="margin-bottom: 5px;">
+						<a href="/documents/{{ newsletter.id }}/{{ newsletter.filename }}">
+							Lehrstuhlnewsletter vom {{ newsletter.title | slice:"28:-4"}}
+						</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+		{% endfor %}
+	</div>
+
+</div>

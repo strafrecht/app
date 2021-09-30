@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+{% load wagtailroutablepage_tags %}
+
+{% block extra_css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/person_index_page.css' %}">
+{% endblock %}
+
+{% block body_class %}template-websitepage{% endblock %}
+
+{% block content %}
+	<div class="person-index-page">
+		<div class="col-md-12">
+			<h2>Aktuelle MitarbeiterInnen</h2>
+
+			<div class="role-groups">
+				<div class="role-group">
+				<h5>Lehrstuhlinhaber</h5>
+				{% for person in head|dictsort:"last_name" %}
+					<a href="{% routablepageurl page "person" person.id %}">{{ person.first_name }} {{ person.last_name }}</a>
+				{% endfor %}
+				</div>
+
+				<div class="role-group">
+				<h5>Office</h5>
+				{% for person in office|dictsort:"last_name" %}
+					<a href="{% routablepageurl page "person" person.id %}">{{ person.first_name }} {{ person.last_name }}</a>
+				{% endfor %}
+				</div>
+
+				<div class="role-group">
+				<h5>Wissenschaftliches Personal</h5>
+				{% for person in academic|dictsort:"last_name" %}
+					<div>
+						<a href="{% routablepageurl page "person" person.id %}">{{ person.first_name }} {{ person.last_name }}</a>
+						<p><small>{{ person.get_role_display }}</small></p>
+					</div>
+				{% endfor %}
+				</div>
+
+				<div class="role-group">
+				<h5>Studentische Hilfskräfte</h5>
+				{% for person in student|dictsort:"last_name" %}
+					<a href="{% routablepageurl page "person" person.id %}">{{ person.first_name }} {{ person.last_name }}</a>
+				{% endfor %}
+				</div>
+
+		</div>
+	</div>
+{% endblock %}

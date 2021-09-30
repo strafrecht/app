@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+
+{% block extra_css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/news_article_index_page.css' %}">
+{% endblock %}
+
+{% block body_class %}template-websitepage{% endblock %}
+
+{% block content %}
+	<div class="news-index-page">
+		<div class="col-md-12">
+			<h2 class="mb-4">News Articles</h2>
+
+			{% for group in groups %}
+			<div class="article-group" style="margin-bottom: 50px;">
+				<h3>{{ group.year }}</h3>
+
+				<div class="article-cards" style="display: flex;">
+					{% for article in group.articles %}
+					<div class="article-card">
+						<a href="{% pageurl article %}">{{ article.title }}</a>
+						<div>
+							<span class="meta badge badge-dark">{{ article.owner }}</span>
+							<span class="meta badge badge-light">{{ article.date }}</span>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			{% endfor %}
+
+		</div>
+	</div>
+{% endblock %}

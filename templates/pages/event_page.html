@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+
+{% block extra_css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/event_page.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
+
+{% block body_class %}template-websitepage{% endblock %}
+
+{% block content %}
+	<div class="event-page">
+		<div class="content">
+			<div class="row">
+				<div class="column col-12">
+					{% if event.type == "tacheles" %}
+					<p class="roofline">Vortragsreihe TACHELES</p>
+					{% endif %}
+					<h2 style="font-weight: 800; font-size: 24px; width: 100%;margin-bottom:0px;">{{ event.title }}</h2>
+					{% if event.showmap %}
+					{% endif %}
+					
+					{% if event.speaker_description %}
+					<h3 style="margin-top:30px;font-weight:600;">Referent</h3>
+					<p class="bold font-sm"><span class="meta font-sm">{{ event.speaker_description | richtext }}</span></p>
+					{% endif %}
+
+					<h3 style="margin-top:30px;font-weight:600;">Veranstaltungsbeschreibung</h3>
+					{% if event.date or event.location %}
+					<p>{{ event.date|date:"j. F Y, G.i" }} Uhr{% if event.date and event.location %},{% endif %} 
+					{% if event.location %}
+					{{ event.location }}
+					{% endif %}
+					</p>
+					{% endif %}
+					
+					<p class="richtext">{{ event.description|richtext }}</p>
+					{% if event.speaker_description %}
+					<p class="richtext"><u>Zum Referenten:</u> {{ event.speaker_description|richtext }}</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function map_init_basic(map, options) {
+			var accessToken = "pk.eyJ1Ijoic3RyYWZyZWNodCIsImEiOiJjazN5bDc5YjgwMXltM29xbXA5aXdrd3NoIn0.LF_egdLW4ROv-FZv8XMLJA"
+
+			map.setView([47.9939, 7.8460], 13)
+			L.marker([47.9939, 7.8460]).addTo(map);
+			L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + accessToken, {
+				maxZoom: 18,
+				id: 'mapbox/streets-v11',
+				accessToken: accessToken
+			}).addTo(map);
+		}
+	</script>
+{% endblock %}
+
+{% block sidebar %}
+<div class="column">
+	<p>Vue Calendar Widget here!</p>
+	{% if event.poster_image or event.poster_pdf %}
+	<hr/>
+	<div class="block-sidebar_image_text">
+		<div class="sidebar sidebar-image-text">
+			{% if event.poster_image %}
+			<div class="image">
+				{% image event.poster_image width-320 %}
+			</div>
+			{% endif %}
+			{% if event.poster_pdf %}
+			<div class="text">
+				<h3>
+					Veranstaltungsplakat
+				</h3>
+				<p>
+					<a href="{{ event.poster_pdf.url }}">Als PDF downloaden</a>
+				</p>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+{# load poll_tags #}
+
+{% block body_class %}template-websitepage{% endblock %}
+
+{% block content %}
+	<div class="col-md-8 no-gutters rounded overflow-hidden flex-md-row position-relative">
+		<h2 class="font-weight-bold">{{ page.title }}</h2>
+		<br>
+
+		<div class="richtext">{{ page.body|richtext }}</div>
+
+		{% for item in page.gallery_images.all %}
+			<div style="float: left; margin: 10px">
+				{% image item.image fill-320x240 %}
+				<p>{{ item.caption }}</p>
+			</div>
+		{% endfor %}
+
+		{% if page.tags.all.count %}
+			<div class="tags">
+				<h3>Tags</h3>
+				{% for tag in page.tags.all %}
+					<a href="{% slugurl 'tags' %}?tag={{ tag }}"><button type="button">{{ tag }}</button></a>
+				{% endfor %}
+			</div>
+		{% endif %}
+
+		<p><a href="{{ page.get_parent.url }}">Return to block</a></p>
+	</div>
+{% endblock %}
+
+{% block sidebar %}
+	<div class="col-md-4 sidebar no-gutters overflow-hidden flex-md-row position-relative">
+
+	{% if page.sidebar %}
+		{{ page.sidebar | richtext }}
+	{% endif %}
+
+	{% for sidebar_placement in page.sidebar_placements.all %}
+		<!--div class="row sidebar-item">
+			{# if sidebar_placement.sidebar.type == "poll" #}
+				<div class="col-md-12">
+					{# poll #}
+				</div>
+			{# else #}
+				{# if sidebar_placement.sidebar.image #}
+				<div class="col-md-4 left">
+					{# image sidebar_placement.sidebar.image fill-100x100 #}
+				</div>
+				<div class="col-md-8 right">
+					<p>{{ sidebar_placement.sidebar.text|richtext }}</p>
+				</div>
+				{# else #}
+				<div class="col-md-12 right">
+					<p>{{ sidebar_placement.sidebar.text|richtext }}</p>
+				</div>
+				{# endif #}
+			{# endif #}
+		</div-->
+	{% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}

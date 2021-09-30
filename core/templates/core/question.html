@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+	<h2>{{ question.title }}</h2>
+
+	{% for answer in question.answers %}
+		<p>{{ answer.title }}</p>
+	{% endfor %}
+{% endblock %}
+

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="flex flex-col col-md-12">
+	<h2>Quizes</h2>
+
+	<div class="flex flex-col col-md-9">
+		{% for item in categories %}
+			{% if item.first.id > 0 %}
+				<div class="d-flex bg-white rounded p-2 mb-2 align-items-center justify-content-between">
+					<h6 class="">
+						<img src="">
+						{{ item.category.article.current_revision.title }}
+					</h6>
+					
+					<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start" class="btn btn-info">
+						Start Quiz
+					</a>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+
+	{% if 'bt' in request.path %}
+		<a href="{% url 'quiz:index' %}">Wechsel in den AT</a>
+	{% else %}
+		<a href="{% url 'quiz:index_bt' %}">Wechsel in den BT</a>
+	{% endif %}
+
+</div>
+{% endblock %}

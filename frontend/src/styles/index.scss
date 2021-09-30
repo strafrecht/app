@@ -1,0 +1,76 @@
+$body-color: #3d3d3d;
+
+body {
+  background: #fafafa;
+  color: $body-color;
+  font-family: sans-serif;
+}
+
+h2 {
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
+}
+
+h3 {
+    color: #999 !important;
+    font-size: 1.4rem !important;
+    font-weight: 500 !important;
+}
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "old/base.css";
+@import "old/columns.css";
+@import "old/comments.css";
+@import "old/content.css";
+@import "old/custom-wagtail-columns.css";
+//@import "old/django-pwa-app.css";
+//@import "old/main.css";
+@import "old/mysite.css";
+@import "old/navbar.css";
+@import "old/person_index_page.css";
+@import "old/person_page.css";
+@import "old/polls.css";
+@import "old/sidebar.css";
+@import "old/website_index_page.css";
+@import "old/wiki.css";
+@import "pages/cms_session.css";
+@import "pages/lehre.css";
+@import "pages/jurcoach.css";
+
+.jurcoach-links-widgets {
+    position: relative;
+}
+
+
+.block-sidebar {
+    width: 100%;
+}
+
+.article-edit-form {
+    border: 1px solid red !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+main.container {
+    background: white;
+    max-width: 900px;
+}
+main > .container-inner > .content {
+    flex-grow: 1;
+    max-width: 720px;
+}
+
+main.container,
+main.container > div > .container {
+    padding: 0px !important;
+}
+.container-inner {
+    display: flex;
+}
+
+@media screen and (max-width: 720px) {
+    main.container.container-inner {
+        flex-direction: column;
+    }
+}

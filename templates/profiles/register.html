@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.4.7/dist/vuetify.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.4.7/dist/vuetify.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.5/dist/vuelidate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.5/dist/validators.min.js"></script>
+
+<div class="container" style="min-height:600px;">
+    <div id="app">
+    <v-app id="inspire">
+    <v-card width="600px" class="mx-auto mt-5" outlined>
+      <v-card-title class="pb-0">Registrierung</v-card-title>
+      <v-card-text>
+        <v-form ref="form" v-model="valid" lazy-validation>
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            prepend-icon="mdi-email"
+            label="E-Mail-Adresse"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="name"
+            :counter="20"
+            :rules="nameRules"
+            prepend-icon="mdi-account-circle"
+            label="Nutzername"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="password"
+            :rules="passwordRules"
+            :type="showPassword ? 'text' : 'password'"
+            label="Passwort"
+            prepend-icon="mdi-lock"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="showPassword = !showPassword"
+            required
+          ></v-text-field>
+
+            <v-text-field
+              v-model="confirmPassword"
+              label="Bestätige das Passwort"
+              name="confirmPassword"
+              prepend-icon="mdi-lock"
+              type="password"
+              :rules="confirmPasswordRules"></v-text-field>
+
+          <v-checkbox
+            v-model="checkbox"
+            :rules="[
+              (v) => !!v || 'Du musst zustimmen, um dich zu registrieren.',
+            ]"
+            label="Ich stimme den Nutzungsbedingungen und der Datenschutzerklärung zu."
+            required
+          ></v-checkbox>
+          <!--
+          <v-btn
+            :disabled="!valid"
+            color="success"
+            class="mr-4"
+            @click="validate"
+          >
+            Validate
+          </v-btn>
+
+          <v-btn color="error" class="mr-4" @click="reset"> Reset Form </v-btn>
+
+          <v-btn color="warning" @click="resetValidation">
+            Reset Validation
+          </v-btn>
+        -->
+        </v-form>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-col class="text-right">
+          <v-btn color="success">Registrieren</v-btn>
+        </v-col>
+      </v-card-actions>
+    </v-card>
+    </v-app>
+</div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        data() {
+                    return {
+
+    showPassword: false,
+    valid: true,
+    name: "",
+    nameRules: [
+      (v) => !!v || "Bitte gib einen Nutzernamen ein.",
+      (v) =>
+        (v && v.length <= 20) ||
+        "Der Nutzername darf maximal 20 Zeichen lang sein.",
+    ],
+    password: "",
+    confirmpassword: "",
+    passwordRules: [
+      (v) => !!v || "Bitte gib ein Passwort ein.",
+      (v) =>
+        (v && v.length >= 6) || "Das Passwort muss länger als 6 Zeichen sein.",
+      (v) =>
+        (v && v.length <= 40) ||
+        "Das Passwort muss kürzer als 40 Zeichen sein.",
+    ],
+    confirmPasswordRules: [
+        (v) => !!v || 'Bestätige das Passwort durch nochmalige Eingabe.',
+        (v) =>
+          v === this.password || 'Das Passwort stimmt nicht mit dem zuvor eingegebenen überein.',
+    ],
+    email: "",
+    emailRules: [
+      (v) => !!v || "Bitte gib eine E-Mail-Adresse ein.",
+      (v) =>
+        /.+@.+\..+/.test(v) || "Bitte gib eine gültige E-Mail-Adresse ein.",
+    ],
+      };
+  },
+          methods: {
+    validate() {
+      this.$refs.form.validate();
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation();
+    },
+  },
+    })
+</script>
+
+{% endblock %}

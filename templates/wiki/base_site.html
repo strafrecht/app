@@ -1,0 +1,79 @@
+{% load sekizai_tags i18n wiki_tags static pipeline %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block wiki_pagetitle %}{% endblock %}{% block wiki_site_title %} - Wiki |{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,500|Roboto:400,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Le styles -->
+    <link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
+	{% stylesheet 'base' %}
+
+    {% render_block "css" %}
+  </head>
+
+  <body id="wiki">
+
+    {% block wiki_body %}
+
+    {% block wiki_navbar %}
+		{% load wagtailcore_tags %}
+		{% include "layout/menu.html" %}
+    {% endblock %}
+
+
+    <div class="container" style="margin-top: 40px;">
+    	<div class="header-image">
+    		<img src="/media/images/jurcoach_QoAbNtR.original.jpg">
+    		<div class="header-caption">Jurcoach</div>
+    	</div>
+
+    	<div class="wiki-content">
+      	  {% wiki_messages %}
+
+      	  <!-- Reserved for breadcrumbs -->
+      	  {% block wiki_breadcrumbs %}{% endblock %}
+
+      	  <!-- Main page contents go here -->
+      	  {% block wiki_contents %}{% endblock %}
+
+		</div>
+    </div> <!-- /container -->
+
+    {% endblock %}
+
+    <script src="{% static "wiki/js/jquery-3.4.1.min.js" %}"></script>
+    <script src="{% static "wiki/js/core.js" %}"></script>
+    <script src="{% static "wiki/js/popper.js" %}"></script>
+    <script src="{% static "wiki/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+    <script src="https://use.fontawesome.com/2f4f67fb08.js"></script>
+
+
+    <script src="{% static "wiki/js/respond.min.js" %}"></script>
+    {% render_block "js" %}
+    
+    <footer class="footer">
+    <div class="container">
+    <ul>
+    <li><a class="text-muted" href="#">Impressum</a></li>
+    <li><a class="text-muted" href="#">Kontakt</a></li>
+    <li><a class="text-muted" href="#">Datenschutz</a></li>
+    <li><a class="text-muted" href="#">Cookies &amp; Tracking</a></li>
+    <li style="float:right;"><a class="social-media-icon fa fa-github" href="https://github.com/strafrecht"></a></li>
+    <li style="float:right;"><a class="social-media-icon fa fa-instagram" href="https://www.instagram.com/jurcoach/"></a></li>
+    <li style="float:right;"><a class="social-media-icon fa fa-facebook-square" href="https://www.facebook.com/jurcoach"></a></li>
+    </ul>
+    </div>
+    </footer>
+
+  </body>
+</html>

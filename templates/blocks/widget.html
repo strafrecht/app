@@ -1,0 +1,9 @@
+{% load pipeline static wagtailimages_tags %}
+
+<div class="widget">
+	{% csrf_token %}
+
+	{% block widget %}
+		{{ page.title }}
+	{% endblock %}
+</div>

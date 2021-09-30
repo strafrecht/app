@@ -1,0 +1,95 @@
+{% load pipeline %}
+{% load static wagtailuserbar menu_tags %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+				<meta charset="utf-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta name="viewport" content="width=device-width, initial-scale=1">
+				<meta name="author" content="Institut für Kriminologie und Wirtschaftsstrafrecht Freiburg">
+				<meta name="description" content="Website des Instituts für Kriminologie und Wirtschaftsstrafrecht Freiburg">
+
+        <title>
+            {% block title %}
+                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+                {% with self.get_site.site_name as site_name %}
+                    {% if site_name %}- {{ site_name }}{% endif %}
+                {% endwith %}
+            {% endblock %}
+        </title>
+
+        {# Global stylesheets #}
+				<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+				<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,500|Roboto:400,500,600,700&display=swap" rel="stylesheet">
+				<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+				<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.4/chartist.min.css">
+				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+				<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+				{% stylesheet 'base' %}
+				{% stylesheet 'sidebar' %}
+
+				<link href="{% static "css/sidebar.css" %}" rel="stylesheet">
+				<link href="{% static "css/sidebars/header.css" %}" rel="stylesheet">
+				<link href="{% static "css/sidebars/image_text.css" %}" rel="stylesheet">
+				<link href="{% static "css/sidebars/poll.css" %}" rel="stylesheet">
+
+        {% block extra_css %}
+            {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+    <body class="{% block body_class %}{% endblock %}">
+        {% wagtailuserbar %}
+
+				{% include "layout/menu.html" %}
+
+				{% if page.slug != "strafrecht-online" %}
+				<main role="main" class="container">
+					<div class="row">
+				{% endif %}
+
+						{% block content %}{% endblock %}
+						{% block sidebar %}{% endblock %}
+
+				{% if page.slug != "strafrecht-online" %}
+					</div>
+				</main>
+				{% endif %}
+
+				<footer class="footer">
+					<div class="container">
+						<ul>
+							<li><a href="#" class="text-muted">Impressum</a></li>
+							<li><a href="#" class="text-muted">Kontakt</a></li>
+							<li><a href="#" class="text-muted">Datenschutz</a></li>
+							<li><a href="#" class="text-muted">Cookies & Tracking</a></li>
+							<li style="float:right;"><a href="https://github.com/strafrecht" class="social-media-icon fa fa-github"></a></li>
+							<li style="float:right;"><a href="https://www.instagram.com/jurcoach/" class="social-media-icon fa fa-instagram"></a></li>
+							<li style="float:right;"><a href="https://www.facebook.com/jurcoach" class="social-media-icon fa fa-facebook-square"></a></li>
+						</ul>
+					</div>
+				</footer>
+
+        {# Global javascript #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+				<script src="https://browser.sentry-cdn.com/5.6.3/bundle.min.js"></script>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+				<!--
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+				<script src="https://www.jsdelivr.com/package/npm/chart.js"></script>
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.4/chartist.min.js"></script-->
+				<script src="https://use.fontawesome.com/2f4f67fb08.js"></script>
+				<script src="https://browser.sentry-cdn.com/5.25.0/bundle.min.js" integrity="sha384-2p7fXoWSRPG49ZgmmJlTEI/01BY1LgxCNFQFiWpImAERmS/bROOQm+cJMdq/kmWS" crossorigin="anonymous"></script>
+
+				{% javascript 'base' %}
+
+        {% block extra_js %}
+            {# Override this in templates to add extra javascript #}
+        {% endblock %}
+				<script src="{% static "wiki/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+    </body>
+</html>

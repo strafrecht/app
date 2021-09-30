@@ -1,0 +1,89 @@
+{% extends "wiki/base.html" %}
+{% load wiki_tags i18n sekizai_tags %}
+
+{% block wiki_pagetitle %}
+	{{ article.current_revision.title }}
+{% endblock %}
+
+{% block wiki_breadcrumbs %}
+	{% include "wiki/includes/breadcrumbs.html" %}
+{% endblock %}
+
+	{% block wiki_contents %}
+
+	{% if children_slice|length <= 0 %}
+	<div id="article-container">
+		<nav id="article-menu" class="navbar navbar-expand-md nav-pills">
+			<ul class="navbar-nav w-100">
+				<li class="float-left nav-item" id="article-title-li">
+					<h1 id="article-title">
+						{{ article.current_revision.title }}
+						<small style="font-size: 14px;">
+							{% if urlpath.parent %}
+								<!--a href="{% url 'wiki:get' path=urlpath.path %}" class="nav-link"><span class="fa fa-bookmark"></span> {{ urlpath.slug }}</a-->
+							{% endif %}
+							{% if article.current_revision.locked %}
+								<span class="fa fa-lock"></span> {% trans "locked" %}
+							{% endif %}
+						</small>
+					</h1>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+			{% include "wiki/includes/article_menu.html" %}
+			</ul>
+		</nav>
+		<div>
+		{% block wiki_contents_tab %}
+		{% endblock %}
+		</div>
+	</div>
+
+	{% else %}
+		<!--
+		<div class="py-3">
+		{% with children_slice|length as cnt %}
+		{% blocktrans with urlpath.path as path and cnt|pluralize:_("article,articles") as articles_plur and cnt|pluralize:_("is,are") as articles_plur_verb trimmed %}
+	  	  	  Browsing <strong><a href="{{ self_url }}">/{{ path }}</a></strong>. There {{ articles_plur_verb }} <strong>{{ cnt }} {{ articles_plur }}</strong> in this level.
+		{% endblocktrans %}
+		{% endwith %}
+		</div>
+		-->
+		<br>
+
+		<table class="table table-striped">
+			<tr>
+				<th>{% trans "Title" %}</th>
+				<th>{% trans "Last modified" %}</th>
+			</tr>
+			{% for urlpath in children_slice %}
+				<tr>
+					<td>
+					<a href="{% url 'wiki:get' path=urlpath.path %}"> {{ urlpath.article.current_revision.title }} </a>
+					<a href="{% url 'wiki:dir' path=urlpath.path %}" class="list-children"> › </a>
+					{% if urlpath.article.current_revision.deleted %}
+					<span class="fa fa-trash"></span>
+					{% endif %}
+					{% if urlpath.article.current_revision.locked %}
+					<span class="fa fa-lock"></span>
+					{% endif %}
+					</td>
+ 	 	 	 	 	<td>
+						{{ urlpath.article.current_revision.created|date:"j.n.Y G.i" }} Uhr
+					</td>
+				</tr>
+				{% empty%}
+				<tr>
+					<td colspan="100">
+					<em>{% trans "There are no articles in this level" %}</em>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>	
+	{% endif %}
+
+{% endblock %}
+
+{% block wiki_footer_prepend %}
+  <p style="margin-bottom: 10px;"><em>{% trans "This article was last modified:" %} {{ article.current_revision.modified|date:"j.n.Y G.i Uhr" }}</em></p>
+{% endblock %}

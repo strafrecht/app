@@ -1,0 +1,38 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n %}
+{% block titletag %}{% trans "Polls: Viewing Results" %}{% endblock %}
+{% block bodyclass %}menu-poll{% endblock %}
+
+{% block content %}
+
+<header class="nice-padding">
+	<div class="row row-flush">
+			<div class="left col9">
+				<div class='col'>
+					<h1 class="icon icon-edit">{% blocktrans %}{{poll}} - Total Votes {{total_votes}}{% endblocktrans %} </h1>
+				</div>
+			</div>
+
+	</div>
+</header>
+<div class='nice-padding'>
+<table class="listing">
+                <thead>
+                    <tr>
+                        <th>{% blocktrans %}Question{% endblocktrans %}</th>
+                        <th>{% blocktrans %}Votes{% endblocktrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for question in poll.questions.all %}
+                    <tr>
+                        <td class="title">
+                            <h2>{{question}}</h2>
+                        </td>
+                        <td>{{question.votes.all.count}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+</div>
+{% endblock %}

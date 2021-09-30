@@ -1,0 +1,29 @@
+{% load i18n %}
+{% load comments %}
+{% load wagtailcore_tags wagtailnews_admin_tags %}
+{% load wagtailroutablepage_tags %}
+
+
+{% block widget %}
+	{% for group in groups %}
+		<div class="article-group" style="margin-bottom: 50px;">
+			<h3>{{ group.year }}</h3>
+
+			<div class="article-cards" style="display: flex; flex-direction: column;">
+				{% for article in group.articles %}
+				<div class="article-card">
+					<a href="{% routablepageurl article.articles_page 'article_by_date' 2020 10 10 article.slug %}">{{ article.title }}</a>
+					<div>
+						{% if article.author %}
+						<span class="meta badge badge-dark">
+							<a href="/personen/{{ page.author.id }}">{{ article.author.first_name }} {{ article.author.last_name }}</a>
+						</span>
+						{% endif %}
+						<span class="meta badge badge-light">{{ article.date }}</span>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}

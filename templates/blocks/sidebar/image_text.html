@@ -1,0 +1,10 @@
+{% load wagtailimages_tags %}
+
+<div class="sidebar sidebar-image-text">
+	<div class="image">
+		{% image value.image width-400 %}
+	</div>
+	<div class="text">
+		{{ value.content }} 
+	</div>
+</div>

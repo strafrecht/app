@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+{% csrf_token %}
+	<div class="w-full" style="width: 100%;">
+		<div class="header-image">
+			{% image page.cover original %}
+			{% if page.cover_caption %}
+			<div class="header-caption">{{ page.cover_caption }}</div>
+			{% endif %}
+		</div>
+
+		<div class="content">
+			{% include_block page.content %}
+		</div>
+	</div>
+{% endblock content %}

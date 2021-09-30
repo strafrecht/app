@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+{% csrf_token %}
+	<div class="w-full" style="width: 100%;">
+		<div class="header-image">
+			{% image page.cover original %}
+			{% if page.cover_caption %}
+			<div class="header-caption">{{ page.cover_caption }}</div>
+			{% endif %}
+		</div>
+
+		<div class="content">
+			{% include_block page.content %}
+		</div>
+	</div>
+{% endblock content %}
+
+{% block sidebar %}
+	<div class="col-md-4 sidebar">
+	{% for sidebar_placement in page.sidebar_placements.all %}
+		<div class="row sidebar-item">
+			{% if sidebar_placement.sidebar.image %}
+			<div class="col-md-4 left">
+				{% image sidebar_placement.sidebar.image fill-100x100 %}
+			</div>
+			<div class="col-md-8 right">
+				<p>{{ sidebar_placement.sidebar.text|richtext }}</p>
+			</div>
+			{% else %}
+			<div class="col-md-12 right">
+				<p>{{ sidebar_placement.sidebar.text|richtext }}</p>
+			</div>
+			{% endif %}
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}

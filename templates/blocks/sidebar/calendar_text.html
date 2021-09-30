@@ -1,0 +1,12 @@
+{% load wagtailimages_tags %}
+
+<div id="calendar-widget">
+	<div class="sidebar sidebar-calendar-text">
+		<div id="calendar">
+			<calendar eventdate="{{ value.calendar|date:"Y-m-d" }}" testprop="testmessage" />
+		</div>
+		<div class="text">
+			{{ value.content }}
+		</div>
+	</div>
+</div>

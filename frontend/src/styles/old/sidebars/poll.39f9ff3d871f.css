@@ -1,0 +1,50 @@
+.sidebar-poll {
+	background: #fafafa;
+	border: 1px solid #ddd;
+ 	border-radius: 10px;
+	padding: 0px 15px 10px 15px;
+	border-bottom: 1px solid #ddd !important;
+}
+.sidebar-poll label {
+	display: inline-block;
+	margin-bottom: .5rem;
+}
+
+.sidebar-poll h5 {
+	color: #555;
+	font-size: 14px !important;
+	font-family: Roboto !important;
+	text-transform: uppercase;
+	margin-top: 10px;
+}
+.sidebar-poll .question {
+	display: flex;
+	font-size: 13px;
+	font-weight: 400;
+	color: #555;
+}
+.sidebar-poll .question input {
+	margin-right: 10px;
+	margin-top: 3px;
+}
+.sidebar-poll .bottom {
+display: flex;
+				     justify-content: space-between;
+						     margin-top: 10px;
+}
+
+.sidebar-poll a {
+	color: teal;
+	font-family: Crimson;
+	font-size: 14px;
+	display: block;
+	margin: 5px 0;
+}
+.sidebar-poll .submit {
+	float: right;
+	background: white;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 13px;
+	padding: 5px 14px;
+}

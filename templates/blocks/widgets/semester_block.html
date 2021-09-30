@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load comments %}
+{% load wagtailcore_tags wagtailnews_admin_tags %}
+{% load wagtailroutablepage_tags %}
+
+{% block widget %}
+	<div class="session-group" style="margin-bottom: 50px;">
+		<h3 style="color: rgb(140, 140, 140); font-size: 1.25rem; font-weight: bold; margin-bottom: 20px;">{{ semester }}</h3>
+
+		<div class="session-cards" style="display: flex;">
+			{% for session in sessions %}
+			<div class="session-card">
+				<a href="{% routablepageurl session.sessions_page 'session_by_semester' session.semester session.slug %}">{{ session.title }}</a>
+				<div>
+					<span class="meta badge badge-dark">{{ session.owner | richtext }}</span>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "wagtailadmin/base.html" %}
+
+{# adjust wagtail admin to load styles to make wagtailcolumnblocks compatible with Wagtail 2.7 stream field #}
+
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/custom-wagtail-columns.css' %}" />
+{% endblock %}

@@ -1,0 +1,155 @@
+#jurcoach-page {
+    width: 100%;
+}
+
+#jurcoach-page h1 {
+    font-size: 24px;
+    font-weight: 800;
+}
+
+#jurcoach-page h2 {
+    background: #eee;
+    display: inline-block;
+    font-size: 28px;
+    font-weight: 800 !important;
+}
+
+#jurcoach-page section {
+    display: flex;
+    flex-direction: column;
+ }
+#jurcoach-page .container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1100px !important;
+}
+#jurcoach-page .carousel {
+    padding-top: 40px;
+    padding-left: 60px;
+    width: 1200px;
+}
+
+#jurcoach-page .carousel-inner {
+    display: flex;
+    overflow: initial;
+}
+
+#jurcoach-page .carousel-item {
+    margin-right: 50px !important;
+    max-width: 240px;
+    text-align: left;
+}
+
+#jurcoach-page .person-wrapper {
+    background: gold;
+    border-radius: 100%;
+    position: relative;
+    height: 180px;
+    width: 180px;
+    overflow: hidden;
+}
+
+#jurcoach-page .person-wrapper img {
+    position: absolute;
+    bottom: -30px;
+    padding-top: 50px;
+    width: 180px !important;
+}
+#jurcoach-page .carousel-item h3 {
+    font-size: 20px;
+    font-weight: 900;
+    color: #333 !important;
+    margin-top: 40px;
+    font-family: 'Roboto Slab';
+    font-size: 1.2rem;
+    font-weight: 800 !important;
+}
+#jurcoach-page .carousel-item p {
+    font-size: 13px;
+    max-width: 280px;
+}
+
+#jurcoach-page .carousel-item a {
+    color: black;
+    font-weight: 700;
+    font-size: 14px;
+}
+#jurcoach-page .bottom-item {
+    text-align: left;
+    margin-right: 20px;
+}
+#jurcoach-page .bottom-item h3 {
+    font-size: 16px;
+    font-weight: 800;
+}
+#jurcoach-page .bottom-item p {
+    font-size: 14px;
+}
+#jurcoach-page .bottom-item a {
+    color: #333;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    /* show 3 items */
+    .carousel-inner .active,
+    .carousel-inner .active + .carousel-item,
+    .carousel-inner .active + .carousel-item + .carousel-item {
+        display: block;
+    }
+
+    .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+    .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
+    .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
+        transition: none;
+    }
+
+    .carousel-inner .carousel-item-next,
+    .carousel-inner .carousel-item-prev {
+      position: relative;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item {
+        position: absolute;
+        top: 0;
+        right: -33.3333%;
+        z-index: -1;
+        display: block;
+        visibility: visible;
+    }
+
+    /* left or forward direction */
+    .active.carousel-item-left + .carousel-item-next.carousel-item-left,
+    .carousel-item-next.carousel-item-left + .carousel-item,
+    .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
+    .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item {
+        position: relative;
+        transform: translate3d(-100%, 0, 0);
+        visibility: visible;
+    }
+
+    /* farthest right hidden item must be abso position for animations */
+    .carousel-inner .carousel-item-prev.carousel-item-right {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        display: block;
+        visibility: visible;
+    }
+
+    /* right or prev direction */
+    .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
+    .carousel-item-prev.carousel-item-right + .carousel-item,
+    .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
+    .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item {
+        position: relative;
+        transform: translate3d(100%, 0, 0);
+        visibility: visible;
+        display: block;
+        visibility: visible;
+    }
+
+}

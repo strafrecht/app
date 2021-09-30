@@ -1,0 +1,145 @@
+#wiki .container {
+	max-width: 900px;
+}
+
+#wiki .tab-content > div {
+	margin-bottom: 2px;
+}
+#wiki .btn-warning,
+#wiki .btn-danger {
+	color: white;
+}
+
+#wiki #id_title {
+font-size: 16px;
+padding: 4px 10px;
+font-weight: 500;
+}
+
+#wiki .modal .modal-dialog {
+	max-width: 900px !important;
+}
+
+#wiki .page-header {
+	font-size: 2rem;
+	font-weight: 900;
+}
+
+#wiki a {
+	color: rgb(76, 158, 187);
+}
+
+#wiki .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background: rgb(76, 158, 187);
+	color: white;
+}
+
+#wiki .btn-primary,
+#wiki .btn-info {
+	background: rgb(76, 158, 187);
+	border: none;
+	color: white;
+}
+
+#wiki #article-title {
+	font-size: 2em;
+	font-weight: 900;
+}
+.wiki-article h1 {
+	font-weight: 900;
+	font-size: 30px;
+}
+
+.wiki-article h3 {
+	font-size: 1.25em;
+	font-weight: 900;
+	color: rgb(140, 140, 140); 
+}
+
+.wiki-article h6 {
+	font-size: 1em;
+	font-weight: 400;
+	text-decoration: underline;
+}
+
+.wiki-article h1,
+.wiki-article h3,
+.wiki-article h6,
+.wiki-article p {
+	line-height: 1.6em;
+	margin-bottom: 28px;
+}
+
+.tui-editor-contents h1 {
+	font-weight: 900;
+	font-size: 30px;
+}
+
+.tui-editor-contents h3 {
+	font-size: 1.25em;
+	font-weight: 900;
+	color: rgb(140, 140, 140) !important; 
+}
+
+.tui-editor-contents h6 {
+	font-size: 1em !important;
+	font-weight: 500;
+	text-decoration: underline;
+	margin-bottom: 10px !important;
+}
+
+.wiki-article h1,
+.wiki-article h3,
+.wiki-article h6,
+.wiki-article p {
+	line-height: 1.6em;
+	margin-bottom: 28px;
+}
+
+/*
+#wiki-edit-sidebar {
+	display: none !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	display: flex !important;
+	flex-basis: inherit !important;
+}
+#article-container .col-lg-8 {
+	width: 100% !important;
+	max-width: 100% !important;
+	flex-basis: inherit !important;
+}
+*/
+
+#wiki .container {
+	padding: 0px;
+}
+
+@media screen and (max-width: 800px) {
+	.container {
+		padding: 0px !important;
+	}
+	.wiki-content {
+		padding: 10px;
+	}
+}
+
+
+.v-application--wrap {
+	padding: 8px 0;
+	min-height: 64px !important;
+	max-height: 64px !important;
+}
+.v-toolbar__content {
+	padding: 0px !important;
+}
+.v-application .primary--text {
+	color: rgb(76, 158, 187) !important;
+}
+.v-sheet {
+	border: 0px;
+	box-shadow: none !important;
+}
+#wiki .btn-dark {
+	color: #ffffff !important;
+}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% load static wagtailuserbar wagtailcore_tags wagtailimages_tags website_tags %}
+
+{% include "layout/navbar.html" %}
+
+{% block extra_css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/website_index_page.css' %}">
+{% endblock %}
+
+{% block body_class %}template-websiteindexpage{% endblock %}
+
+{% block content %}
+	<div class="container pt-4">
+		<div class="top">
+
+			<div class="left">
+				<section>
+					<div class="newsletter">
+						<a href="#">
+							<img src="https://images.unsplash.com/photo-1515067598661-deccdb3fb20c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1489&q=80">
+						<h2>Ist das Strafrecht oder kann das weg?</h2>
+						<p>Trotz aller Feierlichkeiten nimmt sich der Berliner Justizsenator dankenswerterweise die Zeit, ein wenig aufzuräumen. Nun gut, er schlägt jedenfalls vor, einmal aufzuräumen. Wir sind uns sicher, dass dieser Vorschlag so wie viele andere schnell in Vergessenheit geraten wird. Denn so richtig drängend erscheint es mit dem Ausmisten erst dann, wenn der Platz knapp wird. Und das ist im StGB noch lange nicht der Fall.</p>
+						<span class="date">September 7th, 2020</span>
+						</a>
+					</div>
+				</section>
+				<section>
+					<div class="news">
+						<div class="item">
+							<h5>Auswertung: Befragung Videoüberwachung</h5>
+							<p>Knapp 200 haben sich im letzten Monat an unserer Umfrage zur Videoüberwachung beteiligt. Das Ergebnis fiel eindeutig aus: 137 (69 %) votierten dafür, dass die derzeit aufgrund fehlender „Verbrecher“ noch nicht...</p>
+							<span class="date">14th August, 2020</span>
+							<span><a href="#" class="comments inline"><i class="fa fa-comment"></i>193 Kommentare</a></span>
+						</div>
+						<div class="item">
+							<h5>Die Evaluation der Sicherheitspartnerschaft – viel Geld für wenig</h5>
+							<p>Die Sicherheitspartnerschaft zwischen der Stadt Freiburg und dem Land Baden-Württemberg war im Jahr 2017 mit durchaus anspruchsvollen Zielen angetreten. Sie sollte nicht...</p>
+							<span class="date">20th July, 2020</span>
+							<span>
+								<a href="#" class="comments"><i class="fa fa-comment"></i>89 Kommentare</a>
+							</span>
+						</div>
+						<div class="item">
+							<h5>Verlorenes Jahr</h5>
+							<p>Auf die Frage an den OECD-Bildungsexperten Andreas Schleicher, welche Note er den deutschen Schulen in Sachen Digitalisierung geben würde, wurde er auf einmal ganz sanft: Die deutschen Schulen stünden in Sachen...</p>
+							<span class="date">31st June, 2020</span>
+							<span>
+								<a href="#" class="comments"><i class="fa fa-comment"></i>37 Kommentare</a>
+							</span>
+						</div>
+						<div class="item">
+							<h5>Schwindende Kriminalitätsgewissheiten</h5>
+							<p>Mit zunehmender Dauer der Corona-Pandemie wächst der Wunsch nach Normalität in der Bevölkerung immer mehr und wird der Ruf nach Lockerungen der noch bestehenden Einschränkungen des gesellschaftlichen...</p>
+							<span class="date">10th February, 2020</span>
+							<span>
+								<a href="#" class="comments"><i class="fa fa-comment"></i>113 Kommentare</a>
+							</span>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<div class="right">
+				<div class="item poll">
+					<h5>Poll</h5>
+					<p>
+						Corona hat die Gefängnisse auf der ganzen Welt teilweise geleert.
+					</p>
+
+					<div class="question">
+						<input type="radio" name="poll" value="0" id="answer-1">
+						<label for="answer-1">
+							Ein guter Anlass darüber nachzudenken, ob dies nicht eine Dauerlösung werden könnte.
+						</label>
+					</div>
+					<div class="question">
+						<input type="radio" name="poll" value="0" id="answer-2">
+						<label for="answer-2">
+							Eine Sonderkonstellation sollte diese Grundsatzfrage nicht beeinflussen.
+						</label>
+					</div>
+					<div class="question">
+						<input type="radio" name="poll" value="0" id="answer-3">
+						<label for="answer-3">
+							In den Gefängnissen sind die, für die es keine andere Alternative gibt.
+						</label>
+					</div>
+					<div class="bottom">
+						<a href="#">Results</a>
+						<input type="submit" class="submit" value="Submit">
+					</div>
+				</div>
+				<div class="item">
+					<div style="
+						height: 150px;
+						background-image: url(https://images.unsplash.com/photo-1540057357560-ed0ed423cdcd?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60);
+						background-position-y: 70%;
+						background-size: cover;
+				"></div>
+					<!--img src="https://images.unsplash.com/photo-1540057357560-ed0ed423cdcd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"-->
+					<h5>Kurz & Bündig</h5>
+					<p>Welche Möglichkeiten bietet die Website? Wo finden Sie was? Diese Fragen beantworten wir in unseren "How-to-Videos", die sie über folgendes Schaubild aufrufen können.</p>
+				</div>
+				<!--div class="item">
+					<h5>Lehre</h5>
+					<a href="#">Übung für Fortgeschrittene</a>
+					<a href="#">Kriminologie I</a>
+					<a href="#">Wirtschaftsstrafrecht I</a>
+				</div-->
+				<div class="item">
+					<!--img src="http://strafrecht-online.org/_style/seitenleiste/Vogel_schmal.png"-->
+					<!--img src="https://images.unsplash.com/photo-1503494099816-316e7ebbebd4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"-->
+					<div style="
+						height: 150px;
+						background-image: url(https://images.unsplash.com/photo-1503494099816-316e7ebbebd4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60);
+						background-image: url(https://images.unsplash.com/photo-1586108370625-70458e754bfa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60);
+						background-image: url(https://images.unsplash.com/photo-1549231517-daf62e76a86e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1403&q=80);
+						background-position-y: 100%;
+						background-size: cover;
+				"></div>
+					<h5>Befragung der Freiburger Studierenden</h5>
+					<p>Was ist gut gelaufen, was funktionierte nicht? Machen Sie mit bei unserer kurzen Befragung (max. 10 Minuten) und setzen Sie Impulse für die Lehre im kommenden Wintersemester. Im Anschluss starten wir umgehend mit der Auswertung, die wir online stellen.</p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+{% endblock %}

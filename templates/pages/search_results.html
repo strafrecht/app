@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+    <div style="display: flex; flex-direction: column; width: 100%;">
+
+        <div style="margin-bottom: 20px;">
+            <form action="/search" method="get">
+                <input type="text" name="query" value="{{ query }}" style="border: 1px solid #eee; border-radius: 8px; padding: 8px; width: 100%; display: inline-block;">
+                <!--input type="submit" value="Search"-->
+            </form>
+        </div>
+
+        <h2>Results</h2>
+        <br/>
+        {% if results %}
+            {% for category in results %}
+            {% if category.items %}
+            <h4>{{ category.name }}</h4>
+                <ul>
+                    {% for result in category.items %}
+                        <li>
+                            <a href="{% pageurl result %}">{{ result }}</a>
+                            {% if result.search_description %}
+                                {{ result.search_description|safe }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+        {% endif %}
+            {% endfor %}
+        {% elif search_query %}
+            No results found
+        {% else %}
+            Please type something into the search box
+        {% endif %}
+    </div>
+{% endblock %}

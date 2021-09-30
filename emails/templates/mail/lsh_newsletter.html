@@ -1,0 +1,47 @@
+{% extends "birdsong/mail/base_email.html" %}
+
+{% block email_body %}
+    <mj-section>
+      <mj-column>
+        <mj-image src="https://strafrecht-online.org/_style/kategorien/start.png" />
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column >
+        <mj-text align="center" font-weight="700" padding="0" font-size="24">
+        {% block email_name %}{% endblock %}
+        {{ self.name }}
+        </mj-text>
+        <mj-divider border-width="2" border-color="#616161"></mj-divider>
+        <mj-divider border-width="2" border-color="#616161" width="45"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <mj-section> 
+      <mj-column >
+        <mj-text>
+			{{ self.subject }}
+        </mj-text>
+        <mj-text>
+		{% for b in self.body %}
+			{{ b }}
+		{% endfor %}
+        </mj-text>
+    	<mj-divider border-width="2" border-color="#616161"></mj-divider>
+      </mj-column >
+    </mj-section>
+    <mj-section> 
+      <mj-column >
+        <mj-text>
+		<p>Bisherige Newsletter finden Sie hier:</p>
+		<p>https://strafrecht-online.org/newsletter/</p>
+		<p>Unter dem nachfolgenden Link k&ouml;nnen Sie Ihr Newsletter-Abonnement verwalten:</p>
+		<p>https://strafrecht-online.org/newsletter/verwaltung/#TOKEN</p>
+		<p>Roland Hefendehl</p>
+		<p>Institut f&uuml;r Kriminologie und Wirtschaftsstrafrecht</p>
+		<p>Tel.: +49 (0)761 / 203-2210</p>
+		<p>Mail: hefendehl@jura.uni-freiburg.de</p>
+		<p>Netz: https://strafrecht-online.org</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+{% endblock email_body %}

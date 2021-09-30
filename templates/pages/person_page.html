@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags website_tags %}
+
+{% block extra_css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/person_page.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/news_article_index_page.css' %}">
+{% endblock %}
+
+{% block body_class %}template-websitepage{% endblock %}
+
+{% block content %}
+	<div class="person-page">
+		<div class="row">
+			<div class="col-md-3">
+				{% image person.image width-240 %}
+			</div>
+			<div class="col-md-9">
+				<h2>{{ person.first_name }} {{ person.last_name }}</h2>
+				<p><i>{{ person.get_role_display }}</i></p>
+
+				<br><br>
+
+				<h4>Kontakt</h4>
+				<p>Telefon: {{ person.telephone }}</p>
+				<p>E-Mail: {{ person.email }}</p>
+				<p>Raum: {{ person.room }}</p>
+				
+				<br>
+				
+				<p class="richtext">{{ person.description|richtext }}</p>
+
+				<br><br>
+				<h3>News Articles</h3>
+
+				{% for group in groups %}
+					<div class="article-group" style="margin-bottom: 50px;">
+						<h3>{{ group.year }}</h3>
+
+						<div class="article-cards" style="display: flex;">
+							{% for article in group.articles %}
+							<div class="article-card">
+								<a href="{% pageurl article %}">{{ article.title }}</a>
+								<div>
+									<span class="meta badge badge-dark">{{ article.owner }}</span>
+									<span class="meta badge badge-light">{{ article.date }}</span>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
