@@ -31,16 +31,12 @@
     font-size: 1.2rem;
     font-weight: 800 !important;
 }
-#jurcoach-page h3.highlighted:after {
-    width: 100%;
-    height: 20px;
-    background: $bg-gray;
-    content: "";
-    display: block;
-    margin-top: -0.70em;
+#jurcoach-page h3.highlighted {
+    background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $bg-gray 14px, $bg-gray 32px);
+    line-height:32px !important;
 }
-#jurcoach-page h3.highlighted.green:after {
-    background: $green;
+#jurcoach-page h3.highlighted.green {
+    background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $green 14px, $green 32px);
 }
 #jurcoach-page section {
     display: flex;
