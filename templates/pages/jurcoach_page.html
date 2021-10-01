@@ -198,21 +198,23 @@
 	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 	<script>
-	$('.carousel').slick({
-	  autoplay: false,
-	  arrows: false,
-	  infinite: false,
-	  slidesToShow: 4,
-	  slidesToScroll: 1
-	});
-		
-	$('.carousel-prev').click(function(){ 
-		$(this).parent().find('.carousel').slick('slickPrev');
-	} );
-	
-	$('.carousel-next').click(function(e){
-		e.preventDefault(); 
-		$(this).parent().find('.carousel').slick('slickNext');
-	} );
+		jQuery(function($){
+			$('.carousel').slick({
+			  autoplay: false,
+			  arrows: false,
+			  infinite: false,
+			  slidesToShow: 4,
+			  slidesToScroll: 1
+			});
+
+			$('.carousel-prev').click(function(){ 
+				$(this).parent().find('.carousel').slick('slickPrev');
+			} );
+
+			$('.carousel-next').click(function(e){
+				e.preventDefault(); 
+				$(this).parent().find('.carousel').slick('slickNext');
+			} );
+		});
 	</script>
 {% endblock %}
