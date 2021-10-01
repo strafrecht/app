@@ -90,22 +90,6 @@
     max-width: 240px;
     text-align: left;
 }
-
-#jurcoach-page .person-wrapper {
-    background: gold;
-    border-radius: 100%;
-    position: relative;
-    height: 180px;
-    width: 180px;
-    overflow: hidden;
-}
-
-#jurcoach-page .person-wrapper img {
-    position: absolute;
-    bottom: -30px;
-    padding-top: 50px;
-    width: 180px !important;
-}
 #jurcoach-page .carousel-item div:nth-child(1) {
     margin-bottom: 40px;
 }
@@ -141,7 +125,8 @@
     padding: 30px;
     min-width: 220px;
 }
-#jurcoach-page .bottom-item .sidebar-poll h3 ~ * {
+#jurcoach-page .bottom-item .sidebar-poll h3,
+#jurcoach-page .bottom-item .sidebar-poll h3 b {
     font-size: 16px;
     font-weight: 800;
     font-family: $serif-font;
