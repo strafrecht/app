@@ -1,5 +1,7 @@
+$footer-height: 180px;
+
 footer {
-	min-height:200px;
+	min-height: $footer-height;
 	padding: 10px 0 10px 0;
 }
 footer .container {
@@ -7,7 +9,7 @@ footer .container {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	height: 200px;
+	height: $footer-height;
 }
 footer .container .flex-item {
 	width: 50%;
