@@ -17,6 +17,17 @@ footer .container .flex-item {
 		text-align: right;
 	}
 }
+footer .container .flex-item p.logo {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: $serif-font;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+footer .container .flex-item p.sublogo {
+    font-size: 0.8em;
+    margin-bottom: 0px;
+}
 footer .shortlinks a {
 	font-size: 14px;
 	color: #000000;
