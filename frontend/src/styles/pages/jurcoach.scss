@@ -141,7 +141,7 @@
     padding: 30px;
     min-width: 220px;
 }
-#jurcoach-page .bottom-item .sidebar-poll h3 {
+#jurcoach-page .bottom-item .sidebar-poll h3 ~ * {
     font-size: 16px;
     font-weight: 800;
     font-family: $serif-font;
