@@ -4,9 +4,6 @@
 * {
 	font-family: 'Roboto', sans-serif;
 }
-.brand {
-	font-family: 'Corporal' !important;
-}
 main.container {
 	margin-top: 40px;
 	max-width: 900px;
@@ -73,7 +70,6 @@ body .header-image .header-caption {
 	line-height: 21px;
 	font-size: 21px;
 	padding: 1px 7px;
-	font-family: "Corporal", sans-serif;
 	text-transform: uppercase;
 	opacity: 0.75;
 	font-weight: normal;
