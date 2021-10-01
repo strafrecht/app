@@ -45,7 +45,7 @@
 
 			<div>
 				<div class="carousel-wrapper">
-				<div class="carousel-navigation"><span class="carousel-prev"><</span> 1/2 <span class="carousel-next">></span></div>
+				<div class="carousel-navigation"><span class="carousel-prev"><</span> <span class="pagination"></span> <span class="carousel-next">></span></div>
 				  <div class="carousel">
 					<div class="carousel-item active">
 						<div>
@@ -199,7 +199,15 @@
 
 	<script>
 		jQuery(function($){
-			$('.carousel').slick({
+			var $status = $('.pagination');
+			var $slickElement = $('.carousel');
+			
+			$slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
+			  var i = (currentSlide ? currentSlide : 0) + 1;
+			  $status.text(i + '/' + slick.slideCount);
+			});
+			
+			$slickElement.slick({
 			  autoplay: false,
 			  arrows: false,
 			  infinite: false,
