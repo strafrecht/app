@@ -120,7 +120,11 @@
 	text-align: right;
 	font-size: 0.9em;
 }
-#jurcoach-page .carousel-navigation span:hover {
+#jurcoach-page .carousel-navigation .slider-pagination {
+	margin: 0px 3px;
+}
+#jurcoach-page .carousel-navigation .carousel-prev:hover,
+#jurcoach-page .carousel-navigation .carousel-next:hover {
 	cursor: pointer;
 }
 #jurcoach-page .bottom-item {
