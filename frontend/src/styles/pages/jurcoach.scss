@@ -141,6 +141,9 @@
     border: 0px;
     padding: 7px 10px;
     font-weight: bold;
+    &:hover {
+        background: #FFD800;
+    }
 }
 #jurcoach-page .bottom-item .sidebar-poll:before {
     color: #ffffff;
