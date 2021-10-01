@@ -20,7 +20,7 @@ footer .shortlinks, footer .socialmediaicons {
 footer .shortlinks a {
 	font-size: 14px;
 	color: #000000;
-	& :hover {
+	&:hover{
 		text-decoration:none;
 		color: #000000 !important;
 	}
@@ -32,7 +32,7 @@ footer .socialmediaicons a.social-media-icon {
 	text-decoration: none;
 	margin: 0px 2px;
 	color: #000000 !important;
-	& :hover {
+	&:hover{
 		text-decoration: none;
 		color: #999999 !important;
 	}
