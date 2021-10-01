@@ -142,6 +142,17 @@
     padding: 7px 10px;
     font-weight: bold;
 }
+#jurcoach-page .bottom-item .sidebar-poll:before {
+    color: #ffffff;
+    text-transform: uppercase;
+    content: 'Umfrage';
+    position: relative;
+    top: -40px;
+    background: #000000;
+    width: 80px;
+    text-align: center;
+    font-family: $serif-font;
+}
 #jurcoach-page .line {
     height: 20px;
     border-bottom: 3px solid;
