@@ -32,8 +32,12 @@
     font-weight: 800 !important;
 }
 #jurcoach-page h3.highlighted {
-    background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $bg-gray 14px, $bg-gray 32px);
-    line-height:32px !important;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, $bg-gray 14px, $bg-gray 32px);
+    line-height: 32px !important;
+    display: inline !important;
+    & + p {
+        margin-top: 8px;
+    }
 }
 #jurcoach-page h3.highlighted.green {
     background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $green 14px, $green 32px);
@@ -104,11 +108,13 @@
     padding-top: 50px;
     width: 180px !important;
 }
+#jurcoach-page .carousel-item div:nth-child(1) {
+    margin-bottom: 40px;
+}
 #jurcoach-page .carousel-item p {
     font-size: 13px;
     max-width: 280px;
 }
-
 #jurcoach-page .carousel-item a {
     color: black;
     font-weight: 700;
