@@ -1,7 +1,12 @@
 #jurcoach-page {
     width: 100%;
 }
-
+::selection {
+  background: $yellow;
+}
+::-moz-selection {
+  background: $yellow;
+}
 #jurcoach-page h1 {
     font-size: 24px;
     font-weight: 800;
