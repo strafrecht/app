@@ -8,9 +8,9 @@ footer .container {
 	flex-direction: row;
 	align-items: center;
 	height: 200px;
-	&.flex-item {
-		width: 50%;
-	}
+}
+footer .container .flex-item {
+	width: 50%;
 }
 footer .shortlinks, footer .socialmediaicons {
 	display: inline-block;
