@@ -1,4 +1,4 @@
-$footer-height: 180px;
+$footer-height: 130px;
 
 footer {
 	min-height: $footer-height;
@@ -24,6 +24,9 @@ footer .shortlinks a {
 		text-decoration: none;
 		color: #000000 !important;
 	}
+}
+footer .socialmediaicons {
+	margin-bottom: 20px;
 }
 footer .socialmediaicons a.social-media-icon {
 	font-size: 25px !important;
