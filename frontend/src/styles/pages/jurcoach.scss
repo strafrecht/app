@@ -74,7 +74,10 @@
     flex-direction: column;
     max-width: 1100px !important;
 }
-#jurcoach-page .jurcoach-logo {
+#jurcoach-page .logo-container {
+	position:absolute;
+}
+#jurcoach-page .logo-container .jurcoach-logo {
 	position:relative;
 	top:-100px;
 	content: '';
@@ -187,7 +190,7 @@
 #jurcoach-page .bottom-item .illustration-container {
 	position:absolute;
 }
-#jurcoach-page .bottom-item .poll-illustration {
+#jurcoach-page .bottom-item .illustration-container .poll-illustration {
 	position:relative;
 	width: 150px;
 	height: 220px;
