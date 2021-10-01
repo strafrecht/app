@@ -129,6 +129,19 @@
 #jurcoach-page .bottom-item .sidebar-poll h3 b {
     font-family: $serif-font;
 }
+#jurcoach-page .bottom-item .sidebar-poll form {
+    text-align: center;
+}
+#jurcoach-page .bottom-item .sidebar-poll form ul {
+    text-align: left;
+}
+#jurcoach-page .bottom-item .sidebar-poll form [type="submit"]:not(:disabled)  {
+    cursor: pointer;
+    background: $yellow;
+    border: 0px;
+    padding: 7px 10px;
+    font-weight: bold;
+}
 #jurcoach-page .line {
     height: 20px;
     border-bottom: 3px solid;
