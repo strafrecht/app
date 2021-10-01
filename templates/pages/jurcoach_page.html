@@ -45,7 +45,7 @@
 
 			<div>
 				<div class="carousel-wrapper">
-				<div class="carousel-navigation"><a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev"><</a> 1/2 <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">></a></div>
+				<div class="carousel-navigation"><span class="carousel-prev"><</span> 1/2 <span class="carousel-next">></span></div>
 				  <div class="carousel">
 					<div class="carousel-item active">
 						<div>
@@ -199,11 +199,20 @@
 
 	<script>
 	$('.carousel').slick({
-	  autoplay: true,
-	  autoplaySpeed: 2000,
+	  autoplay: false,
+	  arrows: false,
 	  infinite: false,
 	  slidesToShow: 4,
 	  slidesToScroll: 1
 	});
+		
+	$('.carousel-prev').click(function(){ 
+		$(this).parent().find('.carousel').slick('slickPrev');
+	} );
+	
+	$('.carousel-next').click(function(e){
+		e.preventDefault(); 
+		$(this).parent().find('.carousel').slick('slickNext');
+	} );
 	</script>
 {% endblock %}
