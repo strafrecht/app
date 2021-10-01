@@ -128,12 +128,29 @@
 #jurcoach-page .bottom-item .sidebar-poll h3,
 #jurcoach-page .bottom-item .sidebar-poll h3 b {
     font-family: $serif-font;
+    margin-top: -25px;
 }
 #jurcoach-page .bottom-item .sidebar-poll form {
     text-align: center;
 }
 #jurcoach-page .bottom-item .sidebar-poll form ul {
     text-align: left;
+}
+#jurcoach-page .sidebar-poll label {
+	display: inline-block;
+}
+#jurcoach-page .sidebar-poll li {
+	margin-bottom: 1rem;
+}
+#jurcoach-page .sidebar-poll .question {
+	display: flex;
+	font-size: 13px;
+	font-weight: 400;
+	color: #555;
+}
+#jurcoach-page .sidebar-poll .question input {
+	margin-right: 10px;
+	margin-top: 3px;
 }
 #jurcoach-page .bottom-item .sidebar-poll form [type="submit"]:not(:disabled)  {
     cursor: pointer;
