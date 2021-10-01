@@ -8,20 +8,20 @@ footer .container {
 	flex-direction: row;
 	align-items: center;
 	height: 200px;
-}
-footer .container .flex-item {
-	width: 50 %;
+	&.flex-item {
+		width: 50%;
+	}
 }
 footer .shortlinks, footer .socialmediaicons {
 	display: inline-block;
 	margin: 0 15px 0 0;
-	float:right;
+	float: right;
 }
 footer .shortlinks a {
 	font-size: 14px;
 	color: #000000;
 	&:hover{
-		text-decoration:none;
+		text-decoration: none;
 		color: #000000 !important;
 	}
 }
