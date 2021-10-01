@@ -168,6 +168,34 @@
 						<span class="underlined hover">Profil anlegen</span> <i class="bi bi-arrow-right"></i>
 					</a>
 				</div>
+				<div class="bottom-item">
+					<div class="sidebar sidebar-poll poll">
+						<h3><b>Kurzfälle</b></h3>
+						<form id="poll" class="poll" method="POST" action="/vote/1/">
+							<input type="hidden" name="csrfmiddlewaretoken" value="abcde">
+							<label for="id_question_0"></label><ul id="id_question">
+							<li><label for="id_question_0"><input type="radio" name="question" value="1" required="" id="id_question_0">
+							 Nutze ich regelmäßig</label>
+
+							</li>
+							    <li><label for="id_question_1"><input type="radio" name="question" value="2" required="" id="id_question_1">
+							 Nutze ich gelegentlich</label>
+
+							</li>
+							    <li><label for="id_question_2"><input type="radio" name="question" value="3" required="" id="id_question_2">
+							 Nutze ich überhaupt nicht</label>
+
+							</li>
+							    <li><label for="id_question_3"><input type="radio" name="question" value="4" required="" id="id_question_3">
+							 Was sind Kurzfälle?</label>
+
+							</li>
+							</ul>
+						<input type="submit" value="Abstimmen" class="poll-vote-button">
+						</form>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
