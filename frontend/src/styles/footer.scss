@@ -1,5 +1,17 @@
 $footer-height: 130px;
 
+@font-face {
+  font-family: "Corporal";
+  src: url("//strafrecht-online.org/fonts/corporal/corporal-webfont.eot");
+  src: url("//strafrecht-online.org/fonts/corporal/corporal-webfont.eot?#iefix") format("embedded-opentype"),
+    url("//strafrecht-online.org/fonts/corporal/corporal-webfont.woff2") format("woff2"),
+    url("//strafrecht-online.org/fonts/corporal/corporal-webfont.woff") format("woff"),
+    url("//strafrecht-online.org/fonts/corporal/corporal-webfont.ttf") format("truetype"),
+    url("//strafrecht-online.org/fonts/corporal/corporal-webfont.svg#corporal_jnlregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
 footer {
 	min-height: $footer-height;
 	padding: 10px 0 10px 0;
@@ -20,7 +32,7 @@ footer .container .flex-item {
 footer .container .flex-item p.logo {
     text-transform: uppercase;
     font-weight: 600;
-    font-family: $serif-font;
+    font-family: "Corporal";
     font-size: 1.2em;
     margin-bottom: 10px;
 }
