@@ -190,7 +190,7 @@
 			
 			$slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
 				if ((currentSlide == 0) || (currentSlide === undefined)) {
-					var i = currentSlide;
+					var i = 1;
 					console.log('1 and slide is ' + currentSlide);
 				} else if (currentSlide > 0 && currentSlide < 5) {
 					var i = 2;
