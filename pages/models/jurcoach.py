@@ -19,6 +19,6 @@ class JurcoachPage(Page):
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('header'),
-        SidebarPollChooser()
+        SidebarPollChooser('poll')
     ]
     
