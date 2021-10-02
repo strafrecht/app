@@ -8,7 +8,7 @@ from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey
 
 class JurcoachCarousel(Orderable):
-    page = ParentalKey("JurcoachPage", related_name="jurcoach_carousel")
+    page = ParentalKey("pages.models.JurcoachPage", related_name="jurcoach_carousel")
     illustration_choices = [
         ('falltraining', 'Falltraining'),
         ('wiki', 'Problemfeldwiki'),
@@ -43,8 +43,8 @@ class JurcoachPage(Page):
     content_panels = Page.content_panels + [
         ImageChooserPanel('header'),
         MultiFieldPanel(
-            [InlinePanel(JurcoachCarousel, max_num=10, min_num=1, label="Slide")],
-            heading="Slider",
+            [InlinePanel('jurcoach_carousel', max_num=10, min_num=1, label='Slide')],
+            heading='Slider',
         ),
     ]
     
