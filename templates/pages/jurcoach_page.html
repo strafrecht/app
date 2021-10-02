@@ -55,8 +55,8 @@
 			<div class="container" style="display: flex; flex-direction: row; align-items: center; text-align: left;">
 				<div class="person contribute"></div>
 				<div class="">
-					<h3 class="highlighted green" style="font-size: 18px; font-weight: 800; display: inline-block;">Selbst etwas beitragen</h3>
-					<p style="font-size: 14px;">Egal ob Falltraining oder Wikieintrag – wir freuen sehr uns über Deine Mitarbeit. Keine Sorge: Die Inhalte werden nicht direkt online gestellt. Alles wird zunächst durch unsere Experten geprüft, ggf. redigiert und erst dann veröffentlicht. Selbstverständlich anonym.</p>
+					<h3 class="highlighted green" style="font-size: 18px; font-weight: 800; display: inline-block;">{{ self.contribution_headline }}</h3>
+					<p style="font-size: 14px;">{{ self.contribution_description | richtext }}</p>
 					<div style="font-size: 14px; font-weight: 600;">
 						<a href="" style="margin-right: 20px;"><span class="underlined hover green">Neuen Fall eintragen</span> <i class="bi bi-arrow-right"></i></a>
 						<a href="" style="margin-right: 20px;"><span class="underlined hover green">Wikieintrag erstellen</span> <i class="bi bi-arrow-right"></i></a>
