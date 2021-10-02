@@ -5,7 +5,9 @@ from wagtail.core.fields import RichTextField
 from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel
-
+from pages.models.sidebar import (
+    SidebarPollChooser,
+)
 
 class JurcoachPage(Page):
     body = RichTextField(blank=True)
@@ -20,4 +22,6 @@ class JurcoachPage(Page):
     content_panels = Page.content_panels + [
         ImageChooserPanel('header')
     ]
-
+    
+    sidebar_poll = SidebarPollChooser()
+    
