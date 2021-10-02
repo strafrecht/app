@@ -11,7 +11,7 @@ from wagtailpolls.models import Poll
 
 
 class PollChooser():
-    poll = ModelChooserBlock('wagtailpolls.Poll')
+    poll = ModelChooserPanel('wagtailpolls.Poll')
 
     class Meta:
         template = 'blocks/sidebar/poll.html'
