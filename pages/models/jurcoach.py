@@ -15,7 +15,7 @@ class JurcoachFooter(Orderable):
     footeritem_linkurl = models.CharField(max_length=200, null=True, blank=True)
 
     panels = [FieldPanel('footeritem_headline', classname="col-12"),
-             FieldPanel('footeritem_headline', classname="col-12"),
+             FieldPanel('footeritem_text', classname="col-12"),
              FieldPanel('footeritem_linktext', classname="col-12"),
              FieldPanel('footeritem_linkurl', classname="col-12"),]
 
