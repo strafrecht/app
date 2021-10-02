@@ -11,7 +11,7 @@ class JurcoachCarousel(Orderable):
     page = ParentalKey('pages.JurcoachPage', related_name='jurcoachcarousel')
     illustration_choices = [
         ('falltraining', 'Falltraining'),
-        ('wiki', 'Problemfeldwiki'),
+        ('wiki', 'Problemfeld-Wiki'),
         ('mct', 'Multiple-Choice-Test'),
         ('klausurdatenbank', 'Klausurdatenbank'),
         ('rechtsprechung', 'Höchstrichterliche Rechtsprechung'),
@@ -21,13 +21,11 @@ class JurcoachCarousel(Orderable):
         max_length=255,
         blank=True
     )
-    carousel_headline = models.CharField(max_length=200, null=True, blank=True)
     carousel_description = RichTextField(null=True, blank=True)
     carousel_link_text = models.CharField(max_length=200, null=True, blank=True)
     carousel_link_url = models.CharField(max_length=250, null=True, blank=True)
 
     panels = [FieldPanel('illustration', classname="col-12"),
-             FieldPanel('carousel_headline', classname="col-12"),
              FieldPanel('carousel_description', classname="col-12"),
              FieldPanel('carousel_link_text', classname="col-12"),
              FieldPanel('carousel_link_url', classname="col-12"),]
