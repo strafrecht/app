@@ -32,7 +32,7 @@
     background: $bg-gray;
     content: "";
     display: block;
-    margin-top: -0.72em;
+    margin-top: -.72em;
 }
 #jurcoach-page h3 {
     display: inline-block;
@@ -54,10 +54,10 @@
     background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $green 14px, $green 32px);
 }
 #jurcoach-page .underlined {
-    $border-bottom: 4px solid white;
+    $border-bottom: 4px solid #fff;
     border-bottom: $border-bottom;
     &.hover {
-        border-bottom: 0px;
+        border-bottom: 0;
         &:hover{
             border-bottom: $border-bottom;
             &.yellow {
@@ -106,10 +106,10 @@
 }
 #jurcoach-page .carousel-navigation {
 	text-align: right;
-	font-size: 0.9em;
+	font-size: .9em;
 }
 #jurcoach-page .carousel-navigation .slider-pagination {
-	margin: 0px 10px;
+	margin: 0 10px;
 }
 #jurcoach-page .carousel-navigation .carousel-prev:hover,
 #jurcoach-page .carousel-navigation .carousel-next:hover {
@@ -133,8 +133,8 @@
     font-size: 14px;
 }
 #jurcoach-page .bottom-item .sidebar-poll {
-    background: #ffffff;
-    box-shadow: 3px 3px 0px #000000;
+    background: #fff;
+    box-shadow: 3px 3px 0 #000;
     padding: 30px;
     min-width: 220px;
 }
@@ -152,7 +152,7 @@
 #jurcoach-page .bottom-item .sidebar-poll form [type="submit"]:not(:disabled)  {
     cursor: pointer;
     background: $yellow;
-    border: 0px;
+    border: 0;
     padding: 7px 10px;
     width: 100%;
     font-weight: bold;
@@ -161,7 +161,7 @@
     }
 }
 #jurcoach-page .bottom-item .sidebar-poll:before {
-    color: #ffffff;
+    color: #fff;
     font-family: $serif-font;
     font-weight: 600;
     text-align: center;
@@ -169,13 +169,13 @@
     content: 'Umfrage';
     position: relative;
     top: -40px;
-    background: #000000;
+    background: #000;
     width: 80px;
 }
 #jurcoach-page .illustration-container {
 	position:absolute;
-	height: 0px;
-	margin: 0px;
+	height: 0;
+	margin: 0;
 }
 #jurcoach-page .illustration-container .jurcoach-logo {
 	position:relative;
@@ -239,7 +239,7 @@
     left: 100px;
 }
 #jurcoach-page .triangle {
-    background: white;
+    background: #fff;
     border: 3px solid;
     border-color: $line-gray;
     border-width: 3px 3px 0 0;
