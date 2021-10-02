@@ -24,11 +24,13 @@ class JurcoachCarousel(Orderable):
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
     carousel_description = RichTextField(null=True, blank=True)
     carousel_link_text = models.CharField(max_length=200, null=True, blank=True)
+    carousel_link_url = models.CharField(max_length=250, null=True, blank=True)
 
     panels = [FieldPanel('illustration', classname="col-12"),
              FieldPanel('carousel_headline', classname="col-12"),
              FieldPanel('carousel_description', classname="col-12"),
-             FieldPanel('carousel_link_text', classname="col-12"),]
+             FieldPanel('carousel_link_text', classname="col-12"),
+             FieldPanel('carousel_link_url', classname="col-12"),]
 
 class JurcoachPage(Page):
     body = RichTextField(blank=True)
