@@ -1,6 +1,11 @@
 #jurcoach-page {
     width: 100%;
 }
+#jurcoach-page .container a {
+    color: #333 !important;
+    font-weight: 700;
+    font-size: 14px;
+}
 ::selection {
   background: $yellow;
 }
@@ -115,11 +120,6 @@
 #jurcoach-page .carousel-item p {
     font-size: 13px;
     max-width: 280px;
-}
-#jurcoach-page .carousel-item a {
-    color: black;
-    font-weight: 700;
-    font-size: 14px;
 }
 #jurcoach-page .carousel-navigation {
 	text-align: right;
