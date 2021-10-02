@@ -49,11 +49,11 @@
 				  <div class="carousel">
 					     {% for slide in self.jurcoachcarousel.all %}
 					 <div class="carousel-item">
-					  <div class="person "></div>
-						<h3 class="highlighted">{% slide.carousel_headline %}</h3>
-						{% slide.carousel_description %}
+					  <div class="person {{ slide.illustration }}"></div>
+						<h3 class="highlighted">{{ slide.carousel_headline }}</h3>
+						{{ slide.carousel_description }}
 						<a href="#">
-							<span class="underlined hover yellow">{% slide.link_text %}</span> <i class="bi bi-arrow-right"></i>
+							<span class="underlined hover yellow">{{ slide.link_text }}</span> <i class="bi bi-arrow-right"></i>
 						</a>
 					</div>
 					    {% endfor %}
