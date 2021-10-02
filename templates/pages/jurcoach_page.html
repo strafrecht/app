@@ -20,9 +20,10 @@
 			<div class="container" style="max-width:700px !important;">
 				<div class="illustration-container"><div class="jurcoach-logo"></div></div>
 				<div class="h2-wrapper">
-					<h2 style="margin-bottom: 50px;">Das ist Jurcoach</h2>
+					<h2 style="margin-bottom: 50px;">{{ self.intro_headline }}</h2>
 				</div>
 
+				{{ self.intro_text | richtext }}
 				<p>
 					Wir möchten unseren NutzerInnen Trainingsmöglichkeiten bieten, die möglichst viele Anforderungen im Jurastudium simulieren. Wer sie durchläuft, coacht sich also selbst.
 				</p>
