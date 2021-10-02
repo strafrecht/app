@@ -47,6 +47,16 @@
 				<div class="carousel-wrapper">
 				<div class="carousel-navigation"><span class="carousel-prev"><i class="bi bi-chevron-left"></i></span> <span class="slider-pagination"></span> <span class="carousel-next"><i class="bi bi-chevron-right"></i></span></div>
 				  <div class="carousel">
+					     {% for slide in self.jurcoachcarousel.all %}
+					 <div class="carousel-item">
+					  <div class="person {% slide.illustration %}"></div>
+						<h3 class="highlighted">{% slide.carousel_headline %}</h3>
+						{% slide.carousel_description %}
+						<a href="#">
+							<span class="underlined hover yellow">{% slide.link_text %}</span> <i class="bi bi-arrow-right"></i>
+						</a>
+					</div>
+					    {% endfor %}
 					<div class="carousel-item active">
 						<div class="person falltraining"></div>
 						<h3 class="highlighted">Falltraining</h3>
