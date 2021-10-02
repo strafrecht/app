@@ -5,7 +5,6 @@ from wagtail.core.fields import RichTextField
 from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel
-from wagtailpolls.widgets import AdminPollChooser
 
 
 class JurcoachPage(Page):
@@ -20,6 +19,5 @@ class JurcoachPage(Page):
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('header'),
-        AdminPollChooser()
     ]
     
