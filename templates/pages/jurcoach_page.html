@@ -51,7 +51,7 @@
 					 <div class="carousel-item">
 					  <div class="person {{ slide.illustration }}"></div>
 						<h3 class="highlighted">{{ slide.carousel_headline }}</h3>
-						{{ slide.carousel_description }}
+						{{ slide.carousel_description | richtext }}
 						<a href="#">
 							<span class="underlined hover yellow">{{ slide.link_text }}</span> <i class="bi bi-arrow-right"></i>
 						</a>
