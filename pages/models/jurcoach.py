@@ -22,7 +22,7 @@ class JurcoachCarousel(Orderable):
         blank=True
     )
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
-    carousel_description = RichTextField(blank=True, blank=True)
+    carousel_description = RichTextField(null=True, blank=True)
     carousel_link_text = models.CharField(max_length=200, null=True, blank=True)
 
     panels = [FieldPanel('illustration', classname="col-12"),
