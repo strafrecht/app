@@ -13,7 +13,7 @@ class JurcoachCarousel(Orderable):
         ('falltraining', 'Falltraining'),
         ('wiki', 'Problemfeldwiki'),
         ('mct', 'Multiple-Choice-Test'),
-        ('klausurdatenbank', 'klausurdatenbank'),
+        ('klausurdatenbank', 'Klausurdatenbank'),
         ('rechtsprechung', 'Höchstrichterliche Rechtsprechung'),
     ]
     illustration = models.CharField(
