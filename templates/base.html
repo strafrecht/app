@@ -78,17 +78,8 @@
 			<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
 				{% if page.slug == "juracoach" %}
 				<div class="container header-text">
-					<h2>{{ page.header_headline | richtext }}<br/>
-						Mach dich fit
-						<br/>
-						für dein Jurastudium!
-						</p>
-					</h2>
-					<p>{{ page.header_slogan | richtext }}
-						Trainiere deine Fähigkeiten lorem ipsum dolor sit amet,
-						<br/>
-						consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-					</p>
+					<h2>{{ page.header_headline | richtext }}</h2>
+					{{ page.header_slogan | richtext }}
 				</div>
 				{% endif %}
 			</div>
