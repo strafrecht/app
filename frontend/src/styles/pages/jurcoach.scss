@@ -100,9 +100,6 @@
     max-width: 240px;
     text-align: left;
 }
-#jurcoach-page .carousel-item div:nth-child(1) {
-    margin-bottom: 40px;
-}
 #jurcoach-page .carousel-item p {
     font-size: 13px;
     max-width: 280px;
@@ -217,6 +214,7 @@
 #jurcoach-page .carousel-item .person {
 	width: 200px;
 	height: 266px;
+	margin-bottom: 40px;
 	background-repeat: no-repeat;
 }
 #jurcoach-page .carousel-item .person.falltraining {
