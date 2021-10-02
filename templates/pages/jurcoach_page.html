@@ -36,19 +36,16 @@
 				<div class="carousel-wrapper">
 				<div class="carousel-navigation"><span class="carousel-prev"><i class="bi bi-chevron-left"></i></span> <span class="slider-pagination"></span> <span class="carousel-next"><i class="bi bi-chevron-right"></i></span></div>
 				  <div class="carousel">
-					     {% for slide in self.jurcoachcarousel.all %}
-					 <div class="carousel-item">
-					  <div class="person {{ slide.illustration }}"></div>
+					    {% for slide in self.jurcoachcarousel.all %}
+					    <div class="carousel-item">
+						<div class="person {{ slide.illustration }}"></div>
 						<h3 class="highlighted">{{ slide.get_illustration_display }}</h3>
-						{{ slide.carousel_description | richtext }}
-					{% if slide.carousel_link_text %}
-						<a href="{{ slide.carousel_link_url }}">
-							<span class="underlined hover yellow">{{ slide.carousel_link_text }}</span> <i class="bi bi-arrow-right"></i>
-						</a>
-					{% endif %}
-					</div>
+						{{ slide.carousel_description | richtext }} {% if slide.carousel_link_text %}
+						<a href="{{ slide.carousel_link_url }}"> <span class="underlined hover yellow">{{ slide.carousel_link_text }}</span> <i class="bi bi-arrow-right"></i> </a>
+						{% endif %}
+					    </div>
 					    {% endfor %}
-					<div class="carousel-item active">
+					    <div class="carousel-item active">
 						<div class="person falltraining"></div>
 						<h3 class="highlighted">Falltraining</h3>
 						<p>Erfolgreiche Klausurbearbeitung durch unser Simulationsmodul lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
