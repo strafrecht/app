@@ -189,9 +189,9 @@
 			var $slickElement = $('.carousel');
 			
 			$slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
-				if (currentSlide == 1) {
+				if (currentSlide == 0) {
 					var i = currentSlide;
-				} else if (currentSlide > 1 && currentSlide < 8) {
+				} else if (currentSlide > 0 && currentSlide < 8) {
 					var i = 2;
 				} else {
 					var i = 3;
