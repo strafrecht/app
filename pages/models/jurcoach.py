@@ -59,7 +59,7 @@ class JurcoachPage(Page):
         ),
         MultiFieldPanel(
             [FieldPanel('carousel_headline', classname="col-12"),
-            InlinePanel('jurcoachcarousel', max_num=10, min_num=0, label='Slide')]
+            InlinePanel('jurcoachcarousel', max_num=10, min_num=0, label='Slide')],
             heading='Slider',
         ),
     ]
