@@ -42,5 +42,9 @@ class JurcoachPage(Page):
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('header'),
+        MultiFieldPanel(
+            [InlinePanel("jurcoach_carousel", max_num=10, min_num=1, label="Slide")],
+            heading="Slider",
+        ),
     ]
     
