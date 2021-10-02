@@ -49,8 +49,8 @@
 				  <div class="carousel">
 					     {% for slide in self.jurcoachcarousel.all %}
 					 <div class="carousel-item">
-					  <div class="person {{ slide.get_illustration_display }}"></div>
-						<h3 class="highlighted">{{ slide.carousel_headline }}</h3>
+					  <div class="person {{ slide.illustration }}"></div>
+						<h3 class="highlighted">{{ slide.get_illustration_display }}</h3>
 						{{ slide.carousel_description | richtext }}
 					{% if slide.carousel_link_text %}
 						<a href="{{ slide.carousel_link_url }}">
