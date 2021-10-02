@@ -1,11 +1,34 @@
 from django.db import models
 
-from wagtail.core.models import Page
+from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
 from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel
+from modelcluster.fields import ParentalKey
 
+class JurcoachCarousel(Orderable):
+    page = ParentalKey("JurcoachPage", related_name="jurcoach_carousel")
+    illustration_choices = [
+        ('falltraining', 'Falltraining'),
+        ('wiki', 'Problemfeldwiki'),
+        ('mct', 'Multiple-Choice-Test'),
+        ('klausurdatenbank', 'klausurdatenbank'),
+        ('rechtsprechung', 'Höchstrichterliche Rechtsprechung'),
+    ]
+    illustration = models.CharField(
+        choices=illustration_choices,
+        max_length=255,
+        blank=True
+    )
+    carousel_headline = models.CharField(max_length=200, null=True, blank=True)
+    carousel_description = RichTextField(blank=True)
+    carousel_link_text = models.CharField(max_length=200, null=True, blank=True)
+
+    panels = [FieldPanel('illustration', classname="col-12"),
+             FieldPanel('carousel_headline', classname="col-12"),
+             FieldPanel('carousel_description', classname="col-12"),
+             FieldPanel('carousel_link_text', classname="col-12"),]
 
 class JurcoachPage(Page):
     body = RichTextField(blank=True)
