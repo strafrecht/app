@@ -22,7 +22,7 @@ class JurcoachCarousel(Orderable):
         blank=True
     )
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
-    carousel_description = RichTextField(blank=True)
+    carousel_description = RichTextField(blank=True, blank=True)
     carousel_link_text = models.CharField(max_length=200, null=True, blank=True)
 
     panels = [FieldPanel('illustration', classname="col-12"),
@@ -43,7 +43,7 @@ class JurcoachPage(Page):
     content_panels = Page.content_panels + [
         ImageChooserPanel('header'),
         MultiFieldPanel(
-            [InlinePanel('jurcoachcarousel', max_num=10, min_num=1, label='Slide')],
+            [InlinePanel('jurcoachcarousel', max_num=10, min_num=0, label='Slide')],
             heading='Slider',
         ),
     ]
