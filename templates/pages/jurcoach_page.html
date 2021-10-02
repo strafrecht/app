@@ -189,7 +189,14 @@
 			var $slickElement = $('.carousel');
 			
 			$slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
-			  var i = (currentSlide ? currentSlide : 0) + 1;
+				if (currentSlide == 1) {
+					var i = currentSlide;
+				} else if (currentSlide > 1 && currentSlide < 8) {
+					var i = 2;
+				} else {
+					var i = 3;
+				}
+			  // var i = ( ? currentSlide : 0) + 1;
 			  $status.text(i + '/' + 2);
 			});
 			
