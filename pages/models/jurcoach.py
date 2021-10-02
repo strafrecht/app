@@ -7,6 +7,18 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey
 
+class JurcoachFooter(Orderable):
+    page = ParentalKey('pages.JurcoachPage', related_name='jurcoachfooter')
+    footeritem_headline = models.CharField(max_length=200, null=True, blank=True)
+    footeritem_text = RichTextField(null=True, blank=True)
+    footeritem_linktext = models.CharField(max_length=200, null=True, blank=True)
+    footeritem_linkurl = models.CharField(max_length=200, null=True, blank=True)
+
+    panels = [FieldPanel('footeritem_headline', classname="col-12"),
+             FieldPanel('footeritem_headline', classname="col-12"),
+             FieldPanel('footeritem_linktext', classname="col-12"),
+             FieldPanel('footeritem_linkurl', classname="col-12"),]
+
 class JurcoachCarousel(Orderable):
     page = ParentalKey('pages.JurcoachPage', related_name='jurcoachcarousel')
     illustration_choices = [
@@ -44,6 +56,8 @@ class JurcoachPage(Page):
     intro_headline = models.CharField(max_length=200, null=True, blank=True)
     intro_text = RichTextField(blank=True)
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
+    contribution_headline = models.CharField(max_length=200, null=True, blank=True)
+    contribution_description = RichTextField(null=True, blank=True)
      
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -61,6 +75,15 @@ class JurcoachPage(Page):
             [FieldPanel('carousel_headline', classname="col-12"),
             InlinePanel('jurcoachcarousel', max_num=10, min_num=0, label='Slide')],
             heading='Slider',
+        ),
+        MultiFieldPanel(
+            [FieldPanel('contribution_headline', classname="col-12"),
+            FieldPanel('contribution_description', classname="col-12")],
+            heading='Mitmachfunktionen',
+        ),
+        MultiFieldPanel(
+            [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column')],
+            heading='Footer',
         ),
     ]
     
