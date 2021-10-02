@@ -115,6 +115,14 @@
 
 		<section class="text-center" style="background: #EEEDE8; margin-top: 50px; padding: 50px 0;">
 			<div class="container" style="display: flex; flex-direction: row;">
+				{% for column in self.jurcoachfooter.all %}
+				<div class="bottom-item">
+					<h3>{{ column.footeritem_headline }}</h3>
+					{{ column.footeritem_text | richtext }}
+					<a href="{{ column.footeritem_headline }}"><span class="underlined hover">{{ column.footeritem_headline }}</span> <i class="bi bi-arrow-right"></i>
+					</a>
+				</div>
+				{% endfor %}
 				<div class="bottom-item">
 					<h3>
 						Befragung zur Nutzung des Jurcoach-Falltrainings
