@@ -39,11 +39,27 @@ class JurcoachPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-
+    header_headline = RichTextField(blank=True)
+    header_slogan = RichTextField(blank=True)
+    intro_headline = models.CharField(max_length=200, null=True, blank=True)
+    intro_text = RichTextField(blank=True)
+    carousel_headline = models.CharField(max_length=200, null=True, blank=True)
+     
     content_panels = Page.content_panels + [
-        ImageChooserPanel('header'),
         MultiFieldPanel(
-            [InlinePanel('jurcoachcarousel', max_num=10, min_num=0, label='Slide')],
+            [ImageChooserPanel('header'),
+            FieldPanel('header_headline', classname="col-12"),
+            FieldPanel('header_slogan', classname="col-12")],
+            heading='Header',
+        ),
+        MultiFieldPanel(
+            [FieldPanel('intro_headline', classname="col-12"),
+            FieldPanel('intro_text', classname="col-12")],
+            heading='Intro',
+        ),
+        MultiFieldPanel(
+            [FieldPanel('carousel_headline', classname="col-12"),
+            InlinePanel('jurcoachcarousel', max_num=10, min_num=0, label='Slide')]
             heading='Slider',
         ),
     ]
