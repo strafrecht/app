@@ -189,7 +189,7 @@
 			var $slickElement = $('.carousel');
 			
 			$slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
-				if ((currentSlide == 0) OR (currentSlide === undefined)) {
+				if ((currentSlide == 0) || (currentSlide === undefined)) {
 					var i = currentSlide;
 					console.log('1 and slide is ' + currentSlide);
 				} else if (currentSlide > 0 && currentSlide < 5) {
