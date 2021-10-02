@@ -189,15 +189,15 @@
 			var $slickElement = $('.carousel');
 			
 			$slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
-				if (currentSlide == 0) {
+				if ((currentSlide == 0) OR (currentSlide === undefined)) {
 					var i = currentSlide;
-					console.log('1' + currentSlide);
-				} else if (currentSlide > 0 && currentSlide < 8) {
+					console.log('1 and slide is ' + currentSlide);
+				} else if (currentSlide > 0 && currentSlide < 5) {
 					var i = 2;
-					console.log('2' + currentSlide);
+					console.log('2 and slide is ' + currentSlide);
 				} else {
 					var i = 3;
-					console.log('3' + currentSlide);
+					console.log('3 and slide is ' + currentSlide);
 				}
 			  // var i = ( ? currentSlide : 0) + 1;
 			  $status.text(i + '/' + 2);
