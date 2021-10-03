@@ -79,7 +79,7 @@
 				{% endfor %}
 				<div class="bottom-item">
 					{% if self.poll %}
-					<div class="jurcoach-poll">
+					<div class="sidebar sidebar-poll poll jurcoach-poll">
 						<h3>{{ self.poll.title }}</h3>
 						<form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
 							{% csrf_token %}
