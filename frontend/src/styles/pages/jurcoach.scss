@@ -204,6 +204,29 @@
     background: #000;
     width: 80px;
 }
+#jurcoach-page .bottom-item .jurcoach-poll .answers {
+	margin-top: 10px;
+	text-align: left;
+}
+#jurcoach-page .bottom-item .jurcoach-poll .answers .answer:not(:last-child) {
+	margin-bottom: 10px;
+}
+#jurcoach-page .bottom-item .jurcoach-poll .answers .answer .bar {
+	width: 100%;
+	display: flex;
+	margin-bottom: 8px;
+}
+#jurcoach-page .bottom-item .jurcoach-poll .answers .answer .bar > div {
+	background: $yellow;
+	max-height: 22px;
+	margin-right: 5px;
+}
+#jurcoach-page .bottom-item .jurcoach-poll .answers .answer .bar > span {
+	float: right;
+	font-weight: bold;
+	min-width: 70px;
+	white-space: nowrap;
+}
 #jurcoach-page .illustration-container {
 	position:absolute;
 	height: 0;
