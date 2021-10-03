@@ -6,7 +6,9 @@ from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey
-from pages.models.sidebar import SidebarPollChooser
+from wagtailmodelchooser.blocks import ModelChooserBlock
+from wagtailmodelchooser.edit_handlers import ModelChooserPanel
+from wagtailpolls.models import Poll
 
 class JurcoachFooter(Orderable):
     page = ParentalKey('pages.JurcoachPage', related_name='jurcoachfooter')
@@ -42,7 +44,18 @@ class JurcoachCarousel(Orderable):
              FieldPanel('carousel_description', classname="col-12"),
              FieldPanel('carousel_link_text', classname="col-12"),
              FieldPanel('carousel_link_url', classname="col-12"),]
+    
+class JurcoachPollChooser(blocks.StructBlock):
+    poll = ModelChooserBlock('wagtailpolls.Poll')
 
+    class Meta:
+        template = 'blocks/sidebar/poll.html'
+
+    def get_context(self, value, parent_context=None):
+        ctx = super().get_context(value, parent_context=parent_context)
+        ctx['page'] = {'poll': Poll.objects.get(id=1)}
+        return ctx
+    
 class JurcoachPage(Page):
     body = RichTextField(blank=True)
     header = models.ForeignKey(
@@ -59,7 +72,7 @@ class JurcoachPage(Page):
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_description = RichTextField(null=True, blank=True)
-    footer_poll = SidebarPollChooser()
+    footer_poll = JurcoachPollChooser()
     
     content_panels = Page.content_panels + [
         MultiFieldPanel(
