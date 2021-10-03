@@ -148,6 +148,12 @@
 #jurcoach-page .bottom-item .jurcoach-poll form {
     text-align: center;
 }
+#jurcoach-page .bottom-item .jurcoach-poll form {
+    text-align: center;
+}
+#jurcoach-page .bottom-item .jurcoach-poll form label:nth-child(1) {
+    display: none;
+}
 #jurcoach-page .bottom-item .jurcoach-poll form ul {
     text-align: left;
 }
