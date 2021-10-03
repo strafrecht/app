@@ -73,7 +73,6 @@ class JurcoachPage(Page):
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_description = RichTextField(null=True, blank=True)
-    footer_poll = JurcoachPollChooser()
     
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -99,7 +98,7 @@ class JurcoachPage(Page):
         ),
         MultiFieldPanel(
             [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column'),
-             FieldPanel('footer_poll', classname="col-12")],
+             JurcoachPollChooser(classname="col-12")],
             heading='Footer',
         ),
     ]
