@@ -5,6 +5,7 @@ from wagtail.core.fields import RichTextField
 from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel
+from wagtailmodelchooser.edit_handlers import ModelChooserPanel
 from modelcluster.fields import ParentalKey
 from wagtailpolls.models import Poll
 
@@ -96,7 +97,7 @@ class JurcoachPage(Page):
         ),
         MultiFieldPanel(
             [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column'),
-             FieldPanel('poll')],
+             ModelChooserPanel('poll')],
             heading='Footer',
         ),
     ]
