@@ -44,19 +44,6 @@ class JurcoachCarousel(Orderable):
              FieldPanel('carousel_description', classname="col-12"),
              FieldPanel('carousel_link_text', classname="col-12"),
              FieldPanel('carousel_link_url', classname="col-12"),]
-
-@register_model_chooser
-class JurcoachPollChooser(Chooser):
-    model = Poll
-    required_fields = False
-    
-    class Meta:
-        template = 'blocks/sidebar/poll.html'
-
-    def get_context(self, value, parent_context=None):
-        ctx = super().get_context(value, parent_context=parent_context)
-        ctx['page'] = {'poll': Poll.objects.get(id=1)}
-        return ctx
     
 class JurcoachPage(Page):
     body = RichTextField(blank=True)
@@ -74,6 +61,7 @@ class JurcoachPage(Page):
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_description = RichTextField(null=True, blank=True)
+    footer_poll = models.ForeignKey(Poll)
     
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -99,7 +87,7 @@ class JurcoachPage(Page):
         ),
         MultiFieldPanel(
             [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column'),
-             JurcoachPollChooser()],
+             ModelChooserPanel('footer_poll')],
             heading='Footer',
         ),
     ]
