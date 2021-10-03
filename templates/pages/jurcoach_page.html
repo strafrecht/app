@@ -78,7 +78,6 @@
 				</div>
 				{% endfor %}
 				<div class="bottom-item">
-					{% block content %}
 					<h1>{{ self.title }}</h1>
 					<br>
 					{% if self.poll %}
@@ -91,7 +90,6 @@
 					{% else %}
 					    No polls added to this page yet!
 					{% endif %}
-					{% endblock %}
 					<div class="sidebar sidebar-poll poll">
 						<h3><b>Kurzfälle</b></h3>
 						<form id="poll" class="poll" method="POST" action="/vote/1/">
