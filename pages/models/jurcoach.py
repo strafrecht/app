@@ -98,7 +98,7 @@ class JurcoachPage(Page):
         ),
         MultiFieldPanel(
             [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column'),
-             JurcoachPollChooser(classname="col-12")],
+             JurcoachPollChooser()],
             heading='Footer',
         ),
     ]
