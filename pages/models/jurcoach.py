@@ -6,7 +6,7 @@ from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey
-from wagtailmodelchooser.blocks import ModelChooserBlock
+from wagtailmodelchooser import register_model_chooser, Chooser
 from wagtailmodelchooser.edit_handlers import ModelChooserPanel
 from wagtailpolls.models import Poll
 
@@ -44,9 +44,10 @@ class JurcoachCarousel(Orderable):
              FieldPanel('carousel_description', classname="col-12"),
              FieldPanel('carousel_link_text', classname="col-12"),
              FieldPanel('carousel_link_url', classname="col-12"),]
-    
-class JurcoachPollChooser(blocks.StructBlock):
-    poll = ModelChooserBlock('wagtailpolls.Poll')
+
+@register_model_chooser
+class JurcoachPollChooser(Chooser):
+    model = Poll
 
     class Meta:
         template = 'blocks/sidebar/poll.html'
