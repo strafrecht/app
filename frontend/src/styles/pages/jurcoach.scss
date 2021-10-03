@@ -135,24 +135,23 @@
     font-weight: 800;
     font-size: 14px;
 }
-#jurcoach-page .bottom-item .sidebar-poll {
+#jurcoach-page .bottom-item .jurcoach-poll {
     background: #fff;
     box-shadow: 3px 3px 0 #000;
     padding: 30px;
     min-width: 220px;
 }
-#jurcoach-page .bottom-item .sidebar-poll h3,
-#jurcoach-page .bottom-item .sidebar-poll h3 b {
+#jurcoach-page .bottom-item .jurcoach-poll h3 {
     font-family: $serif-font;
     margin-top: -25px;
 }
-#jurcoach-page .bottom-item .sidebar-poll form {
+#jurcoach-page .bottom-item .jurcoach-poll form {
     text-align: center;
 }
-#jurcoach-page .bottom-item .sidebar-poll form ul {
+#jurcoach-page .bottom-item .jurcoach-poll form ul {
     text-align: left;
 }
-#jurcoach-page .bottom-item .sidebar-poll form [type="submit"]:not(:disabled)  {
+#jurcoach-page .bottom-item .jurcoach-poll form [type="submit"]:not(:disabled)  {
     cursor: pointer;
     background: $yellow;
     border: 0;
@@ -163,7 +162,7 @@
         background: #FFD800;
     }
 }
-#jurcoach-page .bottom-item .sidebar-poll:before {
+#jurcoach-page .bottom-item .jurcoach-poll:before {
     color: #fff;
     font-family: $serif-font;
     font-weight: 600;
