@@ -151,7 +151,7 @@
 #jurcoach-page .bottom-item .jurcoach-poll form {
     text-align: center;
 }
-#jurcoach-page .bottom-item .jurcoach-poll form label:nth-child(1) {
+#jurcoach-page .bottom-item .jurcoach-poll form > label {
     display: none;
 }
 #jurcoach-page .bottom-item .jurcoach-poll form ul {
