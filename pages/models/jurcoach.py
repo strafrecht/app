@@ -6,6 +6,9 @@ from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey
+from wagtailmodelchooser.blocks import ModelChooserBlock
+from wagtailmodelchooser.edit_handlers import ModelChooserPanel
+from wagtailpolls.models import Poll
 
 class JurcoachFooter(Orderable):
     page = ParentalKey('pages.JurcoachPage', related_name='jurcoachfooter')
@@ -58,6 +61,7 @@ class JurcoachPage(Page):
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_description = RichTextField(null=True, blank=True)
+    poll = ModelChooserPanel('wagtailpolls.Poll')
      
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -82,7 +86,8 @@ class JurcoachPage(Page):
             heading='Mitmachfunktionen',
         ),
         MultiFieldPanel(
-            [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column')],
+            [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column'),
+             FieldPanel('poll', classname="col-12")],
             heading='Footer',
         ),
     ]
