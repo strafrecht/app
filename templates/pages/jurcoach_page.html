@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags website_tags %}
+{% load poll_tags %}
 
 {% block extra_css %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/pages/jurcoach.css' %}">
@@ -77,6 +78,7 @@
 				</div>
 				{% endfor %}
 				<div class="bottom-item">
+					{% poll %}
 					<div class="sidebar sidebar-poll poll">
 						<h3><b>Kurzfälle</b></h3>
 						<form id="poll" class="poll" method="POST" action="/vote/1/">
