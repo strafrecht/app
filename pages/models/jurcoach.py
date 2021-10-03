@@ -6,8 +6,6 @@ from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey
-from wagtailmodelchooser import register_model_chooser, Chooser
-from wagtailmodelchooser.edit_handlers import ModelChooserPanel
 from wagtailpolls.models import Poll
 
 class JurcoachFooter(Orderable):
