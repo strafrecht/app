@@ -61,7 +61,18 @@ class JurcoachPage(Page):
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_description = RichTextField(null=True, blank=True)
-    footer_poll = models.ForeignKey(Poll, on_delete=models.DO_NOTHING)
+    
+    poll = models.ForeignKey(
+        Poll,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['poll'] = self
+        return context
     
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -87,7 +98,7 @@ class JurcoachPage(Page):
         ),
         MultiFieldPanel(
             [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column'),
-             ModelChooserPanel('footer_poll')],
+             FieldPanel('poll')],
             heading='Footer',
         ),
     ]
