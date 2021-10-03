@@ -61,7 +61,7 @@ class JurcoachPage(Page):
     carousel_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_headline = models.CharField(max_length=200, null=True, blank=True)
     contribution_description = RichTextField(null=True, blank=True)
-    footer_poll = models.ForeignKey(Poll)
+    footer_poll = models.ForeignKey(Poll, on_delete=models.DO_NOTHING)
     
     content_panels = Page.content_panels + [
         MultiFieldPanel(
