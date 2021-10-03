@@ -79,8 +79,8 @@
 				{% endfor %}
 				<div class="bottom-item">
 					{% if self.poll %}
-					<div class="sidebar sidebar-poll poll">
-						<h3><b>{{ self.poll.title }}</b></h3>
+					<div class="jurcoach-poll">
+						<h3>{{ self.poll.title }}</h3>
 						<form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
 							{% csrf_token %}
 							{{ self.poll.form }}
