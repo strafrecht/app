@@ -48,7 +48,7 @@ class JurcoachCarousel(Orderable):
 @register_model_chooser
 class JurcoachPollChooser(Chooser):
     model = Poll
-
+    REQUIRED_FIELDS = [] # Email & Password are required by default.
     class Meta:
         template = 'blocks/sidebar/poll.html'
 
