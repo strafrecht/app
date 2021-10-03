@@ -79,11 +79,16 @@
 				{% endfor %}
 				<div class="bottom-item">
 					{% if self.poll %}
-					{{ self.poll }}
-					{% else %}
-					    No polls added to this page yet!
-					{% endif %}
 					<div class="sidebar sidebar-poll poll">
+						<h3><b>{{ self.poll.title }}</b></h3>
+						<form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
+							{% csrf_token %}
+							{{ self.poll.form }}
+						<input type="submit" value="Abstimmen" class="poll-vote-button">
+					</form>
+					</div>
+					{% endif %}
+					<!--<div class="sidebar sidebar-poll poll">
 						<h3><b>Kurzfälle</b></h3>
 						<form id="poll" class="poll" method="POST" action="/vote/1/">
 							<input type="hidden" name="csrfmiddlewaretoken" value="abcde">
@@ -107,7 +112,7 @@
 							</ul>
 						<input type="submit" value="Abstimmen" class="poll-vote-button">
 						</form>
-					</div>
+					</div>-->
 					<div class="illustration-container"><div class="poll-illustration"></div></div>
 				</div>
 				
@@ -152,4 +157,49 @@
 			} );
 		});
 	</script>
+	<script>
+		$("#poll > label").empty()
+		$("#poll").submit(function(e) {
+			e.preventDefault()
+
+    		$.ajax({
+        		type:'POST',
+        		url:'{% url "wagtailpolls_vote" page.poll.id %}',
+        		data:{
+					question: parseInt($('input[name="question"]:checked').val()),
+            		csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            		action: 'post'
+        		},
+        		success:function(json){
+        			console.log(json)
+        			const total = json.total_votes
+
+					$("#poll").empty();
+						let elements = Object.entries(json.votes).map((vote) => {
+							let question = vote[0]
+							let votes = vote[1]
+							let ratio = Math.round((votes / total) * 100)
+
+							return `
+								<div class="answer">
+									<div class="bar">
+										<div style="width: ${ratio}%;"></div><span>${votes} (${ratio}%)</span>
+									</div>
+									<div>${question}</div>
+								</div>
+						`
+						})
+
+						$("#poll").append(`
+							<div class="answers">
+							${elements.join('')}
+							</div>
+						`)
+        			},
+        			error : function(xhr,errmsg,err) {
+        				console.log(xhr.status + ": " + xhr.responseText);
+    				}
+    			});
+			});	
+		</script>
 {% endblock %}
