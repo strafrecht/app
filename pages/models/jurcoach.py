@@ -48,7 +48,7 @@ class JurcoachCarousel(Orderable):
 @register_model_chooser
 class JurcoachPollChooser(Chooser):
     model = Poll
-    required_fields = none
+    required_fields = False
     
     class Meta:
         template = 'blocks/sidebar/poll.html'
