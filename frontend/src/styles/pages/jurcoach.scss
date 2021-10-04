@@ -136,11 +136,16 @@
     font-size: 14px;
 }
 #jurcoach-page .bottom-item .jurcoach-poll {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    line-height: 22px;
     background: #fff;
     box-shadow: 3px 3px 0 #000;
+    margin: 0 !important;
     padding: 30px;
     min-width: 220px;
-    margin: 0 !important;
+    max-width: 307px;
 }
 #jurcoach-page .bottom-item .jurcoach-poll h3 {
     font-family: $serif-font;
@@ -157,6 +162,8 @@
 }
 #jurcoach-page .bottom-item .jurcoach-poll form ul {
     text-align: left;
+    list-style: none;
+    padding: 0px;
 }
 #jurcoach-page .bottom-item .jurcoach-poll form ul li label {
     display: inline-flex;
