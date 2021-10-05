@@ -27,7 +27,7 @@
 									{% sub_menu item template="menus/custom_sub_menu.html" %}
 								</li>
 							{% else %}
-								<li class="nav-item">
+								<li class="{{ item.active_class }} nav-item">
 									<a class="nav-link" href="{{ item.href }}">{{ item.text }}</a>
 								</li>
 							{% endif %}
