@@ -109,7 +109,7 @@
 	padding: 0 !important;
 	min-width: 70px;
 }
-.active.nav-item a {
+.active.nav-item > a {
     border-bottom: 4px solid $yellow;
 }
 #nav .dropdown-toggle::after {
