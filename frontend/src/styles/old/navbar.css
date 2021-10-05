@@ -120,6 +120,8 @@
 	border: 0;
 	border-radius: 2px;
 	box-shadow: 0px 10px 30px #0000004d;
+	min-width: 220px;
+	padding: 10px 10px;
 }
 #nav .navbar-nav .nav-item .dropdown-menu:before {
 	position: absolute;
