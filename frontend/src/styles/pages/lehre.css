@@ -25,8 +25,12 @@
 .session-material {
     display: flex;
     flex-direction: column;
+    line-height: 2rem !important;
 }
 .session-material h3 {
+    color: rgb(61, 61, 61) !important;
+    font-size: 1.1em !important;
+    font-weight: 600 !important;
     margin-top: 20px;
 }
 

@@ -5,6 +5,7 @@ import os
 from io import BytesIO
 import requests
 import wget
+import uuid
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -66,10 +67,10 @@ def start(request):
     #scrape_news(request)
 
     # Events
-    scrape_events(request)
+    #scrape_events(request)
 
     # scrape sessions
-    #scrape_lehre(request)
+    scrape_lehre(request)
 
     # scrape wiki
     #scrape_wiki(request)
@@ -383,9 +384,11 @@ def scrape_lehre(request):
     # delete articles + images
     SessionPage.objects.all().delete()
     data = get_lehre_json()
+    new_data = data["1"]
 
-    for index in data:
-        session = data[index]
+    #for session in data.values():
+    for session in [new_data]:
+        #session = data[index]
         # SessionsPage
         parent_page = SessionsPage.objects.first()
 
@@ -419,10 +422,12 @@ def scrape_lehre(request):
 
         if session.get("materialien", None):
             pdfs = extract_pdfs(
-                extract_session_url(semester, slug),
+                session["lehre_link"],
                 session.get("materialien")
             )
-            print("LENGTH: {}".format(len(pdfs)))
+            for p in pdfs:
+                for f in p["documents"]:
+                    print(f["href"])
         else:
             pdfs = []
 
@@ -474,10 +479,12 @@ def scrape_lehre(request):
             session_page.sidebar = widgets
 
             # Upload pdfs
-            upload_pdfs(semester, slug, pdfs)
+            print("SEMESTER: {}".format(semester))
+            print("SLUG: {}".format(slug))
+            updated_pdfs = upload_pdfs(semester, slug, pdfs)
 
             # save content
-            session_page.material = build_material_html(pdfs)
+            session_page.material = build_material_html(updated_pdfs)
 
             # Add ArticlePage to parent
             parent_page.add_child(instance=session_page)
@@ -492,68 +499,63 @@ def build_material_html(pdfs):
         html += "<h3>{}</h3>\n".format(group['name'])
 
         for pdf in group['documents']:
-            # Fix href
-            fixed_href = pdf['href']
-            if 'strafrecht-online.org' in fixed_href:
-                print("FIX")
-                fixed_href = fixed_href.replace('https://strafrecht-online.org/lehre', '/files/lehre')
-                fixed_href = fixed_href.replace("ws--", "ws-").replace("ss--", "ss-")
-            else:
-                print("SKIP")
-
-            html += "<a href='{}'>{}</a>\n".format(fixed_href, pdf['name'])
-
+            uuid = pdf['uuid'] if 'uuid' in pdf.keys() else 'ERROR-{}'.format(pdf['name'])
+            html += "<a href='{}'>{}</a>\n".format(pdf['local'], pdf['name'])
         html += "\n"
-
-    print("LOL")
     return html
 
 def upload_pdfs(semester, slug, pdfs):
     root_collection = Collection.get_first_root_node()
+    semester = semester.replace('sos', 'ss')
 
-    semester_param = semester.replace("--", "-")
-
-    path = "https://strafrecht-online.org/lehre/{semester_param}/{slug}".format(
-        semester_param=semester_param,
-        slug=slug
-    )
-
-
-    for group in pdfs[0:1]:
+    for group in pdfs:
         for pdf in group['documents']:
-            print("PDF: {}".format(pdf))
-            #url = os.path.join(os.path.join(host, path), pdf['file'])
-            filename = pdf['name'].split('/')[1] if '/' in pdf['name'] else pdf['name']
-            #url = os.path.join(path, pdf['url'])
-            sub = filename.split('/')[0] if '/' in filename.split('/') else ""
-
-            #url = os.path.join(path, filename)
-            url = pdf['href'].replace("ws--", "ws-").replace("ss--", "-")
+            #print("PDF: {}".format(pdf))
+            filename = pdf['href'].split('/')[-1].split('.')[0]
 
             # Target Directory
-            #target_dir = "/tmp/django/documents"
             target_dir = "/home/dev/Workspace/app/media/documents"
-            new_filename = "Lehre_{semester}_{slug}_{filename}.pdf".format(
-                semester=semester_param,
-                slug=slug,
-                sub=sub,
-                filename=filename
-            )
+
+            #new_filename_root = "lehre_{semester}_{slug}_{filename}".format(
+            #    semester=semester,
+            #    slug=slug,
+            #    filename=pdf['name']
+            #)
+
+            if len(filename) <= 78:
+                new_filename = "{semester}_{filename}.pdf".format(
+                    semester=semester,
+                    filename=filename
+                )
+            else:
+                new_filename = "{semester}_{filename}_.pdf".format(
+                    semester=semester,
+                    filename=filename[0:77],
+                )
+
+            print("{}: {}".format(len(new_filename) + 10, new_filename))
+            pdf['local'] = new_filename
+
+            #if 'uuid' in pdf.keys():
+            #    new_filename = "{uuid}.pdf".format(uuid=pdf['uuid'])
+            #else:
+            #    new_filename = "ERROR: {}.pdf".format(pdf['name'])
 
             # Make the directory
             os.makedirs(target_dir, exist_ok=True)
 
             try:
-                local_file = requests.get(url, allow_redirects=True) #target_dir)
+                href = pdf['href'] if '://' in pdf['href'] else 'http://strafrecht-online.org/{}'.format(pdf['href'])
+                local_file = requests.get(href, allow_redirects=True) #target_dir)
                 open(os.path.join(target_dir, new_filename), 'wb').write(local_file.content)
 
                 root = Collection.get_first_root_node()
                 lehre = root.get_children().get(name='Lehre')
 
                 try:
-                    semester_col = lehre.get_children().get(name=semester_param)
+                    semester_col = lehre.get_children().get(name=semester)
                 except:
-                    semester_col = lehre.add_child(name=semester_param)
+                    semester_col = lehre.add_child(name=semester)
 
                 try:
                     slug_col = semester_col.get_children().get(name=slug)
@@ -561,17 +563,20 @@ def upload_pdfs(semester, slug, pdfs):
                     slug_col = semester_col.add_child(name=slug)
 
                 Document(
-                    title=filename,
+                    title=pdf['name'],
                     file="documents/{}".format(new_filename),
                     collection=slug_col,
                     tags=['testing']
                 ).save()
             except Exception as e:
-                print(" ERROR - {}". format(e))
-                print(" URL - {}".format(url))
-            print("\n\n")
+                print(len(pdf['name']))
+                print(len("documents/{}".format(new_filename)))
+                print("ERROR - {}". format(e))
+                print("URL - {}".format(pdf['href']))
+                print("\n\n")
 
-    return "<h1>Testing!</h1>"
+    return pdfs
+    #return "<h1>Testing!</h1>"
 
 def extract_session_url(semester, slug):
     if 'ws' in semester:
@@ -598,7 +603,7 @@ def extract_title(content):
     else:
         return None
 
-def extract_pdfs(base_url, content):
+def extract_pdfs(href, content):
     soup = BeautifulSoup(content, features="html.parser")
     data = []
 
@@ -619,8 +624,12 @@ def extract_pdfs(base_url, content):
         if element.name == "ul":
             for li in element.find_all('li', recursive=False):
                 if li.a:
-                    pdf_url = os.path.join(base_url, li.a['href'])
-                    documents.append({'name': li.a.text, 'href': pdf_url})
+                    pdf_url = os.path.join(href, li.a['href'])
+                    documents.append({
+                        'name': li.a.text,
+                        'href': pdf_url,
+                        'uuid': str(uuid.uuid4())
+                    })
             data.append({'name': current, 'documents': documents})
 
             current = ""
