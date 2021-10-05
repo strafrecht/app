@@ -73,22 +73,14 @@
 		style="
 			background: transparent url('{{ page.header.file.url }}') center center no-repeat padding-box;
 			opacity: 1;
-			background-size: 100%;
+		        background-size: cover;
+		        background-position: center;
 		">
 			<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
-				{% if page.slug == "juracoach" %}
-				<div class="container" style="text-align: center; color: white;">
-					<h2 style="font-size: 2.5rem !important; font-weight: 300 !important; font-family: 'Roboto Slab' !important; text-shadow: 0px 3px 10px #000000 !important;">
-						Mach dich fit
-						<br/>
-						für dein Jurastudium!
-						</p>
-					</h2>
-					<p style="text-shadow: 0px 3px 15px #000000 !important; font-size: 1.2rem !important;">
-						Trainiere deine Fähigkeiten lorem ipsum dolor sit amet,
-						<br/>
-						consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-					</p>
+				{% if page.slug == "jurcoach" %}
+				<div class="container header-text">
+					<h2>{{ page.header_headline | richtext }}</h2>
+					{{ page.header_slogan | richtext }}
 				</div>
 				{% endif %}
 			</div>
@@ -109,12 +101,12 @@
 
 	
 				{% if page.slug != "strafrecht-online" %}
-				<main role="main" class="{% if page.slug == 'juracoach' %}'w-full'{% else %}container{% endif %}">
+				<main role="main" class="{% if page.slug == 'jurcoach' %}'w-full'{% else %}container{% endif %}">
 					<div class="container-inner flex-column flex-md-row p-0 w-full">
 				{% endif %}
 
 				<!--div class="content d-inline-flex col-xs-12 col-sm-12 col-md-{% if page.sidebar %}8{% else %}12{% endif %} col-lg-12 p-0 pr-4"-->
-				<div class="{% if page.slug == 'juracoach' %}w-100{% else %}content{% endif %}">
+				<div class="{% if page.slug == 'jurcoach' %}w-100{% else %}content{% endif %}">
 					{% block content %}{% endblock %}
 				</div>
 
@@ -187,8 +179,6 @@
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     </body>
 </html>
