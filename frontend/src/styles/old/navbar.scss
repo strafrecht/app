@@ -110,7 +110,8 @@
 }
 .active.nav-item > a,
 .ancestor.nav-item > a {
-    border-bottom: 4px solid $yellow;
+	border-bottom: 4px solid $yellow;
+	margin-top: 2px !important;
 }
 #nav .dropdown-toggle::after {
 	display: none !important;
