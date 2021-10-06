@@ -65,3 +65,18 @@
 		</div>
 	</div>
 </nav>
+<script>
+jQuery(function($) {
+$('.navbar-nav:nth-child(1) > .nav-item').hover(function() {
+$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+
+}, function() {
+$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+
+});
+$('.navbar-nav:nth-child(1) > .nav-item > a').click(function(){
+location.href = this.href;
+});
+
+});
+</script>
