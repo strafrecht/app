@@ -108,15 +108,15 @@
 	margin: 0px 15px;
 	padding: 0 !important;
 }
-.active.nav-item > a,
-.ancestor.nav-item > a {
+:not(.navbar-collapse.show) .active.nav-item > a,
+:not(.navbar-collapse.show) .ancestor.nav-item > a {
 	border-bottom: 4px solid $yellow;
 	margin-top: 4px !important;
 }
-.active.nav-item.show > a,
-.ancestor.nav-item.show > a,
-.active.nav-item > a:hover,
-.ancestor.nav-item > a:hover {
+:not(.navbar-collapse.show) .active.nav-item.show > a,
+:not(.navbar-collapse.show) .ancestor.nav-item.show > a,
+:not(.navbar-collapse.show) .active.nav-item > a:hover,
+:not(.navbar-collapse.show) .ancestor.nav-item > a:hover {
     border-color: #fff;
 }
 #nav .dropdown-toggle::after {
