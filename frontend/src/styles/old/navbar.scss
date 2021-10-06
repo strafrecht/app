@@ -184,7 +184,7 @@
 #nav .container {
 	display: flex;
 	flex-direction: column;
-	max-width: 900px !important;
+	max-width: $container-width !important;
 }
 
 #nav .navbar-brand {
