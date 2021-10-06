@@ -80,6 +80,11 @@ jQuery(function($) {
 		    $('.navbar-nav:nth-child(1) > .nav-item > a').click(function() {
 			location.href = this.href;
 		    });
+		} else {
+		    $('.navbar-nav:nth-child(1) > .nav-item .dropdown-menu').show();
+		    $('.navbar-nav:nth-child(1) > .nav-item > a').click(function() {
+			location.href = this.href;
+		    });
 		}
 	};
 	$(document).ready(sizing);
