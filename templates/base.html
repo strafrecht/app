@@ -88,7 +88,7 @@
 		{% endif %}
 	
 		{% if self.get_ancestors|length > 1 %}
-			<div class="breadcrumb-new" style="font-size: 0.8em; margin: 20px 0px 0px 50px;">
+			<div class="breadcrumb-new">
 				Du bist hier: 
 				{% for page in self.get_ancestors %}
 					{% if page.is_root == False %}
