@@ -1,7 +1,7 @@
 #nav {
     border-bottom: 1px solid #eee;
     box-shadow: none !important;
-	background: white;
+	background: #fff;
 	margin-top: 0px !important;
 	padding: 0px;
 	top: 0px;
@@ -23,7 +23,7 @@
 }
 .with-header #nav .nav-link,
 .with-header #nav .brand {
-    color: #FFFFFF !important;
+    color: #fff !important;
     font-size: 16px !important;
 }
 .without-header #nav .nav-link,
@@ -53,12 +53,13 @@
 
 .with-header #nav #nav-search {
     background: transparent;
-    color: white;
+    color: #fff;
     border-bottom: 2px solid #fff;
 }
 
-#nav .navbar-trans .navbar-toggler-bar {
-	background-color: white !important;
+#nav .navbar-trans .navbar-toggler-bar,
+.with-header #nav .navbar-toggler-bar {
+    background: #fff;
 }
 
 #nav .navbar-toggler {
@@ -76,7 +77,7 @@
 	padding: 0px;
 }
 #nav .navbar-toggler-bar {
-	background-color: white;
+	background-color: #fff;
 	display: block;
 	height: 2px;
 	width: 100%;
@@ -213,7 +214,7 @@ li.ancestor.nav-item > a:hover {
 	#nav .navbar-collapse {
 		/*border-top: 1px solid rgba(0,0,0,1) !important;*/
 		box-shadow: 0 14px 28px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.12);
-		background-color: white;
+		background-color: #fff;
 		transition: none !important;
 		position: absolute;
 	}
