@@ -4,6 +4,7 @@ $green: #ADD345;
 $bg-gray: #E8E7DF;
 $line-gray:#E8E7E0;
 $serif-font: 'Roboto Slab';
+$container-width: 900px;
 
 body {
   background: #fafafa;
@@ -61,7 +62,7 @@ h3 {
 
 main.container {
     background: white;
-    max-width: 900px;
+    max-width: $container-width;
 }
 main > .container-inner > .content {
     flex-grow: 1;
