@@ -108,15 +108,15 @@
 	margin: 0px 15px;
 	padding: 0 !important;
 }
-div:not(.show) li.active.nav-item > a,
-div:not(.show) li.ancestor.nav-item > a {
+li.active.nav-item > a,
+li.ancestor.nav-item > a {
 	border-bottom: 4px solid $yellow;
 	margin-top: 4px !important;
 }
-div:not(.show) li.active.nav-item.show > a,
-div:not(.show) li.ancestor.nav-item.show > a,
-div:not(.show) li.active.nav-item > a:hover,
-div:not(.show) li.ancestor.nav-item > a:hover {
+li.active.nav-item.show > a,
+li.ancestor.nav-item.show > a,
+li.active.nav-item > a:hover,
+li.ancestor.nav-item > a:hover {
     border-color: #fff;
 }
 #nav .dropdown-toggle::after {
@@ -230,6 +230,10 @@ div:not(.show) li.ancestor.nav-item > a:hover {
 		width: 50%;
 		border: none !important;
 		margin: 10px 0;
+	}
+	li.active.nav-item > a,
+	li.ancestor.nav-item > a {
+		border: 0;
 	}
 	#nav .navbar-collapse.show .nav-item .nav-link {
 		font-weight: 700;
