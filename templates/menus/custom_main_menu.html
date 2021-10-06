@@ -70,10 +70,10 @@
 <script>
 jQuery(function($) {
 $('.navbar-nav:nth-child(1) > .nav-item').hover(function() {
-$(this).find('.dropdown-menu').first().stop(true, true).delay(2050).show(0);
+$(this).find('.dropdown-menu').first().stop(true, true).delay(200).show(0);
 
 }, function() {
-$(this).find('.dropdown-menu').first().stop(true, true).delay(10000).hide(0);
+$(this).find('.dropdown-menu').first().stop(true, true).delay(500).hide(0);
 
 });
 $('.navbar-nav:nth-child(1) > .nav-item > a').click(function(){
