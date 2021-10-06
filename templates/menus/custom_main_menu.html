@@ -71,8 +71,10 @@ jQuery(function($) {
 	var win = $(window).width();
 	$(window).on('resize', function(){
 	var win = $(this).width();
+	console.log(win);
 	});
 	if(win > 991) {
+		console.log("Large Screen");
 	$('.navbar-nav:nth-child(1) > .nav-item').hover(function() {
 		$(this).find('.dropdown-menu').first().stop(true, true).delay(230).show(0);
 	}, function() {
