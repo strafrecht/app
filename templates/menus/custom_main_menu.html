@@ -67,23 +67,22 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
 <script>
-jQuery(function($) {
-	var win = $(window).width();
-	$(window).on('resize', function(){
-	var win = $(this).width();
-	console.log(win);
-	});
-	if(win > 991) {
-		console.log("Large Screen");
-	$('.navbar-nav:nth-child(1) > .nav-item').hover(function() {
-		$(this).find('.dropdown-menu').first().stop(true, true).delay(230).show(0);
-	}, function() {
-		$(this).find('.dropdown-menu').first().stop(true, true).delay(500).hide(0);
-	});
-	$('.navbar-nav:nth-child(1) > .nav-item > a').click(function(){
-		location.href = this.href;
-	});
-	}
+jQuery(function($) {	
+	function sizing() {
+		var win = $(this).width();
+		console.log(win);
+		if (win > 991) {
+		    $('.navbar-nav:nth-child(1) > .nav-item').hover(function() {
+			$(this).find('.dropdown-menu').first().stop(true, true).delay(230).show(0);
+		    }, function() {
+			$(this).find('.dropdown-menu').first().stop(true, true).delay(500).hide(0);
+		    });
+		    $('.navbar-nav:nth-child(1) > .nav-item > a').click(function() {
+			location.href = this.href;
+		    });
+		}
+	};
+	$(document).ready(sizing);
+	$(window).resize(sizing);
 });
-
 </script>
