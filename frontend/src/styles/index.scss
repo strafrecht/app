@@ -96,6 +96,14 @@ main.container > div > .container {
 	margin-bottom: 0px;
  }
 
+.breadcrumb-new {
+    font-size: 0.8em;
+    max-width: $container-width;
+    margin: 0 auto;
+    top: 30px;
+    position: relative;
+}
+
 @media screen and (max-width: 720px) {
     main.container.container-inner {
         flex-direction: column;
