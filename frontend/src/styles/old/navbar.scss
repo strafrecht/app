@@ -240,6 +240,9 @@ li.ancestor.nav-item > a:hover {
 		transition: none !important;
 		color: #3D3D3D !important;
 	}
+	#nav .navbar-nav:nth-child(1) .nav-item:not(.active,.ancestor) > .nav-link {
+		color: #3D3D3D !important;
+	}
 	#nav .navbar-collapse.show .dropdown-menu {
 		display: block;
 		box-shadow: none;
