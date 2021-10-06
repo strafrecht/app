@@ -198,13 +198,21 @@ li.ancestor.nav-item > a:hover {
 #nav .navbar-collapse-inner .navbar-nav {
 	display: flex;
 }
-
+.mobile-indicator {
+	display: none;
+}
 @media screen and (min-width: 991px) {
 	.with-header #nav ul.navbar-nav:nth-child(1) .nav-item:not(.active,.ancestor) > .nav-link {
 	    color: #ccc !important;
 	}
 }
 @media screen and (max-width: 990px) {
+	.mobile-indicator {
+		display: block;
+		width: 0;
+		height: 0;
+		margin: 0;
+	}
 	#nav .container {
 		display: contents;
 		margin: 0px;
