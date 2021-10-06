@@ -91,8 +91,6 @@
 	display: none;*/
 }
 
-#nav .navbar-trans .navbar-brand {
-}
 #nav .container {
 	margin-left: -40px !important;
 }
@@ -171,8 +169,6 @@ li.ancestor.nav-item > a:hover {
 #nav .navbar-trans .navbar-collapse.show .nav-item { 
 	/*border-bottom: 1px solid rgba(0,0,0,0.5) !important;*/
 }
-#nav .navbar-collapse.show .nav-item .nav-link {
-}
 #nav .navbar-collapse.show .dropdown-item:hover {
 	background-color: inherit;
 }
@@ -241,6 +237,7 @@ li.ancestor.nav-item > a:hover {
 		font-size: 16px;
 		justify-content: flex-start !important;
 		transition: none !important;
+		color: #3D3D3D !important;
 	}
 	#nav .navbar-collapse.show .dropdown-menu {
 		display: block;
