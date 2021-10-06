@@ -88,7 +88,11 @@
 		{% endif %}
 	
 		{% if self.get_ancestors|length > 1 %}
-			<div class="breadcrumb-new">
+	    		{% if page.header %}
+				<div class="breadcrumb-new">
+			{% else %}
+				<div class="breadcrumb-new" style="margin: 50px auto -20px auto !important;">
+			{% endif %}
 				Du bist hier: 
 				{% for page in self.get_ancestors %}
 					{% if page.is_root == False %}
