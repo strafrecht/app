@@ -1,7 +1,6 @@
 {% load menu_tags wagtailcore_tags %}
 
 <nav id="nav" class="navbar navbar-expand-lg {% if page.slug == "strafrecht-online" %}navbar-trans{% endif %}" style="flex-direction: column; justify-content: flex-start; padding: 5px 0; position: absolute; top: 0; width: 100%; background: transparent; border: none;">
-<span class="mobile-indicator"></span>
 	<div class="container" style="margin: 8px 0px; padding: 0px;">
 		
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +71,11 @@ function isMobileWidth() {
     return $('.mobile-indicator').is(':visible');
 };
 jQuery(function($) {
-	if(isMobileWidth() === false) {
+	var win = $(window).width();
+	$(window).on('resize', function(){
+	var win = $(this).width();
+	});
+	if(win < 991) {
 	$('.navbar-nav:nth-child(1) > .nav-item').hover(function() {
 		$(this).find('.dropdown-menu').first().stop(true, true).delay(230).show(0);
 	}, function() {
@@ -83,4 +86,5 @@ jQuery(function($) {
 	});
 	}
 });
+
 </script>
