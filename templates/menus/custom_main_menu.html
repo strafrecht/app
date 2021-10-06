@@ -72,7 +72,7 @@ jQuery(function($) {
 	$(window).on('resize', function(){
 	var win = $(this).width();
 	});
-	if(win < 991) {
+	if(win > 991) {
 	$('.navbar-nav:nth-child(1) > .nav-item').hover(function() {
 		$(this).find('.dropdown-menu').first().stop(true, true).delay(230).show(0);
 	}, function() {
