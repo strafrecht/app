@@ -9,6 +9,24 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 {% endblock %}
 
+
+{% block headersection %}
+<div class="with-header">
+	{% include "layout/menu.html" %}
+</div>
+<section
+style="
+	background: transparent url('/media/original_images/Jurcoach_graffito.jpg') center center no-repeat padding-box;
+	opacity: 1;
+	background-size: cover;
+	background-position: center;
+">
+	<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
+		ABC
+	</div>
+</section>
+{% endblock %}
+
 {% block extra_js %}
     <script src="{% static "wiki/js/jquery-3.4.1.min.js" %}"></script>
     <script src="{% static "wiki/js/core.js" %}"></script>
