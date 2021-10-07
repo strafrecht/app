@@ -16,28 +16,6 @@
 {% block body_class %}template-websitepage{% endblock %}
 
 {% block content %}
-	{% block page_header %}
-
-		{% if page.header  %}
-		<section
-		style="
-			background: transparent url('{{ page.header.file.url }}') center center no-repeat padding-box;
-			opacity: 1;
-		        background-size: cover;
-		        background-position: center;
-		">
-			<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
-				{% if page.slug == "jurcoach"  %}
-				<div class="container header-text">
-					<h2>{{ page.header_headline | richtext }}</h2>
-					{{ page.header_slogan | richtext }}
-				</div>
-				{% endif %}
-			</div>
-		</section>
-		{% endif %}
-	{% endblock %}
-
 	<div id="jurcoach-page">
 		<section class="text-center" style="margin-bottom: 60px; padding: 50px 0;">
 			<div class="container" style="max-width:700px !important;">
