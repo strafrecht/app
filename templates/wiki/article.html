@@ -9,13 +9,13 @@
 {% block extra_css %}
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<style>
-	.tabbed .wiki-children { 
+	äjurcoach-page .tabbed .wiki-children { 
 	  display: block; 
 	  margin-left: 0; 
 	  clear: both;
 	  color: #3d3d3d;
 	}
-	.tabbed .wiki-children a > span.badge {
+	#jurcoach-page .tabbed .wiki-children a > span.badge {
 	  background: #fff;
 	  padding: .4rem 1rem;
 	  border: 3px solid #E8E7E0;
@@ -23,18 +23,18 @@
 	  font-size: 14px;
 	  margin-bottom: .5rem;
 	}
-	.tabbed .wiki-children a > span.badge:hover {
+	#jurcoach-page .tabbed .wiki-children a > span.badge:hover {
 	  background: #FFE200;
 	  border: 3px solid #FFE200;
 	  cursor: pointer;
 	}
-	.wiki-parents {
+	#jurcoach-page .wiki-parents {
 	  margin-bottom: 20px;
 	}
-	.wiki-parents label {
+	#jurcoach-page .wiki-parents label {
 	  margin: 0 .6rem;
 	}
-	.wiki-parents label h3 {
+	#jurcoach-page .wiki-parents label h3 {
 	  color: #000  !important;
 	  margin-bottom: 0;
 	  display: block; 
@@ -96,7 +96,7 @@
 		<br>
 
 		<div class="tabbed">
-		    <div id="wiki-parents">
+		    <div class="wiki-parents">
 			{% if urlpath.parent %}
 			<a href="{% url 'wiki:get' path=urlpath.path %}">
 			    <label><h3>{{ urlpath.article.current_revision.title }}</h3></label>
