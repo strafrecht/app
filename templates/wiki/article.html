@@ -9,18 +9,13 @@
 {% block extra_css %}
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<style>
-	.tabbed figure { 
-	   display: block; 
-	   margin-left: 0; 
-	   clear: both;
-	}
-	.tabbed > input,
-	.tabbed figure > div { display: none; }
-	.tabbed figure > div {
-	  width: 100%;
+	.tabbed .wiki-children { 
+	  display: block; 
+	  margin-left: 0; 
+	  clear: both;
 	  color: #3d3d3d;
 	}
-	.tabbed figure > div a > span.badge {
+	.tabbed .wiki-children a > span.badge {
 	  background: #fff;
 	  padding: .4rem 1rem;
 	  border: 3px solid #E8E7E0;
@@ -28,34 +23,24 @@
 	  font-size: 14px;
 	  margin-bottom: .5rem;
 	}
-	.tabbed figure > div a > span.badge:hover {
+	.tabbed .wiki-children a > span.badge:hover {
 	  background: #FFE200;
 	  border: 3px solid #FFE200;
 	  cursor: pointer;
 	}
-	#jurcoach-page section nav {
+	.wiki-parents {
 	  margin-bottom: 20px;
 	}
-	#jurcoach-page section nav label {
-	  cursor: pointer;
+	.wiki-parents label {
 	  margin: 0 .6rem;
 	}
-	#jurcoach-page section nav label h3 {
-	  color: #999 !important;
-	  margin-bottom: 0;
-	}
-	#at:checked ~ figure .at,
-	#bt:checked ~ figure .bt { display: block; }
-	#at:checked ~ nav label[for="at"],
-	#bt:checked ~ nav label[for="bt"] {
-	  position: relative;
+	.wiki-parents label h3 {
 	  color: #000  !important;
+	  margin-bottom: 0;
+	  display: block; 
+	  position: relative;
 	  border-bottom: 4px solid #FFE200;
 	  cursor: default;
-	}
-	#jurcoach-page #at:checked ~ nav label[for="at"] h3,
-	#jurcoach-page #bt:checked ~ nav label[for="bt"] h3 {
-	  color: #000  !important;
 	}
 	main>.container-inner>.content {
 	  max-width: none;
@@ -110,39 +95,22 @@
 		-->
 		<br>
 
-
-				{% if urlpath.parent %}
-              {% for urlpath in urlpath.parent.parent.children %}
-			      	<a href="{% url 'wiki:get' path=urlpath.path %}"><label for="at"><h3>{{ urlpath.article.current_revision.title }}</h3></label></a>
-              {% endfor %}
-				{% endif %}
-
-
-
 			<div class="tabbed">
-			   <input checked="checked" id="at" type="radio" name="tabs" />
-			   <input id="bt" type="radio" name="tabs" />
-
-			   <nav>
+			   <div id="wiki-parents">
 				{% if urlpath.parent %}
-			      	<a href="{% url 'wiki:get' path=urlpath.path %}"><label for="at"><h3>{{ urlpath.article.current_revision.title }}</h3></label></a>
+			      	<a href="{% url 'wiki:get' path=urlpath.path %}"><label><h3>{{ urlpath.article.current_revision.title }}</h3></label></a>
 				{% else %}
-			      	<label for="at"><h3>Problemfelder</h3></label>
+			      	<label><h3>Problemfelder</h3></label>
 				{% endif %}
-			   </nav>
+			   </div>
 
-			   <figure>
-			      <div class="at">
+			   <div class="wiki-children">
               {% for urlpath in children_slice %}
               <a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a>
               {% empty%}
               <em>{% trans "There are no articles in this level" %}</em>
               {% endfor %}
-			      </div>
-			      <div class="bt">
-                  <a href="#"><span class="badge badge-pill">Test</span></a>
-			      </div>
-			   </figure>
+			   </div>
 			</div>
 
 <!--
