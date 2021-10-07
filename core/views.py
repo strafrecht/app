@@ -70,9 +70,9 @@ def pdf(request, semester, slug, filename):
 def index(request):
     categories_at = get_at_categories()
     categories_bt = get_bt_categories()
-    header_image = JurcoachPage.header
-    header_headline = JurcoachPage.header_headline
-    header_slogan = JurcoachPage.header_headline
+    header_image = JurcoachPage.header.objects.all()
+    header_headline = JurcoachPage.header_headline.objects.all()
+    header_slogan = JurcoachPage.header_headline.objects.all()
     return render(request, "core/quiz.html", {"categories_at": categories_at, "categories_bt": categories_bt, "header_image": header_image, "header_headline": header_headline, "header_slogan": header_slogan})
 
 def detail(request, question_id):
