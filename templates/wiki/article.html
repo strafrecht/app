@@ -109,20 +109,16 @@
 		</div>
 		-->
 		<br>
-
-			      {% for urlpath in parent %}
-			      <a href="{% url 'wiki:get' path=urlpath.path %}"><label for="at"><h3>{{ urlpath.article.current_revision.title }}</h3></label></a>
-			      {% endfor %}
-							{% if urlpath.parent %}
-								<a href="{% url 'wiki:get' path=urlpath.path %}" class="nav-link"><span class="fa fa-bookmark"></span> {{ urlpath.slug }}</a>
-							{% endif %}
-
 			<div class="tabbed">
 			   <input checked="checked" id="at" type="radio" name="tabs" />
 			   <input id="bt" type="radio" name="tabs" />
 
 			   <nav>
-
+				{% if urlpath.parent %}
+			      	<a href="{% url 'wiki:get' path=urlpath.path %}"><label for="at"><h3>{{ urlpath.article.current_revision.title }}</h3></label></a>
+				{% else %}
+			      	<label for="at"><h3>Problemfelder</h3></label>
+				{% endif %}
 			   </nav>
 
 			   <figure>
