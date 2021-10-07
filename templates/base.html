@@ -68,7 +68,7 @@
 			</div>
 		{% endif %}
 
-		{% if page.header || page.slug == "wiki"  %}
+		{% if page.header or page.slug == "wiki"  %}
 		<section
 		style="
 			background: transparent url('{{ page.header.file.url }}') center center no-repeat padding-box;
@@ -77,7 +77,7 @@
 		        background-position: center;
 		">
 			<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
-				{% if page.slug == "jurcoach" || page.slug == "wiki"  %}
+				{% if page.slug == "jurcoach" or page.slug == "wiki"  %}
 				<div class="container header-text">
 					<h2>{{ page.header_headline | richtext }}</h2>
 					{{ page.header_slogan | richtext }}
