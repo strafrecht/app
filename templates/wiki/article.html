@@ -95,27 +95,27 @@
 		-->
 		<br>
 
-			<div class="tabbed">
-			   <div id="wiki-parents">
-				{% if urlpath.parent %}
-			      	<a href="{% url 'wiki:get' path=urlpath.path %}"><label><h3>{{ urlpath.article.current_revision.title }}</h3></label></a>
-				{% else %}
-			      	<label><h3>Problemfelder</h3></label>
-				{% endif %}
-			   </div>
+		<div class="tabbed">
+		    <div id="wiki-parents">
+			{% if urlpath.parent %}
+			<a href="{% url 'wiki:get' path=urlpath.path %}">
+			    <label><h3>{{ urlpath.article.current_revision.title }}</h3></label>
+			</a>
+			{% else %}
+			<label><h3>Problemfelder</h3></label>
+			{% endif %}
+		    </div>
+		    <div class="wiki-children">
+			{% for urlpath in children_slice %}
+			<a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a>
+			{% empty%}
+			<em>{% trans "There are no articles in this level" %}</em>
+			{% endfor %}
+		    </div>
+		</div>
 
-			   <div class="wiki-children">
-              {% for urlpath in children_slice %}
-              <a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a>
-              {% empty%}
-              <em>{% trans "There are no articles in this level" %}</em>
-              {% endfor %}
-			   </div>
-			</div>
 
-<!--
-
-		<table class="table table-striped">
+		<!--<table class="table table-striped">
 			<tr>
 				<th>{% trans "Title" %}</th>
 				<th>{% trans "Last modified" %}</th>
