@@ -71,6 +71,9 @@ def index(request):
     categories_bt = get_bt_categories()
     return render(request, "core/quiz.html", {"categoriesat": categories_at, "categoriesbt": categories_bt})
 
+def index_bt(request):
+    categories = get_bt_categories()
+    return render(request, "core/quiz.html", {"categories": categories})
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
