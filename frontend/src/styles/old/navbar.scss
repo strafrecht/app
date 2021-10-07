@@ -105,6 +105,9 @@
 	margin: 0px 15px;
 	padding: 0 !important;
 }
+.navbar-nav .nav-item:last-child a.nav-link:hover {
+	cursor: default;
+}
 li.active.nav-item > a,
 li.ancestor.nav-item > a {
 	border-bottom: 4px solid $yellow;
