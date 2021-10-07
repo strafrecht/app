@@ -105,7 +105,7 @@
 	margin: 0px 15px;
 	padding: 0 !important;
 }
-.navbar-nav .nav-item:last-child a.nav-link:hover {
+.navbar-nav:nth-child(2) .nav-item:last-child a.nav-link:hover {
 	cursor: default;
 }
 li.active.nav-item > a,
