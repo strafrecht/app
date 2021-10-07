@@ -17,18 +17,14 @@
 	  width: 100%;
 	  color: #3d3d3d;
 	}
-	.tabbed figure>div span.badge {
+	.tabbed figure > div a > span.badge {
 	  background: #fff;
 	  padding: .6rem;
 	  border: 3px solid #E8E7E0;
 	  color: #3d3d3d;
 	  margin-bottom: .5rem;
 	}
-	.tabbed figure>div span.badge > a {
-	  color: inherit;
-	  text-decoration: none;
-	}	    
-	.tabbed figure>div span.badge:hover {
+	.tabbed figure>div a > span.badge:hover {
 	  background: #FFE200;
 	  border: 3px solid #FFE200;
 	  cursor: pointer;
@@ -88,7 +84,7 @@ style="
 			      <div class="at">
 				{% for item in categories %}
 					{% if item.first.id > 0 %}
-						<span class="badge badge-pill badge-light"><a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start">{{ item.category.article.current_revision.title }}</a></span>
+						<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill badge-light">{{ item.category.article.current_revision.title }}</span></a>
 					{% endif %}
 				{% endfor %}
 			      </div>
