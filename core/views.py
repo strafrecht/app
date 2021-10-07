@@ -67,12 +67,10 @@ def pdf(request, semester, slug, filename):
         return HttpResponseNotFound('<h1>File not found</h1>')
 
 def index(request):
-    categories = get_at_categories()
-    return render(request, "core/quiz.html", {"categories": categories})
+    categories_at = get_at_categories()
+    categories_bt = get_bt_categories()
+    return render(request, "core/quiz.html", {"categories_at": categories_at, "categories_bt": categories_bt})
 
-def index_bt(request):
-    categories = get_bt_categories()
-    return render(request, "core/quiz.html", {"categories": categories})
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
