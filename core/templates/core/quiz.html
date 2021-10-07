@@ -22,7 +22,7 @@
 	  padding: .4rem 1rem;
 	  border: 3px solid #E8E7E0;
 	  color: #3d3d3d;
-	  font-size: 16px;
+	  font-size: 14px;
 	  margin-bottom: .5rem;
 	}
 	.tabbed figure>div a > span.badge:hover {
@@ -30,7 +30,8 @@
 	  border: 3px solid #FFE200;
 	  cursor: pointer;
 	}
-	nav label {
+	nav label,
+	#jurcoach-page nav label h3{
 	  color: #999 !important;
 	  cursor: pointer;
 	}
@@ -45,6 +46,10 @@
 	  color: #000  !important;
 	  border-bottom: 4px solid #FFE200;
 	  cursor: default;
+	}
+	#jurcoach-page #at:checked ~ nav label h3,
+	#jurcoach-page #bt:checked ~ nav label h3 {
+	  color: #000  !important;
 	}
 	</style>
 {% endblock %}
