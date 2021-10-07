@@ -125,15 +125,12 @@
 			      <div class="at">
               {% for urlpath in directory %}
               <a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a>
+              {% empty%}
               <em>{% trans "There are no articles in this level" %}</em>
               {% endfor %}
 			      </div>
 			      <div class="bt">
-              {% for item in categories_bt %}
-                {% if item.first.id > 0 %}
                   <a href="#"><span class="badge badge-pill">Test</span></a>
-                {% endif %}
-              {% endfor %}
 			      </div>
 			   </figure>
 			</div>
