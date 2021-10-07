@@ -72,7 +72,7 @@ def index(request):
     categories_bt = get_bt_categories()
     header_image = JurcoachPage.objects.all().last().header
     header_headline = JurcoachPage.objects.all().last().header_headline
-    header_slogan = JurcoachPage.objects.all().last().header_headline
+    header_slogan = JurcoachPage.objects.all().last().header_slogan
     return render(request, "core/quiz.html", {"categories_at": categories_at, "categories_bt": categories_bt, "header_image": header_image, "header_headline": header_headline, "header_slogan": header_slogan})
 
 def detail(request, question_id):
