@@ -84,12 +84,12 @@ style="
 			      <div class="at">
 				{% for item in categories %}
 					{% if item.first.id > 0 %}
-						<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill badge-light">{{ item.category.article.current_revision.title }}</span></a>
+						<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
 					{% endif %}
 				{% endfor %}
 			      </div>
 			      <div class="bt">
-				      <a href="#"><span class="badge badge-pill badge-light">Mord</span></a>
+				      <a href="#"><span class="badge badge-pill">Mord</span></a>
 			      </div>
 			   </figure>
 			</div>
