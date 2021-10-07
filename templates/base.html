@@ -57,30 +57,32 @@
     </head>
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-
-		{% if page.header %}
-			<div class="with-header">
-				{% include "layout/menu.html" %}
-			</div>
-		{% else %}
-			<div class="without-header">
-				{% include "layout/menu.html" %}
-			</div>
-		{% endif %}
 	    
-		{% if page.header  %}
-		<section
-		style="
-			background: transparent url('{{ page.header.file.url }}') center center no-repeat padding-box;
-			opacity: 1;
-		        background-size: cover;
-		        background-position: center;
-		">
-			<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
-				{% block headertext %}{% endblock %}
-			</div>
-		</section>
-		{% endif %}
+		{% block headersection %}
+			{% if page.header %}
+				<div class="with-header">
+					{% include "layout/menu.html" %}
+				</div>
+			{% else %}
+				<div class="without-header">
+					{% include "layout/menu.html" %}
+				</div>
+			{% endif %}
+
+			{% if page.header  %}
+			<section
+			style="
+				background: transparent url('{{ page.header.file.url }}') center center no-repeat padding-box;
+				opacity: 1;
+				background-size: cover;
+				background-position: center;
+			">
+				<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
+					{% block headertext %}{% endblock %}
+				</div>
+			</section>
+			{% endif %}
+		{% endblock %}
 	
 		{% if self.get_ancestors|length > 1 %}
 	    		{% if page.header %}
