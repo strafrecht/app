@@ -68,7 +68,7 @@
 			</div>
 		{% endif %}
 
-		{% if page.header %}
+		{% if page.header || page.slug == "wiki"  %}
 		<section
 		style="
 			background: transparent url('{{ page.header.file.url }}') center center no-repeat padding-box;
