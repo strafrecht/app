@@ -1,15 +1,15 @@
 {% load i18n sekizai_tags static %}
 
 {% if urlpath %}
-<div id="article-breadcrumbs" class="row">
-<nav aria-label="breadcrumb">
-<ol class="breadcrumb my-0">
-  {% for ancestor in urlpath.cached_ancestors %}
-    <li class="breadcrumb-item"><a href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a></li>
-  {% endfor %}
-  <li class="breadcrumb-item active">{{ article.current_revision.title|truncatechars:25 }}</li>
-</ol>
-</nav>
+<div class="breadcrumb-new">Du bist hier: <a style="color: #3d3d3d; text-decoration: none;" href="/">Home</a> &gt; 
+<a style="color: #3d3d3d; text-decoration: none;" href="/jurcoach">Jurcoach</a> &gt; 
+<a style="color: #3d3d3d; text-decoration: none;" href="/wiki">Problemfeld-Wiki</a> &gt; 
+{% for ancestor in urlpath.cached_ancestors %}
+<a style="color: #3d3d3d; text-decoration: none;" href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a> &gt; 
+{% endfor %}
+{{ article.current_revision.title|truncatechars:25 }}
+</div>
+
   <!--div class="btn-group" style="margin-left: 10px;">
     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 7px;" type="button"
             title="{% trans "Sub-articles for" %} {{ article.current_revision.title }}"
