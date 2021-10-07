@@ -117,7 +117,7 @@
 			   <input id="bt" type="radio" name="tabs" />
 
 			   <nav>
-			      {% for urlpath in parents %}
+			      {% for urlpath in parent %}
 			      <a href="{% url 'wiki:get' path=urlpath.path %}"><label for="at"><h3>{{ urlpath.article.current_revision.title }}</h3></label></a>
 			      {% endfor %}
 			   </nav>
