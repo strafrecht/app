@@ -1,79 +1,171 @@
 {% load sekizai_tags i18n wiki_tags static pipeline %}
+{% load pipeline %}
+{% load pwa %}
+{% load static wagtailuserbar menu_tags %}
+{% load wagtailimages_tags %}
 
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block wiki_pagetitle %}{% endblock %}{% block wiki_site_title %} - Wiki |{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,500|Roboto:400,500,600,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Le styles -->
-    <link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
-	{% stylesheet 'base' %}
-
-    {% render_block "css" %}
-  </head>
-
-  <body id="wiki">
-
-    {% block wiki_body %}
-
-    {% block wiki_navbar %}
-		{% load wagtailcore_tags %}
-		{% include "layout/menu.html" %}
-    {% endblock %}
+<html class="no-js" lang="en">
+    <head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Institut für Kriminologie und Wirtschaftsstrafrecht Freiburg">
+		<meta name="description" content="Website des Instituts für Kriminologie und Wirtschaftsstrafrecht Freiburg">
+		{% progressive_web_app_meta %}
+	    
+		<title>{% block wiki_pagetitle %}{% endblock %}{% block wiki_site_title %} - Wiki |{% endblock %}</title>
 
 
-    <div class="container" style="margin-top: 40px;">
-    	<div class="header-image">
-    		<img src="/media/images/jurcoach_QoAbNtR.original.jpg">
-    		<div class="header-caption">Jurcoach</div>
-    	</div>
+        {# Global stylesheets #}
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+				<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,500|Roboto:400,500,600,700&display=swap" rel="stylesheet">
+				<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+				<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+				<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.4/chartist.min.css">
+				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+				<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
-    	<div class="wiki-content">
-      	  {% wiki_messages %}
+				<link href="{% static 'css/app.css' %}" rel="stylesheet">
+				<!-- Add the slick-theme.css if you want default styling -->
+				<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+				<!-- Add the slick-theme.css if you want default styling -->
+				<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+				<link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
 
-      	  <!-- Reserved for breadcrumbs -->
-      	  {% block wiki_breadcrumbs %}{% endblock %}
+				{% stylesheet 'base' %}
+				{% stylesheet 'sidebar' %}
 
-      	  <!-- Main page contents go here -->
-      	  {% block wiki_contents %}{% endblock %}
+				<link href="{% static "css/sidebar.css" %}" rel="stylesheet">
+				<link href="{% static "css/sidebars/simple.css" %}" rel="stylesheet">
+				<link href="{% static "css/sidebars/header.css" %}" rel="stylesheet">
+				<link href="{% static "css/sidebars/image_text.css" %}" rel="stylesheet">
+				<link href="{% static "css/sidebars/calendar_text.css" %}" rel="stylesheet">
+				<link href="{% static "css/sidebars/poll.css" %}" rel="stylesheet">
 
-		</div>
-    </div> <!-- /container -->
+        {% block extra_css %}
+            {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+    <body class="{% block body_class %}{% endblock %}" id="wiki">
+        {% wagtailuserbar %}
 
-    {% endblock %}
+			<div class="with-header">
+				{% include "layout/menu.html" %}
+			</div>
 
-    <script src="{% static "wiki/js/jquery-3.4.1.min.js" %}"></script>
-    <script src="{% static "wiki/js/core.js" %}"></script>
-    <script src="{% static "wiki/js/popper.js" %}"></script>
-    <script src="{% static "wiki/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
-    <script src="https://use.fontawesome.com/2f4f67fb08.js"></script>
+		<section
+		style="
+			background: transparent url('{{ page.header.file.url }}') center center no-repeat padding-box;
+			opacity: 1;
+			background-size: 100%;
+		">
+			<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
+				<div class="container" style="text-align: center; color: white;">
+					<h2 style="font-size: 2.8rem; font-weight: 500;">
+						Mach dich fit
+						<br/>
+						fur dein Jurastudium!
+						</p>
+					</h2>
+					<p>
+						Trainiere deine Fähigkeiten lorem ipsum dolor sit amet,
+					</p>
+					<p>
+						consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+					</p>
+				</div>
+			</div>
+		</section>
+
+				<div class="{% if page.slug == 'juracoach' %}w-100{% else %}content{% endif %}">
+				    {% block wiki_body %}
+
+				    {% block wiki_navbar %}
+						{% load wagtailcore_tags %}
+						{% include "layout/menu.html" %}
+				    {% endblock %}
 
 
-    <script src="{% static "wiki/js/respond.min.js" %}"></script>
-    {% render_block "js" %}
-    
-    <footer class="footer">
-    <div class="container">
-    <ul>
-    <li><a class="text-muted" href="#">Impressum</a></li>
-    <li><a class="text-muted" href="#">Kontakt</a></li>
-    <li><a class="text-muted" href="#">Datenschutz</a></li>
-    <li><a class="text-muted" href="#">Cookies &amp; Tracking</a></li>
-    <li style="float:right;"><a class="social-media-icon fa fa-github" href="https://github.com/strafrecht"></a></li>
-    <li style="float:right;"><a class="social-media-icon fa fa-instagram" href="https://www.instagram.com/jurcoach/"></a></li>
-    <li style="float:right;"><a class="social-media-icon fa fa-facebook-square" href="https://www.facebook.com/jurcoach"></a></li>
-    </ul>
-    </div>
-    </footer>
+				    <div class="container" style="margin-top: 40px;">
+					<div class="header-image">
+						<img src="/media/images/jurcoach_QoAbNtR.original.jpg">
+						<div class="header-caption">Jurcoach</div>
+					</div>
 
-  </body>
+					<div class="wiki-content">
+					  {% wiki_messages %}
+
+					  <!-- Reserved for breadcrumbs -->
+					  {% block wiki_breadcrumbs %}{% endblock %}
+
+					  <!-- Main page contents go here -->
+					  {% block wiki_contents %}{% endblock %}
+
+						</div>
+				    </div> <!-- /container -->
+
+				    {% endblock %}
+				</div>
+
+				<footer class="footer">
+					<div class="container">
+						<ul>
+							<li><a href="#" class="text-muted">Impressum</a></li>
+							<li><a href="#" class="text-muted">Kontakt</a></li>
+							<li><a href="#" class="text-muted">Datenschutz</a></li>
+							<li><a href="#" class="text-muted">Cookies & Tracking</a></li>
+							<li style="float:right;"><a href="https://github.com/strafrecht" class="social-media-icon fa fa-github"></a></li>
+							<li style="float:right;"><a href="https://www.instagram.com/jurcoach/" class="social-media-icon fa fa-instagram"></a></li>
+							<li style="float:right;"><a href="https://www.facebook.com/jurcoach" class="social-media-icon fa fa-facebook-square"></a></li>
+						</ul>
+					</div>
+				</footer>
+
+        {# Global javascript #}
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+			<script src="https://browser.sentry-cdn.com/5.6.3/bundle.min.js"></script>
+			<!--
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+			<script src="https://www.jsdelivr.com/package/npm/chart.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.4/chartist.min.js"></script-->
+			<script src="https://use.fontawesome.com/2f4f67fb08.js"></script>
+			<script src="https://browser.sentry-cdn.com/5.25.0/bundle.min.js" integrity="sha384-2p7fXoWSRPG49ZgmmJlTEI/01BY1LgxCNFQFiWpImAERmS/bROOQm+cJMdq/kmWS" crossorigin="anonymous"></script>
+			<!-- include VueJS first -->
+			<!-- use the latest vue-select release -->
+			<script src="https://unpkg.com/vue-select@latest"></script>
+			<link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
+
+			<!-- or point to a specific vue-select release -->
+			<script src="https://unpkg.com/vue-select@3.0.0"></script>
+			<link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+
+		<script>
+		  (function(d,t) {
+			var BASE_URL="http://chat.strafrecht-online.org";
+			var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+			g.src=BASE_URL+"/packs/js/sdk.js";
+			s.parentNode.insertBefore(g,s);
+			g.onload=function(){
+			  window.chatwootSDK.run({
+				websiteToken: 'CYuEHNWYncGMaRAQbRXD4Pb4',
+				baseUrl: BASE_URL
+			  })
+			}
+		  })(document,"script");
+		</script>
+
+
+		<script src="{% static 'js/vendors.js' %}"></script>
+		<script src="{% static 'js/app.js' %}"></script>
+
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+		<script src="https://use.fontawesome.com/2f4f67fb08.js"></script>
+		<script src="{% static "wiki/js/respond.min.js" %}"></script>
+		<script src="{% static "wiki/js/core.js" %}"></script>
+		<script src="{% static "wiki/js/popper.js" %}"></script>
+    </body>
 </html>
