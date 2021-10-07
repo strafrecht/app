@@ -77,12 +77,7 @@
 		        background-position: center;
 		">
 			<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
-				{% if page.slug == "jurcoach"  %}
-				<div class="container header-text">
-					<h2>{{ page.header_headline | richtext }}</h2>
-					{{ page.header_slogan | richtext }}
-				</div>
-				{% endif %}
+				{% block headertext %}{% endblock %}
 			</div>
 		</section>
 		{% endif %}
