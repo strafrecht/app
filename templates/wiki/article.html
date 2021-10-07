@@ -98,7 +98,7 @@
 		<div class="tabbed">
 		    <div class="wiki-parents">
 			{% if urlpath.parent %}
-			{% for child in children_slice %}
+			{% for child in urlpath.parent.children_slice %}
 			<a href="{% url 'wiki:get' path=child.path %}"><span class="badge badge-pill">{{ child.article.current_revision.title }}</span></a>
 			{% endfor %}
 			
