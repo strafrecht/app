@@ -104,6 +104,11 @@ main.container > div > .container {
     position: relative;
 }
 
+.breadcrumb-new a {
+    font-weight: 300 !important;
+    font-size: inherit !important;
+}
+
 @media screen and (max-width: 720px) {
     main.container.container-inner {
         flex-direction: column;
