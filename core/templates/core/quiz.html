@@ -3,7 +3,30 @@
 {% load static %}
 
 {% block extra_css %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/mct.scss' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/pages/jurcoach.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/mct.css' %}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+{% endblock %}
+
+
+{% block headersection %}
+<div class="with-header">
+	{% include "layout/menu.html" %}
+</div>
+<section
+style="
+	background: transparent url('/media/original_images/Jurcoach_graffito.jpg') center center no-repeat padding-box;
+	opacity: 1;
+	background-size: cover;
+	background-position: center;
+">
+	<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
+		<div class="container header-text">
+			<h2><p data-block-key="s8435">Mach dich fit<br>für dein Jurastudium!</p></h2>
+			<p data-block-key="5rfls">Trainiere deine Fähigkeiten lorem ipsum dolor sit amet,</p><p data-block-key="18jhq">consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+		</div>
+	</div>
+</section>
 {% endblock %}
 
 {% block content %}
