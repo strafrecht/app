@@ -77,12 +77,12 @@ jQuery(function($) {
 		    }, function() {
 			$(this).find('.dropdown-menu').first().stop(true, true).delay(500).hide(0);
 		    });
-		    $('.navbar-nav > .nav-item > a').click(function() {
+		    $('.navbar-nav:nth-child(1) > .nav-item > a').click(function() {
 			location.href = this.href;
 		    });
 		} else {
 		    $('.navbar-nav > .nav-item .dropdown-menu').show();
-		    $('.navbar-nav > .nav-item > a').click(function() {
+		    $('.navbar-nav:nth-child(1) > .nav-item > a').click(function() {
 			location.href = this.href;
 		    });
 		}
