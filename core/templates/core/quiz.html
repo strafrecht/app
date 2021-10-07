@@ -82,38 +82,23 @@ style="
 
 			   <figure>
 			      <div class="at">
-				{% for item in categories %}
+				{% for item in categories_at %}
 					{% if item.first.id > 0 %}
 						<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
 					{% endif %}
 				{% endfor %}
 			      </div>
 			      <div class="bt">
-				      <a href="#"><span class="badge badge-pill">Mord</span></a>
+				{% for item in categories_bt %}
+					{% if item.first.id > 0 %}
+						<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+					{% endif %}
+				{% endfor %}
 			      </div>
 			   </figure>
 			</div>
-		{% for item in categories %}
-			{% if item.first.id > 0 %}
-				<div class="d-flex bg-white rounded p-2 mb-2 align-items-center justify-content-between">
-					<h6 class="">
-						<img src="">
-						{{ item.category.article.current_revision.title }}
-					</h6>
-					
-					<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start" class="btn btn-info">
-						Start Quiz
-					</a>
-				</div>
-			{% endif %}
-		{% endfor %}
+		
 	</div>
-
-	{% if 'bt' in request.path %}
-		<a href="{% url 'quiz:index' %}">Wechsel in den AT</a>
-	{% else %}
-		<a href="{% url 'quiz:index_bt' %}">Wechsel in den BT</a>
-	{% endif %}
 
 </div>
 {% endblock %}
