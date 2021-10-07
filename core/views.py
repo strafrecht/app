@@ -30,6 +30,7 @@ from wagtail.documents.models import Document
 from wiki.models import Article, ArticleRevision, URLPath
 from .models import Question, QuestionVersion, AnswerVersion, Quiz, UserAnswer, Choice
 from pages.models.exams import Exams
+from pages.models.jurcoach import Jurcoach
 from pages.models.sessions import SessionPage
 from .seed import start
 
@@ -69,7 +70,10 @@ def pdf(request, semester, slug, filename):
 def index(request):
     categories_at = get_at_categories()
     categories_bt = get_bt_categories()
-    return render(request, "core/quiz.html", {"categories_at": categories_at, "categories_bt": categories_bt})
+    header_image = Jurcoach.header
+    header_headline = Jurcoach.header_headline
+    header_slogan = Jurcoach.header_headline
+    return render(request, "core/quiz.html", {"categories_at": categories_at, "categories_bt": categories_bt, "header_image": header_image, "header_headline": header_headline, "header_slogan": header_slogan})
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
