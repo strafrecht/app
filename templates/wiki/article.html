@@ -98,9 +98,7 @@
 		<div class="tabbed">
 		    <div class="wiki-parents">
 			{% if urlpath.parent %}
-			    {% for ancestor in urlpath.cached_ancestors %}
-			    			    <label><h3>{{ ancestor.article.current_revision.title|truncatechars:25 }}</h3></label>
-{% endfor %}
+			    			    <label><h3>{{ urlpath.ancestor.article.current_revision.title|truncatechars:25 }}</h3></label>
 			<a href="{% url 'wiki:get' path=urlpath.path %}">
 			    <label><h3>{{ urlpath.article.current_revision.title }}</h3></label>
 			</a>
