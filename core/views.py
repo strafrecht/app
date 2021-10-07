@@ -69,7 +69,7 @@ def pdf(request, semester, slug, filename):
 def index(request):
     categories_at = get_at_categories()
     categories_bt = get_bt_categories()
-    return render(request, "core/quiz.html", {"categories_at": categories_at, "categories_bt": categories_bt})
+    return render(request, "core/quiz.html", {"categoriesat": categories_at, "categoriesbt": categories_bt})
 
 
 def detail(request, question_id):
