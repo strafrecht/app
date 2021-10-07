@@ -69,11 +69,26 @@ style="
 </section>
 {% endblock %}
 
-{% block content %}
-<div class="flex flex-col col-md-12">
-	<h2>Quizes</h2>
 
-	<div class="flex flex-col col-md-9">
+{% block content %}
+<div id="jurcoach-page">
+		<section class="text-center" style="margin-bottom: 60px; padding: 50px 0;">
+			<div class="container" style="max-width:700px !important;">
+				<div class="illustration-container"><div class="jurcoach-logo"></div></div>
+				<div class="h2-wrapper">
+					<h2 style="margin-bottom: 50px;">{{ self.intro_headline }}</h2>
+				</div>
+				{{ self.intro_text | richtext }}
+			</div>
+		</section>
+	
+	<section class="text-center">
+	<div class="container">
+	<div class="h2-wrapper">
+		<h2>{{ self.carousel_headline }}</h2>
+	</div>
+
+	<div>
 			<div class="tabbed">
 			   <input checked="checked" id="at" type="radio" name="tabs" />
 			   <input id="bt" type="radio" name="tabs" />
@@ -100,8 +115,10 @@ style="
 			      </div>
 			   </figure>
 			</div>
-		
+
+	</div>		
 	</div>
+	</section>
 
 </div>
 {% endblock %}
