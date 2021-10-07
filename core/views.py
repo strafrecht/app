@@ -30,7 +30,7 @@ from wagtail.documents.models import Document
 from wiki.models import Article, ArticleRevision, URLPath
 from .models import Question, QuestionVersion, AnswerVersion, Quiz, UserAnswer, Choice
 from pages.models.exams import Exams
-from pages.models.jurcoach import Jurcoach
+from pages.models.jurcoach import JurcoachPage
 from pages.models.sessions import SessionPage
 from .seed import start
 
