@@ -1,0 +1,108 @@
+{% load i18n sekizai_tags static %}
+
+  <div class="btn-group" style="margin-left: 10px;float:right;">
+    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 7px 14px;" type="button"
+            title="{% trans "Sub-articles for" %} {{ article.current_revision.title }}"
+            aria-haspopup="true" aria-expanded="false">
+      <span class="fa fa-file-alt mr-1"></span> Problemfeld hinzufügen
+      <span class="caret"></span>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        {% if urlpath.parent %}
+        <a class="dropdown-item" href="{% url 'wiki:create' path=urlpath.parent.path %}" style="padding: 7px;">
+          <span class="fa fa-arrow-right"></span>
+          {% blocktrans with article.current_revision.title as title %}New article next to {{ title }}{% endblocktrans %}
+        </a>
+        {% endif %}
+        <a class="dropdown-item" href="{% url 'wiki:create' path=urlpath.path %}" style="padding: 7px;">
+          <span class="fa fa-arrow-down"></span>
+          {% blocktrans with article.current_revision.title as title %}New article below {{ title }}{% endblocktrans %}
+        </a>
+    </div>
+  </div>
+
+	<!--link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script-->
+
+	<!--script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script-->
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.13/dist/vuetify.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/vuetify@2.3.13/dist/vuetify.min.css" rel="stylesheet">
+  	  
+  <div class="clearfix"></div>
+</div>
+
+<br>
+<div id="app">
+  <v-app id="inspire">
+    <v-toolbar
+    >
+      <v-autocomplete
+        v-model="select"
+        :loading="loading"
+        :items="items"
+        :search-input.sync="search"
+		item-text="title"
+		item-value="title"
+        flat
+        hide-no-data
+        hide-details
+        label="Problemfeldsuche"
+      >
+        <template v-slot:item="data">
+          <template v-if="typeof data.item !== 'object'">
+            <v-list-item-content v-text="data.item"></v-list-item-content>
+          </template>
+          <template v-else>
+            <v-list-item-content @click="redirect(data.item.url)" @keydown.down="redirect(data.item.url)">
+              <v-list-item-title v-html="data.item.title"></v-list-item-title>
+              <v-list-item-subtitle v-html="data.item.breadcrumb"></v-list-item-subtitle>
+            </v-list-item-content>
+          </template>
+        </template>
+      </v-autocomplete>
+    </v-toolbar>
+  </v-app>
+</div>
+
+<script>
+	new Vue({
+  	  el: '#app',
+  	  vuetify: new Vuetify(),
+  	  data () {
+    	return {
+      	  loading: false,
+      	  items: [],
+      	  search: null,
+      	  select: null,
+    	}
+  	  },
+  	  watch: {
+    	search (val) {
+      	  val && val !== this.select && this.querySelections(val)
+    	},
+  	  },
+  	  methods: {
+  		redirect(url) {
+  			window.location.href = url
+  		},
+    	querySelections (query) {
+  		this.loading = true
+
+		fetch(`/run/search/wiki/${query}`)
+      	  .then(res => res.json())
+      	  .then(res => {
+        	this.items = res.data
+      	  })
+      	  .catch(err => {
+        	console.log(err)
+      	  })
+      	  .finally(() => (this.loading = false))
+    	},
+  	  },
+	})
+</script>
