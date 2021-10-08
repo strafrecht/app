@@ -86,7 +86,24 @@
 {% else %}
 <!-- ##### category view, if there are subcategories ##### -->
 
+<section class="text-center" style="padding: 50px 0;">
+	<div class="container" style="max-width:700px !important;">
+		<div class="h2-wrapper">
+			<h2 style="margin-bottom: 50px;">Problemfeld-Wiki</h2>
+		</div>
+		<p>
+			Definitionen und Theorien zu Fragestellungen, die immer 
+			wieder in den Klausuren auf der Tagesordnung sind. Lorem 
+			ipsum dolor sit amet, consectetuer adipiscing elit. Aenean 
+			commodo ligula eget dolor. Aenean massa. Cum parturient 
+			montes, nascetur ridiculus mus.
+		</p>
+	</div>
+</section>
 
+<section class="text-center">
+<div class="container">					       
+								       
 <div class="tabbed">
    <div class="wiki-parents">
       {% if urlpath.parent %}
@@ -115,10 +132,16 @@
    <div class="wiki-children"> {% for urlpath in children_slice %} <a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a> {% empty%} <em>{% trans "There are no articles in this level" %}</em> {% endfor %} </div>
 </div>
 
+</div>
+</section>
+
+<section>
+<div class="container">
 {% block wiki_contribute %}
 {% include "wiki/includes/contribute-menu-category.html" %}
 {% endblock %}
-
+</div>
+</section>
 {% endif %}
 
 {% endblock %}
