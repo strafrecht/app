@@ -283,12 +283,13 @@ div.contribute-small {
 	background-size: contain;
 }
 div.contribution-area {
+	background: #EEEDE8;
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	justify-content: center;
 	max-width: 500px;
 	min-height: 120px;
 	margin: 20px auto 30px auto;
-	background: #EEEDE8;
 	padding: 20px 100px 20px 20px;
 }
 #jurcoach-page .line {
