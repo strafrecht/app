@@ -299,6 +299,12 @@ div.contribution-area {
 	background: transparent !important;
 	content: none;
 }
+#jurcoach-page .wiki-article .wiki-article-title {
+	margin-bottom: 30px;
+	background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #E8E7DF 20px, #E8E7DF 40px);
+	line-height: 40px !important;
+	display: inline !important;
+}
 #jurcoach-page .wiki-article > h2 {
 	font-size: 1.3rem !important;
 }
