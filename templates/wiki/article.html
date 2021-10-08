@@ -91,14 +91,10 @@
 		   <div class="wiki-parents">
 		      {% if urlpath.parent %}
 			  {% url 'wiki:get' path=urlpath.parent.path as rootpath %}
-			  {% for child in urlpath.root.children_slice %}
-			    <!-- Don't list articles marked for deletion -->
-			    {% if not child.is_deleted %}
-				{% url 'wiki:get' path=child.path as childpath %}
-				  <a href="{{ childpath }}"><label><h3>
-				    {{ child.article.current_revision.title }}
+			  {% for urlpath in rootpath.children_slice %}
+				<a href="{% url 'wiki:get' path=urlpath.path %}"><label><h3>
+				    {{ urlpath.article.current_revision.title }}
 				  </h3></label></a>
-			    {% endif %}
 			  {% endfor %}
 			   
 		      <!--<label><h3>{{ urlpath.parent.article.current_revision.title|truncatechars:25 }}</h3></label>-->
