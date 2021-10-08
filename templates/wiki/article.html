@@ -91,7 +91,7 @@
 		   <div class="wiki-parents">
 		      {% if urlpath.parent %}
 			  {% url 'wiki:get' path=urlpath.parent.path as rootpath %}
-			  {% for urlpath in parent.children_slice %}
+			  {% for urlpath in urlpath.parent.path.children_slice %}
 				<a href="{% url 'wiki:get' path=urlpath.path %}"><label><h3>
 				    {{ urlpath.article.current_revision.title }}
 				  </h3></label></a>
