@@ -55,6 +55,7 @@
 
 	{% block wiki_contents %}
 
+	<!-- ##### article view, because there are no subcategories ##### -->
 	{% if children_slice|length <= 0 %}
 	<div id="article-container">
 		<nav id="article-menu" class="navbar navbar-expand-md nav-pills">
@@ -83,72 +84,34 @@
 		</div>
 	</div>
 
+	<!-- ##### category view, because there are subcategories ##### -->
 	{% else %}
-		<!--
-		<div class="py-3">
-		{% with children_slice|length as cnt %}
-		{% blocktrans with urlpath.path as path and cnt|pluralize:_("article,articles") as articles_plur and cnt|pluralize:_("is,are") as articles_plur_verb trimmed %}
-	  	  	  Browsing <strong><a href="{{ self_url }}">/{{ path }}</a></strong>. There {{ articles_plur_verb }} <strong>{{ cnt }} {{ articles_plur }}</strong> in this level.
-		{% endblocktrans %}
-		{% endwith %}
-		</div>
-		-->
-		<br>
 
 		<div class="tabbed">
-		    <div class="wiki-parents">
-			{% if urlpath.parent %}
-			{% for child in urlpath.parent.children_slice %}
-			<a href="{% url 'wiki:get' path=child.path %}"><span class="badge badge-pill">{{ child.article.current_revision.title }}</span></a>
-			{% endfor %}
-			
-			    <!--<label><h3>{{ urlpath.parent.article.current_revision.title|truncatechars:25 }}</h3></label>-->
-			<a href="{% url 'wiki:get' path=urlpath.path %}">
-			    <label><h3>{{ urlpath.article.current_revision.title }}</h3></label>
-			</a>
-			{% else %}
-			<label><h3>Problemfelder</h3></label>
-			{% endif %}
-		    </div>
-		    <div class="wiki-children">
-			{% for urlpath in children_slice %}
-			<a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a>
-			{% empty%}
-			<em>{% trans "There are no articles in this level" %}</em>
-			{% endfor %}
-		    </div>
+		   <div class="wiki-parents">
+		      {% if urlpath.parent %}
+			   {% for child in urlpath.parent.children_slice %}
+			   <a href="{% url 'wiki:get' path=child.path %}">
+				   <label>
+			    		<h3>{{ child.article.current_revision.title }}
+				   </label>
+			   </a>
+			   {% endfor %}
+		      <!--<label><h3>{{ urlpath.parent.article.current_revision.title|truncatechars:25 }}</h3></label>-->
+		      <a href="{% url 'wiki:get' path=urlpath.path %}">
+			 <label>
+			    <h3>{{ urlpath.article.current_revision.title }}</h3>
+			 </label>
+		      </a>
+		      {% else %}
+		      <label>
+			 <h3>Problemfelder</h3>
+		      </label>
+		      {% endif %} 
+		   </div>
+		   <div class="wiki-children"> {% for urlpath in children_slice %} <a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a> {% empty%} <em>{% trans "There are no articles in this level" %}</em> {% endfor %} </div>
 		</div>
 
-
-		<!--<table class="table table-striped">
-			<tr>
-				<th>{% trans "Title" %}</th>
-				<th>{% trans "Last modified" %}</th>
-			</tr>
-			{% for urlpath in children_slice %}
-				<tr>
-					<td>
-					<a href="{% url 'wiki:get' path=urlpath.path %}"> {{ urlpath.article.current_revision.title }} </a>
-					<a href="{% url 'wiki:dir' path=urlpath.path %}" class="list-children"> › </a>
-					{% if urlpath.article.current_revision.deleted %}
-					<span class="fa fa-trash"></span>
-					{% endif %}
-					{% if urlpath.article.current_revision.locked %}
-					<span class="fa fa-lock"></span>
-					{% endif %}
-					</td>
- 	 	 	 	 	<td>
-						{{ urlpath.article.current_revision.created|date:"j.n.Y G.i" }} Uhr
-					</td>
-				</tr>
-				{% empty%}
-				<tr>
-					<td colspan="100">
-					<em>{% trans "There are no articles in this level" %}</em>
-					</td>
-				</tr>
-			{% endfor %}
-		</table>	-->
 	{% endif %}
 
 {% endblock %}
