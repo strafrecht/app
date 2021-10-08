@@ -90,8 +90,8 @@
 		<div class="tabbed">
 		   <div class="wiki-parents">
 		      {% if urlpath.parent %}
-			  {% url 'wiki:get' path=urlpath.parent.path as rootpath %}
-			  {% for urlpath in urlpath.parent.children_slice %}
+			  {% url 'wiki:get' path=urlpath.parent.path as parentpath %}
+			  {% for urlpath in parentpath.children_slice %}
 				<a href="{% url 'wiki:get' path=urlpath.path %}"><label><h3>
 				    {{ urlpath.article.current_revision.title }}
 				  </h3></label></a>
