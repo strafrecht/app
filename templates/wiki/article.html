@@ -59,11 +59,10 @@
 {% if children_slice|length <= 0 %}
 <!-- ##### article view, if there are no subcategories ##### -->
 <div id="article-container">
-<div class="h2-centered">
+<section class="text-center">
    <h2 class="wiki-article-title">
       {{ article.current_revision.title }}
    </h2>
-</div>
       <small style="font-size: 14px;">
          {% if urlpath.parent %}
          <!--a href="{% url 'wiki:get' path=urlpath.path %}" class="nav-link"><span class="fa fa-bookmark"></span> {{ urlpath.slug }}</a-->
@@ -72,19 +71,25 @@
          <span class="fa fa-lock"></span> {% trans "locked" %}
          {% endif %}
       </small>
-   <div>
+</section>
+<section>
       {% block wiki_contents_tab %}
       {% endblock %}
+</section>
+<section>
       {% block wiki_footer_prepend %}
 	   <p style="margin-bottom: 10px;"><em>Das Problemfeld wurde zuletzt am {{ article.current_revision.modified|date:"j.n.Y" }} um {{ article.current_revision.modified|date:"G.i" }} Uhr bearbeitet.</em></p>
       {% endblock %}
+</section>
+<section>
       {% include "wiki/includes/contribute-menu-article.html" %}
-   </div>
+</section>
 </div>
 
 
 {% else %}
 <!-- ##### category view, if there are subcategories ##### -->
+
 
 <section class="text-center">
 	<div class="container" style="max-width:700px !important;">
