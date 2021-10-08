@@ -84,6 +84,10 @@
 		</div>
 	</div>
 
+	{% block wiki_contribute %}
+		{% include "wiki/includes/contribute.html" %}
+	{% endblock %}
+
 	<!-- ##### category view, because there are subcategories ##### -->
 	{% else %}
 
@@ -111,6 +115,10 @@
 		   </div>
 		   <div class="wiki-children"> {% for urlpath in children_slice %} <a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a> {% empty%} <em>{% trans "There are no articles in this level" %}</em> {% endfor %} </div>
 		</div>
+
+		{% block wiki_contribute %}
+			{% include "wiki/includes/contribute.html" %}
+		{% endblock %}
 
 	{% endif %}
 
