@@ -56,8 +56,8 @@
 
 {% block wiki_contents %}
 
-<!-- ##### article view, because there are no subcategories ##### -->
 {% if children_slice|length <= 0 %}
+<!-- ##### article view, if there are no subcategories ##### -->
 <div id="article-container">
    <h1 id="article-title">
       {{ article.current_revision.title }}
@@ -82,8 +82,10 @@
    </div>
 </div>
 
-<!-- ##### category view, because there are subcategories ##### -->
+
 {% else %}
+<!-- ##### category view, if there are subcategories ##### -->
+
 
 <div class="tabbed">
    <div class="wiki-parents">
