@@ -28,32 +28,29 @@
         {# Global stylesheets #}
 			<link rel="preconnect" href="https://fonts.googleapis.com">
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-				<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,500|Roboto:400,500,600,700&display=swap" rel="stylesheet">
-				<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
-				<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-				<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.4/chartist.min.css">
-				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-				<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-			    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-				<link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css"></link>
-				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css"></link>
-				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"></link>
+			<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,500|Roboto:400,500,600,700,900&display=swap" />
+			<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" />
+			<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700;800&display=swap" />
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.4/chartist.min.css">
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+			<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+			<link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css" />
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css" />
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
-				<link href="{% static 'css/app.css' %}" rel="stylesheet">
-				<!-- Add the slick-theme.css if you want default styling -->
-				<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-				<!-- Add the slick-theme.css if you want default styling -->
-				<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+			<link href="{% static 'css/app.css' %}" rel="stylesheet">
 
-				{% stylesheet 'base' %}
-				{% stylesheet 'sidebar' %}
+			{% stylesheet 'base' %}
+			{% stylesheet 'sidebar' %}
 
-				<link href="{% static "css/sidebar.css" %}" rel="stylesheet">
-				<link href="{% static "css/sidebars/simple.css" %}" rel="stylesheet">
-				<link href="{% static "css/sidebars/header.css" %}" rel="stylesheet">
-				<link href="{% static "css/sidebars/image_text.css" %}" rel="stylesheet">
-				<link href="{% static "css/sidebars/calendar_text.css" %}" rel="stylesheet">
-				<link href="{% static "css/sidebars/poll.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebar.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/simple.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/header.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/image_text.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/calendar_text.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/poll.css" %}" rel="stylesheet">
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
