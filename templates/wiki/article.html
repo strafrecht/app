@@ -87,37 +87,6 @@
 	<!-- ##### category view, because there are subcategories ##### -->
 	{% else %}
 
-
-<h4>List of articles</h4>
-<ul>
-  <!-- Need to get the first article (root) -->
-  {% url 'wiki:get' path=urlpath.root.path as rootpath %}
-  <li>
-    <a href="{{ rootpath }}">
-      {{ urlpath.root.article.current_revision.title }}
-    </a>
-  </li>
-
-  <!-- Now get all the descendent articles of the root -->
-  {% for child in urlpath.root.get_descendants %}
-    <!-- Don't list articles marked for deletion -->
-    {% if not child.is_deleted %}
-      {% with ''|center:child.level as range %}
-        {% for _ in range %}<ul>{% endfor %}
-        {% url 'wiki:get' path=child.path as childpath %}
-        <li>
-          <a href="{{ childpath }}">
-            {{ child.article.current_revision.title }}
-          </a>
-        </li>
-        {% for _ in range %}</ul>{% endfor %}
-      {% endwith %}
-    {% endif %}
-  {% endfor %}
-</ul>
-
-
-
 		<div class="tabbed">
 		   <div class="wiki-parents">
 		      {% if urlpath.parent %}
@@ -133,11 +102,11 @@
 			  {% endfor %}
 			   
 		      <!--<label><h3>{{ urlpath.parent.article.current_revision.title|truncatechars:25 }}</h3></label>-->
-		      <!--<a href="{% url 'wiki:get' path=urlpath.path %}">
+		      <a href="{% url 'wiki:get' path=urlpath.path %}">
 			 <label>
 			    <h3>{{ urlpath.article.current_revision.title }}</h3>
 			 </label>
-		      </a>-->
+		      </a>
 		      {% else %}
 		      <label>
 			 <h3>Problemfelder</h3>
