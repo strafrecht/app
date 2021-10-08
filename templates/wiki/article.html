@@ -74,13 +74,11 @@
 					</h1>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
-			{% include "wiki/includes/article_menu.html" %}
-			</ul>
 		</nav>
 		<div>
 		{% block wiki_contents_tab %}
 		{% endblock %}
+		{% include "wiki/includes/article_menu.html" %}
 		</div>
 	</div>
 
