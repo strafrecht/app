@@ -2,7 +2,6 @@
 
   <div class="contribution-area">
         <a href="{% url 'wiki:create' path=urlpath.path %}" style="padding: 7px;">
-          <span class="fa fa-arrow-down"></span>
           {% blocktrans with article.current_revision.title as title %}Neues Problemfeld in der Kategorie {{ title }} erstellen{% endblocktrans %}
         </a>
   </div>
