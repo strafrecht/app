@@ -1,7 +1,7 @@
 {% load i18n sekizai_tags static %}
 
   <div class="contribution-area" style="max-width: 500px;margin: 20px auto 0 auto;background: #EEEDE8;padding: 20px;">
-        <a href="{% url 'wiki:create' path=urlpath.path %}" style="padding: 7px;">
+        <a href="{% url 'wiki:create' path=urlpath.path %}">
           {% blocktrans with article.current_revision.title as title %}Neues Problemfeld in der Kategorie {{ title }} erstellen <i class="bi bi-arrow-right"></i>{% endblocktrans %}
         </a>
   </div>
