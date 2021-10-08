@@ -292,6 +292,13 @@ div.contribution-area {
 	margin: 20px auto 30px auto;
 	padding: 20px 100px 20px 20px;
 }
+#jurcoach-page .wiki-article h2:after {
+	background: transparent !important;
+	content: none;
+}
+#jurcoach-page .wiki-article > h2 {
+	font-size: 1.3rem !important;
+}
 #jurcoach-page .line {
     height: 20px;
     border-bottom: 3px solid;
