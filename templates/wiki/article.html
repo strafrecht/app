@@ -122,17 +122,13 @@
 		   <div class="wiki-parents">
 		      {% if urlpath.parent %}
 			  {% url 'wiki:get' path=urlpath.parent.path as rootpath %}
-			  {% for child in urlpath.root.get_descendants %}
+			  {% for child in urlpath.root.children_slice %}
 			    <!-- Don't list articles marked for deletion -->
 			    {% if not child.is_deleted %}
-			      {% with ''|center:child.level as range %}
-				{% for _ in range %}<p>{% endfor %}
 				{% url 'wiki:get' path=child.path as childpath %}
 				  <a href="{{ childpath }}"><label><h3>
 				    {{ child.article.current_revision.title }}
 				  </h3></label></a>
-				{% for _ in range %}</p>{% endfor %}
-			      {% endwith %}
 			    {% endif %}
 			  {% endfor %}
 			   
