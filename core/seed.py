@@ -70,13 +70,14 @@ def start(request):
     #scrape_events(request)
 
     # scrape sessions
-    scrape_lehre(request)
+    #scrape_lehre(request)
 
     # scrape wiki
     #scrape_wiki(request)
 
     # Redirects
     #scrape_redirects(request)
+    print('')
 
 def scrape_wiki(request):
     # init
@@ -682,9 +683,9 @@ def extract_session(content):
                 s = e.decode_contents().replace('<li>', '<p>').replace('</li>', '</p>')
                 result[current].append(s)
 
-    result['speakers'] = "\n".join(result['speakers'])
-    result['date'] = "\n".join(result['date'])
-    result['location'] = "\n".join(result['location'])
+    result['speakers'] = "<br/>".join(result['speakers'])
+    result['date'] = "<br/>".join(result['date'])
+    result['location'] = "<br/>".join(result['location'])
 
     # Right
     result['assessment'] = right.decode_contents()
