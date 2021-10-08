@@ -3,7 +3,7 @@
   <div class="illustration-container"><div class="contribute-small"></div></div>
   <div class="contribution-area">
         <a href="{% url 'wiki:create' path=urlpath.path %}">
-          {% blocktrans with article.current_revision.title as title %}Neues Problemfeld in dieser Kategorie erstellen <i class="bi bi-arrow-right"></i>{% endblocktrans %}
+          <span class="underlined green hover">{% blocktrans with article.current_revision.title as title %}Neues Problemfeld in dieser Kategorie erstellen</span> <i class="bi bi-arrow-right"></i>{% endblocktrans %}
         </a>
   </div>
 </div>
