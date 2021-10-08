@@ -288,11 +288,10 @@ div.contribution-area {
 	background: #EEEDE8;
 	padding: 20px 100px 20px 20px;
 }
-div.contribution-area:before {
+div.contribution-area:after {
 	position: relative;
 	content: "";
-	top: -55px;
-	left: 55%;
+	top: -79px;
 	-webkit-transform: translateY(-100%);
 	transform: translateY(-100%);
 	width: 15px;
