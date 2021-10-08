@@ -73,12 +73,10 @@
    <div>
       {% block wiki_contents_tab %}
       {% endblock %}
-      {% include "wiki/includes/contribute-menu-article.html" %}
-   </div>
-   <div>
       {% block wiki_footer_prepend %}
-	   <p style="margin-bottom: 10px;"><em>{% trans "This article was last modified:" %} {{ article.current_revision.modified|date:"j.n.Y G.i Uhr" }}</em></p>
+	   <p style="margin-bottom: 10px;"><em>Das Probemfeld wurde zuletzt am {{ article.current_revision.modified|date:"j.n.Y" }} um {{ article.current_revision.modified|date:"G.i" }} Uhr bearbeitet.</em></p>
       {% endblock %}
+      {% include "wiki/includes/contribute-menu-article.html" %}
    </div>
 </div>
 
