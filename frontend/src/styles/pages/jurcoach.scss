@@ -288,18 +288,6 @@ div.contribution-area {
 	background: #EEEDE8;
 	padding: 20px 100px 20px 20px;
 }
-div.contribution-area:after {
-	position: relative;
-	content: "";
-	top: -79px;
-	-webkit-transform: translateY(-100%);
-	transform: translateY(-100%);
-	width: 15px;
-	height: 16px;
-	border-left: 15px solid transparent;
-	border-right: 15px solid transparent;
-	border-bottom: 16px solid #EEEDE8;
-}
 #jurcoach-page .line {
     height: 20px;
     border-bottom: 3px solid;
