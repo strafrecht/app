@@ -283,8 +283,11 @@ div.contribute-small {
 	background-size: contain;
 }
 div.contribution-area {
+	display: flex;
+	align-items: center;
 	max-width: 500px;
-	margin: 20px auto 0 auto;
+	min-height: 120px;
+	margin: 20px auto 30px auto;
 	background: #EEEDE8;
 	padding: 20px 100px 20px 20px;
 }
