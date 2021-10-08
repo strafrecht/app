@@ -3,7 +3,7 @@ import json
 import logging
 import os
 from django.http import HttpResponse
-
+import urllib.parse
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -40,18 +40,21 @@ from .serializers import QuestionSerializer, ChoiceSerializer, UserAnswerSeriali
 logger = logging.getLogger('django')
 
 def transform_to_filename(semester, slug, filename):
-    local_filename = 'Lehre_{semester}_{slug}_{filename}'.format(
+    local_filename = '{semester}_{filename}'.format(
         semester=semester,
         slug=slug,
         filename=filename
     )
-
     return local_filename
 
 def pdf(request, semester, slug, filename):
-    local_filename = transform_to_filename(semester, slug, filename)
+    #local_filename = transform_to_filename(semester, slug, filename)
+    #local_filename = urlencode(filename)
+    local_filename = urllib.parse.quote(filename)
 
     if local_filename:
+        print("NEXT")
+        print(local_filename)
         document = Document.objects.filter(
             file__endswith=local_filename
         ).first()
