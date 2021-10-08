@@ -15,6 +15,13 @@
 
 {% block body_class %}template-websitepage{% endblock %}
 
+{% block headertext %}
+<div class="container header-text">
+	<h2>{{ page.header_headline | richtext }}</h2>
+	{{ page.header_slogan | richtext }}
+</div>
+{% endblock %}
+
 {% block content %}
 	<div id="jurcoach-page">
 		<section class="text-center" style="margin-bottom: 60px; padding: 50px 0;">

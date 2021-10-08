@@ -3,6 +3,7 @@ $footer-height: 130px;
 footer {
 	min-height: $footer-height;
 	padding: 10px 0 10px 0;
+	border-top: 3px solid #EEEDE8;
 }
 footer .container {
 	max-width: 1100px;

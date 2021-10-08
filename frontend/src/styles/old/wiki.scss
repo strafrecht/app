@@ -1,5 +1,5 @@
 #wiki .container {
-	max-width: 900px;
+	max-width: $container-width;
 }
 
 #wiki .tab-content > div {
@@ -17,7 +17,7 @@ font-weight: 500;
 }
 
 #wiki .modal .modal-dialog {
-	max-width: 900px !important;
+	max-width: $container-width !important;
 }
 
 #wiki .page-header {

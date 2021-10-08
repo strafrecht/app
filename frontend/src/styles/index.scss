@@ -4,6 +4,7 @@ $green: #ADD345;
 $bg-gray: #E8E7DF;
 $line-gray:#E8E7E0;
 $serif-font: 'Roboto Slab';
+$container-width: 900px;
 
 body {
   background: #fafafa;
@@ -28,7 +29,7 @@ h3 {
 @import "pages/cms_session.css";
 @import "pages/lehre.css";
 @import "pages/jurcoach.scss";
-@import "old/base.css";
+@import "old/base.scss";
 @import "old/columns.css";
 @import "old/comments.css";
 @import "old/content.css";
@@ -36,13 +37,13 @@ h3 {
 //@import "old/django-pwa-app.css";
 //@import "old/main.css";
 @import "old/mysite.css";
-@import "old/navbar.css";
+@import "old/navbar.scss";
 @import "old/person_index_page.css";
 @import "old/person_page.css";
 @import "old/polls.css";
 @import "old/sidebar.css";
-@import "old/website_index_page.css";
-@import "old/wiki.css";
+@import "old/website_index_page.scss";
+@import "old/wiki.scss";
 
 .jurcoach-links-widgets {
     position: relative;
@@ -61,7 +62,7 @@ h3 {
 
 main.container {
     background: white;
-    max-width: 900px;
+    max-width: $container-width;
 }
 main > .container-inner > .content {
     flex-grow: 1;
@@ -94,6 +95,19 @@ main.container > div > .container {
 	font-size: 1.2rem !important;
 	margin-bottom: 0px;
  }
+
+.breadcrumb-new {
+    font-size: 0.8em;
+    max-width: $container-width;
+    margin: 0 auto;
+    top: 30px;
+    position: relative;
+}
+
+.breadcrumb-new a {
+    font-weight: 300 !important;
+    font-size: inherit !important;
+}
 
 @media screen and (max-width: 720px) {
     main.container.container-inner {

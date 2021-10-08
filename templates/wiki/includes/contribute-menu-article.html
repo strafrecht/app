@@ -1,0 +1,39 @@
+{% load i18n wiki_tags %}
+<div style="min-height: 200px;">
+   <div class="illustration-container">
+      <div class="contribute-small"></div>
+   </div>
+   <div class="contribution-area">
+      {% with selected_tab as selected %}
+      <p style="margin-bottom: 0px !important;{% if selected == "view" %} display:none;{% endif %}"><a href="{% url 'wiki:get' article_id=article.id path=urlpath.path %}">
+         <span class="underlined green hover">Problemfeld lesen</span> <i class="bi bi-arrow-right"></i>
+         </a>
+      </p>
+      {% if article|can_write:user and not article.current_revision.locked %}
+      <p style="margin-bottom: 0px !important;{% if selected == "edit" %} display:none;{% endif %}"><a href="{% url 'wiki:edit' article_id=article.id path=urlpath.path %}">
+         <span class="underlined green hover">Problemfeld editieren</span> <i class="bi bi-arrow-right"></i>
+         </a>
+      </p>
+      {% endif %}
+      <p style="margin-bottom: 0px !important;{% if selected == "history" %} display:none;{% endif %}">
+         <a href="{% url 'wiki:history' article_id=article.id path=urlpath.path %}">
+         <span class="underlined green hover">Versionsgeschichte anzeigen</span> <i class="bi bi-arrow-right"></i>
+         </a>
+      </p>
+      {% for plugin in article_tabs %}
+      <p style="margin-bottom: 0px !important;{% if selected == plugin.slug %} display:none;{% endif %}">
+         <a href="{% url 'wiki:plugin' slug=plugin.slug article_id=article.id path=urlpath.path %}">
+         <span class="underlined green hover">{{ plugin.article_tab.0 }}</span> <i class="bi bi-arrow-right"></i>
+         </a>
+      </p>
+      {% endfor %}
+      {% if not user.is_anonymous %}
+      <p style="margin-bottom: 0px !important;{% if selected == "settings" %} display:none;{% endif %}">
+         <a href="{% url 'wiki:settings' article_id=article.id path=urlpath.path %}">
+         <span class="underlined green hover">Einstellungen aufrufen</span> <i class="bi bi-arrow-right"></i>
+         </a>
+      </p>
+      {% endif %}
+      {% endwith %}
+   </div>
+</div>

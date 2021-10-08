@@ -1,79 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+{% load wagtailpolls_tags %}
 {% load sekizai_tags i18n wiki_tags static pipeline %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block wiki_pagetitle %}{% endblock %}{% block wiki_site_title %} - Wiki |{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,500|Roboto:400,500,600,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Le styles -->
-    <link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
-	{% stylesheet 'base' %}
-
-    {% render_block "css" %}
-  </head>
-
-  <body id="wiki">
-
-    {% block wiki_body %}
-
-    {% block wiki_navbar %}
-		{% load wagtailcore_tags %}
-		{% include "layout/menu.html" %}
-    {% endblock %}
+{% block extra_css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/pages/jurcoach.css' %}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+{% endblock %}
 
 
-    <div class="container" style="margin-top: 40px;">
-    	<div class="header-image">
-    		<img src="/media/images/jurcoach_QoAbNtR.original.jpg">
-    		<div class="header-caption">Jurcoach</div>
-    	</div>
-
-    	<div class="wiki-content">
-      	  {% wiki_messages %}
-
-      	  <!-- Reserved for breadcrumbs -->
-      	  {% block wiki_breadcrumbs %}{% endblock %}
-
-      	  <!-- Main page contents go here -->
-      	  {% block wiki_contents %}{% endblock %}
-
+{% block headersection %}
+<div class="with-header">
+	{% include "layout/menu.html" %}
+</div>
+<section
+style="
+	background: transparent url('/media/original_images/Jurcoach_graffito.jpg') center center no-repeat padding-box;
+	opacity: 1;
+	background-size: cover;
+	background-position: center;
+">
+	<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
+		<div class="container header-text">
+			<h2><p data-block-key="s8435">Mach dich fit<br>für dein Jurastudium!</p></h2>
+			<p data-block-key="5rfls">Trainiere deine Fähigkeiten lorem ipsum dolor sit amet,</p><p data-block-key="18jhq">consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
 		</div>
-    </div> <!-- /container -->
+	</div>
+</section>
+{% endblock %}
 
-    {% endblock %}
-
+{% block extra_js %}
     <script src="{% static "wiki/js/jquery-3.4.1.min.js" %}"></script>
     <script src="{% static "wiki/js/core.js" %}"></script>
     <script src="{% static "wiki/js/popper.js" %}"></script>
-    <script src="{% static "wiki/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+    <script src="{% static "wiki/js/respond.min.js" %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
     <script src="https://use.fontawesome.com/2f4f67fb08.js"></script>
+{% endblock %}
 
+{% block body_class %}template-wikipage{% endblock %}
 
-    <script src="{% static "wiki/js/respond.min.js" %}"></script>
-    {% render_block "js" %}
-    
-    <footer class="footer">
-    <div class="container">
-    <ul>
-    <li><a class="text-muted" href="#">Impressum</a></li>
-    <li><a class="text-muted" href="#">Kontakt</a></li>
-    <li><a class="text-muted" href="#">Datenschutz</a></li>
-    <li><a class="text-muted" href="#">Cookies &amp; Tracking</a></li>
-    <li style="float:right;"><a class="social-media-icon fa fa-github" href="https://github.com/strafrecht"></a></li>
-    <li style="float:right;"><a class="social-media-icon fa fa-instagram" href="https://www.instagram.com/jurcoach/"></a></li>
-    <li style="float:right;"><a class="social-media-icon fa fa-facebook-square" href="https://www.facebook.com/jurcoach"></a></li>
-    </ul>
-    </div>
-    </footer>
+{% block content %}
+	<div id="jurcoach-page">
+		<section>
+			<div class="container">
+			    {% block wiki_body %}
+				
+				<div class="wiki-content">
+				  {% wiki_messages %}
 
-  </body>
-</html>
+				  <!-- Reserved for breadcrumbs -->
+				  {% block wiki_breadcrumbs %}{% endblock %}
+
+				  <!-- Main page contents go here -->
+				  {% block wiki_contents %}{% endblock %}
+					
+				</div>
+			    {% endblock %}
+			</div>
+		
+		</section>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	
+{% endblock %}
