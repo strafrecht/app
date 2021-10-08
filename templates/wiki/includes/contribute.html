@@ -1,24 +1,10 @@
 {% load i18n sekizai_tags static %}
 
-  <div class="btn-group" style="margin-left: 10px;float:right;">
-    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 7px 14px;" type="button"
-            title="{% trans "Sub-articles for" %} {{ article.current_revision.title }}"
-            aria-haspopup="true" aria-expanded="false">
-      <span class="fa fa-file-alt mr-1"></span> Problemfeld hinzufügen
-      <span class="caret"></span>
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        {% if urlpath.parent %}
-        <a class="dropdown-item" href="{% url 'wiki:create' path=urlpath.parent.path %}" style="padding: 7px;">
-          <span class="fa fa-arrow-right"></span>
-          {% blocktrans with article.current_revision.title as title %}New article next to {{ title }}{% endblocktrans %}
-        </a>
-        {% endif %}
-        <a class="dropdown-item" href="{% url 'wiki:create' path=urlpath.path %}" style="padding: 7px;">
+  <div class="contribution-area">
+        <a href="{% url 'wiki:create' path=urlpath.path %}" style="padding: 7px;">
           <span class="fa fa-arrow-down"></span>
-          {% blocktrans with article.current_revision.title as title %}New article below {{ title }}{% endblocktrans %}
+          {% blocktrans with article.current_revision.title as title %}Neues Problemfeld in der Kategorie {{ title }} erstellen{% endblocktrans %}
         </a>
-    </div>
   </div>
 
 	<!--link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
