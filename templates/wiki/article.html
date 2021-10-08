@@ -58,6 +58,9 @@ main > .container-inner > .content {
 {% if children_slice|length <= 0 %}
 <!-- ##### article view, if there are no subcategories ##### -->
 
+{% url 'wiki:get' path=urlpath.parent.path as parentarticle %}
+<p><a href="{{ parentarticle }}"><i class="bi bi-arrow-left-circle-fill"></i> <span style="font-weight:600;">Zurück zur Kategorienübersicht</span></a></p>
+
 <div id="article-container">
    <div class="h2-centered">
       <h2 class="wiki-article-title">
