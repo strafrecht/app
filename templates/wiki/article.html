@@ -68,18 +68,16 @@ main > .container-inner > .content {
 
 <div id="article-container">
    <div class="h2-centered">
-      <h2 class="wiki-article-title">
-         {{ article.current_revision.title }}
-      </h2>
+      <h2 class="wiki-article-title">{{ article.current_revision.title }}</h2>
+      <small style="font-size: 14px;margin-left: 5px;">
+	      {% if urlpath.parent %}
+	      <!--a href="{% url 'wiki:get' path=urlpath.path %}" class="nav-link"><span class="fa fa-bookmark"></span> {{ urlpath.slug }}</a-->
+	      {% endif %}
+	      {% if article.current_revision.locked %}
+	      <span class="fa fa-lock"></span> {% trans "locked" %}
+	      {% endif %}
+      </small>
    </div>
-   <small style="font-size: 14px;">
-      {% if urlpath.parent %}
-      <!--a href="{% url 'wiki:get' path=urlpath.path %}" class="nav-link"><span class="fa fa-bookmark"></span> {{ urlpath.slug }}</a-->
-      {% endif %}
-      {% if article.current_revision.locked %}
-      <span class="fa fa-lock"></span> {% trans "locked" %}
-      {% endif %}
-   </small>
 	
    <section>
       {% block wiki_contents_tab %}
