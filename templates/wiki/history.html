@@ -45,7 +45,7 @@
 </style>
 {% endaddtoblock %}
 
-<p class="lead">
+<p>
   {% trans "Click each revision to see a list of edited lines. Click the Preview button to see how the article looked at this stage. At the bottom of this page, you can change to a particular revision or merge an old revision with the current one." %}
 </p>
 
@@ -220,7 +220,7 @@ setTimeout(() => {
       <div class="modal-content">
         <div class="modal-header">
           <h1>{% trans "Merge with current" %}</h1>
-          <p class="lead"><span class="fa fa-info-circle"></span> {% trans "When you merge a revision with the current, all data will be retained from both versions and merged at its approximate location from each revision." %} <strong>{% trans "After this, it's important to do a manual review." %}</strong></p>
+          <p><span class="fa fa-info-circle"></span> {% trans "When you merge a revision with the current, all data will be retained from both versions and merged at its approximate location from each revision." %} <strong>{% trans "After this, it's important to do a manual review." %}</strong></p>
         </div>
         <div class="modal-body">
           <iframe name="mergeWindow" frameborder="0" style="min-height: 0;"></iframe>
