@@ -8,12 +8,12 @@
   <div class="col-lg-8">
 
     <h1>{% trans "Congratulations!" %}</h1>
-    <p class="lead">
+    <p>
       {% trans "You have django-wiki installed and it seems to be working. But there are no articles yet." %}
     </p>
 
     {% if not user.is_superuser %}
-      <p class="lead">
+      <p>
         {% trans "Not to worry! You simply have to login with a superuser account and create the first article in the root of the URL hierarchy." %}
       </p>
       {% login_url as wiki_login_url %}
@@ -23,7 +23,7 @@
 
     {% else %}
 
-      <p class="lead">
+      <p>
         {% trans "But since you're logged in as a superuser, we should really get started..." %}
       </p>
       <a href="{% url 'wiki:root_create' %}" class="btn btn-primary btn-lg">{% trans "Yes, I'll go and create the first article" %}</a>
