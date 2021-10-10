@@ -96,15 +96,17 @@ main > .container-inner > .content {
       {% endblock %}
    </section>
 	
+{% with selected_tab as selected %}
+{% if selected == "view" %}
    <section>
       {% block wiki_footer_prepend %}
       <p style="margin-bottom: 10px;"><em>Das Problemfeld wurde zuletzt am {{ article.current_revision.modified|date:"j.n.Y" }} um {{ article.current_revision.modified|date:"G.i" }} Uhr bearbeitet.</em></p>
       {% endblock %}
    </section>
-	
    <section>
       {% include "wiki/includes/contribute-menu-article.html" %}
    </section>
+{% endif %}
 	
 </div>
 
