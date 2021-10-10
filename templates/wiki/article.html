@@ -59,12 +59,14 @@ main > .container-inner > .content {
 <!-- ##### article view, if there are no subcategories ##### -->
 
 {% url 'wiki:get' path=urlpath.parent.path as parentarticle %}
+{% with selected_tab as selected %}
 <p>
 	<a href="{{ parentarticle }}" style="display: flex; flex-direction: row; align-items: center;">
 		<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
-		<span style="font-size: 1rem; font-weight:600;">Zurück zur Kategorienübersicht</span>
+		<span style="font-size: 1rem; font-weight:600;">{% if selected == "edit" or "history" or settings %}Zurück zum Problemfeld{% else %}Zurück zur Kategorienübersicht{% endif %}</span>
 	</a>
 </p>
+{% endwith %}
 
 <div id="article-container">
    <div class="h2-centered">
