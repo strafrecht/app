@@ -58,7 +58,7 @@ main > .container-inner > .content {
 {% if children_slice|length <= 0 %}
 <!-- ##### article view, if there are no subcategories ##### -->
 
-{% url 'wiki:get' path=urlpath.path as thisarticle %}">
+{% url 'wiki:get' path=urlpath.path as thisarticle %}
 {% url 'wiki:get' path=urlpath.parent.path as parentarticle %}
 {% with selected_tab as selected %}
 {% if selected == "edit" or selected == "history" or selected == "settings" %}
