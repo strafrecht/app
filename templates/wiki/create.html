@@ -6,17 +6,6 @@
 	{% include "wiki/includes/breadcrumbs.html" %}
 {% endblock %}
 
-<p>
-	<a href="../" style="display: flex; flex-direction: row; align-items: center;">
-		<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
-		<span style="font-size: 1rem; font-weight:600;">Zurück zur Kategorienübersicht</span>
-	</a>
-</p>
-
-<div class="h2-centered">
-<h2 class="wiki-article-title">Neues Problemfeld anlegen</h2>
-</div>
-
 {% block wiki_contents %}
 
   {% addtoblock "js" %}
@@ -41,7 +30,16 @@
   {% endaddtoblock %}
 
   {% include "wiki/includes/editormedia.html" %}
-  <h1 class="page-header">{% trans "Add new article" %}</h1>
+<p>
+	<a href="../" style="display: flex; flex-direction: row; align-items: center;">
+		<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
+		<span style="font-size: 1rem; font-weight:600;">Zurück zur Kategorienübersicht</span>
+	</a>
+</p>
+
+<div class="h2-centered">
+<h2 class="wiki-article-title">Neues Problemfeld anlegen</h2>
+</div>
 
   <form method="POST" class="form-horizontal">
     {% wiki_form create_form %}
