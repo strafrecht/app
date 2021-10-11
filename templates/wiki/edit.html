@@ -38,13 +38,13 @@
 
             <div class="float-right">
               {% if user.is_authenticated and urlpath.path %}
-              <a href="{% url 'wiki:move' path=urlpath.path article_id=article.id %}" class="btn btn-warning ">
+              <a href="{% url 'wiki:move' path=urlpath.path article_id=article.id %}" class="btn btn-warning " style="font-size:16px;">
                 <span class="fa fa-random"></span>
                 {% trans "Move article" %}
               </a>
               {% endif %}
               {% if article|can_delete:user %}
-              <a href="{% url 'wiki:delete' path=urlpath.path article_id=article.id %}" class="btn btn-danger">
+              <a href="{% url 'wiki:delete' path=urlpath.path article_id=article.id %}" class="btn btn-danger" style="font-size:16px;">
                 <span class="fa fa-trash-o"></span>
                 {% trans "Delete article" %}
               </a>
