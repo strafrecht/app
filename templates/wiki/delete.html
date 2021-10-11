@@ -20,6 +20,14 @@ main > .container-inner > .content {
 {% block wiki_pagetitle %}{% trans "Delete article" %}{% endblock %}
 
 {% block wiki_contents %}
+
+{% url 'wiki:get' path=urlpath.path as thisarticle %}
+	<p>
+		<a href="{{ thisarticle }}" style="display: flex; flex-direction: row; align-items: center;">
+			<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
+			<span style="font-size: 1rem; font-weight:600;">Zurück zum Problemfeld</span>
+		</a>
+	</p>
    <div class="h2-centered">
       <h2 class="wiki-article-title">Problemfeld löschen</h2>
    </div>
