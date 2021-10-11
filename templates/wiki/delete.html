@@ -20,7 +20,11 @@ main > .container-inner > .content {
 {% block wiki_pagetitle %}{% trans "Delete article" %}{% endblock %}
 
 {% block wiki_contents %}
-  <h1 class="page-header">{% trans "Delete" %} "{{ article.current_revision.title }}"</h1>
+   <div class="h2-centered">
+      <h2 class="wiki-article-title">Problemfeld löschen</h2>
+   </div>
+
+  <h1 class="page-header">"{{ article.current_revision.title }}" löschen</h1>
 
   {% if cannot_delete_root %}
     <p>{% trans "You cannot delete a root article." %}</p>
