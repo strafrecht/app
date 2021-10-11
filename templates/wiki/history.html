@@ -101,7 +101,7 @@ setTimeout(() => {
   <div class="tab-content" style="overflow: visible;">
     {% for revision in revisions %}
       <div class="" id="accordion{{ revision.revision_number }}">
-        <div class="card bg-light">
+        <div class="card bg-light" style="margin-bottom: 10px;">
           <div class="card-body">
             <a class="wiki-card-toggle" data-revision="{{ revision.revision_number }}" data-json-url="{% url 'wiki:diff' revision.id %}"  style="float: left;" href="#collapse{{ revision.revision_number }}">
               {% if revision == article.current_revision %}
