@@ -61,18 +61,18 @@ main > .container-inner > .content {
 {% url 'wiki:get' path=urlpath.path as thisarticle %}
 {% url 'wiki:get' path=urlpath.parent.path as parentarticle %}
 {% with selected_tab as selected %}
-{% if selected == "edit" or selected == "history" or selected == "settings" or selected == "delete" or selected == "move" %}
-	<p>
-		<a href="{{ thisarticle }}" style="display: flex; flex-direction: row; align-items: center;">
-			<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
-			<span style="font-size: 1rem; font-weight:600;">Zurück zum Problemfeld</span>
-		</a>
-	</p>
-{% else %}
+{% if selected == "view" %}
 	<p>
 		<a href="{{ parentarticle }}" style="display: flex; flex-direction: row; align-items: center;">
 			<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
 			<span style="font-size: 1rem; font-weight:600;">Zurück zur Kategorienübersicht</span>
+		</a>
+	</p>
+{% else %}
+	<p>
+		<a href="{{ thisarticle }}" style="display: flex; flex-direction: row; align-items: center;">
+			<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
+			<span style="font-size: 1rem; font-weight:600;">Zurück zum Problemfeld</span>
 		</a>
 	</p>
 {% endif %}
