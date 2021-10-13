@@ -399,7 +399,7 @@ REST_FRAMEWORK = {
 
 PWA_APP_NAME = 'Strafrecht Online'
 PWA_APP_DESCRIPTION = "Strafrecht Online"
-PWA_APP_THEME_COLOR = 'rgb(76, 158, 187)'
+PWA_APP_THEME_COLOR = 'rgb(255, 226, 0)'
 PWA_APP_BACKGROUND_COLOR = '#ffffff'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
