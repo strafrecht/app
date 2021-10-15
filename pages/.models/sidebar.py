@@ -39,10 +39,6 @@ class SidebarCalendarTextBlock(blocks.StructBlock):
 
     class Meta:
         template = 'blocks/sidebar/calendar_text.html'
-        
-    @property
-    def is_past_due(self):
-        return date.today() > self.calendar
 
 
 class SidebarHeaderBlock(blocks.StructBlock):
