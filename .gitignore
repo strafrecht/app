@@ -7,6 +7,7 @@ db.sqlite3
 frontend/node_modules/
 static/
 /media/
+core/scrape/@redirects/
 
 .idea/
 
