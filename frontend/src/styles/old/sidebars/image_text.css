@@ -11,5 +11,6 @@
 	width: 66.666666666%;
 }
 .sidebar-image-text div > img {
-	max-width: 100%;
+	width: 100%;
+	height: auto;
 }
