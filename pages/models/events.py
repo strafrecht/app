@@ -177,6 +177,7 @@ class EventPage(Page):
     showmap = models.BooleanField(default=False)
     lat = models.FloatField(null=True, blank=True)
     lon = models.FloatField(null=True, blank=True)
+    sidebar = True
 
     content_panels = [
         MultiFieldPanel([
