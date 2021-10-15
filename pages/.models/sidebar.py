@@ -1,7 +1,7 @@
 from wagtail.core import blocks, fields
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail_color_panel.blocks import NativeColorBlock
-
+from datetime import date
 
 
 class SidebarTitleBlock(blocks.StructBlock):
@@ -39,6 +39,10 @@ class SidebarCalendarTextBlock(blocks.StructBlock):
 
     class Meta:
         template = 'blocks/sidebar/calendar_text.html'
+        
+    @property
+    def is_past_due(self):
+        return date.today() > self.calendar
 
 
 class SidebarHeaderBlock(blocks.StructBlock):
