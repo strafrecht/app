@@ -1,6 +1,6 @@
 .sidebar-calendar-text {
-	display: flex;
-	flex-direction: row;
+	display: flex !important;
+	flex-direction: row !important;
 }
 
 .sidebar-calendar-text div:first-of-type {
