@@ -110,6 +110,20 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
+.jurcoach-links-widgets .logo {
+	display: none;
+	position: absolute;
+	align-self: center;
+	left: 50%;
+	right: 50%;
+	text-indent: -50px;
+	z-index: 3;
+	width: 100px;
+	transform: rotate(10deg);
+}
+.jurcoach-links-widgets .logo img {
+	width: 100px;
+}
 .jurcoach-link {
 	background: rgb(243, 243, 243);
 	border-radius: 5px;
