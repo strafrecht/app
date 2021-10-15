@@ -39,7 +39,7 @@
 	border-color: #fff;
 	box-shadow:
 		0 0 0 2px rgb(225, 213, 196),
-		inset 0 0 0 10px rgb(76, 158, 187);
+		inset 0 0 0 10px $yellow;
 }
 .sidebar-poll .question {
 	display: flex;
@@ -76,8 +76,8 @@
 	font-weight: bold;
 }
 .sidebar-poll a {
-	color: rgb(76, 158, 187);
-	font-family: Crimson;
+	color: $yellow;
+	font-family: Roboto;
 	font-size: 14px;
 	display: block;
 	margin: 5px 0;
@@ -87,7 +87,7 @@
 	float: right;
 	border: none;
 	background: none;
-	color: rgb(76, 158, 187);
+	color: $yellow;
 }
 
 .poll-vote-button:hover{
