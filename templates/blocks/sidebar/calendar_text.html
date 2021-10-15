@@ -6,12 +6,12 @@
 			  <time class="icon">
 			    <em>{{ value.calendar|date:"l" }}</em>
 			    <strong>{{ value.calendar|date:"F" }}</strong>
-				  
-			    {% if value.is_past_due %}
-			    <span>In the past</span>
-			    {% else %}
-			    <span>{{ value.calendar|date:"j" }}</span>
-			    {% endif %}
+				  {% now "Y-m-d" as todays_date %}
+				  {% if todays_date < value.calendar|date:"Y-m-d" %}
+				  <span>{{ value.calendar|date:"j" }}</span>
+				  {% else %}
+				  <span>In the past</span>
+				  {% endif %}
 			</time>
 		</div>
 		<div class="text">
