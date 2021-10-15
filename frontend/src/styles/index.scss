@@ -24,6 +24,7 @@ h3 {
     font-weight: 500 !important;
 }
 
+// SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
 @import "old/base.scss";
 @import "pages/jurcoach.scss";
@@ -34,6 +35,8 @@ h3 {
 @import "old/sidebar.scss";
 @import "old/website_index_page.scss";
 @import "old/wiki.scss";
+
+// CSS Files
 @import "pages/cms_session.css";
 @import "pages/lehre.css";
 //@import "old/app.css";
