@@ -68,14 +68,14 @@
 			<div id="calendar" style="margin-top: 10px;">
 				  <time class="icon">
 				  {% now "Y-m-d" as todays_date %}
-				  {% if todays_date < value.calendar|date:"Y-m-d" %}
-				    <em>{{ value.calendar|date:"l" }}</em>
-				    <strong>{{ value.calendar|date:"F" }}</strong>
-				    <span>{{ value.calendar|date:"j" }}</span>
+				  {% if todays_date < event.date|date:"Y-m-d" %}
+				    <em>{{ event.date|date:"l" }}</em>
+				    <strong>{{ event.date|date:"F" }}</strong>
+				    <span>{{ event.date|date:"j" }}</span>
 				  {% else %}
-				    <em>{{ value.calendar|date:"F" }}</em>
-				    <strong>{{ value.calendar|date:"Y" }}</strong>
-				    <span>{{ value.calendar|date:"j" }}</span>
+				    <em>{{ event.date|date:"F" }}</em>
+				    <strong>{{ event.date|date:"Y" }}</strong>
+				    <span>{{ event.date|date:"j" }}</span>
 				  {% endif %}
 				  </time>
 			</div>
