@@ -44,13 +44,6 @@
 			{% stylesheet 'base' %}
 			{% stylesheet 'sidebar' %}
 
-			<link href="{% static "css/sidebar.css" %}" rel="stylesheet">
-			<link href="{% static "css/sidebars/simple.css" %}" rel="stylesheet">
-			<link href="{% static "css/sidebars/header.css" %}" rel="stylesheet">
-			<link href="{% static "css/sidebars/image_text.css" %}" rel="stylesheet">
-			<link href="{% static "css/sidebars/calendar_text.css" %}" rel="stylesheet">
-			<link href="{% static "css/sidebars/poll.css" %}" rel="stylesheet">
-
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
         {% endblock %}
