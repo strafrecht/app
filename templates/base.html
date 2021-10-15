@@ -39,9 +39,17 @@
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
 			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-	    
+			<link href="{% static 'css/app.css' %}" rel="stylesheet">
+
 			{% stylesheet 'base' %}
 			{% stylesheet 'sidebar' %}
+
+			<link href="{% static "css/sidebar.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/simple.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/header.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/image_text.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/calendar_text.css" %}" rel="stylesheet">
+			<link href="{% static "css/sidebars/poll.css" %}" rel="stylesheet">
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
