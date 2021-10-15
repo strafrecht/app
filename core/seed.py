@@ -47,6 +47,7 @@ from .scrape.events import get_json as get_events_json
 logger = logging.getLogger('django')
 from wagtail.core.blocks import StreamValue
 from wagtail.core.rich_text import RichText
+from wagtail.contrib.redirects.models import Redirect
 from wagtail.images.models import Image
 from wagtail.documents.models import Document
 from wagtail.core.models import Collection, CollectionManager
@@ -77,7 +78,7 @@ def start(request):
 
     # Redirects
     #scrape_redirects(request)
-    print('')
+    seed_redirects(request)
 
 def scrape_wiki(request):
     # init
@@ -177,6 +178,11 @@ def scrape_wiki(request):
 
 
 def scrape_redirects(request):
+    # Clean
+    Redirect.objects.all().delete()
+    root_collection = Collection.get_first_root_node()
+    redirects = root_collection.get_children().get(name='Redirects')
+
     rootdir = './core/scrape/@redirects'
     print(os.getcwd())
     csv = ""
@@ -193,7 +199,7 @@ def scrape_redirects(request):
                         link = soup.find('a').attrs['href'] if 'http' in soup.find('a').attrs['href'] else "https://strafrecht-online.org{}".format(soup.find('a').attrs['href'])
                         file = file_path.split('/')[-1].replace('.html', '')
 
-                        if "strafrecht-online.org" in link or "//" not in link:
+                        if False and "strafrecht-online.org" in link or "//" not in link:
                             if ".jpg" in link:
                                 # upload image
                                 image_id = upload_image(link)
@@ -244,6 +250,26 @@ def scrape_redirects(request):
     fo = open('/home/dev/Workspace/app/core/scrape/redirects.csv', 'w')
     fo.write(csv)
     fo.close()
+
+def seed_redirects(request):
+    redirects = Redirect.objects.all()
+    to_review_file = open('/home/dev/Workspace/app/core/scrape/review_redirects.txt', 'a')
+
+    for redirect in redirects:
+        if "strafrecht-online.org" in redirect.link:
+            if ".pdf" in redirect.link:
+                # upload pdf
+                pdf = upload_redirect_pdf(redirect.link)
+                redirect.redirect_link = pdf.file
+                redirect.save()
+            else:
+                # log to file
+                to_review_file.write("title: {}, link: {}".format(redirect.title, redirect.link))
+        else:
+            # do nothing
+            print('')
+
+    to_review_file.close()
 
 def scrape_events(request):
     data = get_events_json()
@@ -504,6 +530,27 @@ def build_material_html(pdfs):
             html += "<a href='{}'>{}</a>\n".format(pdf['local'], pdf['name'])
         html += "\n"
     return html
+
+def upload_redirect_pdf(link):
+    root_collection = Collection.get_first_root_node()
+    redirects = root_collection.get_children().get(name='Redirects')
+
+    title = link.split('/')[-1].split('.')
+    filename = link.split('/')[-1].split('.')[0][0:85] + '.pdf'
+
+    # Target Directory
+    target_dir = "/home/dev/Workspace/app/media/documents"
+
+    document = Document(
+        title=title,
+        file="documents/{}".format(filename),
+        collection=redirects,
+        tags=['testing']
+    )
+
+    document.save()
+
+    return document
 
 def upload_pdfs(semester, slug, pdfs):
     root_collection = Collection.get_first_root_node()
