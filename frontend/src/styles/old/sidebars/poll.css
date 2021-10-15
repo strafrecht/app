@@ -4,10 +4,42 @@
 	border-bottom: 1px solid #ddd !important;
 }
 .sidebar-poll label {
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	padding-left: 2em;
+	cursor: pointer;
 }
-.sidebar-poll li {
+.sidebar-poll ul {
+	margin-bottom: 0px;
+}
+.sidebar-poll li:not(:last-child) {
 	margin-bottom: 1rem;
+}
+.sidebar-poll label input[type="radio"]{
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none; /* in case this ever gets supported */
+	background: #fff;
+	border-radius: 100%;
+	border: 1px solid transparent;
+	box-shadow:
+		0 0 0 2px rgb(225, 213, 196),
+		inset 0 0 0 0px rgba(13,81,146, 0);
+	margin-right: .25em;
+	transition:
+		border-color .2s ease-in-out,
+		box-shadow .2s ease-in-out;
+	width: 1.25em;
+	height: 1.25em;
+	position: absolute;
+	left: 2.4em;
+	cursor: pointer;
+}
+.sidebar-poll label input[type="radio"]:checked {
+	border-color: #fff;
+	box-shadow:
+		0 0 0 2px rgb(225, 213, 196),
+		inset 0 0 0 10px rgb(76, 158, 187);
 }
 .sidebar-poll .question {
 	display: flex;
@@ -20,11 +52,29 @@
 	margin-top: 3px;
 }
 .sidebar-poll .bottom {
-display: flex;
-				     justify-content: space-between;
-						     margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
 }
-
+.sidebar-poll .answers {
+	margin-top: 20px;
+}
+.sidebar-poll .answers .answer:not(:last-child) {
+	margin-bottom: 25px;
+}
+.sidebar-poll .answers .answer .bar {
+	width: 100%;
+	display: flex;
+	margin-bottom: 8px;
+}
+.sidebar-poll .answers .answer .bar > div {
+	background: rgb(225, 213, 196);
+}
+.sidebar-poll .answers .answer .bar > span {
+	float: right;
+	margin-left: 10px;
+	font-weight: bold;
+}
 .sidebar-poll a {
 	color: rgb(76, 158, 187);
 	font-family: Crimson;
