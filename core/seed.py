@@ -80,6 +80,8 @@ def start(request):
     #scrape_redirects(request)
     seed_redirects(request)
 
+    print("Seeded")
+
 def scrape_wiki(request):
     # init
     path = os.path.abspath("core")
@@ -260,11 +262,14 @@ def seed_redirects(request):
             if ".pdf" in redirect.link:
                 # upload pdf
                 pdf = upload_redirect_pdf(redirect.link)
-                redirect.redirect_link = pdf.file
-                redirect.save()
+                print(pdf)
+
+                if pdf:
+                    redirect.redirect_link = pdf.url
+                    redirect.save()
             else:
                 # log to file
-                to_review_file.write("title: {}, link: {}".format(redirect.title, redirect.link))
+                to_review_file.write("title: {}, link: {}\n".format(redirect.title, redirect.link))
         else:
             # do nothing
             print('')
@@ -535,22 +540,31 @@ def upload_redirect_pdf(link):
     root_collection = Collection.get_first_root_node()
     redirects = root_collection.get_children().get(name='Redirects')
 
-    title = link.split('/')[-1].split('.')
+    print("DOWNLOADING: {}".format(link))
+    title = link.split('/')[-1].split('.')[0]
     filename = link.split('/')[-1].split('.')[0][0:85] + '.pdf'
 
     # Target Directory
     target_dir = "/home/dev/Workspace/app/media/documents"
 
-    document = Document(
-        title=title,
-        file="documents/{}".format(filename),
-        collection=redirects,
-        tags=['testing']
-    )
+    # Make the directory
+    os.makedirs(target_dir, exist_ok=True)
 
-    document.save()
+    try:
+        local_file = requests.get(link, allow_redirects=True)  # target_dir)
+        open(os.path.join(target_dir, filename), 'wb').write(local_file.content)
+        document = Document(
+            title=title,
+            file="documents/{}".format(filename),
+            collection=redirects,
+            tags=['testing']
+        )
+        document.save()
+        return document
+    except Exception as e:
+        print(" ERROR - {}".format(e))
+        return False
 
-    return document
 
 def upload_pdfs(semester, slug, pdfs):
     root_collection = Collection.get_first_root_node()
