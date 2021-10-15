@@ -111,7 +111,6 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 	justify-content: space-between;
 }
 .jurcoach-links-widgets .logo {
-	display: none;
 	position: absolute;
 	align-self: center;
 	left: 50%;
@@ -150,7 +149,7 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 }
 .jurcoach-link:hover h3,
 .jurcoach-link:hover p {
-	color: white;
+    color: #fff !important;
 }
 
 .blocks-column_2_1 { border: 1px solid red; }
