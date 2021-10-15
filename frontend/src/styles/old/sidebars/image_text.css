@@ -2,7 +2,6 @@
 	display: flex !important;
 	flex-direction: row !important;
 }
-
 .sidebar-image-text div:first-of-type {
 	min-width: 100px;
 	width: 33.333333333%;
@@ -10,4 +9,7 @@
 .sidebar-image-text div:last-of-type {
 	padding-left: 10px;
 	width: 66.666666666%;
+}
+.sidebar-image-text div > img {
+	max-width: 100%;
 }
