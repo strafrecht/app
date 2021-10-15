@@ -6,8 +6,13 @@
 			  <time class="icon">
 			    <em>{{ value.calendar|date:"l" }}</em>
 			    <strong>{{ value.calendar|date:"F" }}</strong>
+				  
+			    {% if value.is_past_due %}
+			    <span>In the past</span>
+			    {% else %}
 			    <span>{{ value.calendar|date:"j" }}</span>
-			  </time>
+			    {% endif %}
+			</time>
 		</div>
 		<div class="text">
 			{{ value.content }}
