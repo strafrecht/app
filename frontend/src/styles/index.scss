@@ -29,6 +29,7 @@ h3 {
 @import "pages/cms_session.css";
 @import "pages/lehre.css";
 @import "pages/jurcoach.scss";
+//@import "old/app.css";
 @import "old/base.scss";
 @import "old/columns.css";
 @import "old/comments.css";
@@ -44,6 +45,11 @@ h3 {
 @import "old/sidebar.css";
 @import "old/website_index_page.scss";
 @import "old/wiki.scss";
+@import "old/sidebars/poll.css";
+@import "old/sidebars/calendar_text.css";
+@import "old/sidebars/image_text.css";
+@import "old/sidebars/header.css";
+@import "old/sidebars/simple.css";
 
 .jurcoach-links-widgets {
     position: relative;
