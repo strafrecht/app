@@ -86,7 +86,7 @@
 				Du bist hier: 
 				{% for page in self.get_ancestors %}
 					{% if page.is_root == False %}
-					<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl page %}">{{ page.title }}</a> >
+					<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl page %}">{{ page.title|truncatechars:25 }}</a> >
 					{% endif %}
 				{% endfor %}
 				{{ self.title }}
