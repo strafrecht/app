@@ -28,19 +28,8 @@
 					<p class="bold font-sm"><span class="meta font-sm">{{ event.speaker_description | richtext }}</span></p>
 					{% endif %}
 
-					<h3 style="margin-top:30px;font-weight:600;">Veranstaltungsbeschreibung</h3>
-					{% if event.date or event.location %}
-					<p>{{ event.date|date:"j. F Y, G.i" }} Uhr{% if event.date and event.location %},{% endif %} 
-					{% if event.location %}
-					{{ event.location }}
-					{% endif %}
-					</p>
-					{% endif %}
-					
+					<h3 style="margin-top:30px;font-weight:600;">Veranstaltungsbeschreibung</h3>					
 					<p class="richtext">{{ event.description|richtext }}</p>
-					{% if event.speaker_description %}
-					<p class="richtext"><u>Zum Referenten:</u> {{ event.speaker_description|richtext }}</p>
-					{% endif %}
 				</div>
 			</div>
 		</div>
