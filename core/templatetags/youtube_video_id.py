@@ -1,4 +1,4 @@
-from urllib.parse import urlparse
+import urllib.parse as urlparse
 from django import template
 
 register = template.Library()
