@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load youtube_video_id %}
 {% load wagtailcore_tags wagtailimages_tags website_tags %}
 
 {% block extra_css %}
@@ -101,6 +102,29 @@
 			</div>
 			{% endif %}
 		</div>
+	</div>
+	{% endif %}
+	{% if event.youtube_link %}
+	<hr/>
+	<div class="block-sidebar_border">
+	<div class="sidebar sidebar-border">
+		<div class="text">
+			<div class="infokasten kasten">
+				<div>
+					<h2>Videoaufzeichnung</h2>
+				</div>
+				<div>
+					<p>Eine <a href="{{ event.youtube_link }}">Videoaufzeichnung der Veranstaltung</a> 
+						findet sich im YouTube-Kanal der Humanistischen Union 
+						Baden-Württemberg.
+					</p>
+					<p>
+						<iframe width="100%" src="https://www.youtube.com/embed/{{ event.youtube_link|video_id }}" frameborder="0" allowfullscreen=""></iframe>
+					</p>
+				</div>
+			</div> 
+		</div>
+	</div>
 	</div>
 	{% endif %}
 </div>
