@@ -4,7 +4,7 @@ from django import template
 register = template.Library()
 
 @register.filter
-def video_id(value):
+def youtube_id(value):
     """
     Examples:
     - http://youtu.be/SA2iWivDJiE
