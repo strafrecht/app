@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load youtube_video_id %}
+{% load youtube_id %}
 {% load wagtailcore_tags wagtailimages_tags website_tags %}
 
 {% block extra_css %}
@@ -119,7 +119,7 @@
 						Baden-Württemberg.
 					</p>
 					<p>
-						<iframe width="100%" src="https://www.youtube.com/embed/{{ event.youtube_link|video_id }}" frameborder="0" allowfullscreen=""></iframe>
+						<iframe width="100%" src="https://www.youtube.com/embed/{{ event.youtube_link|youtube_id }}" frameborder="0" allowfullscreen=""></iframe>
 					</p>
 				</div>
 			</div> 
