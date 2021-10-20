@@ -93,15 +93,33 @@
 			{% endif %}
 			{% if event.poster_pdf %}
 			<div class="text">
-				<h3>
-					Veranstaltungsplakat
-				</h3>
+				<p>
+					<strong>
+						Veranstaltungsplakat
+					</strong>
+				</p>
 				<p>
 					<a href="{{ event.poster_pdf.url }}">Als PDF downloaden</a>
 				</p>
 			</div>
 			{% endif %}
 		</div>
+	</div>
+	{% endif %}
+	{% if event.newsletter %}
+	<hr/>
+	<div class="block-sidebar_border">
+	<div class="sidebar sidebar-border">
+		<div class="text">
+			<div class="infokasten kasten">
+				<div>
+					<p>
+						Im <a href="{{ event.newsletter.url }}">Lehrstuhlnewsletter</a> erschien ein Event-Bericht zu der Veranstaltung.
+					</p>
+				</div>
+			</div> 
+		</div>
+	</div>
 	</div>
 	{% endif %}
 	{% if event.youtube_link %}
