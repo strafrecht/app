@@ -128,11 +128,15 @@ class ArticlesPage(RoutablePageMixin, Page):
 
 # Pages
 class ArticlePage(Page):
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True)
-    date = models.DateField('Post date')
-    body = RichTextField(blank=True)
+    class Meta:
+        verbose_name = "News-Artikel"
+        verbose_name_plural = "News-Artikel"
+        
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True, verbose_name="Autor*in")
+    date = models.DateField('Datum')
+    body = RichTextField(blank=True, verbose_name="News-Artikel-Text")
     tags = ClusterTaggableManager(through=PageTag, blank=True)
-    is_evaluation = models.BooleanField(default=False)
+    is_evaluation = models.BooleanField(default=False, verbose_name="Handelt es sich um eine Abstimmungsauswertung?")
 
     search_fields = Page.search_fields + [
         index.SearchField('intro'),
