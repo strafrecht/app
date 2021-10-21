@@ -80,6 +80,10 @@ class SidebarBlocks(blocks.StreamBlock):
     sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
 
 class SessionsPage(RoutablePageMixin, Page):
+    class Meta:
+        verbose_name = 'Lehre-Seite'
+        verbose_name_plural = 'Lehre-Seiten'
+        
     content = StreamField([
         ('content', ContentBlocks(label="Hauptspalte")),
     ], block_counts={
