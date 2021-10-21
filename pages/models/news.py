@@ -81,15 +81,15 @@ class NewslettersContentBlocks(blocks.StreamBlock):
     richtext = blocks.RichTextBlock()
 # Sidebar Blocks
 class ArticleSidebarBlocks(blocks.StreamBlock):
-    sidebar_title = SidebarTitleBlock()
-    sidebar_simple = SidebarSimpleBlock()
-    sidebar_image_text = SidebarImageTextBlock()
-    sidebar_poll = SidebarPollChooser()
+    sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
+    sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
+    sidebar_poll = SidebarPollChooser(label="Abstimmung")
 class NewsletterSidebarBlocks(blocks.StreamBlock):
-    sidebar_title = SidebarTitleBlock()
-    sidebar_simple = SidebarSimpleBlock()
-    sidebar_border = SidebarBorderBlock()
-    sidebar_poll = SidebarPollChooser()
+    sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
+    sidebar_border = SidebarBorderBlock(label="Grau umrandeter Kasten")
+    sidebar_poll = SidebarPollChooser(label="Abstimmung")
 
 # Other
 class PageTag(TaggedItemBase):
