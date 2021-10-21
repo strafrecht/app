@@ -154,7 +154,7 @@ class ArticlePage(Page):
     #], block_counts={
     #    'sidebar': {'min_num': 0, 'max_num': 1},
     #})
-    sidebar = StreamField(ArticleSidebarBlocks(required=False), blank=True)
+    sidebar = StreamField(ArticleSidebarBlocks(required=False), blank=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldRowPanel([
@@ -233,16 +233,16 @@ class EvaluationsPage(Page):
         return context
 
     content = StreamField([
-        ('content', EvaluationsContentBlocks()),
+        ('content', EvaluationsContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
+    }, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
-        ('sidebar', ArticleSidebarBlocks(required=False)),
+        ('sidebar', ArticleSidebarBlocks(required=False, label="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    })
+    }, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
@@ -253,16 +253,16 @@ class EvaluationsPage(Page):
     ]
 class NewslettersPage(Page):
     content = StreamField([
-        ('content', NewslettersContentBlocks()),
+        ('content', NewslettersContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
+    }, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
-        ('sidebar', NewsletterSidebarBlocks(required=False)),
+        ('sidebar', NewsletterSidebarBlocks(required=False, label="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    })
+    }, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
