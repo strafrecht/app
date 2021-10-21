@@ -21,7 +21,7 @@
 			<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl page %}">{{ page.title|truncatechars:25 }}</a> >
 			{% endif %}
 		{% endfor %}
-		<a style="color: #3d3d3d; text-decoration: none;" href="{% self.pageurl %}">{{ self.title}}</a> > {{ person.first_name }} {{ person.last_name }}
+		<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl self %}">{{ self.title}}</a> > {{ person.first_name }} {{ person.last_name }}
 	</div>
 {% endif %}
 {% endblock %}
