@@ -243,3 +243,5 @@ class EventPage(Page):
     parent_page_types = [EventsPage]
 
     template = 'pages/event_page.html'
+    
+    verbose_name = "Event-Seite"
