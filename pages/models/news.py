@@ -34,7 +34,6 @@ from django.shortcuts import get_object_or_404, render
 class ArticleListBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/widgets/news_list.html'
-        verbose_name = "Auflistung aller News-Artikel"
         
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
@@ -52,7 +51,6 @@ class ArticleListBlock(blocks.StructBlock):
 class EvaluationListBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/widgets/news_list.html'
-        verbose_name = "Auflistung aller Abstimmungsauswertungen"
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
@@ -70,8 +68,8 @@ class EvaluationListBlock(blocks.StructBlock):
 # Content Blocks
 class ArticlesContentBlocks(blocks.StreamBlock):
     richtext = blocks.RichTextBlock()
-    article_list_block = ArticleListBlock()
-    evaluation_list_block = EvaluationListBlock()
+    article_list_block = ArticleListBlock(verbose_name = "Auflistung aller News-Artikel")
+    evaluation_list_block = EvaluationListBlock(verbose_name = "Auflistung aller Abstimmungsauswertungen")
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
@@ -111,7 +109,7 @@ class ArticlesPage(RoutablePageMixin, Page):
         'content': {'min_num': 1, 'max_num': 1},
     }, verbose_name="Hauptspalte")
     
-    sidebar = StreamField(ArticleSidebarBlocks(required=False, verbose_name="Seitenleiste"))
+    sidebar = StreamField(ArticleSidebarBlocks(required=False, label="Seitenleiste"))
 
     content_panels = [
         FieldPanel('title'),
