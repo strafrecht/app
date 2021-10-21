@@ -46,6 +46,9 @@ class JurcoachCarousel(Orderable):
              FieldPanel('carousel_link_url', classname="col-12"),]
     
 class JurcoachPage(Page):
+    class Meta:
+        verbose_name='Jurcoach-Startseite'
+        
     body = RichTextField(blank=True)
     header = models.ForeignKey(
         'wagtailimages.Image',
