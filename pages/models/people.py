@@ -25,7 +25,8 @@ from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
-import pages 
+import pages
+from pages.models.news import ArticlePage
 
 class PeopleIndexPage(RoutablePageMixin, Page):
     class Meta:
@@ -54,7 +55,7 @@ class PeopleIndexPage(RoutablePageMixin, Page):
         context = super().get_context(request)
         person = People.objects.get(id=person)
 
-        articles = pages.models.NewsArticlePage.objects.filter(live=True).filter(owner__id=person.id).order_by('-date')
+        articles = ArticlePage.objects.filter(live=True).filter(owner__id=person.id).order_by('-date')
 
         years = []
         keys = []
