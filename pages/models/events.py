@@ -61,7 +61,7 @@ class SidebarBlocks(blocks.StreamBlock):
     sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
     sidebar_header = SidebarHeaderBlock(label="Bild oben, Text darunter")
     sidebar_border = SidebarBorderBlock(label="Grau umrandeter Kasten")
-    sidebar_simple = SidebarSimpleBlocklabel="Schlichter Text"()
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
     sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
 
 class EventsPage(RoutablePageMixin, Page):
