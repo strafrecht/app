@@ -100,12 +100,12 @@ class PageTag(TaggedItemBase):
 # Index Pages
 class ArticlesPage(RoutablePageMixin, Page):
     content = StreamField([
-        ('content', ArticlesContentBlocks()),
+        ('content', ArticlesContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
-
-    sidebar = StreamField(ArticleSidebarBlocks(required=False))
+    }, verbose_name="Hauptspalte")
+    
+    sidebar = StreamField(ArticleSidebarBlocks(required=False, verbose_name="Seitenleiste"))
 
     content_panels = [
         FieldPanel('title'),
