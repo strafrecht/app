@@ -71,7 +71,7 @@ def start(request):
     #scrape_events(request)
 
     # scrape sessions
-    #scrape_lehre(request)
+    scrape_lehre(request)
 
     # scrape wiki
     #scrape_wiki(request)
