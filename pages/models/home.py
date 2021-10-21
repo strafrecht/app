@@ -105,13 +105,13 @@ class BasePage(Page):
         ('content', ContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
+    }, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
         ('sidebar', SidebarBlocks(required=False, label="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    })
+    }, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
