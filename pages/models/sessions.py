@@ -73,20 +73,20 @@ class ContentBlocks(blocks.StreamBlock):
 
 # Sidebar Blocks
 class SidebarBlocks(blocks.StreamBlock):
-    sidebar_title = SidebarTitleBlock()
-    sidebar_header = SidebarHeaderBlock()
-    sidebar_border = SidebarBorderBlock()
-    sidebar_simple = SidebarSimpleBlock()
-    sidebar_image_text = SidebarImageTextBlock()
+    sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
+    sidebar_header = SidebarHeaderBlock(label="Bild oben, Text darunter")
+    sidebar_border = SidebarBorderBlock(label="Grau umrandeter Kasten")
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
+    sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
 
 class SessionsPage(RoutablePageMixin, Page):
     content = StreamField([
-        ('content', ContentBlocks()),
+        ('content', ContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
+    }, verbose_name="Hauptspalte")
 
-    sidebar = StreamField(SidebarBlocks(required=False), blank=True)
+    sidebar = StreamField(SidebarBlocks(required=False), blank=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
@@ -113,6 +113,10 @@ class SessionsPage(RoutablePageMixin, Page):
         return session.serve(request)
 
 class SessionPage(Page):
+    class Meta:
+        verbose_name = 'Lehrveranstaltungs-Seite'
+        verbose_name_plural = 'Lehrveranstaltungen'
+        
     SESSION_TYPE_CHOICES = [
         ('lecture', 'Vorlesung'),
         ('exercise', 'Übung'),
@@ -241,10 +245,6 @@ class SessionPage(Page):
         ObjectList(Page.promote_panels, heading='Promote'),
         ObjectList(Page.settings_panels, heading='Settings', classname='settings'),
     ])
-
-    #class Meta:
-    #    verbose_name = 'Lehrveranstaltung'
-    #    verbose_name_plural = 'Lehrveranstaltungen'
 
     #parent_page_types = [SessionsPage]
 
