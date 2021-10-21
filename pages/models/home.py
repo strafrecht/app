@@ -125,6 +125,9 @@ class BasePage(Page):
     template = 'page.html'
 
 class GenericPage(BasePage):
+    class Meta:
+        verbose_name = "Generische Seite"
+        
     def get_context(self, request):
         context = super().get_context(request)
         context['request'] = request
@@ -132,12 +135,12 @@ class GenericPage(BasePage):
 
     content_panels = BasePage.content_panels
     template = BasePage.template
-    verbose_name = "Generische Seite"
 
 
 class HomePage(BasePage):
-    #class Meta:
-    #    abstract = True
+    class Meta:
+        verbose_name = "Startseite"
+        #abstract = True
 
     def get_context(self, request):
         context = super().get_context(request)
@@ -147,4 +150,3 @@ class HomePage(BasePage):
 
     content_panels = BasePage.content_panels
     template = BasePage.template
-    verbose_name = "Startseite"
