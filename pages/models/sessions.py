@@ -114,7 +114,7 @@ class SessionsPage(RoutablePageMixin, Page):
 
 class SessionPage(Page):
     class Meta:
-        verbose_name = 'Lehrveranstaltungs-Seite'
+        verbose_name = 'Lehrveranstaltung'
         verbose_name_plural = 'Lehrveranstaltungen'
         
     SESSION_TYPE_CHOICES = [
