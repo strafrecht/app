@@ -252,6 +252,10 @@ class EvaluationsPage(Page):
         ], classname='full')
     ]
 class NewslettersPage(Page):
+    class Meta:
+        verbose_name="Newsletter-Seite"
+        verbose_name_plural="Newsletter-Seiten"
+        
     content = StreamField([
         ('content', NewslettersContentBlocks(label="Hauptspalte")),
     ], block_counts={
