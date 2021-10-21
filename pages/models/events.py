@@ -38,6 +38,9 @@ from pages.models.sidebar import (
 )
 
 class EventsBlock(blocks.StructBlock):
+    class Meta:
+        template = 'blocks/widgets/events_block.html'
+
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
         context['events'] = EventPage.objects.filter(type='tacheles')
@@ -61,9 +64,6 @@ class SidebarBlocks(blocks.StreamBlock):
     sidebar_image_text = SidebarImageTextBlock()
 
 class EventsPage(RoutablePageMixin, Page):
-    class Meta:
-        template = 'blocks/widgets/events_block.html'
-        
     content = StreamField([
         ('content', ContentBlocks()),
     ], block_counts={
@@ -99,6 +99,7 @@ class EventsPage(RoutablePageMixin, Page):
 class EventPage(Page):
     class Meta:
         verbose_name = "Event-Seite"
+        verbose_name_plural = "Event-Seiten"
         
     EVENT_TYPE_CHOICES = [
         ('tacheles', 'Tacheles'),
