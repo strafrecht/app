@@ -44,12 +44,12 @@ class HomeJurcoachBlock(blocks.StructBlock):
         template = 'blocks/widgets/home_jurcoach.html'
 
 # Sidebar Blocks
-class ContentBlocks(blocks.StreamBlock):
+class ContentBlocks(blocks.StreamBlock, verbose_name="Hauptspalte"):
     richtext = blocks.RichTextBlock()
     home_news_block = HomeNewsBlock()
     home_jurcoach_block = HomeJurcoachBlock()
 
-class SidebarBlocks(blocks.StreamBlock):
+class SidebarBlocks(blocks.StreamBlock, verbose_name="Seitenleiste"):
     sidebar_title = SidebarTitleBlock()
     sidebar_simple = SidebarSimpleBlock()
     sidebar_border = SidebarBorderBlock()
@@ -102,16 +102,16 @@ class BasePage(Page):
     #    return contex
 
     content = StreamField([
-        ('content', ContentBlocks(verbose_name="Hauptspalte")),
+        ('content', ContentBlocks()),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    }, verbose_name="Hauptspalte")
+    })
 
     sidebar = StreamField([
-        ('sidebar', SidebarBlocks(required=False, verbose_name="Seitenleiste")),
+        ('sidebar', SidebarBlocks(required=False)),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    }, verbose_name="Seitenleiste")
+    })
 
     content_panels = [
         FieldPanel('title'),
