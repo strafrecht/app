@@ -102,13 +102,13 @@ class BasePage(Page):
     #    return contex
 
     content = StreamField([
-        ('content', ContentBlocks()),
+        ('content', ContentBlocks(verbose_name="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
     }, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
-        ('sidebar', SidebarBlocks(required=False)),
+        ('sidebar', SidebarBlocks(required=False, verbose_name="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
     }, verbose_name="Seitenleiste")
