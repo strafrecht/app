@@ -74,7 +74,7 @@ def global_admin_css():
 @hooks.register('construct_main_menu')
 def hide_snippets_menu_item(request, menu_items):
   for item in menu_items: print("XXX: {}".format(item.name))
-  menu_items[:] = [item for item in menu_items if item.name not in ['snippets', 'images', 'documents', 'categories', 'contacts']]
+  menu_items[:] = [item for item in menu_items if item.name not in ['snippets', 'images', 'documents', 'categories', 'contacts', 'Polls']]
 
 @hooks.register('register_rich_text_features')
 def register_roofline_feature(features):
