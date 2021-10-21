@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -80,7 +81,13 @@ class Exams(models.Model):
             FieldPanel('loesung_link', classname="col-12"),
         ], "Klausur"),
     ]
-
+    
+    def paragraphs_html(self):
+        return mark_safe(self.paragraphs)
+    
+    def problems_html(self):
+        return mark_safe(self.problems)
+    
     class Meta:
         verbose_name = 'Klausur'
         verbose_name_plural = 'Klausuren'
