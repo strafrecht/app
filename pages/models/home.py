@@ -53,7 +53,7 @@ class SidebarBlocks(blocks.StreamBlock):
     sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
     sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
     sidebar_border = SidebarBorderBlock(label="Grau umrandeter Kasten")
-    sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
+    sidebar_image_text = SidebarImageTextBlock()
     sidebar_header = SidebarHeaderBlock(label="Bild oben, Text darunter")
     sidebar_calendar_text = SidebarCalendarTextBlock(label="Kalender links, Text rechts")
     sidebar_poll = SidebarPollChooser(label="Abstimmung")
