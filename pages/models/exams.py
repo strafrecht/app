@@ -27,6 +27,9 @@ from wagtail.snippets.models import register_snippet
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 class ExamTable(Page):
+    class Meta:
+        verbose_name = "Klausurdatenbank-Seite"
+        
     def __str__(self):
         print('exam table')
     
