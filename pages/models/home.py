@@ -45,9 +45,9 @@ class HomeJurcoachBlock(blocks.StructBlock):
 
 # Sidebar Blocks
 class ContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
-    home_news_block = HomeNewsBlock()
-    home_jurcoach_block = HomeJurcoachBlock()
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
+    home_news_block = HomeNewsBlock(label="Vier letzte News-Beiträge")
+    home_jurcoach_block = HomeJurcoachBlock(label="Jurcoach-Startseiten-Widget")
 
 class SidebarBlocks(blocks.StreamBlock):
     sidebar_title = SidebarTitleBlock()
