@@ -67,9 +67,9 @@ class EvaluationListBlock(blocks.StructBlock):
         return context
 # Content Blocks
 class ArticlesContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
-    article_list_block = ArticleListBlock(verbose_name = "Auflistung aller News-Artikel")
-    evaluation_list_block = EvaluationListBlock(verbose_name = "Auflistung aller Abstimmungsauswertungen")
+    richtext = blocks.RichTextBlock(label = "Formatierter Text")
+    article_list_block = ArticleListBlock(label = "Auflistung aller News-Artikel")
+    evaluation_list_block = EvaluationListBlock(label = "Auflistung aller Abstimmungsauswertungen")
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
