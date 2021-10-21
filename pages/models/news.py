@@ -109,7 +109,7 @@ class ArticlesPage(RoutablePageMixin, Page):
         'content': {'min_num': 1, 'max_num': 1},
     }, verbose_name="Hauptspalte")
     
-    sidebar = StreamField(ArticleSidebarBlocks(required=False, label="Seitenleiste"))
+    sidebar = StreamField(ArticleSidebarBlocks(required=False), verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
