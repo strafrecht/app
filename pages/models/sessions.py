@@ -174,18 +174,21 @@ class SessionPage(Page):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Dozent*in"
     )
     type = models.CharField(
+        'Veranstaltungstyp',
         choices=SESSION_TYPE_CHOICES,
         default='lecture',
         max_length=255,
         blank=True
     )
     semester = models.CharField(
+        'Semesterauswahl',
         choices=SEMESTER_TYPE_CHOICES,
         max_length=255,
-        blank=True
+        blank=True,
     )
     assessment = RichTextField(blank=True)
     description = RichTextField(blank=True)
@@ -203,7 +206,7 @@ class SessionPage(Page):
         index.FilterField('live'),
     ]
 
-    sidebar = StreamField(SidebarBlocks(required=False), blank=True)
+    sidebar = StreamField(SidebarBlocks(required=False), blank=True, verbose_name="Seitenleiste")
 
 
     content_panels = [
