@@ -55,7 +55,7 @@ class ExamsModelAdmin(ModelAdmin):
     menu_label = 'Klausurdatenbank'
     menu_icon = 'edit'
     menu_order= 200
-    list_display = ('type', 'difficulty', 'date')
+    list_display = ('date', 'type', 'difficulty', 'problems_html')
 
 #modeladmin_register(NodeAdmin)
 modeladmin_register(PeopleModelAdmin)
