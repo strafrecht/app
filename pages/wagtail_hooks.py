@@ -13,8 +13,6 @@ from pages.models.events import EventPage
 from pages.models.sessions import SessionPage
 from pages.models.exams import Exams
 
-from wagtailpolls.models import Poll
-
 class PeopleModelAdmin(ModelAdmin):
     model = People
     menu_label = 'Personen'
@@ -43,13 +41,6 @@ class SessionsModelAdmin(ModelAdmin):
     menu_order= 200
     list_display = ('semester', 'name', 'speaker')
 
-class PollsModelAdmin(ModelAdmin):
-    model = Poll
-    menu_label = 'Abstimmungen'
-    menu_icon = 'form'
-    menu_order= 200
-    #list_display = ('name', 'speaker', 'date')
-
 class ExamsModelAdmin(ModelAdmin):
     model = Exams
     menu_label = 'Klausurdatenbank'
@@ -62,7 +53,6 @@ modeladmin_register(PeopleModelAdmin)
 modeladmin_register(EventsModelAdmin)
 modeladmin_register(ArticlesModelAdmin)
 modeladmin_register(SessionsModelAdmin)
-modeladmin_register(PollsModelAdmin)
 modeladmin_register(ExamsModelAdmin)
 
 # pages/news/polls/poll-eval/sessions/events/people/newsletter email/
@@ -84,7 +74,7 @@ def global_admin_css():
 @hooks.register('construct_main_menu')
 def hide_snippets_menu_item(request, menu_items):
   for item in menu_items: print("XXX: {}".format(item.name))
-  menu_items[:] = [item for item in menu_items if item.name not in ['snippets', 'images', 'documents', 'categories', 'contacts', 'Polls']]
+  menu_items[:] = [item for item in menu_items if item.name not in ['snippets', 'images', 'documents', 'categories', 'contacts']]
 
 @hooks.register('register_rich_text_features')
 def register_roofline_feature(features):
