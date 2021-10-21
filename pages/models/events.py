@@ -65,6 +65,9 @@ class SidebarBlocks(blocks.StreamBlock):
     sidebar_image_text = SidebarImageTextBlock()
 
 class EventsPage(RoutablePageMixin, Page):
+    class Meta:
+        verbose_name = "Event-Index-Seite"
+        
     content = StreamField([
         ('content', ContentBlocks()),
     ], block_counts={
