@@ -70,17 +70,18 @@ def start(request):
     # Events
     #scrape_events(request)
 
+    # Newsletter
+    return scrape_newsletter(request)
+
     # scrape sessions
-    scrape_lehre(request)
+    #scrape_lehre(request)
 
     # scrape wiki
     #scrape_wiki(request)
 
     # Redirects
     #scrape_redirects(request)
-    seed_redirects(request)
-
-    print("Seeded")
+    #seed_redirects(request)
 
 def scrape_wiki(request):
     # init
@@ -279,8 +280,11 @@ def seed_redirects(request):
 def scrape_events(request):
     data = get_events_json()
     root = Collection.get_first_root_node()
+    # delete event documents
     root.get_children().get(name='Events').get_children().delete()
     parent_page = EventsPage.objects.first()
+    # delete all EventPage's
+    EventPage.objects.all().delete()
 
     for event in data:
         # Variables
@@ -291,8 +295,10 @@ def scrape_events(request):
         description = event['description']
         poster_pdf = upload_poster_pdf(event['poster_pdf_link']) if event['poster_pdf_link'] != '' else None
         poster_image = upload_poster_image(event['poster_image_link']) if event['poster_image_link'] != '' else None
-        print(poster_image)
         youtube_link = event['youtube_link']
+
+        collection = get_collection
+        newsletter = upload_newsletter_pdf(event['newsletter_link']) if event['newsletter_link'] != '' else None
 
         event_page = EventPage(
             title=title,
@@ -302,7 +308,8 @@ def scrape_events(request):
             speaker_description=speaker_description,
             poster_pdf=poster_pdf,
             poster_image=poster_image,
-            youtube_link=youtube_link
+            youtube_link=youtube_link,
+            newsletter=newsletter
         )
 
         # Add ArticlePage to parent
@@ -347,12 +354,16 @@ def upload_poster_pdf(url):
         except:
             slug_col = semester_col.add_child(name=slug)
 
-        Document(
+        document = Document(
             title=filename,
             file="documents/{}".format(new_filename),
             collection=slug_col,
             tags=['testing']
-        ).save()
+        )
+
+        document.save()
+
+        return document
     except Exception as e:
         print(" ERROR - {}".format(e))
         print(" URL - {}".format(url))
@@ -407,10 +418,56 @@ def upload_poster_image_file(path, collection):
 
         image_object = Image(title=filename, file=image_file, collection=collection, width=width, height=height)
         image_object.save()
+
         return image_object
     except Exception as error:
         print("ERROR: {}".format(error))
         return None
+
+def upload_newsletter_pdf(url):
+    print("URL: {}".format(url))
+    root_collection = Collection.get_first_root_node()
+
+    semester = url.split('newsletter/')[1].split('/')[0]
+    filename = url.split('newsletter/')[1].split('/')[1]
+
+    # Target Directory
+    target_dir = "/home/dev/Workspace/app/media/documents"
+    new_filename = "Event_Newsletter_{semester}_{filename}".format(
+        semester=semester,
+        filename=filename
+    )
+
+    try:
+        local_file = requests.get(url, allow_redirects=True)  # target_dir)
+        open(os.path.join(target_dir, new_filename), 'wb').write(local_file.content)
+
+        root = Collection.get_first_root_node()
+        events = root.get_children().get(name='Events')
+
+        try:
+            semester_col = events.get_children().get(name=semester)
+        except:
+            semester_col = events.add_child(name=semester)
+
+        try:
+            slug_col = semester_col.get_children().get(name=slug)
+        except:
+            slug_col = semester_col.add_child(name=slug)
+
+        document = Document(
+            title=filename,
+            file="documents/{}".format(new_filename),
+            collection=slug_col,
+            tags=['testing']
+        )
+
+        document.save()
+
+        return document
+    except Exception as e:
+        print(" ERROR - {}".format(e))
+        print(" URL - {}".format(url))
 
 def scrape_lehre(request):
     # delete articles + images
@@ -752,6 +809,72 @@ def extract_session(content):
     result['assessment'] = right.decode_contents()
     return result
 
+def scrape_newsletter(request):
+    root_collection = Collection.get_first_root_node()
+    newsletters_col = root_collection.get_children().get(name='Newsletters')
+    newsletters_col.get_children().all().delete()
+
+    docs = []
+
+    with open('/home/dev/Workspace/app/core/scrape/newsletters.json', encoding='utf-8-sig') as f:
+        data = json.load(f)
+
+    for newsletter in data:
+        try:
+            collection = newsletters_col.get_children().get(name=newsletter['year'])
+        except:
+            collection = newsletters_col.add_child(name=newsletter['year'])
+
+        # Target Directory
+        target_dir = "/home/dev/Workspace/app/media/documents"
+        new_filename = "{filename}".format(
+            year=newsletter['year'],
+            filename=newsletter['filename'].split('/')[-1]
+        )
+
+        try:
+            local_file = requests.get(newsletter['href'], allow_redirects=True)  # target_dir)
+            open(os.path.join(target_dir, new_filename), 'wb').write(local_file.content)
+
+            document = Document(
+                title=newsletter['filename'],
+                file="documents/{}".format(new_filename),
+                collection=collection,
+                tags=['testing']
+            )
+
+            document.save()
+
+            docs.append({
+                "document": document,
+                "link": document.url,
+                "name": document.filename,
+                "year": newsletter['year']
+            })
+        except Exception as e:
+            print(" ERROR - {}".format(e))
+            print(" URL - {}".format(newsletter['href']))
+
+    docs = sorted(docs, key=lambda x: x['year'])
+
+    s = ""
+    current_year = 0
+
+    for doc in docs:
+        if doc['year'] != current_year:
+            current_year = doc['year']
+            s += "<h3>{}</h3>\n".format(doc['year'])
+        s += "<a href='{}'>{}</a>\n".format(
+            doc['link'],
+            doc['name'],
+        )
+
+    f = open("./newsletter_links.html", "w")
+    f.write(s)
+    f.close()
+
+    return
+
 def scrape_news(request):
     # delete articles + images
     ArticlePage.objects.all().delete()
@@ -874,6 +997,12 @@ def upload_image(path):
     except Exception as error:
         print("ERROR: {}".format(error))
         return False
+
+def extract_session_url(semester, slug):
+    if 'ws' in semester:
+        semester_param = semester.replace('ws', 'ws-')
+    if 'ss' in semester:
+        semester_param = semester.replace('ss', 'sos-')
 
 def traverse_ancestors(parent, slug_list):
     if len(slug_list) == 0:
