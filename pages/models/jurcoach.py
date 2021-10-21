@@ -40,10 +40,10 @@ class JurcoachCarousel(Orderable):
     carousel_link_text = models.CharField('Verlinkter Text', max_length=200, null=True, blank=True)
     carousel_link_url = models.CharField('Link', max_length=250, null=True, blank=True)
 
-    panels = [FieldPanel('illustration', classname="col-12"),
-             FieldPanel('carousel_description', classname="col-12"),
-             FieldPanel('carousel_link_text', classname="col-12"),
-             FieldPanel('carousel_link_url', classname="col-12"),]
+    panels = [FieldPanel('illustration', classname="col-3"),
+             FieldPanel('carousel_description', classname="col-3"),
+             FieldPanel('carousel_link_text', classname="col-3"),
+             FieldPanel('carousel_link_url', classname="col-3"),]
     
 class JurcoachPage(Page):
     class Meta:
