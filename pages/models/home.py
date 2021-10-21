@@ -89,7 +89,8 @@ class BasePage(Page):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Graffito-Bild im Header"
     )
 
     class Meta:
@@ -116,8 +117,8 @@ class BasePage(Page):
         FieldPanel('title'),
         ImageChooserPanel('header'),
         FieldRowPanel([
-            FieldPanel('content', classname='col8'),
-            FieldPanel('sidebar', classname='col4'),
+            FieldPanel('content', classname='col8', verbose_name="Hauptspalte"),
+            FieldPanel('sidebar', classname='col4', verbose_name="Seitenleiste"),
         ], classname='full')
     ]
 
