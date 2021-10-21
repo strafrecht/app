@@ -67,18 +67,18 @@ class EvaluationListBlock(blocks.StructBlock):
         return context
 # Content Blocks
 class ArticlesContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock(label = "Formatierter Text")
-    article_list_block = ArticleListBlock(label = "Auflistung aller News-Artikel")
-    evaluation_list_block = EvaluationListBlock(label = "Auflistung aller Abstimmungsauswertungen")
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
+    article_list_block = ArticleListBlock(label="Auflistung aller News-Artikel")
+    evaluation_list_block = EvaluationListBlock(label="Auflistung aller Abstimmungsauswertungen")
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
         return context
 class EvaluationsContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock(label = "Formatierter Text")
-    evaluation_list_block = EvaluationListBlock(label = "Auflistung aller Abstimmungsauswertungen")
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
+    evaluation_list_block = EvaluationListBlock(label="Auflistung aller Abstimmungsauswertungen")
 class NewslettersContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock(label = "Formatierter Text")
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
 # Sidebar Blocks
 class ArticleSidebarBlocks(blocks.StreamBlock):
     sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
@@ -100,8 +100,8 @@ class PageTag(TaggedItemBase):
 # Index Pages
 class ArticlesPage(RoutablePageMixin, Page):
     class Meta:
-        verbose_name = "News-Index-Seite"
-        verbose_name_plural = "News-Index-Seiten"
+        verbose_name="News-Index-Seite"
+        verbose_name_plural="News-Index-Seiten"
         
     content = StreamField([
         ('content', ArticlesContentBlocks(label="Hauptspalte")),
@@ -133,8 +133,8 @@ class ArticlesPage(RoutablePageMixin, Page):
 # Pages
 class ArticlePage(Page):
     class Meta:
-        verbose_name = "News-Artikel"
-        verbose_name_plural = "News-Artikel"
+        verbose_name="News-Artikel"
+        verbose_name_plural="News-Artikel"
         
     author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True, verbose_name="Autor*in")
     date = models.DateField('Datum')
