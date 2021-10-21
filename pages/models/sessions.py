@@ -165,9 +165,9 @@ class SessionPage(Page):
         ('ws-2004', 'Wintersemester 2004'),
     ]
 
-    name = models.CharField(max_length=255)
-    subtitle = models.CharField(max_length=255)
-    date = RichTextField(blank=True)
+    name = models.CharField('Name', max_length=255)
+    subtitle = models.CharField('Untertitel', max_length=255)
+    date = RichTextField(blank=True, verbose_name="Datum/Zeit")
     #tags = ClusterTaggableManager(through=SessionTags, blank=True)
     speaker = models.ForeignKey(
         User,
@@ -190,13 +190,13 @@ class SessionPage(Page):
         max_length=255,
         blank=True,
     )
-    assessment = RichTextField(blank=True)
-    description = RichTextField(blank=True)
-    speaker_description = RichTextField(blank=True)
-    material = RichTextField(blank=True)
-    location = RichTextField(blank=True)
-    lat = models.FloatField(null=True, blank=True)
-    lon = models.FloatField(null=True, blank=True)
+    assessment = RichTextField(blank=True, verbose_name="Datum/Zeit")
+    description = RichTextField(blank=True, verbose_name="Veranstaltungsbeschreibung")
+    speaker_description = RichTextField(blank=True, verbose_name="Beschreibung des*der Dozent*in")
+    material = RichTextField(blank=True, verbose_name="Materialien")
+    location = RichTextField(blank=True, verbose_name="Ort")
+    lat = models.FloatField(null=True, blank=True, verbose_name="Breitengrad")
+    lon = models.FloatField(null=True, blank=True, verbose_name="Längengrad")
 
     search_fields = [
         index.SearchField('title'),
