@@ -71,10 +71,10 @@ def start(request):
     #scrape_events(request)
 
     # Newsletter
-    return scrape_newsletter(request)
+    #return scrape_newsletter(request)
 
     # scrape sessions
-    #scrape_lehre(request)
+    scrape_lehre(request)
 
     # scrape wiki
     #scrape_wiki(request)
