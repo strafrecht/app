@@ -29,7 +29,6 @@ class SidebarImageTextBlock(blocks.StructBlock):
 
     class Meta:
         template = 'blocks/sidebar/image_text.html'
-        verbose_name = 'Bild links, Text rechts'
 
 class SidebarCalendarTextBlock(blocks.StructBlock):
     content = blocks.RichTextBlock()
