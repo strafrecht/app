@@ -28,6 +28,9 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 import pages 
 
 class PeopleIndexPage(RoutablePageMixin, Page):
+    class Meta:
+        verbose_name = "Aktuelle Mitarbeiter*innen-Seite"
+        
     subtitle = models.CharField(max_length=255, null=True, blank=True)
 
     content_panels = Page.content_panels + [                                          
@@ -65,6 +68,9 @@ class PeopleIndexPage(RoutablePageMixin, Page):
         return render(request, "pages/person_page.html", context)
     
 class FormerPeopleIndexPage(Page):
+    class Meta:
+        verbose_name = "Ehemalige Mitarbeiter*innen-Seite"
+        
     def get_context(self, request):
         context = super().get_context(request)
         formerstaff = People.objects.filter(status='former')
