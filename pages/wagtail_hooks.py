@@ -41,7 +41,7 @@ class SessionsModelAdmin(ModelAdmin):
     menu_label = 'Lehrveranstaltungen'
     menu_icon = 'date'
     menu_order= 200
-    list_display = ('semester', 'name', 'speaker', 'date')
+    list_display = ('semester', 'name', 'speaker')
 
 class PollsModelAdmin(ModelAdmin):
     model = Poll
