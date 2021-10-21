@@ -105,20 +105,20 @@ class BasePage(Page):
         ('content', ContentBlocks()),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
+    }, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
         ('sidebar', SidebarBlocks(required=False)),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    })
+    }, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
         ImageChooserPanel('header'),
         FieldRowPanel([
-            FieldPanel('content', classname='col8', verbose_name="Hauptspalte"),
-            FieldPanel('sidebar', classname='col4', verbose_name="Seitenleiste"),
+            FieldPanel('content', classname='col8'),
+            FieldPanel('sidebar', classname='col4'),
         ], classname='full')
     ]
 
