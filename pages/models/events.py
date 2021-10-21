@@ -49,8 +49,8 @@ class EventsBlock(blocks.StructBlock):
 
 # Content Blocks
 class ContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
-    events_block = EventsBlock()
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
+    events_block = EventsBlock(label="Auflistung aller Tacheles-Events nach Semestern")
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
@@ -58,23 +58,23 @@ class ContentBlocks(blocks.StreamBlock):
 
 # Sidebar Blocks
 class SidebarBlocks(blocks.StreamBlock):
-    sidebar_title = SidebarTitleBlock()
-    sidebar_header = SidebarHeaderBlock()
-    sidebar_border = SidebarBorderBlock()
-    sidebar_simple = SidebarSimpleBlock()
-    sidebar_image_text = SidebarImageTextBlock()
+    sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
+    sidebar_header = SidebarHeaderBlock(label="Bild oben, Text darunter")
+    sidebar_border = SidebarBorderBlock(label="Grau umrandeter Kasten")
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
+    sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
 
 class EventsPage(RoutablePageMixin, Page):
     class Meta:
         verbose_name = "Event-Index-Seite"
         
     content = StreamField([
-        ('content', ContentBlocks()),
+        ('content', ContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
-
-    sidebar = StreamField(SidebarBlocks(required=False), blank=True)
+    }, verbose_name="Hauptspalte")
+    
+    sidebar = StreamField(SidebarBlocks(required=False, label="Seitenleiste"), blank=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),

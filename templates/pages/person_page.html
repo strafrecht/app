@@ -8,6 +8,24 @@
 
 {% block body_class %}template-websitepage{% endblock %}
 
+{% block breadcrumbmenu %}
+{% if self.get_ancestors|length > 1 %}
+	{% if page.header %}
+		<div class="breadcrumb-new">
+	{% else %}
+		<div class="breadcrumb-new" style="margin: 50px auto 0 auto !important;">
+	{% endif %}
+		Du bist hier: 
+		{% for page in self.get_ancestors %}
+			{% if page.is_root == False %}
+			<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl page %}">{{ page.title|truncatechars:25 }}</a> >
+			{% endif %}
+		{% endfor %}
+		<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl self %}">{{ self.title}}</a> > {{ person.first_name }} {{ person.last_name }}
+	</div>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 	<div class="person-page">
 		<div class="row">
