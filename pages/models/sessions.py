@@ -64,8 +64,8 @@ class SemesterBlock(blocks.StructBlock):
 
 # Content Blocks
 class ContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
-    semester_block = SemesterBlock()
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
+    semester_block = SemesterBlock(label="Auflistung der Lehrveranstaltungen für ein bestimmtes Semester")
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
