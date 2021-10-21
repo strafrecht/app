@@ -27,7 +27,7 @@ class EventsModelAdmin(ModelAdmin):
     menu_label = 'Events'
     menu_icon = 'site'
     menu_order= 201
-    list_display = ('title', 'speaker_description', 'date')
+    list_display = ('title', 'speaker_description_html', 'date')
 
 class ArticlesModelAdmin(ModelAdmin):
     model = ArticlePage
