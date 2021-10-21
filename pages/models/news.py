@@ -227,6 +227,10 @@ class ArticlePage(Page):
     template = 'pages/news_article_page.html'
 
 class EvaluationsPage(Page):
+    class Meta:
+        verbose_name="Abstimmungen-Index-Seite"
+        verbose_name_plural="Abstimmungen-Index-Seiten"
+        
     def get_context(self, request):
         context = super().get_context(request)
         context['request'] = request
