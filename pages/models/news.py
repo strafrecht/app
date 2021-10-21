@@ -34,7 +34,8 @@ from django.shortcuts import get_object_or_404, render
 class ArticleListBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/widgets/news_list.html'
-
+        verbose_name = "Auflistung aller News-Artikel"
+        
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
         news_article_pages = ArticlePage.objects.filter(live=True, is_evaluation=False).order_by('-date')
@@ -51,6 +52,7 @@ class ArticleListBlock(blocks.StructBlock):
 class EvaluationListBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/widgets/news_list.html'
+        verbose_name = "Auflistung aller Abstimmungsauswertungen"
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
@@ -99,6 +101,10 @@ class PageTag(TaggedItemBase):
 
 # Index Pages
 class ArticlesPage(RoutablePageMixin, Page):
+    class Meta:
+        verbose_name = "News-Index-Seite"
+        verbose_name_plural = "News-Index-Seiten"
+        
     content = StreamField([
         ('content', ArticlesContentBlocks(label="Hauptspalte")),
     ], block_counts={
