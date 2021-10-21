@@ -135,9 +135,9 @@ class EventPage(Page):
         ('sos-2010', 'Sommersemester 2010'),
     ]
 
-    subtitle = models.CharField(max_length=255, null=True, blank=True)
+    subtitle = models.CharField("Untertitel", max_length=255, null=True, blank=True)
     date = models.DateTimeField()
-    semester = models.CharField(
+    semester = models.CharField("Semester", 
         choices=SEMESTER_TYPE_CHOICES,
         max_length=255,
         blank=True
@@ -157,7 +157,7 @@ class EventPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    youtube_link = models.CharField(max_length=500, null=True, blank=True)
+    youtube_link = models.CharField("Link zur Aufzeichnung des Vortrags auf YouTube", max_length=500, null=True, blank=True)
     newsletter = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
@@ -165,7 +165,7 @@ class EventPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    type = models.CharField(
+    type = models.CharField("Tacheles-Vortrag oder Sonstiges?"person's first name", ", 
         choices=EVENT_TYPE_CHOICES,
         default='tacheles',
         max_length=255,
@@ -173,7 +173,7 @@ class EventPage(Page):
     )
     description = RichTextField(blank=True)
     speaker_description = RichTextField(blank=True)
-    location = models.CharField(max_length=255, null=True, blank=True)
+    location = models.CharField("Ort", max_length=255, null=True, blank=True)
     showmap = models.BooleanField(default=False)
     lat = models.FloatField(null=True, blank=True)
     lon = models.FloatField(null=True, blank=True)
