@@ -50,13 +50,13 @@ class ContentBlocks(blocks.StreamBlock):
     home_jurcoach_block = HomeJurcoachBlock(label="Jurcoach-Startseiten-Widget")
 
 class SidebarBlocks(blocks.StreamBlock):
-    sidebar_title = SidebarTitleBlock()
-    sidebar_simple = SidebarSimpleBlock()
-    sidebar_border = SidebarBorderBlock()
-    sidebar_image_text = SidebarImageTextBlock()
-    sidebar_calendar_text = SidebarCalendarTextBlock()
-    sidebar_header = SidebarHeaderBlock()
-    sidebar_poll = SidebarPollChooser()
+    sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
+    sidebar_border = SidebarBorderBlock(label="Grau umrandeter Kasten")
+    sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
+    sidebar_header = SidebarHeaderBlock(label="Bild oben, Text darunter")
+    sidebar_calendar_text = SidebarCalendarTextBlock(label="Kalender links, Text rechts")
+    sidebar_poll = SidebarPollChooser(label="Abstimmung")
     sidebar_subscribe = SidebarSubscribeBlock()
     sidebar_event = SidebarEventBlock()
 
@@ -132,6 +132,7 @@ class GenericPage(BasePage):
 
     content_panels = BasePage.content_panels
     template = BasePage.template
+    verbose_name = "Generische Seite"
 
 
 class HomePage(BasePage):
@@ -146,3 +147,4 @@ class HomePage(BasePage):
 
     content_panels = BasePage.content_panels
     template = BasePage.template
+    verbose_name = "Startseite"
