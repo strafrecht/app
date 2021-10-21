@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -220,7 +221,10 @@ class EventPage(Page):
         index.SearchField('title'),
         index.SearchField('speaker'),
     ]
-
+    
+    def speaker_description_html(self):
+        return mark_safe(self.speaker_description)
+    
     @property
     def events_page(self):
         return self.get_parent().specific
