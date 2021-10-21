@@ -104,7 +104,8 @@ class People(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name='Verknüpfung mit Nutzer*innen-Account'
     )
     first_name = models.CharField("Vorname", max_length=255)
     last_name = models.CharField("Nachname", max_length=255)
@@ -115,6 +116,7 @@ class People(models.Model):
         blank=True,
     )
     role = models.CharField(
+        'Rolle',
         choices=ROLE_CHOICES,
         max_length=255,
         blank=True,
@@ -122,13 +124,14 @@ class People(models.Model):
     telephone = models.CharField("Telefonnummer", max_length=255, blank=True)
     email = models.CharField("Mailadresse", max_length=255, blank=True)
     room = models.CharField("Raumnummer", max_length=255, blank=True)
-    description = RichTextField(blank=True)
+    description = RichTextField(blank=True, verbose_name='Beschreibung/Weitere Informationen')
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name='Profilbild'
     )
 
     panels = [
