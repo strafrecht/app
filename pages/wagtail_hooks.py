@@ -20,7 +20,7 @@ class PeopleModelAdmin(ModelAdmin):
     menu_label = 'Personen'
     menu_icon = 'user'
     menu_order= 202
-    list_display = ('status', 'last_name', 'first_name', 'role')
+    list_display = ('last_name', 'first_name', 'status', 'role')
 
 class EventsModelAdmin(ModelAdmin):
     model = EventPage
