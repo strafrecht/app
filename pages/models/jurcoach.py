@@ -67,7 +67,8 @@ class JurcoachPage(Page):
         Poll,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name='Abstimmung'
     )
 
     def get_context(self, request):
