@@ -75,10 +75,10 @@ class ArticlesContentBlocks(blocks.StreamBlock):
         context = super().get_context(value, parent_context=parent_context)
         return context
 class EvaluationsContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
-    evaluation_list_block = EvaluationListBlock()
+    richtext = blocks.RichTextBlock(label = "Formatierter Text")
+    evaluation_list_block = EvaluationListBlock(label = "Auflistung aller Abstimmungsauswertungen")
 class NewslettersContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
+    richtext = blocks.RichTextBlock(label = "Formatierter Text")
 # Sidebar Blocks
 class ArticleSidebarBlocks(blocks.StreamBlock):
     sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
