@@ -64,8 +64,8 @@ class SemesterBlock(blocks.StructBlock):
 
 # Content Blocks
 class ContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
-    semester_block = SemesterBlock()
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
+    semester_block = SemesterBlock(label="Auflistung der Lehrveranstaltungen für ein bestimmtes Semester")
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
@@ -73,20 +73,24 @@ class ContentBlocks(blocks.StreamBlock):
 
 # Sidebar Blocks
 class SidebarBlocks(blocks.StreamBlock):
-    sidebar_title = SidebarTitleBlock()
-    sidebar_header = SidebarHeaderBlock()
-    sidebar_border = SidebarBorderBlock()
-    sidebar_simple = SidebarSimpleBlock()
-    sidebar_image_text = SidebarImageTextBlock()
+    sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
+    sidebar_header = SidebarHeaderBlock(label="Bild oben, Text darunter")
+    sidebar_border = SidebarBorderBlock(label="Grau umrandeter Kasten")
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
+    sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
 
 class SessionsPage(RoutablePageMixin, Page):
+    class Meta:
+        verbose_name = 'Lehre-Seite'
+        verbose_name_plural = 'Lehre-Seiten'
+        
     content = StreamField([
-        ('content', ContentBlocks()),
+        ('content', ContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
+    }, verbose_name="Hauptspalte")
 
-    sidebar = StreamField(SidebarBlocks(required=False), blank=True)
+    sidebar = StreamField(SidebarBlocks(required=False), blank=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
@@ -113,6 +117,10 @@ class SessionsPage(RoutablePageMixin, Page):
         return session.serve(request)
 
 class SessionPage(Page):
+    class Meta:
+        verbose_name = 'Lehrveranstaltung'
+        verbose_name_plural = 'Lehrveranstaltungen'
+        
     SESSION_TYPE_CHOICES = [
         ('lecture', 'Vorlesung'),
         ('exercise', 'Übung'),
@@ -161,35 +169,38 @@ class SessionPage(Page):
         ('ws-2004', 'Wintersemester 2004'),
     ]
 
-    name = models.CharField(max_length=255)
-    subtitle = models.CharField(max_length=255)
-    date = RichTextField(blank=True)
+    name = models.CharField('Name', max_length=255)
+    subtitle = models.CharField('Untertitel', max_length=255)
+    date = RichTextField(blank=True, verbose_name="Datum/Zeit")
     #tags = ClusterTaggableManager(through=SessionTags, blank=True)
     speaker = models.ForeignKey(
         User,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Dozent*in"
     )
     type = models.CharField(
+        'Veranstaltungstyp',
         choices=SESSION_TYPE_CHOICES,
         default='lecture',
         max_length=255,
         blank=True
     )
     semester = models.CharField(
+        'Semesterauswahl',
         choices=SEMESTER_TYPE_CHOICES,
         max_length=255,
-        blank=True
+        blank=True,
     )
-    assessment = RichTextField(blank=True)
-    description = RichTextField(blank=True)
-    speaker_description = RichTextField(blank=True)
-    material = RichTextField(blank=True)
-    location = RichTextField(blank=True)
-    lat = models.FloatField(null=True, blank=True)
-    lon = models.FloatField(null=True, blank=True)
+    assessment = RichTextField(blank=True, verbose_name="Datum/Zeit")
+    description = RichTextField(blank=True, verbose_name="Veranstaltungsbeschreibung")
+    speaker_description = RichTextField(blank=True, verbose_name="Beschreibung des*der Dozent*in")
+    material = RichTextField(blank=True, verbose_name="Materialien")
+    location = RichTextField(blank=True, verbose_name="Ort")
+    lat = models.FloatField(null=True, blank=True, verbose_name="Breitengrad")
+    lon = models.FloatField(null=True, blank=True, verbose_name="Längengrad")
 
     search_fields = [
         index.SearchField('title'),
@@ -199,7 +210,7 @@ class SessionPage(Page):
         index.FilterField('live'),
     ]
 
-    sidebar = StreamField(SidebarBlocks(required=False), blank=True)
+    sidebar = StreamField(SidebarBlocks(required=False), blank=True, verbose_name="Seitenleiste")
 
 
     content_panels = [
@@ -241,10 +252,6 @@ class SessionPage(Page):
         ObjectList(Page.promote_panels, heading='Promote'),
         ObjectList(Page.settings_panels, heading='Settings', classname='settings'),
     ])
-
-    #class Meta:
-    #    verbose_name = 'Lehrveranstaltung'
-    #    verbose_name_plural = 'Lehrveranstaltungen'
 
     #parent_page_types = [SessionsPage]
 

@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -26,6 +27,9 @@ from wagtail.snippets.models import register_snippet
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 class ExamTable(Page):
+    class Meta:
+        verbose_name = "Klausurdatenbank-Seite"
+        
     def __str__(self):
         print('exam table')
     
@@ -49,17 +53,19 @@ class Exams(models.Model):
     def __str__(self):
         return "{}".format(self.date)
 
-    date = models.DateField(null=True, blank=True)
-    paragraphs = RichTextField(blank=True)
-    problems = RichTextField(blank=True)
-    sachverhalt_link = models.CharField(blank=True, max_length=255)
-    loesung_link = models.CharField(blank=True, max_length=255)
+    date = models.DateField(null=True, blank=True, verbose_name="Datum")
+    paragraphs = RichTextField(blank=True, verbose_name="Paragraphen/Strafbarkeiten in der Klausur")
+    problems = RichTextField(blank=True, verbose_name="Problemschwerpunkte der Klausur")
+    sachverhalt_link = models.CharField('Link zum Sachverhalt', blank=True, max_length=255)
+    loesung_link = models.CharField('Link zur Lösungsskizze', blank=True, max_length=255)
     difficulty = models.CharField(
+        'Schwierigkeitsgrad',
         choices=EXAM_DIFFICULTY_CHOICES,
         max_length=255,
         blank=True
     )
     type = models.CharField(
+        'Klausurtyp',
         choices=EXAM_TYPE_CHOICES,
         max_length=255,
         blank=True
@@ -76,9 +82,15 @@ class Exams(models.Model):
             FieldPanel('problems', classname="col-12"),
             FieldPanel('sachverhalt_link', classname="col-12"),
             FieldPanel('loesung_link', classname="col-12"),
-        ], "Exam"),
+        ], "Klausur"),
     ]
-
+    
+    def paragraphs_html(self):
+        return mark_safe(self.paragraphs)
+    
+    def problems_html(self):
+        return mark_safe(self.problems)
+    
     class Meta:
         verbose_name = 'Klausur'
         verbose_name_plural = 'Klausuren'

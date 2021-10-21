@@ -20,21 +20,21 @@ class PeopleModelAdmin(ModelAdmin):
     menu_label = 'Personen'
     menu_icon = 'user'
     menu_order= 202
-    list_display = ('status', 'last_name', 'first_name', 'role')
+    list_display = ('last_name', 'first_name', 'status', 'role')
 
 class EventsModelAdmin(ModelAdmin):
     model = EventPage
     menu_label = 'Events'
     menu_icon = 'site'
     menu_order= 201
-    list_display = ('title', 'speaker_description', 'date')
+    list_display = ('title', 'speaker_description_html', 'date')
 
 class ArticlesModelAdmin(ModelAdmin):
     model = ArticlePage
-    menu_label = 'Articles'
+    menu_label = 'News-Artikel'
     menu_icon = 'doc-full'
     menu_order= 201
-    list_display = ('title', 'author', 'date')
+    list_display = ('date', 'title', 'author')
 
 class SessionsModelAdmin(ModelAdmin):
     model = SessionPage
@@ -55,7 +55,7 @@ class ExamsModelAdmin(ModelAdmin):
     menu_label = 'Klausurdatenbank'
     menu_icon = 'edit'
     menu_order= 200
-    list_display = ('type', 'difficulty', 'date')
+    list_display = ('date', 'type', 'difficulty', 'problems_html')
 
 #modeladmin_register(NodeAdmin)
 modeladmin_register(PeopleModelAdmin)

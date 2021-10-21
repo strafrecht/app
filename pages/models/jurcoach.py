@@ -11,10 +11,10 @@ from wagtailpolls.models import Poll
 
 class JurcoachFooter(Orderable):
     page = ParentalKey('pages.JurcoachPage', related_name='jurcoachfooter')
-    footeritem_headline = models.CharField(max_length=200, null=True, blank=True)
-    footeritem_text = RichTextField(null=True, blank=True)
-    footeritem_linktext = models.CharField(max_length=200, null=True, blank=True)
-    footeritem_linkurl = models.CharField(max_length=200, null=True, blank=True)
+    footeritem_headline = models.CharField('Überschrift', max_length=200, null=True, blank=True)
+    footeritem_text = RichTextField(null=True, blank=True, verbose_name='Text')
+    footeritem_linktext = models.CharField('Verlinkter Text', max_length=200, null=True, blank=True)
+    footeritem_linkurl = models.CharField('Link', max_length=200, null=True, blank=True)
 
     panels = [FieldPanel('footeritem_headline', classname="col-12"),
              FieldPanel('footeritem_text', classname="col-12"),
@@ -31,13 +31,14 @@ class JurcoachCarousel(Orderable):
         ('rechtsprechung', 'Höchstrichterliche Rechtsprechung'),
     ]
     illustration = models.CharField(
+        'Auswahl der Illustration',
         choices=illustration_choices,
         max_length=255,
         blank=True
     )
-    carousel_description = RichTextField(null=True, blank=True)
-    carousel_link_text = models.CharField(max_length=200, null=True, blank=True)
-    carousel_link_url = models.CharField(max_length=250, null=True, blank=True)
+    carousel_description = RichTextField(null=True, blank=True, verbose_name='Text')
+    carousel_link_text = models.CharField('Verlinkter Text', max_length=200, null=True, blank=True)
+    carousel_link_url = models.CharField('Link', max_length=250, null=True, blank=True)
 
     panels = [FieldPanel('illustration', classname="col-12"),
              FieldPanel('carousel_description', classname="col-12"),
@@ -45,27 +46,32 @@ class JurcoachCarousel(Orderable):
              FieldPanel('carousel_link_url', classname="col-12"),]
     
 class JurcoachPage(Page):
+    class Meta:
+        verbose_name='Jurcoach-Startseite'
+        
     body = RichTextField(blank=True)
     header = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name='Graffito-Bild im Header'
     )
-    header_headline = RichTextField(blank=True)
-    header_slogan = RichTextField(blank=True)
-    intro_headline = models.CharField(max_length=200, null=True, blank=True)
-    intro_text = RichTextField(blank=True)
-    carousel_headline = models.CharField(max_length=200, null=True, blank=True)
-    contribution_headline = models.CharField(max_length=200, null=True, blank=True)
-    contribution_description = RichTextField(null=True, blank=True)
+    header_headline = RichTextField(blank=True, verbose_name='Mit Graffito unterlegte Überschrift')
+    header_slogan = RichTextField(blank=True, verbose_name='Mit Graffito unterlegter Untertitel')
+    intro_headline = models.CharField('Intro-Überschrift', max_length=200, null=True, blank=True)
+    intro_text = RichTextField(blank=True, verbose_name='Intro-Text')
+    carousel_headline = models.CharField('Slider-Überschrift', max_length=200, null=True, blank=True)
+    contribution_headline = models.CharField('Mitmachfunktionen-Überschrift', max_length=200, null=True, blank=True)
+    contribution_description = RichTextField(null=True, blank=True, verbose_name='Mitmachfunktionen-Beschreibung')
     
     poll = models.ForeignKey(
         Poll,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name='Abstimmung'
     )
 
     def get_context(self, request):

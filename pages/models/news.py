@@ -34,7 +34,7 @@ from django.shortcuts import get_object_or_404, render
 class ArticleListBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/widgets/news_list.html'
-
+        
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
         news_article_pages = ArticlePage.objects.filter(live=True, is_evaluation=False).order_by('-date')
@@ -67,29 +67,29 @@ class EvaluationListBlock(blocks.StructBlock):
         return context
 # Content Blocks
 class ArticlesContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
-    article_list_block = ArticleListBlock()
-    evaluation_list_block = EvaluationListBlock()
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
+    article_list_block = ArticleListBlock(label="Auflistung aller News-Artikel")
+    evaluation_list_block = EvaluationListBlock(label="Auflistung aller Abstimmungsauswertungen")
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
         return context
 class EvaluationsContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
-    evaluation_list_block = EvaluationListBlock()
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
+    evaluation_list_block = EvaluationListBlock(label="Auflistung aller Abstimmungsauswertungen")
 class NewslettersContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
 # Sidebar Blocks
 class ArticleSidebarBlocks(blocks.StreamBlock):
-    sidebar_title = SidebarTitleBlock()
-    sidebar_simple = SidebarSimpleBlock()
-    sidebar_image_text = SidebarImageTextBlock()
-    sidebar_poll = SidebarPollChooser()
+    sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
+    sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
+    sidebar_poll = SidebarPollChooser(label="Abstimmung")
 class NewsletterSidebarBlocks(blocks.StreamBlock):
-    sidebar_title = SidebarTitleBlock()
-    sidebar_simple = SidebarSimpleBlock()
-    sidebar_border = SidebarBorderBlock()
-    sidebar_poll = SidebarPollChooser()
+    sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
+    sidebar_border = SidebarBorderBlock(label="Grau umrandeter Kasten")
+    sidebar_poll = SidebarPollChooser(label="Abstimmung")
 
 # Other
 class PageTag(TaggedItemBase):
@@ -99,13 +99,17 @@ class PageTag(TaggedItemBase):
 
 # Index Pages
 class ArticlesPage(RoutablePageMixin, Page):
+    class Meta:
+        verbose_name="News-Index-Seite"
+        verbose_name_plural="News-Index-Seiten"
+        
     content = StreamField([
-        ('content', ArticlesContentBlocks()),
+        ('content', ArticlesContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
-
-    sidebar = StreamField(ArticleSidebarBlocks(required=False))
+    }, verbose_name="Hauptspalte")
+    
+    sidebar = StreamField(ArticleSidebarBlocks(required=False), verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
@@ -128,11 +132,15 @@ class ArticlesPage(RoutablePageMixin, Page):
 
 # Pages
 class ArticlePage(Page):
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True)
-    date = models.DateField('Post date')
-    body = RichTextField(blank=True)
+    class Meta:
+        verbose_name="News-Artikel"
+        verbose_name_plural="News-Artikel"
+        
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True, verbose_name="Autor*in")
+    date = models.DateField('Datum')
+    body = RichTextField(blank=True, verbose_name="News-Artikel-Text")
     tags = ClusterTaggableManager(through=PageTag, blank=True)
-    is_evaluation = models.BooleanField(default=False)
+    is_evaluation = models.BooleanField(default=False, verbose_name="Handelt es sich um eine Abstimmungsauswertung?")
 
     search_fields = Page.search_fields + [
         index.SearchField('intro'),
@@ -146,7 +154,7 @@ class ArticlePage(Page):
     #], block_counts={
     #    'sidebar': {'min_num': 0, 'max_num': 1},
     #})
-    sidebar = StreamField(ArticleSidebarBlocks(required=False), blank=True)
+    sidebar = StreamField(ArticleSidebarBlocks(required=False), blank=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldRowPanel([
@@ -219,22 +227,26 @@ class ArticlePage(Page):
     template = 'pages/news_article_page.html'
 
 class EvaluationsPage(Page):
+    class Meta:
+        verbose_name="Abstimmungen-Index-Seite"
+        verbose_name_plural="Abstimmungen-Index-Seiten"
+        
     def get_context(self, request):
         context = super().get_context(request)
         context['request'] = request
         return context
 
     content = StreamField([
-        ('content', EvaluationsContentBlocks()),
+        ('content', EvaluationsContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
+    }, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
-        ('sidebar', ArticleSidebarBlocks(required=False)),
+        ('sidebar', ArticleSidebarBlocks(required=False, label="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    })
+    }, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
@@ -244,17 +256,21 @@ class EvaluationsPage(Page):
         ], classname='full')
     ]
 class NewslettersPage(Page):
+    class Meta:
+        verbose_name="Newsletter-Seite"
+        verbose_name_plural="Newsletter-Seiten"
+        
     content = StreamField([
-        ('content', NewslettersContentBlocks()),
+        ('content', NewslettersContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
+    }, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
-        ('sidebar', NewsletterSidebarBlocks(required=False)),
+        ('sidebar', NewsletterSidebarBlocks(required=False, label="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    })
+    }, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),

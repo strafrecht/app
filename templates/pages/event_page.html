@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load youtube_id %}
 {% load wagtailcore_tags wagtailimages_tags website_tags %}
 
 {% block extra_css %}
@@ -28,19 +29,8 @@
 					<p class="bold font-sm"><span class="meta font-sm">{{ event.speaker_description | richtext }}</span></p>
 					{% endif %}
 
-					<h3 style="margin-top:30px;font-weight:600;">Veranstaltungsbeschreibung</h3>
-					{% if event.date or event.location %}
-					<p>{{ event.date|date:"j. F Y, G.i" }} Uhr{% if event.date and event.location %},{% endif %} 
-					{% if event.location %}
-					{{ event.location }}
-					{% endif %}
-					</p>
-					{% endif %}
-					
+					<h3 style="margin-top:30px;font-weight:600;">Veranstaltungsbeschreibung</h3>					
 					<p class="richtext">{{ event.description|richtext }}</p>
-					{% if event.speaker_description %}
-					<p class="richtext"><u>Zum Referenten:</u> {{ event.speaker_description|richtext }}</p>
-					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -63,7 +53,35 @@
 
 {% block sidebar %}
 <div class="column">
-	<p>Vue Calendar Widget here!</p>
+	<div class="sidebar sidebar-title">
+		<div class="text">
+			<span class="brand">
+				<p>Infos</p>
+			</span>
+		</div>
+	</div>
+	<div id="calendar-widget">
+		<div class="sidebar sidebar-calendar-text">
+			<div id="calendar" style="margin-top: 10px;">
+				  <time class="icon">
+				  {% now "Y-m-d" as todays_date %}
+				  {% if todays_date < event.date|date:"Y-m-d" %}
+				    <em>{{ event.date|date:"l" }}</em>
+				    <strong>{{ event.date|date:"F" }}</strong>
+				    <span>{{ event.date|date:"j" }}</span>
+				  {% else %}
+				    <em>{{ event.date|date:"F" }}</em>
+				    <strong>{{ event.date|date:"Y" }}</strong>
+				    <span>{{ event.date|date:"j" }}</span>
+				  {% endif %}
+				  </time>
+			</div>
+			<div class="text">
+				<p><strong>Tacheles</strong></p>
+				<p>{{ event.title }}</p>
+			</div>
+		</div>
+	</div>
 	{% if event.poster_image or event.poster_pdf %}
 	<hr/>
 	<div class="block-sidebar_image_text">
@@ -75,15 +93,55 @@
 			{% endif %}
 			{% if event.poster_pdf %}
 			<div class="text">
-				<h3>
-					Veranstaltungsplakat
-				</h3>
+				<p>
+					<strong>
+						Veranstaltungsplakat
+					</strong>
+				</p>
 				<p>
 					<a href="{{ event.poster_pdf.url }}">Als PDF downloaden</a>
 				</p>
 			</div>
 			{% endif %}
 		</div>
+	</div>
+	{% endif %}
+	{% if event.newsletter %}
+	<hr/>
+	<div class="block-sidebar_border">
+	<div class="sidebar sidebar-border">
+		<div class="text">
+			<div class="infokasten kasten">
+				<div>
+					<p>
+						Im <a href="{{ event.newsletter.url }}">Lehrstuhlnewsletter</a> erschien ein Event-Bericht zu der Veranstaltung.
+					</p>
+				</div>
+			</div> 
+		</div>
+	</div>
+	</div>
+	{% endif %}
+	{% if event.youtube_link %}
+	<hr/>
+	<div class="block-sidebar_border">
+	<div class="sidebar sidebar-border">
+		<div class="text">
+			<div class="infokasten kasten">
+				<div>
+					<h2>Videoaufzeichnung</h2>
+				</div>
+				<div>
+					<p>Eine <a href="{{ event.youtube_link }}">Videoaufzeichnung der Veranstaltung</a> 
+						ist auf YouTube verfügbar.
+					</p>
+					<p>
+						<iframe width="100%" src="https://www.youtube.com/embed/{{ event.youtube_link|youtube_id }}" frameborder="0" allowfullscreen=""></iframe>
+					</p>
+				</div>
+			</div> 
+		</div>
+	</div>
 	</div>
 	{% endif %}
 </div>

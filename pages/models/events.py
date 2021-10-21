@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -64,6 +65,9 @@ class SidebarBlocks(blocks.StreamBlock):
     sidebar_image_text = SidebarImageTextBlock()
 
 class EventsPage(RoutablePageMixin, Page):
+    class Meta:
+        verbose_name = "Event-Index-Seite"
+        
     content = StreamField([
         ('content', ContentBlocks()),
     ], block_counts={
@@ -97,6 +101,10 @@ class EventsPage(RoutablePageMixin, Page):
         return event.serve(request)
 
 class EventPage(Page):
+    class Meta:
+        verbose_name = "Event-Seite"
+        verbose_name_plural = "Event-Seiten"
+        
     EVENT_TYPE_CHOICES = [
         ('tacheles', 'Tacheles'),
         ('sonstige', 'Sonstige')
@@ -135,9 +143,9 @@ class EventPage(Page):
         ('sos-2010', 'Sommersemester 2010'),
     ]
 
-    subtitle = models.CharField(max_length=255, null=True, blank=True)
-    date = models.DateTimeField()
-    semester = models.CharField(
+    subtitle = models.CharField("Untertitel", max_length=255, null=True, blank=True)
+    date = models.DateTimeField(verbose_name="Datum (die hier eingetragene Uhrzeit muss nicht stimmen)")
+    semester = models.CharField("Semester", 
         choices=SEMESTER_TYPE_CHOICES,
         max_length=255,
         blank=True
@@ -148,35 +156,39 @@ class EventPage(Page):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Plakat als Bilddatei"
     )
     poster_pdf = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Plakat als PDF-Datei"
     )
-    youtube_link = models.CharField(max_length=500, null=True, blank=True)
+    youtube_link = models.CharField("Link zur Aufzeichnung des Vortrags auf YouTube", max_length=500, null=True, blank=True)
     newsletter = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Link zum Newsletter, sofern es einen Event-Bericht gab"
     )
-    type = models.CharField(
+    type = models.CharField("Tacheles-Vortrag oder was anderes?", 
         choices=EVENT_TYPE_CHOICES,
         default='tacheles',
         max_length=255,
         blank=True
     )
-    description = RichTextField(blank=True)
-    speaker_description = RichTextField(blank=True)
-    location = models.CharField(max_length=255, null=True, blank=True)
-    showmap = models.BooleanField(default=False)
-    lat = models.FloatField(null=True, blank=True)
-    lon = models.FloatField(null=True, blank=True)
+    description = RichTextField(blank=True, verbose_name="Vortragsankündidungstext")
+    speaker_description = RichTextField(blank=True, verbose_name="Referent*in")
+    location = models.CharField("Ort", max_length=255, null=True, blank=True)
+    showmap = models.BooleanField(default=False, verbose_name="Soll eine Karte auf der Event-Seite angezeigt werden?")
+    lat = models.FloatField(null=True, blank=True, verbose_name="Breitengrad")
+    lon = models.FloatField(null=True, blank=True, verbose_name="Längengrad")
+    sidebar = True
 
     content_panels = [
         MultiFieldPanel([
@@ -212,7 +224,10 @@ class EventPage(Page):
         index.SearchField('title'),
         index.SearchField('speaker'),
     ]
-
+    
+    def speaker_description_html(self):
+        return mark_safe(self.speaker_description)
+    
     @property
     def events_page(self):
         return self.get_parent().specific

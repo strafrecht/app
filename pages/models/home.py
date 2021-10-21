@@ -45,18 +45,18 @@ class HomeJurcoachBlock(blocks.StructBlock):
 
 # Sidebar Blocks
 class ContentBlocks(blocks.StreamBlock):
-    richtext = blocks.RichTextBlock()
-    home_news_block = HomeNewsBlock()
-    home_jurcoach_block = HomeJurcoachBlock()
+    richtext = blocks.RichTextBlock(label="Formatierter Text")
+    home_news_block = HomeNewsBlock(label="Vier letzte News-Beiträge")
+    home_jurcoach_block = HomeJurcoachBlock(label="Jurcoach-Startseiten-Widget")
 
 class SidebarBlocks(blocks.StreamBlock):
-    sidebar_title = SidebarTitleBlock()
-    sidebar_simple = SidebarSimpleBlock()
-    sidebar_border = SidebarBorderBlock()
-    sidebar_image_text = SidebarImageTextBlock()
-    sidebar_calendar_text = SidebarCalendarTextBlock()
-    sidebar_header = SidebarHeaderBlock()
-    sidebar_poll = SidebarPollChooser()
+    sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
+    sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
+    sidebar_border = SidebarBorderBlock(label="Grau umrandeter Kasten")
+    sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
+    sidebar_header = SidebarHeaderBlock(label="Bild oben, Text darunter")
+    sidebar_calendar_text = SidebarCalendarTextBlock(label="Kalender links, Text rechts")
+    sidebar_poll = SidebarPollChooser(label="Abstimmung")
     sidebar_subscribe = SidebarSubscribeBlock()
     sidebar_event = SidebarEventBlock()
 
@@ -89,7 +89,8 @@ class BasePage(Page):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Graffito-Bild im Header"
     )
 
     class Meta:
@@ -101,16 +102,16 @@ class BasePage(Page):
     #    return contex
 
     content = StreamField([
-        ('content', ContentBlocks()),
+        ('content', ContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    })
+    }, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
-        ('sidebar', SidebarBlocks(required=False)),
+        ('sidebar', SidebarBlocks(required=False, label="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    })
+    }, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
@@ -124,6 +125,9 @@ class BasePage(Page):
     template = 'page.html'
 
 class GenericPage(BasePage):
+    class Meta:
+        verbose_name = "Generische Seite"
+        
     def get_context(self, request):
         context = super().get_context(request)
         context['request'] = request
@@ -134,8 +138,9 @@ class GenericPage(BasePage):
 
 
 class HomePage(BasePage):
-    #class Meta:
-    #    abstract = True
+    class Meta:
+        verbose_name = "Startseite"
+        #abstract = True
 
     def get_context(self, request):
         context = super().get_context(request)

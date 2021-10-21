@@ -1,7 +1,7 @@
 from wagtail.core import blocks, fields
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail_color_panel.blocks import NativeColorBlock
-
+from datetime import date
 
 
 class SidebarTitleBlock(blocks.StructBlock):

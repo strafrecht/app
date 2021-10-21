@@ -28,6 +28,9 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 import pages 
 
 class PeopleIndexPage(RoutablePageMixin, Page):
+    class Meta:
+        verbose_name = "Aktuelle Mitarbeiter*innen-Seite"
+        
     subtitle = models.CharField(max_length=255, null=True, blank=True)
 
     content_panels = Page.content_panels + [                                          
@@ -65,6 +68,9 @@ class PeopleIndexPage(RoutablePageMixin, Page):
         return render(request, "pages/person_page.html", context)
     
 class FormerPeopleIndexPage(Page):
+    class Meta:
+        verbose_name = "Ehemalige Mitarbeiter*innen-Seite"
+        
     def get_context(self, request):
         context = super().get_context(request)
         formerstaff = People.objects.filter(status='former')
@@ -98,7 +104,8 @@ class People(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name='Verknüpfung mit Nutzer*innen-Account'
     )
     first_name = models.CharField("Vorname", max_length=255)
     last_name = models.CharField("Nachname", max_length=255)
@@ -109,6 +116,7 @@ class People(models.Model):
         blank=True,
     )
     role = models.CharField(
+        'Rolle',
         choices=ROLE_CHOICES,
         max_length=255,
         blank=True,
@@ -116,13 +124,14 @@ class People(models.Model):
     telephone = models.CharField("Telefonnummer", max_length=255, blank=True)
     email = models.CharField("Mailadresse", max_length=255, blank=True)
     room = models.CharField("Raumnummer", max_length=255, blank=True)
-    description = RichTextField(blank=True)
+    description = RichTextField(blank=True, verbose_name='Beschreibung/Weitere Informationen')
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name='Profilbild'
     )
 
     panels = [
