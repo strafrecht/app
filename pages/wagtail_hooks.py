@@ -34,7 +34,7 @@ class ArticlesModelAdmin(ModelAdmin):
     menu_label = 'News-Artikel'
     menu_icon = 'doc-full'
     menu_order= 201
-    list_display = ('title', 'author', 'date')
+    list_display = ('date', 'title', 'author')
 
 class SessionsModelAdmin(ModelAdmin):
     model = SessionPage
