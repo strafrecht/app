@@ -148,14 +148,16 @@ class EventPage(Page):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Plakat als Bilddatei"
     )
     poster_pdf = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Plakat als PDF-Datei"
     )
     youtube_link = models.CharField("Link zur Aufzeichnung des Vortrags auf YouTube", max_length=500, null=True, blank=True)
     newsletter = models.ForeignKey(
@@ -163,7 +165,8 @@ class EventPage(Page):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name="Link zum Newsletter, sofern es einen Event-Bericht gab"
     )
     type = models.CharField("Tacheles-Vortrag oder was anderes?", 
         choices=EVENT_TYPE_CHOICES,
@@ -171,12 +174,12 @@ class EventPage(Page):
         max_length=255,
         blank=True
     )
-    description = RichTextField(blank=True)
-    speaker_description = RichTextField(blank=True)
+    description = RichTextField(blank=True, verbose_name="Vortragsankündidungstext")
+    speaker_description = RichTextField(blank=True, verbose_name="Referent*in")
     location = models.CharField("Ort", max_length=255, null=True, blank=True)
-    showmap = models.BooleanField(default=False)
-    lat = models.FloatField(null=True, blank=True)
-    lon = models.FloatField(null=True, blank=True)
+    showmap = models.BooleanField(default=False, verbose_name="Soll eine Karte auf der Event-Seite angezeigt werden?")
+    lat = models.FloatField(null=True, blank=True, verbose_name="Breitengrad")
+    lon = models.FloatField(null=True, blank=True, verbose_name="Längengrad")
     sidebar = True
 
     content_panels = [
