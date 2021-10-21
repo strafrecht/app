@@ -136,7 +136,7 @@ class EventPage(Page):
     ]
 
     subtitle = models.CharField("Untertitel", max_length=255, null=True, blank=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(verbose_name="Datum (die hier eingetragene Uhrzeit muss nicht stimmen)")
     semester = models.CharField("Semester", 
         choices=SEMESTER_TYPE_CHOICES,
         max_length=255,
@@ -165,7 +165,7 @@ class EventPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    type = models.CharField("Tacheles-Vortrag oder Sonstiges?"person's first name", ", 
+    type = models.CharField("Tacheles-Vortrag oder was anderes?", 
         choices=EVENT_TYPE_CHOICES,
         default='tacheles',
         max_length=255,
