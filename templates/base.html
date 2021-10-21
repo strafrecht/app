@@ -76,7 +76,8 @@
 			</section>
 			{% endif %}
 		{% endblock %}
-	
+	    
+		{% block breadcrumbmenu %}
 		{% if self.get_ancestors|length > 1 %}
 	    		{% if page.header %}
 				<div class="breadcrumb-new">
@@ -92,6 +93,7 @@
 				{{ self.title|truncatechars:25 }}
 			</div>
 		{% endif %}
+		{% endblock %}
 
 	
 				{% if page.slug != "strafrecht-online" %}
