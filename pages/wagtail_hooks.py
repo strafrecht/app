@@ -31,7 +31,7 @@ class EventsModelAdmin(ModelAdmin):
 
 class ArticlesModelAdmin(ModelAdmin):
     model = ArticlePage
-    menu_label = 'Articles'
+    menu_label = 'News-Artikel'
     menu_icon = 'doc-full'
     menu_order= 201
     list_display = ('title', 'author', 'date')
