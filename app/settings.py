@@ -218,10 +218,18 @@ else:
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# check
+import os
+database_name = ''
+if os.name == 'nt':
+    database_name = 'postgres'
+else:
+    database_name = 'strafrecht'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'strafrecht',
+        'NAME': database_name,
         'USER': 'django',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
