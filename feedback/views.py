@@ -6,7 +6,6 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 from .models import Suggestion, SuggestionVote
 
-# Create your views here.
 @csrf_exempt
 @xframe_options_exempt
 def index(request):
