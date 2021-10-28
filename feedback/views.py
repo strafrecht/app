@@ -38,7 +38,7 @@ def detail(request, suggestion_id, slug):
 @xframe_options_exempt
 def vote(request, suggestion_id, slug):
     ip_address = get_ip(request)
-    suggestion = get_object_or_404(Suggestion, pk=suggestion_id) 
+    suggestion = get_object_or_404(Suggestion, pk=suggestion_id)
 
     try:
         vote = suggestion.suggestionvote_set.get(ip=ip_address)
@@ -52,6 +52,51 @@ def vote(request, suggestion_id, slug):
         vote.delete()
         return HttpResponseRedirect(reverse('feedback:index'))
 
+@csrf_exempt
+@xframe_options_exempt
+def widget_index(request):
+    suggestions = Suggestion.objects.all().annotate(votes=Count('suggestionvote')).order_by('-votes')
+    ip = get_ip(request)
+    voted = [s.id for s in Suggestion.objects.filter(suggestionvote__ip=ip)]
+    return render(request, 'feedback/widget/index.html', {'suggestions': suggestions, 'voted': voted})
+
+@csrf_exempt
+@xframe_options_exempt
+def widget_form(request):
+    return render(request, 'feedback/widget/form.html')
+
+@csrf_exempt
+@xframe_options_exempt
+def widget_detail(request, suggestion_id, slug):
+    suggestion = Suggestion.objects.filter(id=suggestion_id)
+    return render(request, 'feedback/widget/detail.html', {'suggestion': suggestion})
+
+@csrf_exempt
+@xframe_options_exempt
+def widget_save(request):
+    user = User.objects.get(username="Anonym")
+    suggestion = Suggestion(title=request.POST.get('title'), description=request.POST.get('description'), user=user)
+    suggestion.save()
+    print(suggestion)
+    return HttpResponseRedirect(reverse('feedback:widget_index'))
+
+@csrf_exempt
+@xframe_options_exempt
+def widget_vote(request, suggestion_id, slug):
+    ip_address = get_ip(request)
+    suggestion = get_object_or_404(Suggestion, pk=suggestion_id)
+
+    try:
+        vote = suggestion.suggestionvote_set.get(ip=ip_address)
+    except (KeyError, SuggestionVote.DoesNotExist):
+        print('except')
+        vote = SuggestionVote(suggestion=suggestion, ip=ip_address)
+        vote.save()
+        return HttpResponseRedirect(reverse('feedback:widget_index'))
+    else:
+        print('else')
+        vote.delete()
+        return HttpResponseRedirect(reverse('feedback:widget_index'))
 
 def get_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

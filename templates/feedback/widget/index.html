@@ -1,0 +1,36 @@
+{% extends "feedback/widget/base_iframe.html" %}
+
+{% block main %}
+	<div class="feedback-list">
+	{% for suggestion in suggestions %}
+		<div class="item">
+			<form action="{% url 'feedback:widget_vote' suggestion.id suggestion.slug %}" method="post">
+				{% csrf_token %}
+				<button class="vote {% if suggestion.pk in voted %}voted{% endif %}" data-pk={{ suggestion.pk }}>
+					<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 320 512" class="icon" height="1em" width="1em">
+						<path d="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z"></path>
+					</svg>
+					<span data-votes={{ suggestion.votes }}>{{ suggestion.votes }}<span>
+				</button>
+			</form>
+			<div class="content">
+				<div class="top">
+					<a>
+					{# <a href=" url 'feedback:widget_detail' suggestion.id suggestion.slug "> #}
+						{{ suggestion.title }}
+					</a>
+				</div>
+				<div class="bottom">
+					<p>{{ suggestion.description }}</p>
+					<span class="user-tag {% if suggestion.user.is_staff %}staff{% else %}anonymous{% endif %}">{% if suggestion.user.is_staff %}LSH-Vorschlag{% else %}Vorschlag extern{% endif %}</span>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+
+	<div class="create-link">
+		<a href="{% url 'feedback:widget_form' %}">Vorschlag einreichen</a>
+	</div>
+
+{% endblock %}
