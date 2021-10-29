@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'profiles',
     #'leaflet',
     'feedback',
+    'chat',
 
     # Wagtail
     'wagtail.contrib.forms',
@@ -201,7 +202,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = 'app.wsgi.application'
 ASGI_APPLICATION = 'app.routing.application'
 
 if DEBUG:
