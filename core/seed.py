@@ -6,6 +6,7 @@ from io import BytesIO
 import requests
 import wget
 import uuid
+import itertools
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -475,14 +476,16 @@ def scrape_lehre(request):
     data = get_lehre_json()
     new_data = data["1"]
 
-    #for session in data.values():
-    for session in [new_data]:
-        #session = data[index]
+    data = dict(itertools.islice(data.items(), 10))
+
+    for session in data.values():
+    #for session in [new_data]:
         # SessionsPage
         parent_page = SessionsPage.objects.first()
 
         # Variables
         title = extract_title(session.get("lehre", None))
+
         if session.get("lehre_link"):
             slug = session.get("lehre_link").strip("/").split("/")[-1]
         else:
@@ -568,12 +571,13 @@ def scrape_lehre(request):
             session_page.sidebar = widgets
 
             # Upload pdfs
-            print("SEMESTER: {}".format(semester))
-            print("SLUG: {}".format(slug))
-            updated_pdfs = upload_pdfs(semester, slug, pdfs)
+            #print("SEMESTER: {}".format(semester))
+            #print("SLUG: {}".format(slug))
 
+            # RESTORE
+            #updated_pdfs = upload_pdfs(semester, slug, pdfs)
             # save content
-            session_page.material = build_material_html(updated_pdfs)
+            #session_page.material = build_material_html(updated_pdfs)
 
             # Add ArticlePage to parent
             parent_page.add_child(instance=session_page)
@@ -780,6 +784,7 @@ def extract_semester(content):
 
 # Information
 def extract_session(content):
+    print("START")
     html = BeautifulSoup(content, features="html.parser")
     left = html.find(class_="infokasten").find_all(recursive=False)[0]
     right = html.find(class_="infokasten").find_all(recursive=False)[1]
@@ -807,6 +812,8 @@ def extract_session(content):
 
     # Right
     result['assessment'] = right.decode_contents()
+    print(result)
+    print("END")
     return result
 
 def scrape_newsletter(request):

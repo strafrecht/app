@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 import re
 
 def get_json():
-    f = open('lehrescrape.json')
+    f = open('core/scrape/lehrescrape.json')
     data = json.load(f)
     return data
 
@@ -37,11 +37,11 @@ def get_lehre(link_source, lehre_link):
         straf_title = link_soup.find('h1')
         lesson_title = straf_title.find_next('h1')
         lesson_str = str(lesson_title)
-        lesson_str = "".join(line for line in lesson_str.split("\n"))
+        lesson_str = "".join(line.strip() for line in lesson_str.split("\n"))
         lehre_data['lehre'] = lesson_str
         # print(lesson_str) # return lesson_str if full html element is required
         lesson_text = lesson_title.text
-        lesson_text = "".join(line for line in lesson_text.split("\n"))
+        lesson_text = "".join(line.strip() for line in lesson_text.split("\n"))
         print(lesson_text)
     except:
         print("article title not found")
@@ -53,11 +53,11 @@ def get_lehre(link_source, lehre_link):
         semester_str = str(semester)
         semester_str = semester_str.replace('<a', ' <a')
         semester_str = semester_str.replace('a>', 'a> ')
-        semester_str = "".join(line for line in semester_str.split("\n"))
+        semester_str = "".join(line.strip() for line in semester_str.split("\n"))
         lehre_data['semester'] = semester_str
         # print(semester_str) # return semester_str if full html element is required
         semester_text = semester.text
-        semester_text = "".join(line for line in semester_text.split("\n"))
+        semester_text = "".join(line.strip() for line in semester_text.split("\n"))
         # print(semester_text)
     except:
         print("article title not found")
@@ -67,16 +67,16 @@ def get_lehre(link_source, lehre_link):
     try:
         seminar = semester.find_next('h2')
         seminar_title = seminar.text
-        seminar_title = "".join(line for line in seminar_title.split("\n"))
+        seminar_title = "".join(line.strip() for line in seminar_title.split("\n"))
         seminar_content = []
         if seminar_title.startswith('Seminarank'): 
             seminar_str = str(seminar)
-            seminar_str = "".join(line for line in seminar_str.split("\n"))
+            seminar_str = "".join(line.strip() for line in seminar_str.split("\n"))
             seminar_content.append(seminar_str)
             seminar_info = seminar.find_next_siblings('p')
             for p in seminar_info:
                 p_str = str(p)
-                p_str = "".join(line for line in p_str.split("\n"))
+                p_str = "".join(line.strip() for line in p_str.split("\n"))
                 seminar_content.append(p_str)
             seminar_content = ''.join(seminar_content)
             lehre_data['seminar'] = seminar_content
@@ -94,13 +94,13 @@ def get_lehre(link_source, lehre_link):
         info = link_soup.find('div', class_='infokasten spalt2')
         info_title = info.find_previous_sibling('h2')
         info_title = str(info_title)
-        info_title = "".join(line for line in info_title.split("\n"))
+        info_title = "".join(line.strip() for line in info_title.split("\n"))
         info_content.append(info_title)
         info_str = str(info)
-        info_str = "".join(line for line in info_str.split("\n"))
+        info_str = "".join(line.strip() for line in info_str.split("\n"))
         info_content.append(info_str)
         info_content = ''.join(info_content)
-        lehre_data['informationen'] = fix(info_content)
+        lehre_data['informationen'] = info_content
         # print(info_content)
     except:
         print("no info found")
@@ -138,7 +138,7 @@ def get_lehre(link_source, lehre_link):
         for material in materials:
             try:
                 material_str = str(material)
-                material_str = "".join(line for line in material_str.split("\n"))
+                material_str = "".join(line.strip() for line in material_str.split("\n"))
                 material_strs.append(material_str)
             except:
                 pass
@@ -257,7 +257,7 @@ def get_lehre(link_source, lehre_link):
                 infokasten_str = str(infokasten)
                 infokasten_str = infokasten_str.replace('<a', ' <a')
                 infokasten_str = infokasten_str.replace('a>', 'a> ')
-                infokasten_str = "".join(line for line in infokasten_str.split("\n"))
+                infokasten_str = "".join(line.strip() for line in infokasten_str.split("\n"))
                 kasten_widget['text'] = infokasten_str
                 lehre_data['widgets'].append(kasten_widget)
             # try:
@@ -292,7 +292,7 @@ def get_lehre(link_source, lehre_link):
             for side_content in side_contents:
                 try:
                     side_str = str(side_content)
-                    side_str = "".join(line for line in side_str.split("\n"))
+                    side_str = "".join(line.strip() for line in side_str.split("\n"))
                     side_strs.append(side_str)
                 except:
                     pass
@@ -357,8 +357,5 @@ def scrape():
     print('DONE!')
 
     writeToJSONFile('./', 'lehrescrape', lessons)
-
-def fix(content):
-    return re.sub(r'\s+', ' ', content).replace(' <a')
 
 #scrape()
