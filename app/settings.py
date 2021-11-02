@@ -159,6 +159,8 @@ INSTALLED_APPS = [
     # cors-headers
     'corsheaders',
 
+    # django channels
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -201,9 +203,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'app.wsgi.application'
-ASGI_APPLICATION = 'app.routing.application'
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
@@ -258,6 +257,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+WSGI_APPLICATION = 'app.wsgi.application'
+ASGI_APPLICATION = 'app.routing.application'
 
 CHANNEL_LAYERS = {
   'default': {
