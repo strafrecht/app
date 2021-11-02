@@ -7,25 +7,31 @@
 
 {% block contents %}
 <div class="flex">
+	<br>
 	<h4>Quiz Summary</h4>
-
-	{% for user_answer in quiz.useranswer_set.all %}
+	<p> Ergebnis: {{ quiz.calculate_score }}</p>
+	<br>
+	<h5>deine Antworten</h5>
+	{% for quiz in quiz_summary %}
+	<!-- {{quiz}} -->
+	<ul>
 		<div class="bg-white mb-4 p-2" style="border: 2px solid #ddd; border-radius: 8px;">
-			{{ user_answer.question.title }}
+			<p>{{ quiz.question.title }}</p>
 			<ul>
-				{% for answer in user_answer.question.answer_set.all %}
-					{% if answer.correct %}
-						<li class="text-success">{{ answer.text }}</li>
-					{% else %}
-						<li class="text-danger">{{ answer.text }}</li>
-					{% endif %}
+				{% for item in quiz.answer %}
+				{% if item.correct %}
+				<li class="text-success">{{ item.text }}</li>
+				{% else %}
+				<li class="text-danger">{{ item.text }}</li>
+				{% endif %}
 				{% endfor %}
 			</ul>
 		</div>
+	</ul>
 	{% endfor %}
 </div>
 {% endblock %}
 
 {% block extra_js %}
-	<script src="/static/js/chartist-plugin-fill-donut.js"></script>
+<script src="/static/js/chartist-plugin-fill-donut.js"></script>
 {% endblock %}

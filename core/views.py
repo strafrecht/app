@@ -155,16 +155,28 @@ def category_question(request, category_id, question_id):
 
             question = questions.first()
 
+        else:
+            quiz = Quiz.objects.filter(category__id=category.id).filter(user__id=user.id).filter(completed=False).last()
+
         #question_version = QuestionVersion.objects.first()
         question_version = question.questionversion_set.all().first()
 
         question = question_version
 
+        questions_ids = []
+        for item in questions:
+            questions_ids.append(item.id)
+
+        quest_num = question.question.id
+        current_question = questions_ids.index(quest_num) + 1
+
         return render(request, 'core/category_question.html', {
             'category': category,
             'question': question,
             'questions': questions,
-            'categories': get_bt_categories() if '/bt' in category.get_absolute_url() else get_at_categories()
+            'current_question': current_question,
+            'categories': get_bt_categories() if '/bt' in category.get_absolute_url() else get_at_categories() ,
+            'quiz': quiz
         })
 
 def category_summary(request, category_id):
