@@ -21,6 +21,7 @@ urlpatterns = [
     path('notifications/', include('django_nyt.urls')),
 
     path('feedback/', include('feedback.urls')),
+    path('profile/flashcards/', include('flashcards.urls')),
 
     path('profile/', include('profiles.urls')),
     path('quiz/', include('core.urls')),
