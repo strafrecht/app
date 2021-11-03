@@ -29,7 +29,7 @@ class Reward(models.Model):
 
 
 class RewardType(models.Model):
-    submission_id = models.ForeignKey(Submission)
-    reward_type_id = models.ForeignKey(Reward)
+    submission_id = models.ForeignKey(Submission, null=True, on_delete=models.SET_NULL)
+    reward_type_id = models.ForeignKey(Reward, null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

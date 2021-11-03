@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'profiles',
     #'leaflet',
     'feedback',
+    'dashboard',
 
     # Wagtail
     'wagtail.contrib.forms',
