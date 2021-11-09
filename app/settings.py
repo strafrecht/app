@@ -258,7 +258,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-WSGI_APPLICATION = 'app.wsgi.application'
+# WSGI_APPLICATION = 'app.wsgi.application'
 ASGI_APPLICATION = 'app.routing.application'
 
 CHANNEL_LAYERS = {
@@ -445,3 +445,5 @@ AVATAR_MAX_AVATARS_PER_USER = '1'
 # CSP_SCRIPT_SRC = ("'self'", "'unsafe-eval'", "'unsafe-inline'",)
 COMMENTS_APP = 'django_comments_xtd'
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
