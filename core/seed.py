@@ -592,9 +592,9 @@ def scrape_lehre(request):
             #print("SLUG: {}".format(slug))
 
             # RESTORE
-            #updated_pdfs = upload_pdfs(semester, slug, pdfs)
+            updated_pdfs = upload_pdfs(semester, slug, pdfs)
             # save content
-            #session_page.material = build_material_html(updated_pdfs)
+            session_page.material = build_material_html(updated_pdfs)
 
             # Add ArticlePage to parent
             parent_page.add_child(instance=session_page)
