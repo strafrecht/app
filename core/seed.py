@@ -476,7 +476,7 @@ def scrape_lehre(request):
     data = get_lehre_json()
     new_data = data["1"]
 
-    data = dict(itertools.islice(data.items(), 10))
+    data = dict(itertools.islice(data.items(), 60))
 
     for session in data.values():
     #for session in [new_data]:
@@ -519,7 +519,8 @@ def scrape_lehre(request):
             )
             for p in pdfs:
                 for f in p["documents"]:
-                    print(f["href"])
+                    continue
+                    #print(f["href"])
         else:
             pdfs = []
 
@@ -548,15 +549,29 @@ def scrape_lehre(request):
             widgets = []
 
             for widget in session['widgets']:
+                print("LENGTH: {}".format(len(session['widgets'])))
+                print(widget)
                 # sidebar simple
                 if widget['type'] == 'headline':
-                    widgets.append(('sidebar_title', {'content': RichText("<p>{}</p>".format(widget['content']))}))
+                    image_id = upload_image(widget['image'])
+                    if image_id:
+                        widgets.append(('sidebar_header', {
+                            'image': Image.objects.get(id=image_id),
+                            'title': widget['headline'],
+                            'content': RichText("<p>{}</p>".format(widget['content'])),
+                        }))
+                    else:
+                        widgets.append(('sidebar_header', {
+                            'image': Image.objects.get(id=2830),
+                            'title': widget['headline'],
+                            'content': RichText("<p>{}</p>".format(widget['content'])),
+                        }))
                 if widget['type'] == 'title':
-                    widgets.append(('sidebar_title', {'content': RichText(widget['text'])}))
-                if widget['type'] == 'text only':
-                    widgets.append(('sidebar_border', {'content': RichText(widget['text'])}))
+                    widgets.append(('sidebar_title', {'content': RichText(widget['content'])}))
+                if widget['type'] == 'sidebar_border':
+                    widgets.append(('sidebar_border', {'content': RichText(widget['content'])}))
                 if widget['type'] == 'only text':
-                    widgets.append(('sidebar_border', {'content': RichText(widget['text'])}))
+                    widgets.append(('sidebar_border', {'content': RichText(widget['content'])}))
                 # sidebar image text
                 if widget['type'] == 'text + image':
                     # check if image exists
@@ -568,6 +583,8 @@ def scrape_lehre(request):
                         print("FAILED: {}".format(title))
 
             # Sidebar
+            print("DOWN:")
+            print(widgets)
             session_page.sidebar = widgets
 
             # Upload pdfs
@@ -784,7 +801,6 @@ def extract_semester(content):
 
 # Information
 def extract_session(content):
-    print("START")
     html = BeautifulSoup(content, features="html.parser")
     left = html.find(class_="infokasten").find_all(recursive=False)[0]
     right = html.find(class_="infokasten").find_all(recursive=False)[1]
@@ -812,8 +828,7 @@ def extract_session(content):
 
     # Right
     result['assessment'] = right.decode_contents()
-    print(result)
-    print("END")
+    #print(result)
     return result
 
 def scrape_newsletter(request):
