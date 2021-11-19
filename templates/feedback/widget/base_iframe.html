@@ -4,6 +4,92 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Roboto:400,500,700,900|Source+Serif+Pro:400,600,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'feedback/index.css' %}">
 
+{% block extra_css %}
+<style>
+.feedback-form h2 {
+	font-size: 1.8rem;
+	font-weight: 900;
+	margin-bottom: 20px;
+}
+.feedback-list {
+	border: 1px solid #eee;
+	border-radius: 4px;
+}
+.item {
+	border-bottom: 1px solid #eee;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 10px;
+}
+
+.item form {
+	margin: 0px;
+}
+
+.vote {
+	background-color: transparent;
+	border: none;
+	color: #666;
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-right: 10px;
+	outline: none !important;
+	width: 40px;
+}
+.vote:hover {
+	color: #007bff;
+}
+.vote svg {
+	margin-bottom: -6px;
+}
+
+.content .top {
+	flex-grow: 1;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.content .top a {
+	color: #333;
+}
+.content .top a:hover {
+	text-decoration: none;
+}
+.content .bottom p {
+	margin: 0 0 6px 0;
+	color: #666;
+	font-size: 15px;
+}
+
+.voted {
+	color: #007bff;
+}
+
+.create-link {
+	display: flex;
+	justify-content: flex-end;
+}
+.create-link a { margin-top: 10px; }
+
+.user-tag {
+	font-weight: 500;
+	font-size: 13px;
+	border-radius: 4px;
+	padding: 3px 8px;
+}
+.user-tag.staff {
+	background-color: #007bff;
+	color: white;
+}
+.user-tag.anonymous {
+	background-color: #e2e2e2;
+	color: #555;
+	background-color: #aaa;
+	color: #fff;
+}
+</style>
+{% endblock %}
+
 {% block main %}{% endblock %}
 
 <script src="{% static 'website/js/index.js' %}"></script>
