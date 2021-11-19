@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from core.models import Quiz, Question
+from core.models import Quiz, Question, QuestionVersion, UserAnswer, AnswerVersion
 from wiki.models import ArticleRevision
 from django.contrib.auth.decorators import login_required
 

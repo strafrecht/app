@@ -13,12 +13,14 @@
 		<div class="bg-white mb-4 p-2" style="border: 2px solid #ddd; border-radius: 8px;">
 			{{ user_answer.question.title }}
 			<ul>
-				{% for answer in user_answer.question.answer_set.all %}
-					{% if answer.correct %}
-						<li class="text-success">{{ answer.text }}</li>
-					{% else %}
-						<li class="text-danger">{{ answer.text }}</li>
-					{% endif %}
+				{% for question in user_answer.question.questions.all %}
+					{% for answer in question.answers.all %}
+						{% if answer.correct %}
+							<li class="text-success">{{ answer.text }}</li>
+						{% else %}
+							<li class="text-danger">{{ answer.text }}</li>
+						{% endif %}
+					{% endfor %}
 				{% endfor %}
 			</ul>
 		</div>

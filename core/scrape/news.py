@@ -5,7 +5,7 @@ import time
 import os
 
 def get_json():
-    f = open('newsscrape.json')
+    f = open('core/scrape/newsscrape.json')
     data = json.load(f)
     return data
 

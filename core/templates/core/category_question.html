@@ -5,113 +5,115 @@
 {% block content %}
 <h3 class="display-8 mb-4">Fragen in der Kategorie {{ category }}</h3>
 
-<div class="col-md-8 flex-col bg-white rounded shadow p-0">
-	<div class="p-4" style="border-bottom: 2px solid #eee;">
-		<h6 class="p-0" style="font-weight: 500;">{{ question.title }}</h6>
-	</div>
-
-	<div class="p-4 pb-5">
-	<form action="{% url 'quiz:category_question' category.id question.question.id %}" method="post">
-		{% csrf_token %}
-		<input type="hidden" name="question-id" value={{question.question.id}}>
-
-		<ul class="p-2">
-			{% for answer in question.answerversion_set.all %}
-				<label for={{answer.id}}>
-					<input type="checkbox" id={{answer.id}} class="answer" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}> {{ answer }}
-				</label><br>
-			{% endfor %}
-		</ul>
-
-		<div class="float-right">
-			<button id="show-results-button" class="btn btn-success">Lösung</button>
-			{% for quest in questions %}
-				{% if quest.id == question.question.id %}
-					{% if forloop.counter == questions.count and quest.id == question.id %}
-						<input type="hidden" value="finished" name="state">
-						<input type="submit" value="Finish Quiz" hidden class="btn btn-info">
-					{% else %}
-						<input type="submit" value="Nächste Frage" hidden class="btn btn-light">
-					{% endif %}
-				{% endif %}
-			{% endfor %}
+<div class="d-flex col-md-12">
+	<div class="col-md-8 flex-col bg-white rounded shadow p-0">
+		<div class="p-4" style="border-bottom: 2px solid #eee;">
+			<h6 class="p-0" style="font-weight: 500;">{{ question.title }}</h6>
 		</div>
-	</form>
 
-	<script>
-		var button = document.querySelector("#show-results-button")
-		var answers = document.querySelectorAll('.answer')
-		var sub = document.querySelector('input[type=submit]')
-		var list = document.querySelector('form ul')
+		<div class="p-4 pb-5">
+		<form action="{% url 'quiz:category_question' category.id question.question.id %}" method="post">
+			{% csrf_token %}
+			<input type="hidden" name="question-id" value={{question.question.id}}>
+
+			<ul class="p-2">
+				{% for answer in question.answers.all %}
+					<label for={{answer.id}}>
+						<input type="checkbox" id={{answer.id}} class="answer" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}> {{ answer }}
+					</label><br>
+				{% endfor %}
+			</ul>
+
+			<div class="float-right">
+				<button id="show-results-button" class="btn btn-success">Lösung</button>
+				{% for quest in questions %}
+					{% if quest.id == question.question.id %}
+						{% if forloop.counter == questions.count and quest.id == question.id %}
+							<input type="hidden" value="finished" name="state">
+							<input type="submit" value="Finish Quiz" hidden class="btn btn-info">
+						{% else %}
+							<input type="submit" value="Nächste Frage" hidden class="btn btn-light">
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			</div>
+		</form>
+
+		<script>
+			var button = document.querySelector("#show-results-button")
+			var answers = document.querySelectorAll('.answer')
+			var sub = document.querySelector('input[type=submit]')
+			var list = document.querySelector('form ul')
 
 
-		button.addEventListener('click', function(e) {
-			e.preventDefault();
+			button.addEventListener('click', function(e) {
+				e.preventDefault();
 
-			var correct = true;
+				var correct = true;
 
-			for (i = 0; i < answers.length; i++) {
-				answer = answers[i]
-				//answer.disabled = true
+				for (i = 0; i < answers.length; i++) {
+					answer = answers[i]
+					//answer.disabled = true
 
-				if (answer.getAttribute('data-correct') == 'True') {
-					correct = correct && answer.checked
+					if (answer.getAttribute('data-correct') == 'True') {
+						correct = correct && answer.checked
 
-					answers[i].parentNode.style.color = '#28a745'
-				} else {
-					if (answer.checked) {
-						correct = correct && false
+						answers[i].parentNode.style.color = '#28a745'
+					} else {
+						if (answer.checked) {
+							correct = correct && false
+						}
 					}
 				}
-			}
 
-			if (correct) {
-				list.style.borderColor = 'green';
-				list.style.border = '2px solid #28a745';
-				list.style.borderRadius = '4px';
-			} else {
-				list.style.borderColor = 'red';
-				list.style.border = '2px solid #dc3545';
-				list.style.borderRadius = '4px';
-			}
+				if (correct) {
+					list.style.borderColor = 'green';
+					list.style.border = '2px solid #28a745';
+					list.style.borderRadius = '4px';
+				} else {
+					list.style.borderColor = 'red';
+					list.style.border = '2px solid #dc3545';
+					list.style.borderRadius = '4px';
+				}
 
-			button.hidden = true
-			sub.hidden = false
-		})
-	</script>
+				button.hidden = true
+				sub.hidden = false
+			})
+		</script>
+		</div>
 	</div>
-</div>
 
-<div class="col-md-4">
-	<div class="bg-white rounded shadow p-4 mb-4">
-		<h5>Summary</h5>
-		<div class="">
-			{% for quest in questions %}
-				{% if quest.id == question.id %}
-					<p>Question {{forloop.counter}}/{{questions.count}}</p>
+	<div class="col-md-4">
+		<div class="bg-white rounded shadow p-4 mb-4">
+			<h5>Summary</h5>
+			<div class="">
+				{% for quest in questions %}
+					{% if quest.id == question.id %}
+						<p>Question {{forloop.counter}}/{{questions.count}}</p>
+					{% endif %}
+				{% endfor %}
+			</div>
+			<div class="flex flex-col">
+				<a href="#" class="btn btn-info">Restart</a>
+				<a href="#" class="btn btn-danger">Quit</a>
+			</div>
+		</div>
+		<div class="bg-white rounded shadow p-4">
+			<h5>Kategorie wählen</h5>
+
+			<div class="flex flex-col flex-wrap" style="display: flex; flex-flow: column; max-height: 320px;">
+			{% for item in categories %}
+				{% if item.first %}
+				<div style="width: 50%;">
+					<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}">
+						§ {{ item.category.slug }}
+					</a>
+				</div>
 				{% endif %}
 			{% endfor %}
-		</div>
-		<div class="flex flex-col">
-			<a href="#" class="btn btn-info">Restart</a>
-			<a href="#" class="btn btn-danger">Quit</a>
-		</div>
-	</div>
-	<div class="bg-white rounded shadow p-4">
-		<h5>Kategorie wählen</h5>
-
-		<div class="flex flex-col flex-wrap" style="display: flex; flex-flow: column; max-height: 320px;">
-		{% for item in categories %}
-			{% if item.first %}
-			<div style="width: 50%;">
-				<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}">
-					§ {{ item.category.slug }}
-				</a>
 			</div>
-			{% endif %}
-		{% endfor %}
-		</div>
 
+		</div>
 	</div>
 </div>
 {% endblock %}

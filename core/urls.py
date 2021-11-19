@@ -14,7 +14,6 @@ router.register(r'choices', views.ChoiceViewSet)
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<str:semester>/<str:slug>/<str:filename>', views.pdf, name='pdf'),
     path('question/<int:question_id>/', views.detail, name='detail'),
     path('category/<int:category_id>/', views.category, name='category'),
     path('category/<int:category_id>/question/<int:question_id>/', views.category_question, name='category_question'),
@@ -31,6 +30,8 @@ urlpatterns = [
     path('api/category_tree/', views.get_category_tree, name='get_category_tree'),
     path('api/json/', include(router.urls)),
     path('api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('questions/', views.QuestionViewSet.as_view(), name='questions')
+    path('questions/', views.QuestionViewSet.as_view(), name='questions'),
+
+    path('<str:semester>/<str:slug>/<str:filename>', views.pdf, name='pdf'),
 ]
 
