@@ -36,7 +36,7 @@ from .seed import start
 
 from rest_framework import viewsets, permissions, mixins, generics, response
 from .serializers import QuestionSerializer, ChoiceSerializer, UserAnswerSerializer, QuizSerializer, AnswerSerializer, \
-    QuestionVersionSerializer, QuestionOnlySerializer
+    QuestionVersionSerializer
 
 logger = logging.getLogger('django')
 
@@ -123,7 +123,10 @@ def category_question(request, category_id, question_id):
 
                 return HttpResponseRedirect('/profile/quizzes')
             else:
-                return HttpResponseRedirect('/quiz/category/{}/question/{}'.format(category.id, next_question.id))
+                if next_question:
+                    return HttpResponseRedirect('/quiz/category/{}/question/{}'.format(category.id, next_question.id))
+                else:
+                    return HttpResponseRedirect('/profile/quiz/{}'.format(quiz.id))
         else:
             request.session['category'][category_id]['question'][question_id]['answer'][answer_id]
     else:
@@ -404,8 +407,8 @@ def create_question_version(question_data):
 
     # save answers
     for answer in answers:
-        #question_version.answerversion_set.create(text=answer['text'], correct=answer['correct'])
-        question_version.answers.create(text=answer['text'], correct=answer['correct'])
+        question_version.answerversion_set.create(text=answer['text'], correct=answer['correct'])
+        # question_version.answers.create(text=answer['text'], correct=answer['correct'])
 
 def get_type(soup):
     return extract("type", soup)
@@ -748,11 +751,6 @@ class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
 
         return JsonResponse(data={"success": True}, status=200)
 
-
-# class QuestionOnlyViewSet(viewsets.ModelViewSet):
-#     queryset = Question.objects.all()
-#     serializer_class = QuestionOnlySerializer
-#     permission_classes = [AllowAny]
 
 class QuestionVersionViewSet(viewsets.ModelViewSet):
     queryset = QuestionVersion.objects.all()

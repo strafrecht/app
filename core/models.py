@@ -32,7 +32,7 @@ class Question(ClusterableModel):
 
 
 class QuestionVersion(ClusterableModel):
-    question = ParentalKey(Question, on_delete=models.CASCADE, related_name='questions')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     slug = models.CharField(max_length=255, blank=True, null=True)
     title = models.TextField(max_length=255)
     description = models.TextField(null=True, blank=True)
@@ -62,7 +62,7 @@ class QuestionVersion(ClusterableModel):
 
 
 class AnswerVersion(ClusterableModel):
-    question_version = ParentalKey(QuestionVersion, on_delete=models.CASCADE, related_name='answers')
+    question_version = models.ForeignKey(QuestionVersion, on_delete=models.CASCADE)
     text = models.TextField()
     correct = models.BooleanField(default=False)
 

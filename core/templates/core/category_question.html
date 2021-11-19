@@ -4,79 +4,86 @@
 
 {% block content %}
 
+<div>
 
-<h3 class="display-8 mb-4">Fragen in der Kategorie {{ category }}</h3>
-
-<div class="col-md-8 flex-col bg-white rounded shadow p-0">
-	<div class="p-4" style="border-bottom: 2px solid #eee;">
-		<h6 class="p-0" style="font-weight: 500;">{{ question.title }}</h6>
-	</div>
-	<div class="p-4 pb-5">
-		<form action="{% url 'quiz:category_question' category.id question.question.id %}" method="post">
-			{% csrf_token %}
-			<input type="hidden" name="question-id" value={{question.question.id}}>
-
-			<ul class="p-2">
-				{% for answer in question.answerversion_set.all %}
-				<label for={{answer.id}}>
-					<input type="checkbox" id={{answer.id}} class="answer" name="answer" value="{{answer.id}}"
-						data-correct={{answer.correct}}> {{ answer }}
-				</label><br>
-				{% endfor %}
-			</ul>
-
-			<div class="float-right">
-				<button id="skip-question" class="btn btn-secondary">Überspringen</button>
-				<button id="show-results-button" class="btn btn-success">Lösung</button>
-				{% for quest in questions %}
-				{% if quest.id == question.question.id %}
-				{% if forloop.counter == questions.count and quest.id == question.id %}
-				<input type="hidden" value="finished" name="state">
-				<input type="submit" value="Finish Quiz" hidden class="btn btn-info">
-				{% else %}
-				<input type="submit" value="Nächste Frage" hidden class="btn btn-light">
-				{% endif %}
-				{% endif %}
-				{% endfor %}
+	<h3 class="display-8 mb-4">Fragen in der Kategorie {{ category }}</h3>
+	
+	<div class="d-flex flex-row">
+		<div class="col-md-8 flex-col bg-white rounded shadow p-0">
+			<div class="p-4" style="border-bottom: 2px solid #eee;">
+				<h6 class="p-0" style="font-weight: 500;">{{ question.title }}</h6>
 			</div>
-		</form>
-	</div>
-	<div>
-		<div class="p-4" id="description" hidden> {{ question.description }}</div>
-	</div>
-</div>
-
-
-<div class="col-md-4">
-	<div class="bg-white rounded shadow p-4 mb-4">
-		<section id="#quizinfo">
-			<h5>Summary</h5>
+			<div class="p-4 pb-5">
+				<form action="{% url 'quiz:category_question' category.id question.question.id %}" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="question-id" value={{question.question.id}}>
+		
+					<ul class="p-2">
+						{% for answer in question.answerversion_set.all %}
+						<label for={{answer.id}}>
+							<input type="checkbox" id={{answer.id}} class="answer" name="answer" value="{{answer.id}}"
+								data-correct={{answer.correct}}> {{ answer }}
+						</label><br>
+						{% endfor %}
+					</ul>
+		
+					<div class="float-right">
+						<button id="skip-question" class="btn btn-secondary">Überspringen</button>
+						<button id="show-results-button" class="btn btn-success">Lösung</button>
+						{% for quest in questions %}
+						{% if quest.id == question.question.id %}
+						{% if forloop.counter == questions.count and quest.id == question.id %}
+						<input type="hidden" value="finished" name="state">
+						<input type="submit" value="Finish Quiz" hidden class="btn btn-info">
+						{% else %}
+						<input type="submit" value="Nächste Frage" hidden class="btn btn-light">
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+					</div>
+				</form>
+			</div>
 			<div>
-				<p id="total-quests"> Frage {{ current_question }} von {{ questions.count }}</p>
-				<p>Ergebnis: {{ quiz.calculate_score }}</p>
+				<div class="p-4" id="description" hidden> {{ question.description }}</div>
 			</div>
-			<div class="flex flex-col">
-				<a href="#" class="btn btn-info">Restart</a>
-				<a href="#" class="btn btn-danger">Quit</a>
+		</div>
+		
+		
+		<div class="col-md-4">
+			<div class="bg-white rounded shadow p-4 mb-4">
+				<section id="#quizinfo">
+					<h5>Summary</h5>
+					<div>
+						<p id="total-quests"> Frage {{ current_question }} von {{ questions.count }}</p>
+						<p>Ergebnis: {{ quiz.calculate_score }}</p>
+					</div>
+					<div class="flex flex-col">
+						<a href="#" class="btn btn-info">Restart</a>
+						<a href="#" class="btn btn-danger">Quit</a>
+					</div>
+				</section>
 			</div>
-		</section>
-	</div>
-	<div class="bg-white rounded shadow p-4">
-		<h5>Kategorie wählen</h5>
-
-		<div class="flex flex-col flex-wrap" style="display: flex; flex-flow: column; max-height: 320px;">
-			{% for item in categories %}
-			{% if item.first %}
-			<div style="width: 50%;">
-				<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}">
-					§ {{ item.category.slug }}
-				</a>
+			<div class="bg-white rounded shadow p-4">
+				<h5>Kategorie wählen</h5>
+		
+				<div class="flex flex-col flex-wrap" style="display: flex; flex-flow: column; max-height: 320px;">
+					{% for item in categories %}
+					{% if item.first %}
+					<div style="width: 50%;">
+						<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}">
+							§ {{ item.category.slug }}
+						</a>
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
 			</div>
-			{% endif %}
-			{% endfor %}
 		</div>
 	</div>
+	
+
 </div>
+
 
 <script>
 	var button = document.querySelector("#show-results-button")
