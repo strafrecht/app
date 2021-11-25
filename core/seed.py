@@ -42,6 +42,7 @@ from rest_framework import viewsets, permissions, mixins, generics, response
 from .serializers import QuestionSerializer, ChoiceSerializer, UserAnswerSerializer, QuizSerializer, AnswerSerializer, \
     QuestionVersionSerializer, QuestionOnlySerializer
 from .scrape.news import get_json as get_news_json
+from .scrape.abstimmungen import get_json as get_abstimmungen_json
 from .scrape.lehre import get_json as get_lehre_json
 from .scrape.events import get_json as get_events_json
 
@@ -66,26 +67,28 @@ from bs4 import BeautifulSoup
 
 def start(request):
     # Wiki
-    scrape_wiki(request)
+    #scrape_wiki(request)
 
     # News
     scrape_news(request)
+    scrape_abstimmungen(request)
 
     # Events
-    scrape_events(request)
+    #scrape_events(request)
 
     # Newsletter
-    scrape_newsletter(request)
+    #scrape_newsletter(request)
 
     # Lehre
-    scrape_lehre(request)
+    #scrape_lehre(request)
 
     # Exams
-    scrape_exams(request)
+    #scrape_exams(request)
 
     # Redirects
-    scrape_redirects(request)
-    seed_redirects(request)
+    #scrape_redirects(request)
+    #seed_redirects(request)
+    return
 
 def scrape_wiki(request):
     # init
@@ -145,7 +148,7 @@ def scrape_wiki(request):
                     wiki = {
                         "root": root,
                         "slug": root.split("/")[-1],
-                        "name": soup.article.h1.text.strip(),
+                        "name": soup.article.h1.text.strip() if soup.article.h1 else '?',
                         #"long_name": extract("long_name", soup),
                         "tags": extract("tags", soup),
                         "content": extract("content", soup),
@@ -585,7 +588,7 @@ def scrape_lehre(request):
                     image_id = upload_image(widget['image'])
                     if image_id:
                         widgets.append(('sidebar_image_text',
-                                        {'image': Image.objects.get(id=image_id), 'content': RichText(widget['text'])}))
+                                        {'image': Image.objects.get(id=image_id), 'content': RichText(widget['content'])}))
                     else:
                         print("FAILED: {}".format(title))
 
@@ -997,6 +1000,99 @@ def scrape_news(request):
         # Save ArticlePage
         article_page.save()
 
+def scrape_abstimmungen(request):
+    # delete articles + images
+    #ArticlePage.objects.all().delete()
+    #Image.objects.filter(title='thumb_archiv.jpg').delete()
+
+    data = get_abstimmungen_json()
+    # return data
+
+    for index in data:
+        article = data[index]
+        # ArticlesPage
+        parent_page = ArticlesPage.objects.first()
+
+        users = {
+            ' Von Jakob Bach ': 2,
+            ' Von Roland Hefendehl ': 3,
+            ' Von Marco Rehmet ': 4,
+            ' Von Nicolas Emmerich ': 5,
+            ' VonTitus Rehm ': 6,
+            ' VonJulian Sigmund ': 7,
+            ' Von Titus Rehm ': 6,
+            ' Von Julian Sigmund ': 7,
+            ' Gastbeitrag von Peer Stolle und Martin Heining ': 8,
+            ' Von Matthias Noll ': 9,
+            ' Von TG ': 10,
+            ' Von JP ': 11,
+            ' Von Harald Wohlfeil ': 12,
+            ' Von Dominik Stahlmecke ': 13,
+            ' Von Moritz Feldmann ': 14,
+            ' Von LM ': 15,
+            ' Von Michael Bunzel ': 16,
+            ' Von Rico Maatz ': 17,
+            ' Von Karsten Brandt ': 18,
+            ' Von Peer Stolle ': 19,
+            ' Von René Janovsky ': 20,
+            ' Von Beate Hensel ': 21,
+            ' Von Martin Rosenthal ': 22,
+            ' Von Dr. Johanna Schulenburg ': 23,
+            ' Von Nils Ströle ': 24,
+        }
+
+        # Variables
+        title = article['title']
+        user = User.objects.get(id=users[article['author']['author_text']])
+        date = datetime.strptime(article['date'], '%d.%m.%Y').date()
+        body = article['text']
+        is_evaluation = True
+
+        # Create ArticlePage
+        article_page = ArticlePage(
+            title=title,
+            author=user,  # models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True)
+            date=date,
+            body=body,  # RichTextField(blank=True)
+            is_evaluation=is_evaluation,  # models.BooleanField(default=False)
+        )
+
+        # Blocks
+        # for wiget in article['widgets']:
+        #     // check widget type and create an appropriate python dict to represent that
+        #     // append to the final array
+
+        # Widgets array
+        widgets = []
+
+        # sidebar title
+
+        for widget in article['widgets']:
+            # sidebar simple
+            if widget['type'] == 'headline':
+                widgets.append(('sidebar_title', {'content': RichText("<p>{}</p>".format(widget['content']))}))
+            if widget['type'] == 'text only':
+                widgets.append(('sidebar_simple', {'content': RichText(widget['text'])}))
+            if widget['type'] == 'only text':
+                widgets.append(('sidebar_simple', {'content': RichText(widget['text'])}))
+            # sidebar image text
+            if widget['type'] == 'text + image':
+                # check if image exists
+                image_id = upload_image(widget['image'])
+                if image_id:
+                    widgets.append(('sidebar_image_text',
+                                    {'image': Image.objects.get(id=image_id), 'content': RichText(widget['text'])}))
+                else:
+                    print("FAILED: {}".format(article['title']))
+
+        article_page.sidebar = widgets
+
+        # Add ArticlePage to parent
+        parent_page.add_child(instance=article_page)
+
+        # Save ArticlePage
+        article_page.save()
+
 def upload_image(path):
     filename = path.split('/')[-1]
 
@@ -1218,7 +1314,6 @@ def create_question(question_data):
     return question
 
 def create_question_version(question_data):
-    print("ENTER")
     answers = question_data['answers']
     print(answers)
 

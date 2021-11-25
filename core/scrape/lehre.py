@@ -442,3 +442,6 @@ def extract_image_text(el):
         'image': img,
         'content': str(content),
     }
+
+
+scrape()
