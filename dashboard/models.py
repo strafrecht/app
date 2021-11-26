@@ -4,9 +4,10 @@ from core.models import Submission
 
 
 """
-Motivation: to encourage Strafrecht users to contribute
+Motivation: to encourage Strafrecht users to contribute with entries for the Wiki, MCT and Falltraining
 
-Reward Actions:
+(discuss this)
+Reward Actions (1st idea):
     Complete MCT session - less reward points (later)
     Wiki (Create/Update) - more reward points
     MCT (Create/Update) - more reward points
@@ -14,6 +15,7 @@ Reward Actions:
 
 e.g.:
 
+(tentative)
 Finishing MCT - 5 point
 Trivial contribution - 5/10 points
 Significant contribution - 50/100 points
