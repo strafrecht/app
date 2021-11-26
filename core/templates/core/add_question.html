@@ -78,11 +78,11 @@
     },
 
     mounted() {
-      this.getCategories();
+      this.getCategories(); // load wiki categories
     },
     methods: {
       generateAnswer() {
-        this.answers.push({ text: "", correct: false });
+        this.answers.push({ text: "", correct: false });  // generate answer options when clicked
       },
 
       deleteAnswer(i) {
@@ -90,10 +90,11 @@
       },
 
       handleCheckboxClick(i) {
-        this.answers[i].correct = !this.answers[i].correct;
+        this.answers[i].correct = !this.answers[i].correct; // handle false/true toggle per answer
       },
 
-      getCookie(name) {
+      getCookie(name) { 
+        // cookie generation to authenticate form in post method
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
           const cookies = document.cookie.split(';');
@@ -111,8 +112,8 @@
       async addQuestion() {
         try {
           const csrf_token = this.getCookie('csrftoken');
-
-          const newQuestion = {
+          // get token and create the new question and its values
+          const newQuestion = { 
             title: this.title,
             description: this.description,
             categories: this.selectedCategory,
@@ -121,13 +122,14 @@
 
           const config = {
             headers: {
-              'X-CSRFToken': csrf_token,
+              'X-CSRFToken': csrf_token, // token validation for MCT custom question form
             },
             withCredentials: true,
           }
 
-          await axios.post("http://localhost:8000/quiz/questions/", newQuestion, config)
+          await axios.post("http://localhost:8000/quiz/questions/", newQuestion, config) // save new question
 
+          // clean form fields
           this.title = null;
           this.description = null;
           this.selectedCategory = null;
@@ -138,18 +140,18 @@
           console.log(error);
         }
       },
-      getCategories() {
+      getCategories() { 
         axios
           .get("http://127.0.0.1:8000/quiz/api/category_tree/")
-          .then((response) => this.categories.push(response.data));
+          .then((response) => this.categories.push(response.data)); // load/import wiki categories
       },
     },
   });
 </script>
 
 <style scoped>
-  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
-  @import url("https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css");
+  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"); 
+  @import url("https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css"); /* vue treeselect: package to show categories dropdown */ 
 
   * {
     box-sizing: border-box;

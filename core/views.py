@@ -701,22 +701,23 @@ def add_question(request):
     user = request.user
     return render(request, 'core/add_question.html', {"user": user})
 
-
+# a custom view set is defined so jurcoach users can create their own MCT questions/answers (check templates/core/add_question.html)
 class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
     serializer_class = QuestionSerializer
 
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [AllowAny,]
 
+    # method to save the question, answers and description of the add_question form
     def post(self, request, *args, **kwargs):
         data = request.data
         categories = Article.objects.filter(id__in=data.get("categories"))
 
         if request.user.is_authenticated:
-            question = Question(user=request.user)
+            question = Question(user=request.user) # if user logged in, MCT question will be associated to pk
         else:
             question = Question()
-        question.save()
+        question.save() # if not logged user, just create question
 
         question_version = QuestionVersion.objects.create(
             question=question,
@@ -724,7 +725,7 @@ class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
             description=data.get("description")
         )
 
-        question_version.categories.set(categories)
+        question_version.categories.set(categories) # wiki categories 
         question_version.save()
 
         for answer in data.get("answers"):
@@ -735,6 +736,7 @@ class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
             )
 
         return JsonResponse(data={"success": True}, status=200)
+        
 
 
 # class QuestionOnlyViewSet(viewsets.ModelViewSet):
@@ -771,6 +773,7 @@ class ChoiceViewSet(viewsets.ModelViewSet):
     serializer_class = ChoiceSerializer
     permission_classes = [AllowAny]
 
+# create category API data for the 'add_question'-category dropdown
 def get_category_tree(request):
     root = URLPath.objects.first()
     tree = create_categories(root)

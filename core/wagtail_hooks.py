@@ -52,6 +52,11 @@ def global_admin_css():
 #     menu_icon = 'folder'
 #     items = (QuestionAdmin, QuestionVersionAdmin)
 
+"""
+Wagtail admin forms to create and manage MCT questions data from CMS 
+
+"""
+
 
 # @modeladmin_register
 class SubmissionAdmin(TreeModelAdmin):
