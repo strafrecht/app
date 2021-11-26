@@ -177,6 +177,7 @@
         </select>
       </div>
     </div>
+    <!-- swiper.js used for learning mode transitions -->
     <div v-if="showGameMod === true" class="gamemode">
       <div class="swiper-container">
         <div class="swiper-wrapper">
@@ -212,6 +213,7 @@
         <!-- <div @click="swipeNext" class="swiper-button-next"></div> -->
       </div>
     </div>
+    <!-- Results of the learning mode of flashcards -->
     <div v-if="gameFinished === true" class="results">
         <h5>Erfolg!</h5>
         <h5>Dies sind die Ergebnisse Ihrer Spielsitzungen:</h5>
@@ -368,6 +370,11 @@ export default {
     },
   },
   methods: {
+    // in learning mode: if a card is learned it gets removed from the slider
+    // if is not learned (click in not learned). it reduces its probabilty of 
+    // showing up again in the learnin' mode slider.
+    // when you finally clicked 'learned' in all cards, the results of how 
+    // many times you did not remember a card content is shown!
     updateCardProbability(modifier = 0) {
       const selectedCardId = this.gameModeCards[this.selectedCardIndex]?.id
       const flashcardIndex = this.flashcards.findIndex(card => card.id === selectedCardId)
