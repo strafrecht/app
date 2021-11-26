@@ -9,7 +9,7 @@ app_name = 'flashcards'
 router = DefaultRouter(trailing_slash=False)
 router.register(r'cards', views.FlashcardViewSet)
 router.register(r'decks', views.DeckViewSet)
-router.register(r'categories', views.CategoryViewSet)
+router.register(r'categories', views.CategoryViewSet) # cards categories (not wiki categories)
 
 
 urlpatterns = [

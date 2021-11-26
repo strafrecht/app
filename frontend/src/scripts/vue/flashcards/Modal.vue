@@ -1,4 +1,5 @@
 <template>
+<!-- Modal template for the Deck and Flashcard creation forms -->
   <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">

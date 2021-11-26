@@ -26,7 +26,16 @@
                 </select>
               </div>
             </div>
-            <!-- <div class="wiki-category">
+            <!-- 
+
+              DISCLAIMER: use this code to add wiki category per deck
+              (possible future feature), vue treeselect is used to 
+              show the wiki category dropdown (as it is in 
+              add_question.html). wiki category field also should
+              be added in models.py in case is gonna be used
+
+
+              <div class="wiki-category">  
               <label class="label">Wiki Kategorie</label>
             </div>
             <div>
@@ -264,7 +273,8 @@ export default {
     };
   },
   created() {
-    const queryParams = new URLSearchParams(window.location.search);
+    // to generate the specific url per each deck and category
+    const queryParams = new URLSearchParams(window.location.search); 
     const deckId = queryParams.get("deck");
     const categoryId = queryParams.get("category");
     if (deckId) {
@@ -285,6 +295,7 @@ export default {
 
       if (this.sortFilter) {
         decks.sort((a, b) => {
+          // sorting by created and updated
           // console.log(new Date(a.created).getTime(), new Date(b.created).getTime())
           let aCreatedTimestamp = new Date(a.created).getTime()
           let bCreatedTimestamp =  new Date(b.created).getTime()
