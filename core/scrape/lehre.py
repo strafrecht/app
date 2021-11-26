@@ -305,7 +305,7 @@ def scrape():
     key_id = 1
     break_val = 0
 
-    for lehre_item in lehre_items[0:10]:
+    for lehre_item in lehre_items:
         lehre_links = lehre_item.find_all('a', href=True)
         for link in lehre_links:
             href = link['href']
@@ -346,39 +346,42 @@ def scrape():
 def scrape_sidebar(sidebar):
     widgets = []
 
-    for el in sidebar.find_all(class_=True, recursive=False):
-        classes = el.attrs['class']
+    if sidebar:
+        for el in sidebar.find_all(class_=True, recursive=False):
+            classes = el.attrs['class']
 
-        if el.name == "h1":
-            print("h1 --> Sequence 1 --> ", end='')
-        elif el.name == "div":
-            if 'seitenleisten-kasten' in classes:
-                data = extract_type_3(el)
-                widgets.append(data)
-            elif 'infokasten' and 'kasten' and 'grau' in classes:
-                data = extract_type_1a2(el)
-                widgets.append(data)
-            elif 'infokasten' and 'kasten' in classes:
-                data = extract_gray_border(el)
-                widgets.append(data)
-            elif 'infokasten' in classes:
-                data = extract_image_text(el)
-                widgets.append(data)
-            else:
-                print("OTHER")
+            if el.name == "h1":
+                print("h1 --> Sequence 1 --> ", end='')
+            elif el.name == "div":
+                if 'seitenleisten-kasten' in classes:
+                    data = extract_type_3(el)
+                    widgets.append(data)
+                elif 'infokasten' and 'kasten' and 'grau' in classes:
+                    data = extract_type_1a2(el)
+                    widgets.append(data)
+                elif 'infokasten' and 'kasten' in classes:
+                    data = extract_gray_border(el)
+                    widgets.append(data)
+                elif 'infokasten' in classes:
+                    data = extract_image_text(el)
+                    widgets.append(data)
+                else:
+                    print("OTHER")
+                    print(el.name)
+                    raise Exception
+            elif el.name == "p":
+                #print("p --> Sequence 3 --> ", end='')
+                print("OTHER: <p>")
+                print(el.contents)
+                #raise Exception
+            elif el.name == "hr":
+                #print("hr --> Sequence 4 --> ", end='')
+                print("OTHER: <hr>")
                 raise Exception
-        elif el.name == "p":
-            #print("p --> Sequence 3 --> ", end='')
-            print("OTHER: <p>")
-            raise Exception
-        elif el.name == "hr":
-            #print("hr --> Sequence 4 --> ", end='')
-            print("OTHER: <hr>")
-            raise Exception
-        else:
-            #print("? --> Sequence 5 --> ", end='')
-            print("OTHER: ?>")
-            raise Exception
+            else:
+                #print("? --> Sequence 5 --> ", end='')
+                print("OTHER: ?>")
+                raise Exception
 
     return widgets
 
@@ -444,4 +447,4 @@ def extract_image_text(el):
     }
 
 
-scrape()
+#scrape()

@@ -70,8 +70,8 @@ def start(request):
     #scrape_wiki(request)
 
     # News
-    scrape_news(request)
-    scrape_abstimmungen(request)
+    #scrape_news(request)
+    #scrape_abstimmungen(request)
 
     # Events
     #scrape_events(request)
@@ -486,10 +486,9 @@ def scrape_lehre(request):
     data = get_lehre_json()
     new_data = data["1"]
 
-    data = dict(itertools.islice(data.items(), 60))
+    #data = dict(itertools.islice(data.items(), 60))
 
     for session in data.values():
-    #for session in [new_data]:
         # SessionsPage
         parent_page = SessionsPage.objects.first()
 
@@ -572,7 +571,7 @@ def scrape_lehre(request):
                         }))
                     else:
                         widgets.append(('sidebar_header', {
-                            'image': Image.objects.get(id=2830),
+                            'image': Image.objects.filter(title='klammer.jpg').first(),
                             'title': widget['headline'],
                             'content': RichText("<p>{}</p>".format(widget['content'])),
                         }))
