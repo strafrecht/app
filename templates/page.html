@@ -3,7 +3,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
-{% csrf_token %}
+	{% csrf_token %}
 	<div class="flex flex-grow" style="width: 100%;">
 		<div class="header-image">
 			{% image page.cover original %}

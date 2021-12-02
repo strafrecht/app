@@ -3,12 +3,13 @@
 {% load static %}
 
 {% block content %}
+<div id="#quiz-category-question">
 <h3 class="display-8 mb-4">Fragen in der Kategorie {{ category }}</h3>
 
 <div class="d-flex col-md-12">
 	<div class="col-md-8 flex-col bg-white rounded shadow p-0">
 		<div class="p-4" style="border-bottom: 2px solid #eee;">
-			<h6 class="p-0" style="font-weight: 500;">{{ question.title }}</h6>
+			<h6 class="p-0" style="font-family: Roboto Slab; font-weight: 800; line-height: 22px;">{{ question.title }}</h6>
 		</div>
 
 		<div class="p-4 pb-5">
@@ -115,5 +116,6 @@
 
 		</div>
 	</div>
+</div>
 </div>
 {% endblock %}
