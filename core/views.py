@@ -161,6 +161,7 @@ def category_question(request, category_id, question_id):
         question = question_version
 
         return render(request, 'core/category_question.html', {
+            'banner': '/media/original_images/ohnediefrau.png',
             'category': category,
             'question': question,
             'questions': questions,

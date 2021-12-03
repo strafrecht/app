@@ -2,17 +2,80 @@
 
 {% load static %}
 
+{% block extra_css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/pages/jurcoach.css' %}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+	<style>
+	.tabbed figure {
+	   display: block;
+	   margin-left: 0;
+	   clear: both;
+	}
+	.tabbed > input,
+	.tabbed figure > div { display: none; }
+	.tabbed figure > div {
+	  width: 100%;
+	  color: #3d3d3d;
+	}
+	.tabbed figure > div a > span.badge {
+	  background: #fff;
+	  padding: .4rem 1rem;
+	  border: 3px solid #E8E7E0;
+	  color: #3d3d3d;
+	  font-size: 14px;
+	  margin-bottom: .5rem;
+	}
+	.tabbed figure > div a > span.badge:hover {
+	  background: #FFE200;
+	  border: 3px solid #FFE200;
+	  cursor: pointer;
+	}
+	#jurcoach-page section nav {
+	  margin-bottom: 20px;
+	}
+	#jurcoach-page section nav label {
+	  cursor: pointer;
+	  margin: 0 .6rem;
+	}
+	#jurcoach-page section nav label h3 {
+	  color: #999 !important;
+	  margin-bottom: 0;
+	}
+	#at:checked ~ figure .at,
+	#bt:checked ~ figure .bt { display: block; }
+	#at:checked ~ nav label[for="at"],
+	#bt:checked ~ nav label[for="bt"] {
+	  position: relative;
+	  color: #000  !important;
+	  border-bottom: 4px solid #FFE200;
+	  cursor: default;
+	}
+	#jurcoach-page #at:checked ~ nav label[for="at"] h3,
+	#jurcoach-page #bt:checked ~ nav label[for="bt"] h3 {
+	  color: #000  !important;
+	}
+	main>.container-inner>.content {
+	  max-width: none;
+	}
+	</style>
+{% endblock %}
+
 {% block content %}
-<div id="#quiz-category-question">
-<h3 class="display-8 mb-4">Fragen in der Kategorie {{ category }}</h3>
+<div id="quiz-category-question">
+	<div class="h2-wrapper-container">
+		<div class="h2-wrapper text-center">
+			<h2 style="">{{ category }}</h2>
+		</div>
+	</div>
 
 <div class="d-flex col-md-12">
-	<div class="col-md-8 flex-col bg-white rounded shadow p-0">
-		<div class="p-4" style="border-bottom: 2px solid #eee;">
-			<h6 class="p-0" style="font-family: Roboto Slab; font-weight: 800; line-height: 22px;">{{ question.title }}</h6>
+	<div class="tea-drinker"></div>
+	<div class="col-md-8 flex-col bg-white rounded p-0">
+		<div class="p-0" style="">
+			<h6 class="p-0" style="font-family: Roboto Slab; font-size: 20px; font-weight: 800; line-height: 26px;">{{ question.title }}</h6>
 		</div>
 
-		<div class="p-4 pb-5">
+		<div class="p-0 mb-2">
 		<form action="{% url 'quiz:category_question' category.id question.question.id %}" method="post">
 			{% csrf_token %}
 			<input type="hidden" name="question-id" value={{question.question.id}}>
@@ -26,17 +89,26 @@
 			</ul>
 
 			<div class="float-right">
-				<button id="show-results-button" class="btn btn-success">Lösung</button>
+				<button id="show-results-button" class="show-results-button">Lösung</button>
 				{% for quest in questions %}
 					{% if quest.id == question.question.id %}
 						{% if forloop.counter == questions.count and quest.id == question.id %}
-							<input type="hidden" value="finished" name="state">
-							<input type="submit" value="Finish Quiz" hidden class="btn btn-info">
+							<input class="show-results-button" type="hidden" value="finished" name="state">
+							<input class="show-results-button" type="submit" value="Finish Quiz" hidden>
 						{% else %}
-							<input type="submit" value="Nächste Frage" hidden class="btn btn-light">
+							<input class="show-results-button" type="submit" value="Nächste Frage" hidden>
 						{% endif %}
 					{% endif %}
 				{% endfor %}
+			</div>
+
+			<div class="description" hidden style="margin-top: 5rem; margin-bottom: 3rem;">
+				<h6 class="correct" hidden>Super! Deine Antwort ist richtig.</h6>
+				<h6 class="false" hidden>Leider falsch.</h6>
+
+				<div>
+					{{ question.description }}
+				</div>
 			</div>
 		</form>
 
@@ -44,8 +116,10 @@
 			var button = document.querySelector("#show-results-button")
 			var answers = document.querySelectorAll('.answer')
 			var sub = document.querySelector('input[type=submit]')
+			var description = document.querySelector('.description')
+			var correctHeader = description.querySelector('.correct')
+			var falseHeader = description.querySelector('.false')
 			var list = document.querySelector('form ul')
-
 
 			button.addEventListener('click', function(e) {
 				e.preventDefault();
@@ -68,38 +142,67 @@
 				}
 
 				if (correct) {
-					list.style.borderColor = 'green';
-					list.style.border = '2px solid #28a745';
-					list.style.borderRadius = '4px';
+					correctHeader.hidden = false
 				} else {
-					list.style.borderColor = 'red';
-					list.style.border = '2px solid #dc3545';
-					list.style.borderRadius = '4px';
+					falseHeader.hidden = false
 				}
 
 				button.hidden = true
 				sub.hidden = false
+				description.hidden = false
 			})
 		</script>
 		</div>
+		<section id="jurcoach-page" class="text-center" style="margin-top: 120px;">
+			<div class="container">
+				<div>
+					<div class="tabbed">
+					   <input checked="checked" id="at" type="radio" name="tabs" />
+					   <input id="bt" type="radio" name="tabs" />
+
+					   <nav>
+						  <label for="at"><h3>Allgemeiner Teil</h3></label>
+						  <label for="bt"><h3>Besonderer Teil</h3></label>
+					   </nav>
+
+					   <figure>
+						  <div class="at">
+						{% for item in categories_at %}
+							{% if item.first.id > 0 %}
+								<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+							{% endif %}
+						{% endfor %}
+						  </div>
+						  <div class="bt">
+						{% for item in categories_bt %}
+							{% if item.first.id > 0 %}
+								<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+							{% endif %}
+						{% endfor %}
+						  </div>
+					   </figure>
+					</div>
+				</div>
+			</div>
+		</section>
 	</div>
 
-	<div class="col-md-4">
-		<div class="bg-white rounded shadow p-4 mb-4">
-			<h5>Summary</h5>
-			<div class="">
+	<div class="col-md-4" style="margin-left: 50px;">
+		<div class="rounded p-4 pb-0 mb-4" style="border-bottom: 4px solid black; border-right: 4px solid black; background: #EEEDE8; position: relative; font-family: 'Roboto Slab' !important;">
+			<h5 style="background: black; color: white; font-family: inherit; font-size: 14px; top: -10px; position: absolute; text-transform: uppercase; padding: 2px 8px;">Score</h5>
+			<div class="" style="color: black; font-weight: 800; font-size: 1.1rem; font-family: inherit; padding-top: 10px;">
 				{% for quest in questions %}
 					{% if quest.id == question.id %}
-						<p>Question {{forloop.counter}}/{{questions.count}}</p>
+						<p style="font-family: inherit;">Frage {{forloop.counter}} von {{questions.count}}</p>
 					{% endif %}
 				{% endfor %}
 			</div>
-			<div class="flex flex-col">
-				<a href="#" class="btn btn-info">Restart</a>
-				<a href="#" class="btn btn-danger">Quit</a>
-			</div>
 		</div>
-		<div class="bg-white rounded shadow p-4">
+		<div class="flex flex-col">
+			<a href="#" class="btn btn-info">Restart</a>
+			<a href="#" class="btn btn-danger">Quit</a>
+		</div>
+		<div class="bg-white rounded shadow p-4" hidden>
 			<h5>Kategorie wählen</h5>
 
 			<div class="flex flex-col flex-wrap" style="display: flex; flex-flow: column; max-height: 320px;">

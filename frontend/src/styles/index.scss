@@ -121,6 +121,27 @@ main.container > div > .container {
     font-size: inherit !important;
 }
 
+#quiz-category-question .h2-wrapper-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+#quiz-category-question .h2-wrapper {
+    display: inline-block;
+    font-size: 28px;
+    font-weight: 800 !important;
+    font-family: $serif-font;
+}
+#quiz-category-question .h2-wrapper:after {
+    width: 100%;
+    height: 26px;
+    background: $bg-gray;
+    content: "";
+    display: block;
+    margin-top: -.72em;
+}
+
 @media screen and (max-width: 720px) {
     main.container.container-inner {
         flex-direction: column;
