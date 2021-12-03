@@ -94,21 +94,23 @@
 		{% endblock %}
 	    
 		{% block breadcrumbmenu %}
-		{% if self.get_ancestors|length > 1 %}
-	    		{% if page.header %}
-				<div class="breadcrumb-new">
-			{% else %}
-				<div class="breadcrumb-new" style="margin: 50px auto 0 auto !important;">
+			<div style="display: flex; justify-content: center;">
+			{% if self.get_ancestors|length > 1 %}
+				{% if page.header %}
+					<div class="breadcrumb-new" style="max-width: 900px; width: 100%;">
+				{% else %}
+					<div class="breadcrumb-new" style="width: 100%; max-width: 900px; margin: 50px auto 0 auto !important;">
+				{% endif %}
+					Du bist hier:
+					{% for page in self.get_ancestors %}
+						{% if page.is_root == False %}
+						<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl page %}">{{ page.title|truncatechars:25 }}</a> >
+						{% endif %}
+					{% endfor %}
+					{{ self.title|truncatechars:25 }}
+				</div>
 			{% endif %}
-				Du bist hier: 
-				{% for page in self.get_ancestors %}
-					{% if page.is_root == False %}
-					<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl page %}">{{ page.title|truncatechars:25 }}</a> >
-					{% endif %}
-				{% endfor %}
-				{{ self.title|truncatechars:25 }}
 			</div>
-		{% endif %}
 		{% endblock %}
 
 	

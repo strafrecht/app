@@ -83,7 +83,7 @@ class SessionsPage(RoutablePageMixin, Page):
     class Meta:
         verbose_name = 'Lehre-Seite'
         verbose_name_plural = 'Lehre-Seiten'
-        
+
     content = StreamField([
         ('content', ContentBlocks(label="Hauptspalte")),
     ], block_counts={

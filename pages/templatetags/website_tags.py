@@ -22,6 +22,10 @@ def banner(page):
     else:
         parent = page.get_parent() if hasattr(page, 'get_parent') else None
 
+    if hasattr(page, 'slug'):
+        if page.slug == "lehre" or parent.slug == "lehre":
+            return "/media/images/affe.original.jpg"
+
     if hasattr(page, 'header') and page.header is not None:
         return page.header.file.url
     elif hasattr(parent, 'genericpage') and parent.genericpage.header is not None:

@@ -76,7 +76,13 @@ def index(request):
     header_image = JurcoachPage.objects.all().last().header
     header_headline = JurcoachPage.objects.all().last().header_headline
     header_slogan = JurcoachPage.objects.all().last().header_slogan
-    return render(request, "core/quiz.html", {"categories_at": categories_at, "categories_bt": categories_bt, "header_image": header_image, "header_headline": header_headline, "header_slogan": header_slogan})
+    return render(request, "core/quiz.html", {
+        "categories_at": categories_at,
+        "categories_bt": categories_bt,
+        "header_image": header_image,
+        "header_headline": header_headline,
+        "header_slogan": header_slogan
+    })
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
@@ -160,12 +166,17 @@ def category_question(request, category_id, question_id):
 
         question = question_version
 
+        categories_at = get_at_categories()
+        categories_bt = get_bt_categories()
+
         return render(request, 'core/category_question.html', {
             'banner': '/media/original_images/ohnediefrau.png',
             'category': category,
             'question': question,
             'questions': questions,
-            'categories': get_bt_categories() if '/bt' in category.get_absolute_url() else get_at_categories()
+            'categories_at': get_at_categories(),
+            'categories_bt': get_bt_categories(),
+            #'categories': get_bt_categories() if '/bt' in category.get_absolute_url() else get_at_categories()
         })
 
 def category_summary(request, category_id):
