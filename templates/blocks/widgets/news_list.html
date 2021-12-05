@@ -19,7 +19,7 @@
 							<a href="/personen/{{ page.author.id }}" style="color: #bbb; font-size: 13px;">{{ article.author.first_name }} {{ article.author.last_name }}</a>
 						</span>
 						{% endif %}
-						<span class="meta" style="color: #333; font-size: 13px"> <span style="color: #bbb;">|</span> {{ article.date }}</span>
+						<span class="meta" style="color: #333; font-size: 13px"> <span style="color: #bbb;">|</span> {{ article.date|date:"d.m.Y" }}</span>
 					</div>
 				</div>
 				{% endfor %}
