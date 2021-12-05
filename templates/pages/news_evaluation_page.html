@@ -11,9 +11,9 @@
 {% block content %}
 <div class="container">
 	<div class="col-md-8">
+		<p class="meta badge badge-dark">{{ page.date|date:"d.m.Y" }}</p>
 		<h2 class="font-weight-bold">{{ page.title }}</h2>
 		<p>Von <a href="/personen/{{ page.owner.id }}">{{ page.owner }}</a></p>
-		<p class="meta badge badge-dark">{{ page.date|date:"d.m.Y" }}</p>
 
 		<div class="richtext">{{ page.body|richtext }}</div>
 
