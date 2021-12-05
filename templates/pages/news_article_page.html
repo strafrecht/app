@@ -19,7 +19,7 @@
 		<p>Von <a href="/personen/{{ page.owner.id }}">{{ page.owner.first_name }} {{ page.owner.last_name }}</a></p>
 		{% endif %}
 
-		<p class="meta badge badge-dark">{{ page.date }}</p>
+		<p class="meta badge badge-dark">{{ page.date|date:"d.m.Y" }}</p>
 
 		<div class="richtext">{{ page.body|richtext }}</div>
 
