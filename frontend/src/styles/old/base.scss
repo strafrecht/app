@@ -80,18 +80,34 @@ body .header-image .header-caption {
 /* -------------------------------------------------------------------------------------------- */
 
 .btn-primary {
-    background-color: #4c9ebb !important;
-    border-color: #4c9ebb !important;
+    color: #3d3d3d !important;
+    background-color: #FFE200 !important;
+    border:0 !important;
 }
 .btn-primary:hover {
-    background-color: #3e7d94 !important;
-    border-color: #3e7d94 !important;
+    color: #3d3d3d !important;
+    background-color: #FFE200 !important;
+    border:0 !important;
 }
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    border-color: #4c9ebb !important;
-    background-color: #4c9ebb !important;
+    border-color: #FFE200 !important;
+    background-color: #FFE200 !important;
+    color: #3d3d3d !important;
 }
-
+.btn-secondary {
+    color: #3d3d3d !important;
+    background-color: #E8E7DF !important;
+    border:0 !important;
+}
+.btn-secondary:hover {
+    color: #3d3d3d !important;
+    background-color: #D0CFC8 !important;
+    border:0 !important;
+}
+.badge-secondary {
+    color: #3d3d3d !important;
+    background-color: #E8E7DF !important;
+}
 
 /* Labels/Tags */
 /* -------------------------------------------------------------------------------------------- */
