@@ -9,7 +9,7 @@
 	<div class="col-md-8">
 		<h2 class="font-weight-bold">{{ poll.title }}</h2>
 		<p>Von <a href="#">{{ poll.author_name }}</a></p>
-		<p class="meta badge badge-dark">{{ poll.date }}</p>
+		<p class="meta badge badge-dark">{{ poll.date|date:"d.m.Y" }}</p>
 
 		<div class="richtext">{{ poll.body|richtext }}</div>
 
