@@ -23,17 +23,15 @@
 	color: rgb(76, 158, 187);
 }
 .sidebar h2 {
-	color: #333 !important;
-	font-family: $serif-font !important;
-	font-size: 1.2rem !important;
-	font-weight: 800 !important;
-	background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #E8E7DF 14px, #E8E7DF 32px);
-	line-height: 32px !important;
-	display: inline !important;
+	font-size: 1.1rem !important;
+	color: #6b6b6b;
 }
 .sidebar h3 {
 	font-size: 1.05rem !important;
-	background: none;
+}
+.sidebar h3:after,
+.sidebar h2:after {
+	content: none;
 }
 .sidebar h4 {
 	font-size: 1.2em;
@@ -154,7 +152,9 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 .jurcoach-link h3 {
 	font-size: 1.1rem;
 	font-weight: bold;
-	background: none;
+}
+.jurcoach-link h3:after {
+	content: none;
 }
 .jurcoach-link p {
 	font-size: 0.9rem;
