@@ -12,18 +12,12 @@ body {
   font-family: sans-serif;
 }
 h2 {
-    display: table !important;
     font-size: 28px;
     font-weight: 800 !important;
     font-family: $serif-font;
-}
-h2:after {
-    width: 100%;
-    height: 26px;
-    background: $bg-gray;
-    content: "";
-    display: block;
-    margin-top: -.72em;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #E8E7DF 20px, #E8E7DF 45px) !important;
+    line-height: 45px !important;
+    display: inline !important;
 }
 h3 {
     color: #333 !important;
@@ -119,9 +113,9 @@ main.container > div > .container {
 	background: none;
 	display: inline-block !important;
  }
-.header-text h2:after,
-.header-text h3:after{
-    content: none !important;
+.header-text h2,
+.header-text h3{
+    background: none !important;
 }
 .container.header-text > p {
 	text-shadow: 0px 3px 15px #000000 !important;
