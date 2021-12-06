@@ -38,6 +38,12 @@
     font-weight: 800 !important;
     background: none !important;
 }
+#jurcoach-page h2:before,
+#jurcoach-page h2:after,
+#jurcoach-page h3:before,
+#jurcoach-page h3:after {
+    content: none !important;
+}
 #jurcoach-page h3.highlighted {
     background: repeating-linear-gradient(to bottom, transparent, transparent 14px, $bg-gray 14px, $bg-gray 32px) !important;
     line-height: 32px !important;
