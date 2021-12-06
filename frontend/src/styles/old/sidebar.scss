@@ -110,9 +110,12 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 	font-size: 1.1rem !important;
 	margin-bottom: 20px;
 }
-.block-home_jurcoach_block  {
+.block-home_jurcoach_block {
 	text-align: center;
 	margin-bottom: 20px;
+}
+block-home_jurcoach_block h2 {
+	display:inline-block !important;
 }
 .jurcoach-links-widgets {
 	display: flex;
