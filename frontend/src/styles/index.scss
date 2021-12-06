@@ -32,15 +32,9 @@ h3 {
     font-family: $serif-font;
     font-size: 1.2rem !important;
     font-weight: 800 !important;
-    display: table !important;
-}
-h3:after {
-    width: 100%;
-    height: 1.1rem;
-    background: $bg-gray;
-    content: "";
-    display: block;
-    margin-top: -.72em;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #E8E7DF 14px, #E8E7DF 32px);
+    line-height: 32px !important;
+    display: inline !important;
 }
 // SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
