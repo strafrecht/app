@@ -23,9 +23,13 @@
 	color: rgb(76, 158, 187);
 }
 .sidebar h2 {
-	font-size: 1.1rem !important;
-	color: #6b6b6b;
-	background: none;
+	color: #333 !important;
+	font-family: $serif-font !important;
+	font-size: 1.2rem !important;
+	font-weight: 800 !important;
+	background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #E8E7DF 14px, #E8E7DF 32px);
+	line-height: 32px !important;
+	display: inline !important;
 }
 .sidebar h3 {
 	font-size: 1.05rem !important;
