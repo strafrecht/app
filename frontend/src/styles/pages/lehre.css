@@ -18,8 +18,8 @@
     margin-bottom: 8px;
 }
 .session-material {
-    display: flex;
-    flex-direction: column;
+    xdisplay: flex;
+    xflex-direction: column;
     line-height: 2rem !important;
 }
 .session-material h3 {
