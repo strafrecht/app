@@ -21,18 +21,10 @@
     font-family: $serif-font;
 }
 #jurcoach-page h2 {
-    display: inline-block !important;
+    display: inline !important;
     font-size: 28px;
     font-weight: 800 !important;
     font-family: $serif-font;
-}
-#jurcoach-page h2:after {
-    width: 100%;
-    height: 26px;
-    background: $bg-gray;
-    content: "";
-    display: block;
-    margin-top: -.72em;
 }
 #jurcoach-page div.h2-centered {
     text-align: center;
