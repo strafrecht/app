@@ -2,14 +2,9 @@
     margin-top: 20px;
 }
 
-#session-page h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
 .block-semester_block {
-    display: flex;
-    flex-direction: column;
+    xdisplay: flex;
+    xflex-direction: column;
 }
 .session-group {
     display: flex;
@@ -28,11 +23,5 @@
     line-height: 2rem !important;
 }
 .session-material h3 {
-    color: rgb(61, 61, 61) !important;
-    font-size: 1.1em !important;
-    font-weight: 600 !important;
-    margin-top: 20px;
-}
-
-.session-material h1 {
+    margin-top: 20px !important;
 }
