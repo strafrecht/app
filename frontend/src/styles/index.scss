@@ -19,6 +19,14 @@ h2 {
     line-height: 45px !important;
     display: inline !important;
 }
+h2:before {
+    content: '\A';
+    white-space: pre;
+}
+h2:after {
+    content: '\A';
+    white-space: pre;
+}
 h3 {
     color: #333 !important;
     font-family: $serif-font;
