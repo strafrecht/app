@@ -3,12 +3,12 @@
 }
 
 .block-semester_block {
-    xdisplay: flex;
-    xflex-direction: column;
-}
-.session-group {
     display: flex;
     flex-direction: column;
+}
+.session-group {
+    xdisplay: flex;
+    xflex-direction: column;
 }
 .session-cards {
     display: flex;
