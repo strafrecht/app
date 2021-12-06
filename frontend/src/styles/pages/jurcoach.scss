@@ -36,12 +36,10 @@
     font-family: $serif-font;
     font-size: 1.2rem !important;
     font-weight: 800 !important;
-}
-#jurcoach-page h3:after{
     background: none !important;
 }
 #jurcoach-page h3.highlighted {
-    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, $bg-gray 14px, $bg-gray 32px);
+    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, $bg-gray 14px, $bg-gray 32px) !important;
     line-height: 32px !important;
     display: inline !important;
     & + p {
@@ -49,7 +47,7 @@
     }
 }
 #jurcoach-page h3.highlighted.green {
-    background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $green 14px, $green 32px);
+    background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $green 14px, $green 32px) !important;
 }
 #jurcoach-page .underlined {
     $border-bottom: 4px solid #fff;
