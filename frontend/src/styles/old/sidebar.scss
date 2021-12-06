@@ -154,7 +154,7 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 	font-weight: bold;
 }
 .jurcoach-link h3:after {
-	content: none;
+	content: none !important;
 }
 .jurcoach-link p {
 	font-size: 0.9rem;
