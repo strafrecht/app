@@ -34,6 +34,14 @@
 .sidebar h4 {
 	background: none !important;
 }
+.sidebar h2:before,
+.sidebar h2:after,
+.sidebar h3:before,
+.sidebar h3:after,
+.sidebar h4:before,
+.sidebar h4:after {
+	content: none !important;
+}
 .sidebar h4 {
 	font-size: 1.2em;
 	color: #6b6b6b;
