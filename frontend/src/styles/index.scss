@@ -17,7 +17,7 @@ h2 {
     font-weight: 800 !important;
     font-family: $serif-font;
 }
-:not(.header-text):not(.sidebar) ~ h2:after {
+h2:after {
     width: 100%;
     height: 26px;
     background: $bg-gray;
@@ -32,7 +32,7 @@ h3 {
     font-weight: 800 !important;
     display: table !important;
 }
-:not(.header-text):not(.sidebar) ~ h3:after {
+h3:after {
     width: 100%;
     height: 1.1rem;
     background: $bg-gray;
@@ -118,7 +118,10 @@ main.container > div > .container {
 	text-shadow: 0px 3px 10px #000000 !important;
 	background: none;
  }
-
+.header-text h2:after,
+.header-text h3:after{
+    content: none !important;
+}
 .container.header-text > p {
 	text-shadow: 0px 3px 15px #000000 !important;
 	font-size: 1.2rem !important;
