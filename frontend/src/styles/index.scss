@@ -17,7 +17,7 @@ h2 {
     font-weight: 800 !important;
     font-family: $serif-font;
 }
-h2:after {
+:not(.header-text) h2:after {
     width: 100%;
     height: 26px;
     background: $bg-gray;
@@ -25,16 +25,21 @@ h2:after {
     display: block;
     margin-top: -.72em;
 }
-h3, .sidebar h3 {
+h3 {
     color: #333 !important;
     font-family: $serif-font;
     font-size: 1.2rem !important;
     font-weight: 800 !important;
-    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #E8E7DF 14px, #E8E7DF 32px);
-    line-height: 32px !important;
-    display: inline !important;
+    display: inline-block !important;
 }
-
+h3:after {
+    width: 100%;
+    height: 1.1rem;
+    background: $bg-gray;
+    content: "";
+    display: block;
+    margin-top: -.72em;
+}
 // SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
 @import "old/base.scss";
@@ -112,10 +117,6 @@ main.container > div > .container {
 	font-family: $serif-font !important;
 	text-shadow: 0px 3px 10px #000000 !important;
 	background: none;
- }
-
-.header-text h2:after {
-    content:none !important;
  }
 
 .container.header-text > p {
