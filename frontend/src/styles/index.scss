@@ -19,14 +19,6 @@ h2 {
     line-height: 45px !important;
     display: inline !important;
 }
-h2:before {
-    content: '\A';
-    white-space: pre;
-}
-h2:after {
-    content: '\A';
-    white-space: pre;
-}
 h3 {
     color: #333 !important;
     font-family: $serif-font;
@@ -35,6 +27,13 @@ h3 {
     background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #E8E7DF 14px, #E8E7DF 32px);
     line-height: 32px !important;
     display: inline !important;
+}
+h2:before,
+h2:after,
+h3:before,
+h3:after {
+    content: '\A';
+    white-space: pre;
 }
 // SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
