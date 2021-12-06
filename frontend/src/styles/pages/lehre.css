@@ -1,7 +1,9 @@
 #session-page {
     margin-top: 20px;
 }
-
+#session-page .richtext {
+    line-height: 1.5rem !important;
+}
 .block-semester_block {
     display: flex;
     flex-direction: column;
