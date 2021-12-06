@@ -155,14 +155,6 @@ main.container > div > .container {
     font-weight: 800 !important;
     font-family: $serif-font;
 }
-#quiz-category-question .h2-wrapper:after {
-    width: 100%;
-    height: 26px;
-    background: $bg-gray;
-    content: "";
-    display: block;
-    margin-top: -.72em;
-}
 
 @media screen and (max-width: 720px) {
     main.container.container-inner {
