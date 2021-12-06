@@ -29,15 +29,15 @@
 .sidebar h3 {
 	font-size: 0.95rem !important;
 }
-.sidebar h3,
-.sidebar h2 {
+.sidebar h2:after,
+.sidebar h3:after,
+.sidebar h4:after {
 	background: none !important;
 }
 .sidebar h4 {
 	font-size: 1.2em;
 	color: #6b6b6b;
 	margin-bottom: 10px;
-	background: none;
 }
 .sidebar-title {
 	background: #a7a5a5;
@@ -156,7 +156,7 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 	font-size: 1.1rem;
 	font-weight: bold;
 }
-.jurcoach-link h3 {
+.jurcoach-link h3:after {
 	background: none !important;
 }
 .jurcoach-link p {
