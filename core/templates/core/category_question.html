@@ -57,6 +57,16 @@
 	main>.container-inner>.content {
 		max-width: none;
 	}
+	.false-icon,
+	.correct-icon {
+		display: none;
+	}
+	.check-icon .correct-icon {
+		display: inline;
+	}
+	.dash-icon .false-icon {
+		display: inline;
+	}
 	</style>
 {% endblock %}
 
@@ -135,12 +145,19 @@
 
 					if (answer.getAttribute('data-correct') == 'True') {
 						correct = correct && answer.checked
-
+						if (answer.checked) {
+							answers[i].parentNode.classList.add('check-icon')
+						} else {
+							answers[i].parentNode.classList.add('dash-icon')
+						} 
 						answers[i].parentNode.classList.add('mct-correct-answer')
 					} else {
 						if (answer.checked) {
 							correct = correct && false
-						}
+							answers[i].parentNode.classList.add('dash-icon')
+						} else {
+							answers[i].parentNode.classList.add('check-icon')
+						} 
 					}
 				}
 
