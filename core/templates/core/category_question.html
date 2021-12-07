@@ -67,6 +67,10 @@
 	.dash-icon .false-icon {
 		display: inline;
 	}
+	.mct-solution label input,
+	.mct-solution label .answer-text {
+		cursor: default;
+	}
 	</style>
 {% endblock %}
 
@@ -142,6 +146,7 @@
 				for (i = 0; i < answers.length; i++) {
 					answer = answers[i]
 					answer.disabled = true
+					answers[i].parentNode.parentNode.classList.add('mct-solution')
 
 					if (answer.getAttribute('data-correct') == 'True') {
 						correct = correct && answer.checked
