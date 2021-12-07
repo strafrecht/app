@@ -16,10 +16,10 @@
 					<div>
 						{% if article.author %}
 						<span class="meta">
-							<a href="/personen/{{ page.author.id }}" style="color: #3d3d3d; font-size: 13px;">{{ article.author.first_name }} {{ article.author.last_name }}</a>
+							<a href="/personen/{{ page.author.id }}" style="color: inherit; font-size: 13px;">{{ article.author.first_name }} {{ article.author.last_name }}</a>
 						</span>
 						{% endif %}
-						<span class="meta" style="color: #333; font-size: 13px"> <span style="color: #3d3d3d;">|</span> {{ article.date|date:"d.m.Y" }}</span>
+						<span class="meta" style="font-size: 13px"> | {{ article.date|date:"d.m.Y" }}</span>
 					</div>
 				</div>
 				{% endfor %}
