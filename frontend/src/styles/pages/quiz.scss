@@ -56,6 +56,9 @@
 	opacity: 0;
 	position: absolute;
 }
+.mct-input ul label .answer-text {
+	cursor: pointer;
+}
 .mct-input ul label input:checked+.mct-input-helper:before {
 	border-color: $body-color;
 }
