@@ -6,12 +6,12 @@
 
 #quiz-category-question h6 {
     color: black !important;
-    font-family: "Roboto Slab";
+    font-family: $serif-font;
     font-weight: 700;
 }
 
 #quiz-category-question .show-results-button {
-    background: #FFE200 !important;
+    background: $yellow !important;
     border: none !important;
     border-radius: 4px;
     color: black;
@@ -20,10 +20,10 @@
 }
 
 #quiz-category-question h6.correct {
-    color: #ADD345 !important;
+    color: $green !important;
 }
 #quiz-category-question h6.false {
-    color: #CE0000 !important;
+    color: $red !important;
 }
 
 .tea-drinker {
@@ -53,7 +53,7 @@
 	position: absolute;
 }
 .mct-input ul label input:checked+.mct-input-helper:before {
-	border-color: #3d3d3d;
+	border-color: $body-color;
 }
 .mct-input ul label .mct-input-helper:before,
 .mct-input ul label .mct-input-helper:after {
@@ -63,7 +63,7 @@
 .mct-input ul label .mct-input-helper:before {
 	left: 0;
 	top: 3px;
-	border: 2px solid #3d3d3d;
+	border: 2px solid $body-color;
 	width: 15px;
 	height: 15px;
 	color: transparent;
@@ -82,12 +82,12 @@
 	text-decoration: none;
 	left: 3.1px;
 	top: 4px;
-	color: #3d3d3d;
+	color: $body-color;
 	opacity: 0;
 }
 .mct-input ul label.mct-correct-answer .mct-input-helper:before {
-	border-color: #ADD345 !important;
+	border-color: $green !important;
 }
 .mct-input ul label.mct-correct-answer .mct-input-helper:after {
-	color: #ADD345 !important;
+	color: $green !important;
 }
