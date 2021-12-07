@@ -140,7 +140,8 @@
 				
 				for (i = 0; i < checkboxes.length; i++) {
 					checkbox = checkboxes[i]
-					checkbox.disabled = true
+					console.log(checkbox);
+					checkbox.setAttribute('disabled', 'disabled');
 				}
 
 				var correct = true;
