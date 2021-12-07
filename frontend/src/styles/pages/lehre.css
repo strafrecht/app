@@ -4,6 +4,10 @@
 #session-page .richtext {
     line-height: 1.5rem !important;
 }
+#session-page .session-material.richtext h2,
+#session-page .session-material.richtext h3 {
+    background: none;
+}
 .block-semester_block {
     display: flex;
     flex-direction: column;
