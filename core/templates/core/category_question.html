@@ -138,10 +138,7 @@
 			button.addEventListener('click', function(e) {
 				e.preventDefault();
 				
-				for (y = 0; y < checkboxes.length; y++) {
-					checkbox = checkboxes[y];
-					checkbox.setAttribute('disabled', 'disabled');
-				}
+				checkboxes.disabled = true;
 
 				var correct = true;
 					
