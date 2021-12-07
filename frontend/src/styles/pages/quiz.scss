@@ -17,10 +17,12 @@
     padding: 4px 20px;
 }
 
-#quiz-category-question h6.correct {
+#quiz-category-question h6.correct,
+.correct-icon {
     color: $green !important;
 }
-#quiz-category-question h6.false {
+#quiz-category-question h6.false,
+.false-icon {
     color: $red !important;
 }
 
