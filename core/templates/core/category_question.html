@@ -93,7 +93,7 @@
 			<ul class="p-2">
 				{% for answer in question.answers.all %}
 					<label for={{answer.id}}>
-						<input type="checkbox" id={{answer.id}} class="answer" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}>
+						<input type="checkbox" class="mct-checkbox" id={{answer.id}} class="answer" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}>
 						<span class="mct-input-helper"></span>
 						<span>{{ answer }}</span>
 						<span><i class="bi bi-check-circle-fill correct-icon"></i><i class="bi bi-dash-circle-fill false-icon"></i></span>
@@ -128,6 +128,7 @@
 		<script>
 			var button = document.querySelector("#show-results-button")
 			var answers = document.querySelectorAll('.answer')
+			var checkboxes = document.querySelectorAll('.mct-checkbox')
 			var sub = document.querySelector('input[type=submit]')
 			var description = document.querySelector('.description')
 			var correctHeader = description.querySelector('.correct')
@@ -136,9 +137,14 @@
 
 			button.addEventListener('click', function(e) {
 				e.preventDefault();
+				
+				for (i = 0; i < checkboxes.length; i++) {
+					checkbox = checkboxes[i];
+					checkbox.disabled = true;
+				}
 
 				var correct = true;
-
+					
 				for (i = 0; i < answers.length; i++) {
 					answer = answers[i]
 					//answer.disabled = true
