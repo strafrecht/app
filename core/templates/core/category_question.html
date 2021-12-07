@@ -130,7 +130,7 @@
 				{% for answer in question.answers.all %}
 					<label for={{answer.id}}>
 						<input type="checkbox" id={{answer.id}} class="answer" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}>
-						<i class="mct-input-helper"></i>
+						<span class="mct-input-helper"></span>
 						<span>{{ answer }}</span>
 					</label><br>
 				{% endfor %}
