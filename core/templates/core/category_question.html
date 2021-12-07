@@ -188,7 +188,7 @@
 					if (answer.getAttribute('data-correct') == 'True') {
 						correct = correct && answer.checked
 
-						answers[i].parentNode.add('mct-correct-answer')
+						answers[i].parentNode.classList.add('mct-correct-answer')
 					} else {
 						if (answer.checked) {
 							correct = correct && false
