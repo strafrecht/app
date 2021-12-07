@@ -8,6 +8,10 @@
 #session-page .session-material.richtext h3 {
     background: none;
 }
+#session-page .session-material.richtext h3 {
+    margin-top: 20px !important;
+    font-size: 1.1rem !important;
+}
 .block-semester_block {
     display: flex;
     flex-direction: column;
@@ -27,7 +31,4 @@
     xdisplay: flex;
     xflex-direction: column;
     line-height: 2rem !important;
-}
-.session-material h3 {
-    margin-top: 20px !important;
 }
