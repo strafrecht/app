@@ -434,10 +434,5 @@ AVATAR_MAX_AVATARS_PER_USER = '1'
 
 # CSP_SCRIPT_SRC = ("'self'", "'unsafe-eval'", "'unsafe-inline'",)
 COMMENTS_APP = 'django_comments_xtd'
-<<<<<<< HEAD
-COMMENTS_XTD_MAX_THREAD_LEVEL = 5
-
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-=======
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5
->>>>>>> master
