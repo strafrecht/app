@@ -203,7 +203,8 @@ li.ancestor.nav-item > a:hover {
 }
 @media screen and (min-width: 991px) {
 	.with-header #nav ul.navbar-nav:nth-child(1) .nav-item:not(.active,.ancestor) > .nav-link {
-	    color: #ccc !important;
+	    color: white !important;
+	    //text-shadow: 1px 1px rgba(0,0,0,0.9);
 	}
 }
 @media screen and (max-width: 990px) {

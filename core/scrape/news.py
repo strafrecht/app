@@ -5,7 +5,7 @@ import time
 import os
 
 def get_json():
-    f = open('newsscrape.json')
+    f = open('core/scrape/newsscrape.json')
     data = json.load(f)
     return data
 
@@ -43,6 +43,8 @@ def get_article(link_source, article_link):
     print(title_text)
 
     author = title.find_next('p')
+    author_link = ''
+
     try:
         author_text = author.text
         author_text = " ".join(line.strip() for line in author_text.split("\n"))
@@ -52,6 +54,8 @@ def get_article(link_source, article_link):
         print("article title not found")
         pass
     # print(author_text)
+
+    author_link = author_link if author_link else ''
     
     contents = author.find_next_siblings('p')
     contents_strs = []

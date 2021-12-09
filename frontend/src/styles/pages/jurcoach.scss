@@ -21,18 +21,10 @@
     font-family: $serif-font;
 }
 #jurcoach-page h2 {
-    display: inline-block;
+    display: inline !important;
     font-size: 28px;
     font-weight: 800 !important;
     font-family: $serif-font;
-}
-#jurcoach-page h2:after {
-    width: 100%;
-    height: 26px;
-    background: $bg-gray;
-    content: "";
-    display: block;
-    margin-top: -.72em;
 }
 #jurcoach-page div.h2-centered {
     text-align: center;
@@ -44,9 +36,16 @@
     font-family: $serif-font;
     font-size: 1.2rem !important;
     font-weight: 800 !important;
+    background: none !important;
+}
+#jurcoach-page h2:before,
+#jurcoach-page h2:after,
+#jurcoach-page h3:before,
+#jurcoach-page h3:after {
+    content: none !important;
 }
 #jurcoach-page h3.highlighted {
-    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, $bg-gray 14px, $bg-gray 32px);
+    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, $bg-gray 14px, $bg-gray 32px) !important;
     line-height: 32px !important;
     display: inline !important;
     & + p {
@@ -54,7 +53,7 @@
     }
 }
 #jurcoach-page h3.highlighted.green {
-    background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $green 14px, $green 32px);
+    background:repeating-linear-gradient(to bottom, transparent, transparent 14px, $green 14px, $green 32px) !important;
 }
 #jurcoach-page .underlined {
     $border-bottom: 4px solid #fff;
@@ -129,7 +128,7 @@
 #jurcoach-page .bottom-item p {
     font-size: 14px;
 }
-#jurcoach-page .bottom-item .jurcoach-poll {
+.jurcoach-poll {
     display: flex;
     flex-direction: column;
     font-size: 14px;
@@ -140,27 +139,27 @@
     min-width: 220px;
     max-width: 300px;
 }
-#jurcoach-page .bottom-item .jurcoach-poll h3 {
+.jurcoach-poll h3 {
     margin-top: -25px;
 }
-#jurcoach-page .bottom-item .jurcoach-poll form {
+.jurcoach-poll form {
     text-align: center;
 }
-#jurcoach-page .bottom-item .jurcoach-poll form > label {
+.jurcoach-poll form > label {
     display: none;
 }
-#jurcoach-page .bottom-item .jurcoach-poll form ul {
+.jurcoach-poll form ul {
     text-align: left;
     list-style: none;
     padding: 0px;
 }
-#jurcoach-page .bottom-item .jurcoach-poll form ul li label {
+.jurcoach-poll form ul li label {
     display: inline-flex;
     align-items: center;
     padding-left: .8em;
     cursor: pointer;
 }
-#jurcoach-page .bottom-item .jurcoach-poll form ul li label input[type="radio"] {
+.jurcoach-poll form ul li label input[type="radio"] {
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
@@ -173,12 +172,12 @@
     left: -10px;
     cursor: pointer;
 }
-#jurcoach-page .bottom-item .jurcoach-poll form ul li label input[type="radio"]:checked {
+.jurcoach-poll form ul li label input[type="radio"]:checked {
     border-color: #000;
     box-shadow: inset 0 0 0 2px #fff;
     background-color: #000;
 }
-#jurcoach-page .bottom-item .jurcoach-poll form [type="submit"]:not(:disabled)  {
+.jurcoach-poll form [type="submit"]:not(:disabled)  {
     cursor: pointer;
     background: $yellow;
     border: 0;
@@ -189,7 +188,7 @@
         background: #FFD800;
     }
 }
-#jurcoach-page .bottom-item .jurcoach-poll:before {
+.jurcoach-poll:before {
     color: #fff;
     font-family: $serif-font;
     font-weight: 600;
@@ -201,24 +200,24 @@
     background: #000;
     width: 80px;
 }
-#jurcoach-page .bottom-item .jurcoach-poll .answers {
+.jurcoach-poll .answers {
 	margin-top: 10px;
 	text-align: left;
 }
-#jurcoach-page .bottom-item .jurcoach-poll .answers .answer:not(:last-child) {
+.jurcoach-poll .answers .answer:not(:last-child) {
 	margin-bottom: 10px;
 }
-#jurcoach-page .bottom-item .jurcoach-poll .answers .answer .bar {
+.jurcoach-poll .answers .answer .bar {
 	width: 100%;
 	display: flex;
 	margin-bottom: 8px;
 }
-#jurcoach-page .bottom-item .jurcoach-poll .answers .answer .bar > div {
+.jurcoach-poll .answers .answer .bar > div {
 	background: $yellow;
 	max-height: 22px;
 	margin-right: 5px;
 }
-#jurcoach-page .bottom-item .jurcoach-poll .answers .answer .bar > span {
+.jurcoach-poll .answers .answer .bar > span {
 	float: right;
 	font-weight: bold;
 	min-width: 70px;

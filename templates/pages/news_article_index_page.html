@@ -27,7 +27,7 @@
 							{% if page.author %}
 								<a href="/personen/{{ page.author.id }}">{{ page.author.first_name }} {{ page.author.last_name }}</a>
 							{% endif %}
-							<span class="meta badge badge-light">{{ article.date }}</span>
+							<span class="meta badge badge-light">{{ article.date|date:"d.m.Y" }}</span>
 						</div>
 					</div>
 					{% endfor %}

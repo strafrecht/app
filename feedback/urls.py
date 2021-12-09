@@ -9,4 +9,10 @@ urlpatterns = [
     path('save/', views.save, name='save'),
     path('<int:suggestion_id>/<slug:slug>/', views.detail, name='detail'),
     path('<int:suggestion_id>/<slug:slug>/vote', views.vote, name='vote'),
+
+    path('widget', views.widget_index, name='widget_index'),
+    path('widget/form/', views.widget_form, name='widget_form'),
+    path('widget/save/', views.widget_save, name='widget_save'),
+    path('widget/<int:suggestion_id>/<slug:slug>/', views.widget_detail, name='widget_detail'),
+    path('widget/<int:suggestion_id>/<slug:slug>/vote', views.widget_vote, name='widget_vote'),
 ]

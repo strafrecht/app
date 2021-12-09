@@ -1,19 +1,24 @@
 #session-page {
     margin-top: 20px;
 }
-
-#session-page h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
+#session-page .richtext {
+    line-height: 1.5rem !important;
 }
-
+#session-page .session-material.richtext h2,
+#session-page .session-material.richtext h3 {
+    background: none;
+}
+#session-page .session-material.richtext h3 {
+    margin-top: 20px !important;
+    font-size: 1.1rem !important;
+}
 .block-semester_block {
     display: flex;
     flex-direction: column;
 }
 .session-group {
-    display: flex;
-    flex-direction: column;
+    xdisplay: flex;
+    xflex-direction: column;
 }
 .session-cards {
     display: flex;
@@ -23,16 +28,7 @@
     margin-bottom: 8px;
 }
 .session-material {
-    display: flex;
-    flex-direction: column;
+    xdisplay: flex;
+    xflex-direction: column;
     line-height: 2rem !important;
-}
-.session-material h3 {
-    color: rgb(61, 61, 61) !important;
-    font-size: 1.1em !important;
-    font-weight: 600 !important;
-    margin-top: 20px;
-}
-
-.session-material h1 {
 }

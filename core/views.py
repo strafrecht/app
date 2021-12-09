@@ -76,7 +76,13 @@ def index(request):
     header_image = JurcoachPage.objects.all().last().header
     header_headline = JurcoachPage.objects.all().last().header_headline
     header_slogan = JurcoachPage.objects.all().last().header_slogan
-    return render(request, "core/quiz.html", {"categories_at": categories_at, "categories_bt": categories_bt, "header_image": header_image, "header_headline": header_headline, "header_slogan": header_slogan})
+    return render(request, "core/quiz.html", {
+        "categories_at": categories_at,
+        "categories_bt": categories_bt,
+        "header_image": header_image,
+        "header_headline": header_headline,
+        "header_slogan": header_slogan
+    })
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
@@ -156,15 +162,21 @@ def category_question(request, category_id, question_id):
             question = questions.first()
 
         #question_version = QuestionVersion.objects.first()
-        question_version = question.questionversion_set.all().first()
+        question_version = question.questions.all().first()
 
         question = question_version
 
+        categories_at = get_at_categories()
+        categories_bt = get_bt_categories()
+
         return render(request, 'core/category_question.html', {
+            'banner': '/media/original_images/ohnediefrau.png',
             'category': category,
             'question': question,
             'questions': questions,
-            'categories': get_bt_categories() if '/bt' in category.get_absolute_url() else get_at_categories()
+            'categories_at': get_at_categories(),
+            'categories_bt': get_bt_categories(),
+            #'categories': get_bt_categories() if '/bt' in category.get_absolute_url() else get_at_categories()
         })
 
 def category_summary(request, category_id):
@@ -363,6 +375,9 @@ def create_question(question_data):
     slug_list = deque(question_data["root"].split("/")[1:-2])
     parent = traverse_ancestors(root, slug_list)
 
+    print("PARENT")
+    print(parent.article)
+
     question = Question(
         filepath=question_data['root'],
         slug=question_data['slug'],
@@ -392,6 +407,8 @@ def create_question_version(question_data):
 
     # save answers
     for answer in answers:
+        print("ANSWER")
+        print(answer)
         #question_version.answerversion_set.create(text=answer['text'], correct=answer['correct'])
         question_version.answers.create(text=answer['text'], correct=answer['correct'])
 
@@ -527,66 +544,7 @@ def _traverse_category(node, remaining, cat):
             child.save()
 
 def exams(request):
-    import csv
-    import dateutil.parser
-
-    exams = []
-
-    with open('exams.csv', newline='', encoding='utf-8-sig') as csvfile:
-        reader = csv.reader(csvfile, delimiter=',', quotechar='"')
-        exam_type = {
-            'Klausur im Falltraining': 'falltraining',
-            'Examensklausur': 'exam',
-            'Originalexamensklausur': 'original-exam',
-            'Übungsfall': 'exercise',
-            'Übungsklausur': 'exercise',
-            'AG-Fall': 'tutorial',
-        }
-        exam_difficulty = {
-            'Anfänger': 'beginner',
-            'Fortgeschrittene': 'intermediate',
-            'Examen': 'advanced',
-        }
-
-        for row in reader:
-            if row[0]:
-                date_string = "{}-01".format(row[0])
-                print(repr(date_string))
-                date = dateutil.parser.parse(date_string)
-            else:
-                date = None
-
-            if row[1]:
-                et = exam_type[row[1]]
-            else:
-                et = ""
-
-            if row[2]:
-                ed = exam_difficulty[row[2]]
-            else:
-                ed = ""
-
-            exam = Exams.objects.create(
-                date=date,
-                type=et,
-                difficulty=ed,
-                paragraphs=row[3],
-                problems=row[4],
-                sachverhalt_link=row[5],
-                loesung_link=row[6],
-            )
-
-            exams.append(exam)
-
-    for exam in exams: print(exam)
-
-    result = Exams.objects.bulk_create(exams)
-
-    if result:
-        return HttpResponse('<p>done</p>')
-    else:
-        return HttpResponse('<p>failed</p>')
-
+    return render(request, 'pages/exam_table.html', {})
 
 def search_wiki(request, query = False):
     from django.contrib.postgres.search import SearchVector, TrigramSimilarity, TrigramDistance

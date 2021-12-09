@@ -1,0 +1,26 @@
+{% extends "feedback/widget/base_iframe.html" %}
+
+{% block main %}
+	<form action="{% url 'feedback:widget_save' %}" method="post" class="feedback-form">
+		{% csrf_token %}
+
+		<h2>Vorschlag einreichen</h2>
+
+		<div class="form-group">
+			<label>Titel</label>
+			<input type="text" name="title" class="form-control" required>
+		</div>
+
+		<div class="form-group">
+			<label>Beschreibung</label>
+			<textarea name="description" class="form-control"></textarea>
+		</div>
+
+		<div style="display: flex; justify-content: space-between; align-items: center;">
+			<a href="{% url 'feedback:widget_index' %}">Zurück</a>
+			<button type="submit" class="btn btn-primary">Absenden</button>
+		</div>
+
+	</form>
+
+{% endblock %}

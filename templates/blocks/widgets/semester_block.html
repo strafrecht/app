@@ -11,9 +11,11 @@
 			{% for session in sessions %}
 			<div class="session-card">
 				<a href="{% routablepageurl session.sessions_page 'session_by_semester' session.semester session.slug %}">{{ session.title }}</a>
+				{% if False and session.owner %}
 				<div>
-					<span class="meta badge badge-dark">{{ session.owner | richtext }}</span>
+					<span class="meta badge badge-dark">{{ session.owner.name }}</span>
 				</div>
+				{% endif %}
 			</div>
 			{% endfor %}
 		</div>

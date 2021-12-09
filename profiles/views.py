@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from core.models import Quiz, Question
+from core.models import Quiz, Question, QuestionVersion, UserAnswer, AnswerVersion
 from wiki.models import ArticleRevision
 from django.contrib.auth.decorators import login_required
 
@@ -9,7 +9,10 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
     quizzes = Quiz.objects.filter(user__id=request.user.id).filter(completed=True)
-    return render(request, "profiles/index.html", {"quizzes": quizzes})
+    return render(request, "profiles/index.html", {
+        "banner": "/media/images/login.original.jpg",
+        "quizzes": quizzes
+    })
 
 def quizzes(request):
     filter_by = request.GET.get('filter_by', 'all')
@@ -45,6 +48,7 @@ def quizzes(request):
     #quizzes = Quiz.objects.filter(user__id=request.user.id).order_by('-created')
     quizzes = query.all()
     return render(request, "profiles/quizzes.html", {
+        "banner": "/media/images/login.original.jpg",
         "quizzes": quizzes,
         "filter": filter_by,
         "order": order_by
@@ -52,11 +56,17 @@ def quizzes(request):
 
 def wiki(request):
     revisions = ArticleRevision.objects.filter(user__id=request.user.id)
-    return render(request, "profiles/wiki.html", {"revisions": revisions})
+    return render(request, "profiles/wiki.html", {
+        "banner": "/media/images/login.original.jpg",
+        "revisions": revisions
+    })
 
 def quiz_summary(request, id):
     quiz = Quiz.objects.get(pk=id)
-    return render(request, "profiles/quiz_summary.html", {"quiz": quiz})
+    return render(request, "profiles/quiz_summary.html", {
+        "banner": "/media/images/login.original.jpg",
+        "quiz": quiz
+    })
 
 def login(request):
     if request.method == 'POST':

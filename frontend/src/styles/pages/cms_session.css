@@ -5,3 +5,7 @@
 .session-sidebar {
     border: 1px solid red;
 }
+
+.session-content ul .field-col {
+    width: 100% !important;
+}

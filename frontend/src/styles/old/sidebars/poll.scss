@@ -6,7 +6,7 @@
 .sidebar-poll label {
 	display: inline-flex;
 	align-items: center;
-	padding-left: 2em;
+	padding-left: 1.4em;
 	cursor: pointer;
 }
 .sidebar-poll ul {
@@ -21,25 +21,23 @@
 	appearance: none; /* in case this ever gets supported */
 	background: #fff;
 	border-radius: 100%;
-	border: 1px solid transparent;
+	border: 3px solid transparent;
 	box-shadow:
-		0 0 0 2px rgb(225, 213, 196),
+		0 0 0 2px #3d3d3d,
 		inset 0 0 0 0px rgba(13,81,146, 0);
 	margin-right: .25em;
 	transition:
 		border-color .2s ease-in-out,
 		box-shadow .2s ease-in-out;
-	width: 1.25em;
-	height: 1.25em;
+	width: .9em;
+	height: .9em;
 	position: absolute;
 	left: 2.4em;
 	cursor: pointer;
 }
 .sidebar-poll label input[type="radio"]:checked {
 	border-color: #fff;
-	box-shadow:
-		0 0 0 2px rgb(225, 213, 196),
-		inset 0 0 0 10px $yellow;
+	box-shadow: 0 0 0 2px #3d3d3d, inset 0 0 0 10px #3d3d3d;
 }
 .sidebar-poll .question {
 	display: flex;

@@ -24,7 +24,7 @@
 						<a href="{% pageurl article %}">{{ article.title }}</a>
 						<div>
 							<span class="meta badge badge-dark">{{ article.owner }}</span>
-							<span class="meta badge badge-light">{{ article.date }}</span>
+							<span class="meta badge badge-light">{{ article.date|date:"d.m.Y" }}</span>
 						</div>
 					</div>
 					{% endfor %}

@@ -175,7 +175,7 @@ MIDDLEWARE = [
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     #'livereload.middleware.LiveReloadScript',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
-    # 'csp.middleware.CSPMiddleware',
+    #'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -434,6 +434,10 @@ AVATAR_MAX_AVATARS_PER_USER = '1'
 
 # CSP_SCRIPT_SRC = ("'self'", "'unsafe-eval'", "'unsafe-inline'",)
 COMMENTS_APP = 'django_comments_xtd'
+<<<<<<< HEAD
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+=======
+COMMENTS_XTD_MAX_THREAD_LEVEL = 5
+>>>>>>> master

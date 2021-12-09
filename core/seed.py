@@ -6,6 +6,7 @@ from io import BytesIO
 import requests
 import wget
 import uuid
+import itertools
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -41,6 +42,7 @@ from rest_framework import viewsets, permissions, mixins, generics, response
 from .serializers import QuestionSerializer, ChoiceSerializer, UserAnswerSerializer, QuizSerializer, AnswerSerializer, \
     QuestionVersionSerializer, QuestionOnlySerializer
 from .scrape.news import get_json as get_news_json
+from .scrape.abstimmungen import get_json as get_abstimmungen_json
 from .scrape.lehre import get_json as get_lehre_json
 from .scrape.events import get_json as get_events_json
 
@@ -64,29 +66,34 @@ import re
 from bs4 import BeautifulSoup
 
 def start(request):
+    # Wiki
+    #scrape_wiki(request)
+
     # News
     #scrape_news(request)
+    #scrape_abstimmungen(request)
 
     # Events
     #scrape_events(request)
 
     # Newsletter
-    #return scrape_newsletter(request)
+    #scrape_newsletter(request)
 
-    # scrape sessions
-    scrape_lehre(request)
+    # Lehre
+    #scrape_lehre(request)
 
-    # scrape wiki
-    #scrape_wiki(request)
+    # Exams
+    #scrape_exams(request)
 
     # Redirects
     #scrape_redirects(request)
     #seed_redirects(request)
+    return
 
 def scrape_wiki(request):
     # init
     path = os.path.abspath("core")
-    os.chdir('/home/admin/Workspace/app/core')
+    os.chdir('/home/dev/Workspace/app/core')
     #os.chdir('C://Users//sfvso//Documents//serg1o//straf//app//core')
 
     # delete all wiki/categories
@@ -94,6 +101,7 @@ def scrape_wiki(request):
     ArticleRevision.objects.all().delete()
     Article.objects.all().delete()
 
+    Quiz.objects.all().delete()
     AnswerVersion.objects.all().delete()
     QuestionVersion.objects.all().delete()
     Question.objects.all().delete()
@@ -140,7 +148,7 @@ def scrape_wiki(request):
                     wiki = {
                         "root": root,
                         "slug": root.split("/")[-1],
-                        "name": soup.article.h1.text.strip(),
+                        "name": soup.article.h1.text.strip() if soup.article.h1 else '?',
                         #"long_name": extract("long_name", soup),
                         "tags": extract("tags", soup),
                         "content": extract("content", soup),
@@ -297,7 +305,8 @@ def scrape_events(request):
         poster_image = upload_poster_image(event['poster_image_link']) if event['poster_image_link'] != '' else None
         youtube_link = event['youtube_link']
 
-        collection = get_collection
+        #collection = get_collection
+        print("NEWSLETTER: {}".format(event['newsletter_link']))
         newsletter = upload_newsletter_pdf(event['newsletter_link']) if event['newsletter_link'] != '' else None
 
         event_page = EventPage(
@@ -317,7 +326,6 @@ def scrape_events(request):
 
         # Save ArticlePage
         event_page.save()
-
 
 def extract_event_semester(semester):
     return semester.replace('Wintersemester', 'ws').replace('Sommersemester', 'sos').replace(' ', '-').split('/')[0]
@@ -428,15 +436,18 @@ def upload_newsletter_pdf(url):
     print("URL: {}".format(url))
     root_collection = Collection.get_first_root_node()
 
-    semester = url.split('newsletter/')[1].split('/')[0]
-    filename = url.split('newsletter/')[1].split('/')[1]
+    try:
+        semester = url.split('newsletter/')[1].split('/')[0]
+        filename = url.split('newsletter/')[1].split('/')[1]
 
-    # Target Directory
-    target_dir = "/home/dev/Workspace/app/media/documents"
-    new_filename = "Event_Newsletter_{semester}_{filename}".format(
-        semester=semester,
-        filename=filename
-    )
+        # Target Directory
+        target_dir = "/home/dev/Workspace/app/media/documents"
+        new_filename = "Event_Newsletter_{semester}_{filename}".format(
+            semester=semester,
+            filename=filename
+        )
+    except Exception as e:
+        return None
 
     try:
         local_file = requests.get(url, allow_redirects=True)  # target_dir)
@@ -475,14 +486,15 @@ def scrape_lehre(request):
     data = get_lehre_json()
     new_data = data["1"]
 
-    #for session in data.values():
-    for session in [new_data]:
-        #session = data[index]
+    #data = dict(itertools.islice(data.items(), 60))
+
+    for session in data.values():
         # SessionsPage
         parent_page = SessionsPage.objects.first()
 
         # Variables
         title = extract_title(session.get("lehre", None))
+
         if session.get("lehre_link"):
             slug = session.get("lehre_link").strip("/").split("/")[-1]
         else:
@@ -516,7 +528,8 @@ def scrape_lehre(request):
             )
             for p in pdfs:
                 for f in p["documents"]:
-                    print(f["href"])
+                    continue
+                    #print(f["href"])
         else:
             pdfs = []
 
@@ -545,33 +558,50 @@ def scrape_lehre(request):
             widgets = []
 
             for widget in session['widgets']:
+                print("LENGTH: {}".format(len(session['widgets'])))
+                print(widget)
                 # sidebar simple
                 if widget['type'] == 'headline':
-                    widgets.append(('sidebar_title', {'content': RichText("<p>{}</p>".format(widget['content']))}))
+                    image_id = upload_image(widget['image'])
+                    if image_id:
+                        widgets.append(('sidebar_header', {
+                            'image': Image.objects.get(id=image_id),
+                            'title': widget['headline'],
+                            'content': RichText("<p>{}</p>".format(widget['content'])),
+                        }))
+                    else:
+                        widgets.append(('sidebar_header', {
+                            'image': Image.objects.filter(title='klammer.jpg').first(),
+                            'title': widget['headline'],
+                            'content': RichText("<p>{}</p>".format(widget['content'])),
+                        }))
                 if widget['type'] == 'title':
-                    widgets.append(('sidebar_title', {'content': RichText(widget['text'])}))
-                if widget['type'] == 'text only':
-                    widgets.append(('sidebar_border', {'content': RichText(widget['text'])}))
+                    widgets.append(('sidebar_title', {'content': RichText(widget['content'])}))
+                if widget['type'] == 'sidebar_border':
+                    widgets.append(('sidebar_border', {'content': RichText(widget['content'])}))
                 if widget['type'] == 'only text':
-                    widgets.append(('sidebar_border', {'content': RichText(widget['text'])}))
+                    widgets.append(('sidebar_border', {'content': RichText(widget['content'])}))
                 # sidebar image text
                 if widget['type'] == 'text + image':
                     # check if image exists
                     image_id = upload_image(widget['image'])
                     if image_id:
                         widgets.append(('sidebar_image_text',
-                                        {'image': Image.objects.get(id=image_id), 'content': RichText(widget['text'])}))
+                                        {'image': Image.objects.get(id=image_id), 'content': RichText(widget['content'])}))
                     else:
                         print("FAILED: {}".format(title))
 
             # Sidebar
+            print("DOWN:")
+            print(widgets)
             session_page.sidebar = widgets
 
             # Upload pdfs
-            print("SEMESTER: {}".format(semester))
-            print("SLUG: {}".format(slug))
-            updated_pdfs = upload_pdfs(semester, slug, pdfs)
+            #print("SEMESTER: {}".format(semester))
+            #print("SLUG: {}".format(slug))
 
+            # RESTORE
+            updated_pdfs = upload_pdfs(semester, slug, pdfs)
             # save content
             session_page.material = build_material_html(updated_pdfs)
 
@@ -807,6 +837,7 @@ def extract_session(content):
 
     # Right
     result['assessment'] = right.decode_contents()
+    #print(result)
     return result
 
 def scrape_newsletter(request):
@@ -968,10 +999,103 @@ def scrape_news(request):
         # Save ArticlePage
         article_page.save()
 
+def scrape_abstimmungen(request):
+    # delete articles + images
+    #ArticlePage.objects.all().delete()
+    #Image.objects.filter(title='thumb_archiv.jpg').delete()
+
+    data = get_abstimmungen_json()
+    # return data
+
+    for index in data:
+        article = data[index]
+        # ArticlesPage
+        parent_page = ArticlesPage.objects.first()
+
+        users = {
+            ' Von Jakob Bach ': 2,
+            ' Von Roland Hefendehl ': 3,
+            ' Von Marco Rehmet ': 4,
+            ' Von Nicolas Emmerich ': 5,
+            ' VonTitus Rehm ': 6,
+            ' VonJulian Sigmund ': 7,
+            ' Von Titus Rehm ': 6,
+            ' Von Julian Sigmund ': 7,
+            ' Gastbeitrag von Peer Stolle und Martin Heining ': 8,
+            ' Von Matthias Noll ': 9,
+            ' Von TG ': 10,
+            ' Von JP ': 11,
+            ' Von Harald Wohlfeil ': 12,
+            ' Von Dominik Stahlmecke ': 13,
+            ' Von Moritz Feldmann ': 14,
+            ' Von LM ': 15,
+            ' Von Michael Bunzel ': 16,
+            ' Von Rico Maatz ': 17,
+            ' Von Karsten Brandt ': 18,
+            ' Von Peer Stolle ': 19,
+            ' Von René Janovsky ': 20,
+            ' Von Beate Hensel ': 21,
+            ' Von Martin Rosenthal ': 22,
+            ' Von Dr. Johanna Schulenburg ': 23,
+            ' Von Nils Ströle ': 24,
+        }
+
+        # Variables
+        title = article['title']
+        user = User.objects.get(id=users[article['author']['author_text']])
+        date = datetime.strptime(article['date'], '%d.%m.%Y').date()
+        body = article['text']
+        is_evaluation = True
+
+        # Create ArticlePage
+        article_page = ArticlePage(
+            title=title,
+            author=user,  # models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True)
+            date=date,
+            body=body,  # RichTextField(blank=True)
+            is_evaluation=is_evaluation,  # models.BooleanField(default=False)
+        )
+
+        # Blocks
+        # for wiget in article['widgets']:
+        #     // check widget type and create an appropriate python dict to represent that
+        #     // append to the final array
+
+        # Widgets array
+        widgets = []
+
+        # sidebar title
+
+        for widget in article['widgets']:
+            # sidebar simple
+            if widget['type'] == 'headline':
+                widgets.append(('sidebar_title', {'content': RichText("<p>{}</p>".format(widget['content']))}))
+            if widget['type'] == 'text only':
+                widgets.append(('sidebar_simple', {'content': RichText(widget['text'])}))
+            if widget['type'] == 'only text':
+                widgets.append(('sidebar_simple', {'content': RichText(widget['text'])}))
+            # sidebar image text
+            if widget['type'] == 'text + image':
+                # check if image exists
+                image_id = upload_image(widget['image'])
+                if image_id:
+                    widgets.append(('sidebar_image_text',
+                                    {'image': Image.objects.get(id=image_id), 'content': RichText(widget['text'])}))
+                else:
+                    print("FAILED: {}".format(article['title']))
+
+        article_page.sidebar = widgets
+
+        # Add ArticlePage to parent
+        parent_page.add_child(instance=article_page)
+
+        # Save ArticlePage
+        article_page.save()
+
 def upload_image(path):
     filename = path.split('/')[-1]
 
-    if 'strafrecht-online' in path:
+    if 'http' in path:
         image_url = path
     else:
         image_url = os.path.join("https://strafrecht-online.org/", path.lstrip(os.path.sep))
@@ -980,6 +1104,8 @@ def upload_image(path):
     try:
         if not os.path.isfile("/tmp/images/{}".format(filename)):
             local_file = wget.download(image_url, "/tmp/images")
+            print("DOWNLOADING")
+            print(local_file)
         else:
             local_file = "/tmp/images/{}".format(filename)
 
@@ -991,7 +1117,11 @@ def upload_image(path):
         #image = willow.Image.open(local_file)
         width, height = image.get_size()
 
-        image_object = Image(title=filename, file=image_file, width=width, height=height)
+        if Image.objects.filter(title=filename):
+            image_object = Image.objects.filter(title=filename).first()
+        else:
+            image_object = Image(title=filename, file=image_file, width=width, height=height)
+
         image_object.save()
         return image_object.id
     except Exception as error:
@@ -1184,6 +1314,7 @@ def create_question(question_data):
 
 def create_question_version(question_data):
     answers = question_data['answers']
+    print(answers)
 
     question_version = QuestionVersion(
         question_id=question_data['question_id'],
@@ -1193,12 +1324,12 @@ def create_question_version(question_data):
         #description="placeholder description"
     )
 
-    question_version.save()
-
     # save answers
     for answer in answers:
         #question_version.answerversion_set.create(text=answer['text'], correct=answer['correct'])
         question_version.answers.create(text=answer['text'], correct=answer['correct'])
+
+    question_version.save()
 
 def get_type(soup):
     return extract("type", soup)
@@ -1331,14 +1462,15 @@ def _traverse_category(node, remaining, cat):
             traverse_category(child, remaining, cat)
             child.save()
 
-def exams(request):
+def scrape_exams(request):
     import csv
     import dateutil.parser
 
     exams = []
 
-    with open('exams.csv', newline='', encoding='utf-8-sig') as csvfile:
+    with open('/home/dev/Workspace/app/core/exams.csv', newline='', encoding='utf-8-sig') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+
         exam_type = {
             'Klausur im Falltraining': 'falltraining',
             'Examensklausur': 'exam',

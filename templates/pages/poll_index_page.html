@@ -17,7 +17,7 @@
 			{% for review in reviews %}
 			<div>
 				<a href="{% pageurl review %}">{{ review.title }}</a>
-				<p class="meta badge badge-dark">{{ review.date }}</p>
+				<p class="meta badge badge-dark">{{ review.date|date:"d.m.Y" }}</p>
 			</div>
 			{% endfor %}
 

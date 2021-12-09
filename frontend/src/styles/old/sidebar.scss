@@ -24,10 +24,24 @@
 }
 .sidebar h2 {
 	font-size: 1.1rem !important;
-	color: #6b6b6b;
+	color: #333 !important;
 }
 .sidebar h3 {
-	font-size: 1.05rem !important;
+	font-size: 0.95rem !important;
+}
+.sidebar h2,
+.sidebar h3,
+.sidebar h4 {
+	background: none !important;
+	line-height: inherit !important;
+}
+.sidebar h2:before,
+.sidebar h2:after,
+.sidebar h3:before,
+.sidebar h3:after,
+.sidebar h4:before,
+.sidebar h4:after {
+	content: none !important;
 }
 .sidebar h4 {
 	font-size: 1.2em;
@@ -57,6 +71,7 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 .news-widgets {
 	display: flex;
 	flex-wrap: wrap;
+	margin-top: 15px;
 }
 
 .news-widget {
@@ -104,7 +119,10 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 	font-size: 1.1rem !important;
 	margin-bottom: 20px;
 }
-
+.block-home_jurcoach_block {
+	text-align: center;
+	margin-bottom: 20px;
+}
 .jurcoach-links-widgets {
 	display: flex;
 	flex-wrap: wrap;
@@ -143,6 +161,7 @@ div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:fir
 .jurcoach-link h3 {
 	font-size: 1.1rem;
 	font-weight: bold;
+	background: none !important;
 }
 .jurcoach-link p {
 	font-size: 0.9rem;

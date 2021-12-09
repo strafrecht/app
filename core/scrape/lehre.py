@@ -7,13 +7,16 @@ from urllib.parse import urlparse
 import re
 
 def get_json():
-    f = open('lehrescrape.json')
+    scrape()
+
+    f = open('core/scrape/lehrescrape.json')
     data = json.load(f)
     return data
 
-def writeToJSONFile(path, fileName, data):
-    filePathNameWExt = './' + path + '/' + fileName + '.json'
-    with open(filePathNameWExt, 'w') as fp:
+def writeToJSONFile(data):
+    #filePathNameWExt = './' + path + '/' + fileName + '.json'
+    #with open(filePathNameWExt, 'w') as fp:
+    with open('core/scrape/lehrescrape.json', 'w') as fp:
         json.dump(data, fp)
 
 def get_lehre(link_source, lehre_link):
@@ -88,8 +91,8 @@ def get_lehre(link_source, lehre_link):
         print("no seminar section")
         pass
 
-
     info_content = []
+
     try:
         info = link_soup.find('div', class_='infokasten spalt2')
         info_title = info.find_previous_sibling('h2')
@@ -97,10 +100,13 @@ def get_lehre(link_source, lehre_link):
         info_title = "".join(line for line in info_title.split("\n"))
         info_content.append(info_title)
         info_str = str(info)
-        info_str = "".join(line for line in info_str.split("\n"))
+        #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        #print(info_str)
+        #print("?????????????????????????????????????")
+        #info_str = "".join(line for line in info_str.split("\n"))
         info_content.append(info_str)
         info_content = ''.join(info_content)
-        lehre_data['informationen'] = fix(info_content)
+        lehre_data['informationen'] = info_content
         # print(info_content)
     except:
         print("no info found")
@@ -211,53 +217,27 @@ def get_lehre(link_source, lehre_link):
         pass
     """
 
+    lehre_data['widgets'] = scrape_sidebar(side_soup)
 
-    lehre_data['widgets'] = []
-
-
+    """
     try:
         if side_soup.find_all('div', class_='infokasten'):
             infokastens = side_soup.find_all('div', class_='infokasten')
+
             for infokasten in infokastens:
                 kasten_widget = {}
                 try:
-                    if infokasten.find('img')['src']: 
+                    if infokasten.find('img')['src']:
                         image = infokasten.find('img')['src']
                         image_str = str(image)
                         kasten_widget['type'] = "text + image"
                         kasten_widget['image'] = image_str
-                        """
-                        try:
-                            filename = image_str.split('/')[-1]
-                            # print(filename)
-                            if image_str.startswith('/'):
-                                image_url = 'https://strafrecht-online.org' + image_str
-                                # print(image_url)
-                                r = requests.get(image_url)
-                                with open(os.path.join(dir_path, filename), 'wb') as f:
-                                    f.write(r.content)
-                            elif image_str.startswith('http'):
-                                image_url = image_str
-                                r = requests.get(image_url)
-                                with open(os.path.join(dir_path, filename), 'wb') as f:
-                                    f.write(r.content)
-                            else:
-                                image_url = lehre_link + image_str
-                                r = requests.get(image_url)
-                                with open(os.path.join(dir_path, filename), 'wb') as f:
-                                    f.write(r.content)
-                        except:
-                            pass
-                        """
                     else:
                         pass
                 except:
                     kasten_widget['type'] = "only text"
                     pass
                 infokasten_str = str(infokasten)
-                infokasten_str = infokasten_str.replace('<a', ' <a')
-                infokasten_str = infokasten_str.replace('a>', 'a> ')
-                infokasten_str = "".join(line for line in infokasten_str.split("\n"))
                 kasten_widget['text'] = infokasten_str
                 lehre_data['widgets'].append(kasten_widget)
             # try:
@@ -270,7 +250,7 @@ def get_lehre(link_source, lehre_link):
             #         for side_content in side_contents:
             #             try:
             #                 side_str = str(side_content)
-            #                 side_str = "".join(line.strip() for line in side_str.split("\n"))
+            #                 side_str = "".join(line for line in side_str.split("\n"))
             #                 side_strs.append(side_str)
             #             except:
             #                 pass
@@ -285,6 +265,7 @@ def get_lehre(link_source, lehre_link):
             #     pass   
         # if enters here: no image only text kasten
         elif side_soup.find_all(['h2', 'h3', 'p']):
+            print("FOUND!!!")
             side_contents = side_soup.find_all(['h2', 'h3', 'p'])
             side_strs = []
             side_widget = {}
@@ -309,12 +290,14 @@ def get_lehre(link_source, lehre_link):
         pass
 
     return lehre_data
+    """
+    return lehre_data
 
 
 # ////////////////////////////////////////////////////////////
 
 def scrape():
-    source = requests.get('https://strafrecht-online.org/lehre/vorherige-semester/').text
+    source = requests.get('https://strafrecht-online.org/lehre/vorherige-semester/').content
     soup = BeautifulSoup(source, 'lxml')
     lehre_items = soup.find_all('ul', class_='linkliste')
 
@@ -353,12 +336,115 @@ def scrape():
         # if break_val == 1:
         #     break
 
+    with open('core/scrape/lehrescrape.json', 'w+') as fp:
+        json.dump(lessons, fp)
+
     # print(lessons)
     print('DONE!')
+    #writeToJSONFile('./', 'lehrescrape', lessons)
+    
+def scrape_sidebar(sidebar):
+    widgets = []
 
-    writeToJSONFile('./', 'lehrescrape', lessons)
+    if sidebar:
+        for el in sidebar.find_all(class_=True, recursive=False):
+            classes = el.attrs['class']
 
-def fix(content):
-    return re.sub(r'\s+', ' ', content).replace(' <a')
+            if el.name == "h1":
+                print("h1 --> Sequence 1 --> ", end='')
+            elif el.name == "div":
+                if 'seitenleisten-kasten' in classes:
+                    data = extract_type_3(el)
+                    widgets.append(data)
+                elif 'infokasten' and 'kasten' and 'grau' in classes:
+                    data = extract_type_1a2(el)
+                    widgets.append(data)
+                elif 'infokasten' and 'kasten' in classes:
+                    data = extract_gray_border(el)
+                    widgets.append(data)
+                elif 'infokasten' in classes:
+                    data = extract_image_text(el)
+                    widgets.append(data)
+                else:
+                    print("OTHER")
+                    print(el.name)
+                    raise Exception
+            elif el.name == "p":
+                #print("p --> Sequence 3 --> ", end='')
+                print("OTHER: <p>")
+                print(el.contents)
+                #raise Exception
+            elif el.name == "hr":
+                #print("hr --> Sequence 4 --> ", end='')
+                print("OTHER: <hr>")
+                raise Exception
+            else:
+                #print("? --> Sequence 5 --> ", end='')
+                print("OTHER: ?>")
+                raise Exception
+
+    return widgets
+
+def extract_type_3(el):
+    #if len(x.get_text(strip=True)) == 0:
+    #    x.extract()
+    img = el.figure.img.attrs['src']
+    headline = el.figure.figcaption.text
+    #content = el.find_all(['div', 'p'])[1:] if el.find_all('div')[1:] else ''
+    content = el.find_all('div')[1:] if el.find_all('div')[1:] else ''
+
+    headline = 'Aktuelles'
+
+    return {
+        'type': 'headline',
+        'headline': headline,
+        'image': 'http://strafrecht-online.org/lehre/sos-2015/examensklausurenkurs/klammer.jpg',
+        'content': str(content[0]),
+    }
+
+
+def extract_type_1a2(el):
+    if el.img:
+        if el.figure:
+            img = el.figure.img.attrs['src']
+            headline = el.figure.figcaption.text if el.figure.figcaption.text else ''
+            content = el.find_all('div')[-1] if el.find_all('div')[-1] else ''
+        else:
+            img = el.img.attrs['src']
+            headline = ''
+            content = el.find_all('div')[-1] if el.find_all('div')[-1] else ''
+
+        headline = 'Aktuelles'
+
+        return {
+            'type': 'headline',
+            'headline': headline,
+            'image': 'http://strafrecht-online.org/lehre/sos-2015/examensklausurenkurs/klammer.jpg',
+            'content': str(content),
+        }
+    else:
+        return {
+            'type': 'sidebar_border',
+            'content': str(el.find_all('div')[-1])
+        }
+
+def extract_gray_border(el):
+    content = el.extract() if len(el.findChildren()) > 0 else ''
+
+    return {
+        'type': 'sidebar_border',
+        'content': str(content),
+    }
+
+def extract_image_text(el):
+    content = el.find_all('div')[-1] if el.find_all('div')[-1] else ''
+    img = el.figure.img.attrs['src']
+
+    return {
+        'type': 'text + image',
+        'image': img,
+        'content': str(content),
+    }
+
 
 #scrape()

@@ -1,33 +1,48 @@
 $body-color: #3d3d3d;
 $yellow: #FFE200;
 $green: #ADD345;
+$red: #CE0000;
 $bg-gray: #E8E7DF;
 $line-gray:#E8E7E0;
 $serif-font: 'Roboto Slab';
-$container-width: 900px;
+$container-width: 960px;
 
 body {
   background: #fafafa;
   color: $body-color;
   font-family: sans-serif;
 }
-
 h2 {
-    font-size: 1.8rem !important;
+    font-size: 28px;
     font-weight: 800 !important;
     font-family: $serif-font;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #E8E7DF 20px, #E8E7DF 45px) !important;
+    line-height: 45px !important;
+    display: inline-flex !important;
+    margin: 1.5rem 0 !important;
 }
-
 h3 {
-    color: #999 !important;
-    font-size: 1.4rem !important;
-    font-weight: 500 !important;
+    color: #333 !important;
+    font-family: $serif-font;
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #E8E7DF 14px, #E8E7DF 32px);
+    line-height: 32px !important;
+    display: inline-flex !important;
+    margin: 1rem 0 !important;
 }
-
+h2:before,
+h2:after,
+h3:before,
+h3:after {
+    content: '\A';
+    white-space: pre;
+}
 // SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
 @import "old/base.scss";
 @import "pages/jurcoach.scss";
+@import "pages/quiz.scss";
 @import "footer.scss";
 @import "old/navbar.scss";
 @import "old/sidebars/poll.scss";
@@ -39,6 +54,8 @@ h3 {
 // CSS Files
 @import "pages/cms_session.css";
 @import "pages/lehre.css";
+@import "pages/feedback.css";
+@import "pages/profile.css";
 //@import "old/app.css";
 @import "old/columns.css";
 @import "old/comments.css";
@@ -75,6 +92,7 @@ main.container {
 main > .container-inner > .content {
     flex-grow: 1;
     max-width: 720px;
+    max-width: 960px;
 }
 
 main.container,
@@ -96,12 +114,18 @@ main.container > div > .container {
 	font-weight: 300 !important;
 	font-family: $serif-font !important;
 	text-shadow: 0px 3px 10px #000000 !important;
+	background: none;
+	display: inline-block !important;
  }
-
+.header-text h2,
+.header-text h3{
+    background: none !important;
+}
 .container.header-text > p {
 	text-shadow: 0px 3px 15px #000000 !important;
 	font-size: 1.2rem !important;
 	margin-bottom: 0px;
+	background: none;
  }
 
 .breadcrumb-new {
@@ -115,6 +139,19 @@ main.container > div > .container {
 .breadcrumb-new a {
     font-weight: 300 !important;
     font-size: inherit !important;
+}
+
+#quiz-category-question .h2-wrapper-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+#quiz-category-question .h2-wrapper {
+    display: inline-block;
+    font-size: 28px;
+    font-weight: 800 !important;
+    font-family: $serif-font;
 }
 
 @media screen and (max-width: 720px) {
