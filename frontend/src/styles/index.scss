@@ -18,7 +18,8 @@ h2 {
     font-family: $serif-font;
     background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #E8E7DF 20px, #E8E7DF 45px) !important;
     line-height: 45px !important;
-    display: inline !important;
+    display: inline-flex !important;
+    margin: 1.5rem 0 !important;
 }
 h3 {
     color: #333 !important;
@@ -27,7 +28,8 @@ h3 {
     font-weight: 800 !important;
     background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #E8E7DF 14px, #E8E7DF 32px);
     line-height: 32px !important;
-    display: inline !important;
+    display: inline-flex !important;
+    margin: 1rem 0 !important;
 }
 h2:before,
 h2:after,
