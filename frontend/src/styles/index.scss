@@ -44,6 +44,12 @@ h3:after {
     color: inherit;
     font-family: inherit;
 }
+.block-richtext h2 a:hover,
+.block-richtext h3 a:hover {
+    text-decoration: none;
+    color: inherit;
+    font-family: inherit;
+}
 // SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
 @import "old/base.scss";
