@@ -367,7 +367,7 @@ export default {
     },
     getDecks() {
       axios
-        .get("http://127.0.0.1:8000/profile/flashcards/decks")
+        .get("/profile/flashcards/decks")
         .then((response) => {
           this.decks = response.data;
           // this.filteredDecks = this.decks;
@@ -375,7 +375,7 @@ export default {
     },
     getCategories() {
       axios
-        .get("http://127.0.0.1:8000/profile/flashcards/categories")
+        .get("/profile/flashcards/categories")
         .then((response) => {
           this.categories = response.data
 
@@ -387,7 +387,7 @@ export default {
     },
     addDeck() {
       axios
-        .post("http://127.0.0.1:8000/profile/flashcards/decks", {
+        .post("/profile/flashcards/decks", {
           name: this.name,
           category: this.selectedCategory,
           wiki_category: this.selectedWikiCategory,
@@ -411,7 +411,7 @@ export default {
     },
     addKategorie() {
       axios
-        .post("http://127.0.0.1:8000/profile/flashcards/categories", {
+        .post("/profile/flashcards/categories", {
           name: this.category_name,
         })
         .then((response) => {
@@ -431,7 +431,7 @@ export default {
     deleteDecks() {
       axios
         .delete(
-          "http://127.0.0.1:8000/profile/flashcards/decks/" + this.deckToDelete
+          "/profile/flashcards/decks/" + this.deckToDelete
         )
         .then(this.getDecks);
       this.decks = this.decks.filter((deck) => deck.id !== this.deckToDelete);
@@ -440,7 +440,7 @@ export default {
     deleteCategory() {
       axios
         .delete(
-          "http://127.0.0.1:8000/profile/flashcards/categories/" +
+          "/profile/flashcards/categories/" +
             this.categoryToDelete
         )
         .then(this.getCategories);
@@ -452,7 +452,7 @@ export default {
     editDeck() {
       axios
         .put(
-          "http://127.0.0.1:8000/profile/flashcards/decks/" +
+          "/profile/flashcards/decks/" +
             this.decks[this.deckToEdit].id,
           {
             name: this.new_name,
@@ -467,7 +467,7 @@ export default {
     editCategory() {
       axios
         .put(
-          "http://127.0.0.1:8000/profile/flashcards/categories/" +
+          "/profile/flashcards/categories/" +
             this.categories[this.categoryToEdit].id,
           {
             name: this.new_category,
@@ -488,7 +488,7 @@ export default {
     },
     getWikiCategories() {
       axios
-        .get("http://127.0.0.1:8000/quiz/api/category_tree/")
+        .get("/quiz/api/category_tree/")
         .then((response) => this.wiki_categories.push(response.data));
     },
     onCloseFlashcards() {
