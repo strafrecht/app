@@ -38,6 +38,12 @@ h3:after {
     content: '\A';
     white-space: pre;
 }
+.block-richtext h2 a,
+.block-richtext h3 a {
+    text-decoration: none;
+    color: inherit;
+    font-family: inherit;
+}
 // SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
 @import "old/base.scss";
