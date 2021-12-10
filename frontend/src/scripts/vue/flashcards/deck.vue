@@ -537,18 +537,18 @@ export default {
 }
 
 .deck {
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
   margin: 10px;
   padding: 10px;
   width: 150px;
   height: 200px;
-  box-shadow: 5px 5px #a7a7a7;
-  background-color: #fff;
   color: #2c3e50;
   height: fit-content;
 }
 
 .deck:hover {
-  box-shadow: 5px 5px #787878;
+  box-shadow: 5px 5px rgba(0,0,0,0.1);
 }
 
 .deckarea:hover,
