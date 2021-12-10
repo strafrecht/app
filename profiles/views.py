@@ -14,6 +14,9 @@ def index(request):
         "quizzes": quizzes
     })
 
+def flashcards(request):
+    return render(request, "profiles/flashcards.html", {"banner": "/media/images/login.original.jpg"})
+
 def quizzes(request):
     filter_by = request.GET.get('filter_by', 'all')
     order_by = request.GET.get('order_by', 'created')

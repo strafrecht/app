@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'profiles',
     #'leaflet',
     'feedback',
+    'flashcards',
 
     # Wagtail
     'wagtail.contrib.forms',
@@ -433,4 +434,5 @@ AVATAR_MAX_AVATARS_PER_USER = '1'
 
 # CSP_SCRIPT_SRC = ("'self'", "'unsafe-eval'", "'unsafe-inline'",)
 COMMENTS_APP = 'django_comments_xtd'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5

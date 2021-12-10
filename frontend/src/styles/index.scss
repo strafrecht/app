@@ -12,25 +12,33 @@ body {
   color: $body-color;
   font-family: sans-serif;
 }
+
 h2 {
     font-size: 28px;
     font-weight: 800 !important;
     font-family: $serif-font;
     background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #E8E7DF 20px, #E8E7DF 45px) !important;
     line-height: 45px !important;
-    display: inline-flex !important;
-    margin: 1.5rem 0 !important;
+    display: inline !important;
+
+    line-height: 0px !important;
+    margin-bottom: 20px !important;
 }
-h3 {
+
+h3,
+h3 b {
     color: #333 !important;
     font-family: $serif-font;
     font-size: 1.2rem !important;
     font-weight: 800 !important;
     background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #E8E7DF 14px, #E8E7DF 32px);
     line-height: 32px !important;
-    display: inline-flex !important;
-    margin: 1rem 0 !important;
+    display: inline !important;
+
+    line-height: 0px !important;
+    margin-bottom: 20px !important;
 }
+
 h2:before,
 h2:after,
 h3:before,
@@ -68,6 +76,8 @@ h3:after {
 @import "pages/lehre.css";
 @import "pages/feedback.css";
 @import "pages/profile.css";
+@import "pages/flashcards.css";
+
 //@import "old/app.css";
 @import "old/columns.css";
 @import "old/comments.css";
@@ -170,4 +180,8 @@ main.container > div > .container {
     main.container.container-inner {
         flex-direction: column;
     }
+}
+
+.block-content .block-richtext * {
+    margin: 10px 0;
 }
