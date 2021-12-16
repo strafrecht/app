@@ -5,12 +5,12 @@
 {% block content %}
 	{% csrf_token %}
 	<div class="flex flex-grow" style="width: 100%;">
-		<div class="header-image">
+		<!--<div class="header-image">
 			{% image page.cover original %}
 			{% if page.cover_caption %}
 			<div class="header-caption">{{ page.cover_caption }}</div>
 			{% endif %}
-		</div>
+		</div>-->
 
 		<div class="content">
 			{% include_block page.content %}
