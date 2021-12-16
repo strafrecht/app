@@ -7,10 +7,12 @@
 	<div class="session-group" style="margin-bottom: 50px;">
 		<h3 style="color: rgb(140, 140, 140); font-size: 1.25rem; font-weight: bold; margin-bottom: 20px;">{{ semester }}</h3>
 
+		{{ index.id }}
+
 		<div class="session-cards" style="display: flex;">
 			{% for session in sessions %}
 			<div class="session-card">
-				<a href="{% routablepageurl session.sessions_page 'session_by_semester' session.semester session.slug %}">{{ session.title }}</a>
+				<a href="{% routablepageurl sessions_page 'session_by_semester' session.semester session.slug %}">{{ session.title }}</a>
 				{% if False and session.owner %}
 				<div>
 					<span class="meta badge badge-dark">{{ session.owner.name }}</span>

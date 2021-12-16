@@ -58,6 +58,7 @@ class SemesterBlock(blocks.StructBlock):
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
+        context['sessions_page'] = SessionsPage.objects.first()
         context['sessions'] = SessionPage.objects.filter(semester=value['semester'])
         context['semester'] = list(filter(lambda x: x[0] == value['semester'], self.SEMESTER_TYPE_CHOICES))[0][1]
         return context
