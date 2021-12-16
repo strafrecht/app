@@ -457,12 +457,12 @@ export default {
     },
     getFlashcards() {
       axios
-        .get("http://127.0.0.1:8000/profile/flashcards/cards")
+        .get("/profile/flashcards/cards")
         .then((response) => (this.flashcards = response.data));
     },
     addFlashcard() {
       axios
-        .post("http://127.0.0.1:8000/profile/flashcards/cards", {
+        .post("/profile/flashcards/cards", {
           front_side: this.front_side,
           back_side: this.back_side,
           deck: this.selectedDeck,
@@ -488,7 +488,7 @@ export default {
     editFlashcard() {
       axios
         .put(
-          "http://127.0.0.1:8000/profile/flashcards/cards/" +
+          "/profile/flashcards/cards/" +
             this.cardToEdit.id,
           {
             front_side: this.new_front_side,
@@ -505,7 +505,7 @@ export default {
     deleteFlashcard() {
       axios
         .delete(
-          "http://127.0.0.1:8000/profile/flashcards/cards/" + this.cardToDelete
+          "/profile/flashcards/cards/" + this.cardToDelete
         )
         .then(this.getFlashcards);
       this.flashcards = this.flashcards.filter(
@@ -515,7 +515,7 @@ export default {
     },
     getDecks() {
       axios
-        .get("http://127.0.0.1:8000/profile/flashcards/decks")
+        .get("/profile/flashcards/decks")
         .then((response) => (this.decks = response.data));
     },
     openEditModal(cardToEditId) {
