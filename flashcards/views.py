@@ -4,10 +4,8 @@ from .models import Category, Flashcard, Deck
 from .serializers import CategorySerializer, FlashcardSerializer, DeckSerializer
 from django.shortcuts import render
 
-
 def test(request):
     return render(request, "flashcards/index.html", {"banner":  "/media/images/login.original.jpg"})
-
 
 class FlashcardViewSet(viewsets.ModelViewSet):
     """

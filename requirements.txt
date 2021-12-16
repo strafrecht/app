@@ -93,6 +93,7 @@ urllib3==1.26.4
 wagtail==2.13
 wagtail-autocomplete==0.6.3
 wagtail-color-panel==1.2.0
+wagtail-markdown==0.7.0
 wagtail-modelchooser==2.13.1
 wagtailfontawesome==1.2.1
 wagtailmenus==3.0.2

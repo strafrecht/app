@@ -101,7 +101,12 @@ def category_question(request, category_id, question_id):
 
         if request.user:
             question = Question.objects.get(pk=question_id)
-            user = User.objects.get(pk=request.user.id)
+
+            if request.user.id:
+                user = User.objects.get(pk=request.user.id)
+            else:
+                user = User.objects.get(username="anonym")
+
             quiz = Quiz.objects.filter(category__id=category.id).filter(user__id=user.id).filter(completed=False).last()
 
             user_answer = UserAnswer(
@@ -148,7 +153,10 @@ def category_question(request, category_id, question_id):
         questions = Question.objects.filter(category_id=id) | Question.objects.filter(category_id__in=ids)
         question = Question.objects.get(pk=question_id)
         # user
-        user = User.objects.get(pk=request.user.id)
+        if request.user.id:
+            user = User.objects.get(pk=request.user.id)
+        else:
+            user = User.objects.get(username="anonym")
 
         # If user starts a new quiz, create quiz object
         if request.GET.get('state') == 'start':
@@ -544,7 +552,9 @@ def _traverse_category(node, remaining, cat):
             child.save()
 
 def exams(request):
-    return render(request, 'pages/exam_table.html', {})
+    return render(request, 'pages/exam_table.html', {
+        'banner': '/media/original_images/ohnediefrau.png',
+    })
 
 def search_wiki(request, query = False):
     from django.contrib.postgres.search import SearchVector, TrigramSimilarity, TrigramDistance

@@ -129,6 +129,26 @@ class SessionPage(Page):
         ('seminar', 'Seminar')
     ]
     SEMESTER_TYPE_CHOICES = [
+        ('ss-2032', 'Sommersemester 2032'),
+        ('ws-2032', 'Wintersemester 2032'),
+        ('ss-2031', 'Sommersemester 2031'),
+        ('ws-2031', 'Wintersemester 2031'),
+        ('ss-2030', 'Sommersemester 2030'),
+        ('ws-2030', 'Wintersemester 2030'),
+        ('ss-2029', 'Sommersemester 2029'),
+        ('ws-2029', 'Wintersemester 2029'),
+        ('ss-2028', 'Sommersemester 2028'),
+        ('ws-2028', 'Wintersemester 2028'),
+        ('ss-2027', 'Sommersemester 2027'),
+        ('ws-2027', 'Wintersemester 2027'),
+        ('ss-2026', 'Sommersemester 2026'),
+        ('ws-2026', 'Wintersemester 2026'),
+        ('ss-2025', 'Sommersemester 2025'),
+        ('ws-2025', 'Wintersemester 2025'),
+        ('ss-2024', 'Sommersemester 2024'),
+        ('ws-2024', 'Wintersemester 2024'),
+        ('ss-2023', 'Sommersemester 2023'),
+        ('ws-2023', 'Wintersemester 2023'),
         ('ss-2022', 'Sommersemester 2022'),
         ('ws-2022', 'Wintersemester 2022'),
         ('ss-2021', 'Sommersemester 2021'),
@@ -211,7 +231,6 @@ class SessionPage(Page):
     ]
 
     sidebar = StreamField(SidebarBlocks(required=False), blank=True, verbose_name="Seitenleiste")
-
 
     content_panels = [
         FieldRowPanel([

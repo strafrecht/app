@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load wagtailmarkdown %}
 
 {% block extra_css %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/pages/jurcoach.css' %}">
@@ -86,7 +87,7 @@
 	<div class="tea-drinker"></div>
 	<div class="col-md-8 flex-col bg-white rounded p-0">
 		<div class="p-0">
-			<h6 class="p-0 question-title">{{ question.title }}</h6>
+			<h6 class="p-0 question-title">{{ question.title | markdown }}</h6>
 		</div>
 
 		<div class="p-0 mb-2">
@@ -123,9 +124,7 @@
 				<h6 class="correct" hidden>Super! Deine Antwort ist richtig.</h6>
 				<h6 class="false" hidden>Leider falsch.</h6>
 
-				<div>
-					{{ question.description }}
-				</div>
+				<div>{{ question.description | markdown }}</div>
 			</div>
 		</form>
 

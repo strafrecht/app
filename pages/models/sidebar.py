@@ -54,7 +54,8 @@ class SidebarPollChooser(blocks.StructBlock):
 
     def get_context(self, value, parent_context=None):
         ctx = super().get_context(value, parent_context=parent_context)
-        ctx['page'] = {'poll': Poll.objects.get(id=1)}
+        id = value['poll'].id
+        ctx['page'] = {'poll': Poll.objects.get(id=id)}
         return ctx
 
 class SidebarSubscribeBlock(blocks.StructBlock):

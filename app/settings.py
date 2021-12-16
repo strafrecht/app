@@ -103,6 +103,7 @@ INSTALLED_APPS = [
     'wagtail_color_panel',
     'wagtailfontawesome',
     'wagtailautocomplete',
+    'wagtailmarkdown',
 
     'modelcluster',
     'taggit',

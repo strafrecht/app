@@ -35,7 +35,7 @@ class HomeNewsBlock(blocks.StructBlock):
 
     def get_context(self, *a, **kw):
         ctx = super().get_context(*a, **kw)
-        ctx['articles'] = ArticlePage.objects.all()[0:4]
+        ctx['articles'] = ArticlePage.objects.order_by('date')[0:4]
         #ctx['articles'] = []#NewsItem.objects.all()[0:4]
         return ctx
 
