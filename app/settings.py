@@ -36,6 +36,18 @@ SECRET_KEY = '#g*o!3=v$8+ag9%^&llf6h-fhm9zsrjlmb+s0)g&#*b1*8l##w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+LANGUAGE_CODE = 'de'
+TIME_ZONE = 'CET'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+# Languages available
+LANGUAGES = (
+    ('de', 'German'),
+    ('en', 'English'),
+)
+
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
