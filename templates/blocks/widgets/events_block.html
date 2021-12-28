@@ -6,10 +6,10 @@
 
 {% block widget %}
 <div class="">
-    <h3 style="margin-top:30px;font-weight:600;">Veranstaltungen</h3>
+    <h2>Tacheles-Veranstaltungen</h2>
     {% regroup events by get_semester_display as events_by_semester %}
         {% for semester in events_by_semester %}
-            <h4 style="margin-top:30px;font-weight:600;">{{ semester.grouper }}</h4>
+            <h3>{{ semester.grouper }}</h3>
             {% for event in semester.list|dictsortreversed:"date" %}
                 <p style="margin-bottom: 7px;">
                     <a href="{% routablepageurl event.events_page 'event_by_semester' event.semester event.slug %}">{{ event.title }} ({{ event.date|date:"d.m.Y" }})</a>
