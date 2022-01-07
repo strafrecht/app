@@ -1,12 +1,12 @@
 {% load wagtailcore_tags menu_tags %}
 
 <div class="dropdown-menu" aria-labelledby="navbar-dropdown-{{ parent_page.pk }}">
-	{% for sub_item in menu_items %}
-		<a class="dropdown-item" href="{{ sub_item.href }}">{{ sub_item.text }}</a>
-	{% endfor %}
 	{% if item.text == "Jurcoach" %}
 		<a class="dropdown-item" href="/wiki">Problemfeldwiki</a>
 		<a class="dropdown-item" href="/quiz">MCT</a>
 	{% endif %}
+	{% for sub_item in menu_items %}
+		<a class="dropdown-item" href="{{ sub_item.href }}">{{ sub_item.text }}</a>
+	{% endfor %}
 </div>
 
