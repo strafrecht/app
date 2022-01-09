@@ -7,6 +7,8 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.core import urls as wagtail_urls
 
+from core.views import exams
+
 from wagtailpolls.views.vote import vote
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls
 #from birdsong import urls as birdsong_urls
@@ -17,6 +19,8 @@ urlpatterns = [
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('search/', include('pages.urls')),
+
+    path('jurcoach/klausurendatenbank/', exams, name='exams'),
 
     path('notifications/', include('django_nyt.urls')),
 
