@@ -8,6 +8,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.core import urls as wagtail_urls
 
 from core.views import exams
+from profiles.views import login
 
 from wagtailpolls.views.vote import vote
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls
@@ -25,6 +26,7 @@ urlpatterns = [
     path('notifications/', include('django_nyt.urls')),
 
     path('feedback/', include('feedback.urls')),
+    path('accounts/login/', login, name='login'),
     path('profile/flashcards/', include('flashcards.urls')),
 
     path('profile/', include('profiles.urls')),

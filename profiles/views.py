@@ -1,12 +1,23 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from core.models import Quiz, Question, QuestionVersion, UserAnswer, AnswerVersion
 from wiki.models import ArticleRevision
-from django.contrib.auth.decorators import login_required
+from .forms import SignupForm
 
+@login_required
+def profile(request):
+    if request.session.has_key('username'):
+        posts = request.session['username']
+        query = User.objects.filter(username=posts)
+        return render(request, 'profiles/profile.html', {"query":query})
+    else:
+        return render(request, 'profiles/login.html', {})
 
-# Create your views here.
+@login_required
 def index(request):
     quizzes = Quiz.objects.filter(user__id=request.user.id).filter(completed=True)
     return render(request, "profiles/index.html", {
@@ -14,9 +25,11 @@ def index(request):
         "quizzes": quizzes
     })
 
+@login_required
 def flashcards(request):
     return render(request, "profiles/flashcards.html", {"banner": "/media/images/login.original.jpg"})
 
+@login_required
 def quizzes(request):
     filter_by = request.GET.get('filter_by', 'all')
     order_by = request.GET.get('order_by', 'created')
@@ -57,6 +70,7 @@ def quizzes(request):
         "order": order_by
     })
 
+@login_required
 def wiki(request):
     revisions = ArticleRevision.objects.filter(user__id=request.user.id)
     return render(request, "profiles/wiki.html", {
@@ -64,6 +78,7 @@ def wiki(request):
         "revisions": revisions
     })
 
+@login_required
 def quiz_summary(request, id):
     quiz = Quiz.objects.get(pk=id)
     return render(request, "profiles/quiz_summary.html", {
@@ -75,34 +90,35 @@ def login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password =  request.POST['password']
-        post = User.objects.filter(username=username)
-        if post:
-            username = request.POST['username']
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            auth_login(request, user)
             request.session['username'] = username
             return redirect("profile:index")
-        else:
-            return render(request, 'profiles/login.html', {})
     return render(request, 'profiles/login.html', {})
 
 def register(request):
-    if request.session.has_key('username'):
-        posts = request.session['username']
-        query = User.objects.filter(username=posts)
-        return render(request, 'profiles/index.html', {"query":query})
-    else:
-        return render(request, 'profiles/register.html', {})
+    form = SignupForm()
 
-def profile(request):
-    if request.session.has_key('username'):
-        posts = request.session['username']
-        query = User.objects.filter(username=posts)
-        return render(request, 'profiles/profile.html', {"query":query})
-    else:
-        return render(request, 'profiles/login.html', {})
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+
+        for item in request.POST.items(): print(item)
+
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            auth_login(request, user)
+            return redirect('/')
+        else:
+            print(form.errors)
+    return render(request, 'profiles/register.html', {'form': form})
+
 
 def logout(request):
-    try:
-        del request.session['username']
-    except:
-     pass
+    auth_logout(request)
     return render(request, 'profiles/login.html', {})

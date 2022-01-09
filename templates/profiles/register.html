@@ -18,8 +18,10 @@
     <v-card width="600px" class="mx-auto mt-5" outlined>
       <v-card-title class="pb-0">Registrierung</v-card-title>
       <v-card-text>
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-form v-model="valid" method="POST" id="register_form" action="{% url 'profile:register' %}">
+          {% csrf_token %}
           <v-text-field
+            name="email"
             v-model="email"
             :rules="emailRules"
             prepend-icon="mdi-email"
@@ -28,6 +30,7 @@
           ></v-text-field>
 
           <v-text-field
+            name="username"
             v-model="name"
             :counter="20"
             :rules="nameRules"
@@ -37,6 +40,7 @@
           ></v-text-field>
 
           <v-text-field
+            name="password1"
             v-model="password"
             :rules="passwordRules"
             :type="showPassword ? 'text' : 'password'"
@@ -48,9 +52,9 @@
           ></v-text-field>
 
             <v-text-field
-              v-model="confirmPassword"
+              name="password2"
+              v-model="confirm_password"
               label="Bestätige das Passwort"
-              name="confirmPassword"
               prepend-icon="mdi-lock"
               type="password"
               :rules="confirmPasswordRules"></v-text-field>
@@ -84,7 +88,7 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-col class="text-right">
-          <v-btn color="success">Registrieren</v-btn>
+          <v-btn color="success" form="register_form" type="submit">Registrieren</v-btn>
         </v-col>
       </v-card-actions>
     </v-card>
@@ -93,56 +97,55 @@
 </div>
 
 <script>
-    new Vue({
-        el: '#app',
-        vuetify: new Vuetify(),
-        data() {
-                    return {
-
-    showPassword: false,
-    valid: true,
-    name: "",
-    nameRules: [
-      (v) => !!v || "Bitte gib einen Nutzernamen ein.",
-      (v) =>
-        (v && v.length <= 20) ||
-        "Der Nutzername darf maximal 20 Zeichen lang sein.",
-    ],
-    password: "",
-    confirmpassword: "",
-    passwordRules: [
-      (v) => !!v || "Bitte gib ein Passwort ein.",
-      (v) =>
-        (v && v.length >= 6) || "Das Passwort muss länger als 6 Zeichen sein.",
-      (v) =>
-        (v && v.length <= 40) ||
-        "Das Passwort muss kürzer als 40 Zeichen sein.",
-    ],
-    confirmPasswordRules: [
-        (v) => !!v || 'Bestätige das Passwort durch nochmalige Eingabe.',
-        (v) =>
-          v === this.password || 'Das Passwort stimmt nicht mit dem zuvor eingegebenen überein.',
-    ],
-    email: "",
-    emailRules: [
-      (v) => !!v || "Bitte gib eine E-Mail-Adresse ein.",
-      (v) =>
-        /.+@.+\..+/.test(v) || "Bitte gib eine gültige E-Mail-Adresse ein.",
-    ],
+  new Vue({
+    el: '#app',
+    vuetify: new Vuetify(),
+    data() {
+      return {
+        showPassword: false,
+        valid: true,
+        name: "",
+        nameRules: [
+          (v) => !!v || "Bitte gib einen Nutzernamen ein.",
+          (v) =>
+            (v && v.length <= 20) ||
+            "Der Nutzername darf maximal 20 Zeichen lang sein.",
+        ],
+        password: "",
+        confirmpassword: "",
+        passwordRules: [
+          (v) => !!v || "Bitte gib ein Passwort ein.",
+          (v) =>
+            (v && v.length >= 6) || "Das Passwort muss länger als 6 Zeichen sein.",
+          (v) =>
+            (v && v.length <= 40) ||
+            "Das Passwort muss kürzer als 40 Zeichen sein.",
+        ],
+        confirmPasswordRules: [
+            (v) => !!v || 'Bestätige das Passwort durch nochmalige Eingabe.',
+            (v) =>
+              v === this.password || 'Das Passwort stimmt nicht mit dem zuvor eingegebenen überein.',
+        ],
+        email: "",
+        emailRules: [
+          (v) => !!v || "Bitte gib eine E-Mail-Adresse ein.",
+          (v) =>
+            /.+@.+\..+/.test(v) || "Bitte gib eine gültige E-Mail-Adresse ein.",
+        ],
       };
-  },
-          methods: {
-    validate() {
-      this.$refs.form.validate();
     },
-    reset() {
-      this.$refs.form.reset();
+    methods: {
+      validate() {
+        this.$refs.form.validate();
+      },
+      reset() {
+        this.$refs.form.reset();
+      },
+      resetValidation() {
+        this.$refs.form.resetValidation();
+      },
     },
-    resetValidation() {
-      this.$refs.form.resetValidation();
-    },
-  },
-    })
+  })
 </script>
 
 {% endblock %}
