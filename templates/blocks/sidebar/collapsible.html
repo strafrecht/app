@@ -1,0 +1,16 @@
+<div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn collapsed" data-toggle="collapse" data-target="#{{ value.heading|slugify }}" aria-expanded="false" aria-controls="{{ value.heading|slugify }}" style="font-weight:700;font-family:'Roboto Slab';font-size:1.2rem;">
+          {{ value.heading }}
+        </button>
+      </h5>
+    </div>
+    <div id="{{ value.heading|slugify }}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body">
+        {{ value.content }} 
+      </div>
+    </div>
+  </div>
+</div>
