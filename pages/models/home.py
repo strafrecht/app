@@ -42,10 +42,21 @@ class HomeNewsBlock(blocks.StructBlock):
 class HomeJurcoachBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/widgets/home_jurcoach.html'
+        
+
+class CollapseBlock(blocks.StructBlock):
+    heading = blocks.CharBlock(required=True)
+    content = blocks.RichTextBlock(label="Formatierter Text")
+    class Meta:
+        icon = "fa-compress"
+        template = 'blocks/sidebar/collapsible.html'
+        group = "Layout"
+        label = "Ausklappbares Element"
 
 # Sidebar Blocks
 class ContentBlocks(blocks.StreamBlock):
     richtext = blocks.RichTextBlock(label="Formatierter Text")
+    collapse_block = CollapseBlock(label="Ausklappbares Element")
     home_news_block = HomeNewsBlock(label="Vier letzte News-Beiträge")
     home_jurcoach_block = HomeJurcoachBlock(label="Jurcoach-Startseiten-Widget")
 
