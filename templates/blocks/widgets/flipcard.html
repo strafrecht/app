@@ -1,5 +1,5 @@
 {% block widget %}
-<div class="flip-card">
+<div class="flip-card-widget">
   <div class="flip-card-inner">
     <div class="flip-card-front">
     <div class="vertical-middle">
@@ -13,4 +13,27 @@
     </div>
   </div>
 </div>
+
+<script>
+function compare(num1, num2) {
+    if (num1 > num2) {
+        return num1;
+    } else if (num2 > num1) {
+        return num2;
+    } else {
+        return num1;
+    }
+}
+let elements = document.querySelectorAll('.flip-card-widget');
+elements.forEach(function(card, index) {
+    setTimeout(function() {
+        let front = card.querySelector('.flip-card-front');
+        let back = card.querySelector('.flip-card-back');
+        let frontheight = front.offsetHeight;
+        let backheight = back.offsetHeight;
+        let totalheight = compare(frontheight, backheight);
+        card.style.height = totalheight + 'px';
+    }, 500);
+});
+</script>
 {% endblock %}
