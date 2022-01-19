@@ -53,8 +53,8 @@ class CollapseBlock(blocks.StructBlock):
         label = 'Ausklappbares Element'
         
 class FlipcardBlock(blocks.StructBlock):
-    front = blocks.RichTextBlock(label="Formatierter Text")
-    back = blocks.RichTextBlock(label="Formatierter Text")
+    front = blocks.RichTextBlock(label="Vorderseite")
+    back = blocks.RichTextBlock(label="Rückseite")
     class Meta:
         icon = 'fa-graduation-cap'
         template = 'blocks/widgets/flipcard.html'
