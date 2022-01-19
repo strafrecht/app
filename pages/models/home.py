@@ -48,10 +48,9 @@ class CollapseBlock(blocks.StructBlock):
     heading = blocks.CharBlock(required=True)
     content = blocks.RichTextBlock(label="Formatierter Text")
     class Meta:
-        icon = "fa-compress"
+        icon = 'fa-compress'
         template = 'blocks/sidebar/collapsible.html'
-        group = "Layout"
-        label = "Ausklappbares Element"
+        label = 'Ausklappbares Element'
 
 # Sidebar Blocks
 class ContentBlocks(blocks.StreamBlock):
