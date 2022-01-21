@@ -1,12 +1,12 @@
 {% block widget %}
 <div class="flip-card-widget">
-  <div class="flip-card-inner">
-    <div class="flip-card-front">
+  <div class="flip-card-widget-inner">
+    <div class="flip-card-widget-front">
     <div class="vertical-middle">
       {{ value.front }}
       </div>
     </div>
-    <div class="flip-card-back">
+    <div class="flip-card-widget-back">
     <div class="vertical-middle">
       {{ value.back }}
       </div>
@@ -27,8 +27,8 @@ function compare(num1, num2) {
 let elements = document.querySelectorAll('.flip-card-widget');
 elements.forEach(function(card, index) {
     setTimeout(function() {
-        let front = card.querySelector('.flip-card-front');
-        let back = card.querySelector('.flip-card-back');
+        let front = card.querySelector('.flip-card-widget-front');
+        let back = card.querySelector('.flip-card-widget-back');
         let frontheight = front.offsetHeight;
         let backheight = back.offsetHeight;
         let totalheight = compare(frontheight, backheight);
