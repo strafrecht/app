@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+from . import vars # container environment specific vars
 import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -31,10 +32,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#g*o!3=v$8+ag9%^&llf6h-fhm9zsrjlmb+s0)g&#*b1*8l##w'
+SECRET_KEY = envs = vars.vars["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = vars.vars["DEBUG"]
 
 LANGUAGE_CODE = 'de'
 TIME_ZONE = 'CET'
@@ -48,13 +49,7 @@ LANGUAGES = (
     ('en', 'English'),
 )
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'bd3b44d2f1b0.ngrok.io',
-    'app',
-    'beta.strafrecht-online.org'
-]
+ALLOWED_HOSTS = vars.vars["ALLOWED_HOSTS"]
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -232,19 +227,7 @@ else:
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'strafrecht',
-        'USER': 'django',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '',
-        'TEST': {
-            'NAME': 'django_tests',
-        },
-    },
-}
+DATABASES = vars.vars["DATABASES"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
