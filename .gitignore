@@ -5,8 +5,8 @@
 __pycache__
 db.sqlite3
 frontend/node_modules/
-static/
 /media/
+static_assets/*
 core/scrape/@redirects/
 app/vars.py
 

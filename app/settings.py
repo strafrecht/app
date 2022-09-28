@@ -273,9 +273,9 @@ PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_assets')
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
 
@@ -286,6 +286,7 @@ STATICFILES_FINDERS = (
 )
 
 STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, 'frontend/build')
 ]
 
@@ -309,6 +310,7 @@ PIPELINE = {
     'STYLESHEETS': {
         'base': {
             'source_filenames': (
+                'css/app.css',
                 'css/base.css',
                 'css/bootstrap.css',
                 'css/charts.css'
@@ -319,6 +321,7 @@ PIPELINE = {
                 'css/sidebar.css',
                 'css/wiki.css',
                 'css/comments.css',
+                'css/person_index_page.css',
             ),
             'output_filename': 'css/main.css',
         },
@@ -405,19 +408,19 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': '/static/images/icon.png',
+        'src': '/assets/images/icon.png',
         'size': '160x160'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': '/static/images/icon.png',
+        'src': '/assets/images/icon.png',
         'size': '160x160'
     }
 ]
 PWA_APP_SPLASH_SCREEN = [
     {
-        'src': '/static/images/icon.png',
+        'src': '/assets/images/icon.png',
         'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
     }
 ]

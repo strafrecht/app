@@ -1,0 +1,16 @@
+.article-edit-form ul ul {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.article-edit-form ul li ul {
+    width: 100%;
+}
+
+.article-edit-form ul li ul li fieldset {
+    margin: 0px !important;
+}
+
+.article-edit-form ul li ul li {
+    width: 100% !important;
+}

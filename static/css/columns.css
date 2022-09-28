@@ -1,0 +1,22 @@
+.columns-block {
+	display: flex;
+}
+
+.columns-block > ul {
+	display: flex;
+}
+.columns-block > ul > li {
+	display: flex;
+	flex-direction: column;
+	padding: 0 20px;
+	min-width: 200px;
+}
+.columns-block > ul > li label {
+	width: max-content;
+}
+
+@media screen and (max-width: 800px) {
+	.columns-block > ul {
+		flex-direction: column;
+	}
+}

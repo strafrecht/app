@@ -1,0 +1,35 @@
+.session-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.session-content ul .field-col {
+    width: 100% !important;
+}
+.session-content ul .field-col .field {
+    display: flex;
+    flex-direction: column;
+}
+
+.session-content > .session-content {
+    width: 100%;
+}
+
+.session-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+li.session-sidebar > .session-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+li.session-sidebar .block_widget {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+li.session-sidebar .block_widget .field-content {
+    width: 100%;
+}

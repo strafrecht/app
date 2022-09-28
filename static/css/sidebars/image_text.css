@@ -1,0 +1,13 @@
+.sidebar-image-text {
+	display: flex;
+	flex-direction: row;
+}
+
+.sidebar-image-text div:first-of-type {
+	min-width: 100px;
+	width: 33.333333333%;
+}
+.sidebar-image-text div:last-of-type {
+	padding-left: 10px;
+	width: 66:666666666%;
+}
