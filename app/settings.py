@@ -275,7 +275,7 @@ PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_URL = '/assets/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_assets')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
 
@@ -286,7 +286,6 @@ STATICFILES_FINDERS = (
 )
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, 'frontend/build')
 ]
 
@@ -330,7 +329,6 @@ PIPELINE = {
         'base': {
             'source_filenames': (
                 'js/index.js',
-                #'js/mysite.js',
                 #'js/editor.js',
                 #'js/chartist.js',
                 #'js/chartist-plugin-fill-donut.js',
