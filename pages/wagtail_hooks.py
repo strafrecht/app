@@ -89,7 +89,7 @@ def register_roofline_feature(features):
     }
 
     features.register_editor_plugin(
-        'draftail', feature_name, draftail_features.BlockFeature(control, css={'all': ['base.css']})
+        'draftail', feature_name, draftail_features.BlockFeature(control, css={'all': ['css/base.css']})
     )
 
     features.register_converter_rule('contentstate', feature_name, {
@@ -112,7 +112,7 @@ def register_revised_label_feature(features):
     }
 
     features.register_editor_plugin(
-        'draftail', feature_name, draftail_features.BlockFeature(control, css={'all': ['base.css']})
+        'draftail', feature_name, draftail_features.BlockFeature(control, css={'all': ['css/base.css']})
     )
 
     features.register_converter_rule('contentstate', feature_name, {
@@ -129,13 +129,13 @@ def register_new_label_feature(features):
 
     control = {
         'type': type_,
-        'label': '☝️',        
-        'description': 'Neu Label',        
+        'label': '☝️',
+        'description': 'Neu Label',
         'element': 'div',
     }
 
     features.register_editor_plugin(
-        'draftail', feature_name, draftail_features.BlockFeature(control, css={'all': ['base.css']})
+        'draftail', feature_name, draftail_features.BlockFeature(control, css={'all': ['css/base.css']})
     )
 
     features.register_converter_rule('contentstate', feature_name, {
