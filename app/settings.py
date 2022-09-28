@@ -297,7 +297,7 @@ MEDIA_URL = '/media/'
 SITE_ID = 1
 
 PIPELINE = {
-    'PIPELINE_ENABLED': False, #not DEBUG
+    'PIPELINE_ENABLED': not vars.vars["DEBUG"], #not DEBUG
     'COMPILERS': (
         'pipeline.compilers.sass.SASSCompiler',
         'pipeline.compilers.es6.ES6Compiler'
@@ -406,13 +406,13 @@ PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
         'src': '/static/images/icon.png',
-        'sizes': '160x160'
+        'size': '160x160'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
         'src': '/static/images/icon.png',
-        'sizes': '160x160'
+        'size': '160x160'
     }
 ]
 PWA_APP_SPLASH_SCREEN = [
