@@ -61,6 +61,7 @@
     "swiper": "^6.8.4",
     "vue": "^2.6.12",
     "vuetify": "^1.4.7",
-    "vuetify-avatar-uploader": "^0.3.0"
+    "vuetify-avatar-uploader": "^0.3.0",
+    "yuglify": "2.0.0"
   }
 }
