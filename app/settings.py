@@ -432,3 +432,22 @@ AVATAR_MAX_AVATARS_PER_USER = '1'
 COMMENTS_APP = 'django_comments_xtd'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': vars.vars["LOGGING"]["filename"],
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': vars.vars["LOGGING"]["level"],
+            'propagate': True,
+        },
+    },
+}

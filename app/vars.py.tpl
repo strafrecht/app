@@ -1,6 +1,6 @@
 vars = {
     "DEBUG": True,
-    "SECRET_KEY": '#g*o!3=v$8+ag9%^&llf6h-fhm9zsrjlmb+s0)g&#*b1*8l##w',
+    "SECRET_KEY": 'eo3taeleev0ZeiReeteer9Xeepoor3quai7poorai1laishaeshohmaej6weiC3e',
     "ALLOWED_HOSTS": [
         'localhost',
         '127.0.0.1',
@@ -17,5 +17,9 @@ vars = {
                 'NAME': 'django_tests',
             },
         },
+    },
+    "LOGGING": {
+        "filename": "../log/development.log",
+        "level": "DEBUG",
     }
 }
