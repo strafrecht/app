@@ -4,7 +4,6 @@
 {% load wagtailmarkdown %}
 
 {% block extra_css %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/pages/jurcoach.css' %}">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<style>
 	.tabbed figure {
@@ -141,7 +140,7 @@
 				e.preventDefault();
 
 				var correct = true;
-					
+
 				for (i = 0; i < answers.length; i++) {
 					answer = answers[i]
 					answer.disabled = true
@@ -153,7 +152,7 @@
 							answers[i].parentNode.classList.add('check-icon')
 						} else {
 							answers[i].parentNode.classList.add('dash-icon')
-						} 
+						}
 						answers[i].parentNode.classList.add('mct-correct-answer')
 					} else {
 						if (answer.checked) {
@@ -161,7 +160,7 @@
 							answers[i].parentNode.classList.add('dash-icon')
 						} else {
 							answers[i].parentNode.classList.add('check-icon')
-						} 
+						}
 					}
 				}
 
