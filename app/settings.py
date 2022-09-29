@@ -167,7 +167,7 @@ INSTALLED_APPS = [
     # cors-headers
     'corsheaders',
 
-]
+] + vars.vars.get("DEV_APPS", [])
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

@@ -14,12 +14,15 @@ vars = {
             'HOST': 'localhost',
             'PORT': '5434',
             'TEST': {
-                'NAME': 'django_tests',
+                'NAME': 'strafrecht_test',
             },
         },
     },
     "LOGGING": {
         "filename": "../log/development.log",
         "level": "DEBUG",
-    }
+    },
+    "DEV_APPS": [
+    	"django_extensions",
+    ],
 }
