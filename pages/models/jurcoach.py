@@ -44,11 +44,11 @@ class JurcoachCarousel(Orderable):
              FieldPanel('carousel_description', classname="col-12"),
              FieldPanel('carousel_link_text', classname="col-12"),
              FieldPanel('carousel_link_url', classname="col-12"),]
-    
+
 class JurcoachPage(Page):
     class Meta:
         verbose_name='Jurcoach-Startseite'
-        
+
     body = RichTextField(blank=True)
     header = models.ForeignKey(
         'wagtailimages.Image',
@@ -65,7 +65,7 @@ class JurcoachPage(Page):
     carousel_headline = models.CharField('Slider-Überschrift', max_length=200, null=True, blank=True)
     contribution_headline = models.CharField('Mitmachfunktionen-Überschrift', max_length=200, null=True, blank=True)
     contribution_description = RichTextField(null=True, blank=True, verbose_name='Mitmachfunktionen-Beschreibung')
-    
+
     poll = models.ForeignKey(
         Poll,
         null=True,
@@ -78,7 +78,7 @@ class JurcoachPage(Page):
         context = super().get_context(request)
         context['poll'] = self
         return context
-    
+
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [ImageChooserPanel('header'),
@@ -107,4 +107,3 @@ class JurcoachPage(Page):
             heading='Footer',
         ),
     ]
-    

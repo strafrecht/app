@@ -529,7 +529,7 @@ def on_error(e):
 #        return None
 
 def _create_category(node, cat):
-    # 
+    #
     remaining = deque(cat["root"].split("/")[1:])
     traverse_category(node, remaining, cat)
 

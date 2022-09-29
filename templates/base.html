@@ -44,7 +44,6 @@
 
 			<!-- Needs to be moved to frontend/ -->
 			{% stylesheet 'base' %}
-			{% stylesheet 'sidebar' %}
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
@@ -52,7 +51,7 @@
     </head>
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-	    
+
 		{% block headersection %}
 			{% if page|banner or banner %}
 				<div class="with-header">
@@ -90,7 +89,7 @@
 			</section>
 			{% endif %}
 		{% endblock %}
-	    
+
 		{% block breadcrumbmenu %}
 			<div style="display: flex; justify-content: center;">
 			{% if self.get_ancestors|length > 1 %}
@@ -111,7 +110,7 @@
 			</div>
 		{% endblock %}
 
-	
+
 				{% if page.slug != "strafrecht-online" %}
 				<main role="main" class="{% if page.slug == 'jurcoach' %}'w-full'{% else %}container{% endif %}">
 					<div class="container-inner flex-column flex-md-row p-0 w-full">
@@ -133,7 +132,7 @@
 				</main>
 				{% endif %}
 
-				<footer class="footer">			
+				<footer class="footer">
 					<div class="container">
 						<div class="flex-item">
 							<p class="logo"></p>
@@ -194,7 +193,6 @@
 		chatHeadline.insertAfter( result );
 		</script>
 		-->
-		<script src="{% static 'js/vendors.js' %}"></script>
 		<script src="{% static 'js/app.js' %}"></script>
 
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
