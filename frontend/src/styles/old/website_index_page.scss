@@ -33,84 +33,37 @@
   text-overflow: ellipsis;
 }
 
-.news {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.news .item {
-  margin-bottom: 30px;
-  width: 50%;
-}
-
-.news .item:nth-child(odd) {
-  padding-right: 10px;
-}
-
-.news .item h5 {
-  font-size: 18px;
-  margin: 0;
-}
-
-.news .item p {
-  margin-bottom: 0;
-  margin-top: 5px;
-}
-
-.news .item .date {
-  color: darkgray;
-  font-size: 12px;
-  margin-top: 0;
-  margin-right: 10px;
-}
-
-.news .item .comments {
-  color: #555;
-  display: inherit;
-  font-size: 12px;
-  margin-top: 5px !important;
-}
-
-.news .item .comments i {
-  margin-right: 5px;
-}
-
 .newsletter {
   padding-bottom: 20px;
-}
 
-.newsletter a:hover {
-  text-decoration: none !important;
-  color: #777 !important;
-}
+  a:hover {
+    text-decoration: none !important;
+    color: #777 !important;
+  }
 
-.newsletter h2 {
-  color: black;
-  font-family: Crimson, sans-serif;
-  font-size: 26px;
-  font-weight: 700;
-  margin-top: 10px;
-  margin-bottom: 0;
-}
+  h2 {
+    color: black;
+    font-family: Crimson, sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
 
-.newsletter .date {
-  color: darkgray;
-  font-size: 12px;
-  margin-bottom: 10px;
-  margin-top: 0;
-}
+  .date {
+    color: darkgray;
+    font-size: 12px;
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
 
-.newsletter p {
-  font-family: Crimson, sans-serif;
-  font-size: 14px;
-  color: #555;
-  margin-top: 10px;
-  margin-bottom: 0;
-}
-
-.top {
-  display: flex;
+  p {
+    font-family: Crimson, sans-serif;
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
 }
 
 .left {
@@ -118,26 +71,26 @@
   padding-right: 20px;
   max-width: 800px;
   flex-grow: 1;
-}
 
-.left section {
-  border-bottom: 1px solid #eee;
-  margin-bottom: 20px;
-}
+  section {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
 
-.left section h5 {
-  font-family: Crimson, sans-serif;
-  font-weight: 700;
-}
+    h5 {
+      font-family: Crimson, sans-serif;
+      font-weight: 700;
+    }
 
-.left section p {
-  color: #555;
-  font-family: Crimson, sans-serif;
-  font-size: 14px;
-}
+    p {
+      color: #555;
+      font-family: Crimson, sans-serif;
+      font-size: 14px;
+    }
 
-.left section:last-of-type {
-  border-bottom: none;
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
 }
 
 .right {
@@ -145,35 +98,82 @@
   flex-direction: column;
   max-width: 300px;
   margin-left: 20px;
+
+  .item {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+
+    &:last-of-type {
+      border: none;
+    }
+
+    h5 {
+      font-family: Crimson, sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    p {
+      font-family: Crimson, sans-serif;
+      font-size: 14px;
+    }
+
+    a {
+      color: teal;
+      font-family: Crimson, sans-serif;
+      font-size: 14px;
+      display: block;
+      margin: 5px 0;
+    }
+  }
 }
 
-.right .item {
-  border-bottom: 1px solid #eee;
-  margin-bottom: 20px;
+.news {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .item {
+    margin-bottom: 30px;
+    width: 50%;
+
+    &:nth-child(odd) {
+      padding-right: 10px;
+    }
+  }
+
+  .item h5 {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .item p {
+    margin-bottom: 0;
+    margin-top: 5px;
+  }
+
+  .item .date {
+    color: darkgray;
+    font-size: 12px;
+    margin-top: 0;
+    margin-right: 10px;
+  }
+
+  .item .comments {
+    color: #555;
+    display: inherit;
+    font-size: 12px;
+    margin-top: 5px !important;
+
+    i {
+      margin-right: 5px;
+    }
+  }
 }
 
-.right .item:last-of-type {
-  border: none;
-}
-
-.right .item h5 {
-  font-family: Crimson, sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  margin-top: 10px;
-}
-
-.right .item p {
-  font-family: Crimson, sans-serif;
-  font-size: 14px;
-}
-
-.right .item a {
-  color: teal;
-  font-family: Crimson, sans-serif;
-  font-size: 14px;
-  display: block;
-  margin: 5px 0;
+.top {
+  display: flex;
 }
 
 @media screen and (max-width: $container-width) {

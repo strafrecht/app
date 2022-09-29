@@ -13,6 +13,19 @@ body {
   font-family: sans-serif;
 }
 
+.breadcrumb-new {
+  font-size: 0.8em;
+  max-width: $container-width;
+  margin: 0 auto;
+  top: 30px;
+  position: relative;
+
+  a {
+    font-weight: 300 !important;
+    font-size: inherit !important;
+  }
+}
+
 h2 {
   font-size: 28px;
   font-weight: 800 !important;
@@ -60,6 +73,7 @@ h3::after {
 
 // SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
+@import "inline_icons.scss";
 @import "old/base.scss";
 @import "pages/jurcoach.scss";
 @import "pages/quiz.scss";
@@ -153,19 +167,6 @@ main.container > div > .container {
   font-size: 1.2rem !important;
   margin-bottom: 0;
   background: none;
-}
-
-.breadcrumb-new {
-  font-size: 0.8em;
-  max-width: $container-width;
-  margin: 0 auto;
-  top: 30px;
-  position: relative;
-}
-
-.breadcrumb-new a {
-  font-weight: 300 !important;
-  font-size: inherit !important;
 }
 
 #quiz-category-question .h2-wrapper-container {
