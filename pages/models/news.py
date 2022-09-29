@@ -34,7 +34,7 @@ from django.shortcuts import get_object_or_404, render
 class ArticleListBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/widgets/news_list.html'
-        
+
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
         news_article_pages = ArticlePage.objects.filter(live=True, is_evaluation=False).order_by('-date')
@@ -102,13 +102,13 @@ class ArticlesPage(RoutablePageMixin, Page):
     class Meta:
         verbose_name="News-Index-Seite"
         verbose_name_plural="News-Index-Seiten"
-        
+
     content = StreamField([
         ('content', ArticlesContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
     }, verbose_name="Hauptspalte")
-    
+
     sidebar = StreamField(ArticleSidebarBlocks(required=False), verbose_name="Seitenleiste")
 
     content_panels = [
@@ -135,7 +135,7 @@ class ArticlePage(Page):
     class Meta:
         verbose_name="News-Artikel"
         verbose_name_plural="News-Artikel"
-        
+
     author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True, verbose_name="Autor*in")
     date = models.DateField('Datum')
     body = RichTextField(blank=True, verbose_name="News-Artikel-Text")
@@ -143,7 +143,6 @@ class ArticlePage(Page):
     is_evaluation = models.BooleanField(default=False, verbose_name="Handelt es sich um eine Abstimmungsauswertung?")
 
     search_fields = Page.search_fields + [
-        index.SearchField('intro'),
         index.SearchField('body'),
         index.FilterField('is_evaluation'),
     ]
@@ -230,7 +229,7 @@ class EvaluationsPage(Page):
     class Meta:
         verbose_name="Abstimmungen-Index-Seite"
         verbose_name_plural="Abstimmungen-Index-Seiten"
-        
+
     def get_context(self, request):
         context = super().get_context(request)
         context['request'] = request
@@ -259,7 +258,7 @@ class NewslettersPage(Page):
     class Meta:
         verbose_name="Newsletter-Seite"
         verbose_name_plural="Newsletter-Seiten"
-        
+
     content = StreamField([
         ('content', NewslettersContentBlocks(label="Hauptspalte")),
     ], block_counts={
