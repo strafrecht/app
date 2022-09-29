@@ -1,45 +1,44 @@
 .sidebar-header {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar-header > div {
-	position: relative;
+  position: relative;
 }
 
 .sidebar-header .header {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
 }
 
 .sidebar-header .image {
-	position: absolute;
-	top: 0;
+  position: absolute;
+  top: 0;
 }
 
 .sidebar-header .title {
-	background-size: cover !important;
-	background-position-x: center !important;
-	background-repeat: no-repeat !important;
-	text-align: center;
-	padding-top: 50px;
-	width: 100%;
+  background-size: cover !important;
+  background-position-x: center !important;
+  background-repeat: no-repeat !important;
+  text-align: center;
+  padding-top: 50px;
+  width: 100%;
 }
 
 .sidebar-header .title .title-text {
-	background: rgba(255, 255, 255, 0.55);
-	font-size: 1rem;
-	color: #333d44;
-	font-weight: 300;
-	text-transform: uppercase;
-	padding: 5px 0;
-	font-family: $serif-font !important;
-	font-weight: 900;
+  background: rgba(255, 255, 255, 0.55);
+  font-size: 1rem;
+  color: #333d44;
+  text-transform: uppercase;
+  padding: 5px 0;
+  font-family: $serif-font !important;
+  font-weight: 900;
 }
 
 .sidebar-header .text {
-	font-size: 14px;
-	padding-top: 10px;
+  font-size: 14px;
+  padding-top: 10px;
 }

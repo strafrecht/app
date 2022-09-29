@@ -1,9 +1,9 @@
 $body-color: #3d3d3d;
-$yellow: #FFE200;
-$green: #ADD345;
-$red: #CE0000;
-$bg-gray: #E8E7DF;
-$line-gray:#E8E7E0;
+$yellow: #ffe200;
+$green: #add345;
+$red: #ce0000;
+$bg-gray: #e8e7df;
+$line-gray:#e8e7e0;
 $serif-font: 'Roboto Slab';
 $container-width: 960px;
 
@@ -14,50 +14,50 @@ body {
 }
 
 h2 {
-    font-size: 28px;
-    font-weight: 800 !important;
-    font-family: $serif-font;
-    background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #E8E7DF 20px, #E8E7DF 45px) !important;
-    line-height: 45px !important;
-    display: inline !important;
-
-    xline-height: 0px !important;
-    margin-bottom: 20px !important;
+  font-size: 28px;
+  font-weight: 800 !important;
+  font-family: $serif-font;
+  background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #e8e7df 20px, #e8e7df 45px) !important;
+  line-height: 45px !important;
+  display: inline !important;
+  margin-bottom: 20px !important;
 }
 
 h3,
 h3 b {
-    color: #333 !important;
-    font-family: $serif-font;
-    font-size: 1.2rem !important;
-    font-weight: 800 !important;
-    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #E8E7DF 14px, #E8E7DF 32px);
-    line-height: 32px !important;
-    display: inline !important;
-
-    line-height: 0px !important;
-    margin-bottom: 20px !important;
+  color: #333 !important;
+  font-family: $serif-font;
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #e8e7df 14px, #e8e7df 32px);
+  line-height: 32px !important;
+  line-height: 0 !important;
+  display: inline !important;
+  margin-bottom: 20px !important;
 }
 
-h2:before,
-h2:after,
-h3:before,
-h3:after {
-    content: '\A';
-    white-space: pre;
+h2::before,
+h2::after,
+h3::before,
+h3::after {
+  content: '\A';
+  white-space: pre;
 }
+
 .block-richtext h2 a,
 .block-richtext h3 a {
-    text-decoration: none;
-    color: inherit;
-    font-family: inherit;
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
 }
+
 .block-richtext h2 a:hover,
 .block-richtext h3 a:hover {
-    text-decoration: none;
-    color: inherit;
-    font-family: inherit;
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
 }
+
 // SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
 @import "old/base.scss";
@@ -94,96 +94,99 @@ h3:after {
 @import "old/sidebars/image_text.css";
 
 .jurcoach-links-widgets {
-    position: relative;
+  position: relative;
 }
 
-
 .block-sidebar {
-    width: 100%;
+  width: 100%;
 }
 
 .article-edit-form {
-    border: 1px solid red !important;
-    display: flex !important;
-    flex-direction: column !important;
+  border: 1px solid red !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 main.container {
-    background: white;
-    max-width: $container-width;
+  background: white;
+  max-width: $container-width;
 }
+
 main > .container-inner > .content {
-    flex-grow: 1;
-    max-width: 720px;
-    max-width: 960px;
+  flex-grow: 1;
+  max-width: 720px;
+  max-width: 960px;
 }
 
 main.container,
 main.container > div > .container {
-    padding: 0px !important;
+  padding: 0 !important;
 }
+
 .container-inner {
-    display: flex;
+  display: flex;
 }
 
 .header-text {
-	color: #ffffff;
-	text-align: center;
- }
+  color: #fff;
+  text-align: center;
+}
 
 .header-text h2,
 .header-text h2 > p {
-	font-size: 2.5rem !important;
-	font-weight: 300 !important;
-	font-family: $serif-font !important;
-	text-shadow: 0px 3px 10px #000000 !important;
-	background: none;
-	display: inline !important;
-	line-height: 3rem;
- }
-.header-text h2,
-.header-text h3{
-    background: none !important;
+  font-size: 2.5rem !important;
+  font-weight: 300 !important;
+  font-family: $serif-font !important;
+  text-shadow: 0 3px 10px #000 !important;
+  background: none;
+  display: inline !important;
+  line-height: 3rem;
 }
+
+.header-text h2,
+.header-text h3 {
+  background: none !important;
+}
+
 .container.header-text > p {
-	text-shadow: 0px 3px 15px #000000 !important;
-	font-size: 1.2rem !important;
-	margin-bottom: 0px;
-	background: none;
- }
+  text-shadow: 0 3px 15px #000 !important;
+  font-size: 1.2rem !important;
+  margin-bottom: 0;
+  background: none;
+}
 
 .breadcrumb-new {
-    font-size: 0.8em;
-    max-width: $container-width;
-    margin: 0 auto;
-    top: 30px;
-    position: relative;
+  font-size: 0.8em;
+  max-width: $container-width;
+  margin: 0 auto;
+  top: 30px;
+  position: relative;
 }
 
 .breadcrumb-new a {
-    font-weight: 300 !important;
-    font-size: inherit !important;
+  font-weight: 300 !important;
+  font-size: inherit !important;
 }
 
 #quiz-category-question .h2-wrapper-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
 }
 
 #quiz-category-question .h2-wrapper {
-    display: inline-block;
-    font-size: 28px;
-    font-weight: 800 !important;
-    font-family: $serif-font;
+  display: inline-block;
+  font-size: 28px;
+  font-weight: 800 !important;
+  font-family: $serif-font;
 }
 
 @media screen and (max-width: 720px) {
-    main.container.container-inner {
-        flex-direction: column;
-    }
+  main.container.container-inner {
+    flex-direction: column;
+  }
 }
 
 .block-content .block-richtext * {
-    margin: 10px 0;
+  margin: 10px 0;
 }

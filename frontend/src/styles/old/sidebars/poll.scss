@@ -1,91 +1,101 @@
 .sidebar-poll {
-	border: 1px solid #ddd;
-	padding: 20px;
-	border-bottom: 1px solid #ddd !important;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-bottom: 1px solid #ddd !important;
 }
+
 .sidebar-poll label {
-	display: inline-flex;
-	align-items: center;
-	padding-left: 1.4em;
-	cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  padding-left: 1.4em;
+  cursor: pointer;
 }
+
 .sidebar-poll ul {
-	margin-bottom: 0px;
+  margin-bottom: 0;
 }
+
 .sidebar-poll li:not(:last-child) {
-	margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
-.sidebar-poll label input[type="radio"]{
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	appearance: none; /* in case this ever gets supported */
-	background: #fff;
-	border-radius: 100%;
-	border: 3px solid transparent;
-	box-shadow:
-		0 0 0 2px #3d3d3d,
-		inset 0 0 0 0px rgba(13,81,146, 0);
-	margin-right: .25em;
-	transition:
-		border-color .2s ease-in-out,
-		box-shadow .2s ease-in-out;
-	width: .9em;
-	height: .9em;
-	position: absolute;
-	left: 2.4em;
-	cursor: pointer;
+
+.sidebar-poll label input[type="radio"] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none; /* in case this ever gets supported */
+  background: #fff;
+  border-radius: 100%;
+  border: 3px solid transparent;
+  box-shadow: 0 0 0 2px #3d3d3d, inset 0 0 0 0 rgba(13, 81, 146, 0);
+  margin-right: 0.25em;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 0.9em;
+  height: 0.9em;
+  position: absolute;
+  left: 2.4em;
+  cursor: pointer;
 }
+
 .sidebar-poll label input[type="radio"]:checked {
-	border-color: #fff;
-	box-shadow: 0 0 0 2px #3d3d3d, inset 0 0 0 10px #3d3d3d;
+  border-color: #fff;
+  box-shadow: 0 0 0 2px #3d3d3d, inset 0 0 0 10px #3d3d3d;
 }
+
 .sidebar-poll .question {
-	display: flex;
-	font-size: 13px;
-	font-weight: 400;
-	color: #555;
+  display: flex;
+  font-size: 13px;
+  font-weight: 400;
+  color: #555;
 }
+
 .sidebar-poll .question input {
-	margin-right: 10px;
-	margin-top: 3px;
+  margin-right: 10px;
+  margin-top: 3px;
 }
+
 .sidebar-poll .bottom {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 }
+
 .sidebar-poll .answers {
-	margin-top: 20px;
+  margin-top: 20px;
 }
+
 .sidebar-poll .answers .answer:not(:last-child) {
-	margin-bottom: 25px;
+  margin-bottom: 25px;
 }
+
 .sidebar-poll .answers .answer .bar {
-	width: 100%;
-	display: flex;
-	margin-bottom: 8px;
+  width: 100%;
+  display: flex;
+  margin-bottom: 8px;
 }
+
 .sidebar-poll .answers .answer .bar > div {
-	background: rgb(225, 213, 196);
+  background: rgb(225, 213, 196);
 }
+
 .sidebar-poll .answers .answer .bar > span {
-	float: right;
-	margin-left: 10px;
-	font-weight: bold;
+  float: right;
+  margin-left: 10px;
+  font-weight: bold;
 }
+
 .sidebar-poll a {
-	font-family: Roboto;
-	font-size: 14px;
-	display: block;
-	margin: 5px 0;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  display: block;
+  margin: 5px 0;
 }
 
 .poll-vote-button {
-	float: right;
-	border: none;
-	background: none;
+  float: right;
+  border: none;
+  background: none;
 }
 
-.poll-vote-button:hover{
-	text-decoration:underline;
+.poll-vote-button:hover {
+  text-decoration: underline;
 }
