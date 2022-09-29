@@ -67,13 +67,13 @@ class SidebarBlocks(blocks.StreamBlock):
 class EventsPage(RoutablePageMixin, Page):
     class Meta:
         verbose_name = "Event-Index-Seite"
-        
+
     content = StreamField([
         ('content', ContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
     }, verbose_name="Hauptspalte")
-    
+
     sidebar = StreamField(SidebarBlocks(required=False, label="Seitenleiste"), blank=True, verbose_name="Seitenleiste")
 
     content_panels = [
@@ -104,7 +104,7 @@ class EventPage(Page):
     class Meta:
         verbose_name = "Event-Seite"
         verbose_name_plural = "Event-Seiten"
-        
+
     EVENT_TYPE_CHOICES = [
         ('tacheles', 'Tacheles'),
         ('sonstige', 'Sonstige')
@@ -145,7 +145,7 @@ class EventPage(Page):
 
     subtitle = models.CharField("Untertitel", max_length=255, null=True, blank=True)
     date = models.DateTimeField(verbose_name="Datum (die hier eingetragene Uhrzeit muss nicht stimmen)")
-    semester = models.CharField("Semester", 
+    semester = models.CharField("Semester",
         choices=SEMESTER_TYPE_CHOICES,
         max_length=255,
         blank=True
@@ -176,7 +176,7 @@ class EventPage(Page):
         related_name='+',
         verbose_name="Link zum Newsletter, sofern es einen Event-Bericht gab"
     )
-    type = models.CharField("Tacheles-Vortrag oder was anderes?", 
+    type = models.CharField("Tacheles-Vortrag oder was anderes?",
         choices=EVENT_TYPE_CHOICES,
         default='tacheles',
         max_length=255,
@@ -222,19 +222,18 @@ class EventPage(Page):
 
     search_fields = [
         index.SearchField('title'),
-        index.SearchField('speaker'),
     ]
-    
+
     def speaker_description_html(self):
         return mark_safe(self.speaker_description)
-    
+
     @property
     def events_page(self):
         return self.get_parent().specific
 
     def get_absolute_url(self):
         return self.get_url()
-    
+
     @property
     def thumb_image(self):
         try:
@@ -250,7 +249,7 @@ class EventPage(Page):
         context['request'] = request
         context['event'] = EventPage.objects.get(semester=self.semester, slug=self.slug)
         return context
-    
+
     parent_page_types = [EventsPage]
 
     template = 'pages/event_page.html'
