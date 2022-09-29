@@ -37,7 +37,7 @@ class QuestionVersion(ClusterableModel):
     title = models.TextField(max_length=255)
     description = models.TextField(null=True, blank=True)
     # category = models.ForeignKey('wiki.Article', on_delete=models.SET_NULL, null=True, blank=True)
-    categories = models.ManyToManyField(Article, null=True, blank=True)
+    categories = models.ManyToManyField(Article, blank=True)
     approved = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
