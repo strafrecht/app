@@ -194,7 +194,15 @@ div[class^="block-sidebar"]:first-child .sidebar {
   color: #fff !important;
 }
 
-.blocks-column_2_1 { border: 1px solid red; }
+.blocks-column_2_1 {
+  border: 1px solid red;
+}
+
+@media only screen and (min-width: 670px) {
+  .jurcoach-links-widgets .logo {
+    display: block;
+  }
+}
 
 @media screen and (max-width: 600px) {
   /* Columns */
@@ -240,4 +248,8 @@ div[class^="block-sidebar"]:first-child .sidebar {
     width: 100% !important;
     padding: 0;
   }
+}
+
+div[class^="block-sidebar"]:first-child .widget, div[class^="block-sidebar"]:first-child .sidebar {
+  margin-top: 0px;
 }

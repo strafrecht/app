@@ -33,6 +33,53 @@
   text-overflow: ellipsis;
 }
 
+.poll {
+  /*box-shadow: 0 1px 4px rgba(0,0,0,0.1);*/
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 0px 15px 10px 15px;
+  border-bottom: 1px solid #ddd !important;
+}
+.poll h5 {
+  color: #555;
+  font-size: 14px !important;
+  font-family: Roboto !important;
+  text-transform: uppercase;
+}
+.poll p {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 24px;
+}
+.poll .question {
+  display: flex;
+  font-size: 13px;
+  font-weight: 400;
+  color: #555;
+}
+.poll .question input {
+  margin-right: 10px;
+  margin-top: 3px;
+}
+.poll .bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.poll .bottom a {
+  font-size: 14px !important;
+  font-family: Roboto !important;
+}
+.poll .bottom .submit {
+  float: right;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 5px 14px;
+}
+
 .newsletter {
   padding-bottom: 20px;
 

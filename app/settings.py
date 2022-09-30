@@ -304,43 +304,10 @@ PIPELINE = {
     ),
     'CSS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
     'JS_COMPRESSOR': 'pipeline.compressors.NoopCompressor',
-    #'pipeline.compressors.uglifyjs.UglifyJSCompressor',
     'BABEL_ARGUMENTS': '', #'--presets es2016',
     'STYLESHEETS': {
-        'base': {
-            'source_filenames': (
-                'css/app.css',
-                'css/base.css',
-                'css/bootstrap.css',
-                'css/charts.css'
-                'css/mysite.css',
-                'css/content.css',
-                'css/navbar.css',
-                'css/custom-wagtail-columns.css'
-                'css/sidebar.css',
-                'css/wiki.css',
-                'css/comments.css',
-                'css/person_index_page.css',
-            ),
-            'output_filename': 'css/main.css',
-        },
     },
     'JAVASCRIPT': {
-        'base': {
-            'source_filenames': (
-                'js/index.js',
-                #'js/editor.js',
-                #'js/chartist.js',
-                #'js/chartist-plugin-fill-donut.js',
-            ),
-            'output_filename': 'js/index.js'
-        },
-        'vendor': {
-            'source_filenames': (
-                'tui-editor'
-            ),
-            'output_filename': 'js/vendor.js',
-        }
     }
 }
 

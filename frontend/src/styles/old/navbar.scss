@@ -1,11 +1,12 @@
 #nav {
   border-bottom: 1px solid #eee;
-  box-shadow: none !important;
   background: #fff;
   margin-top: 0 !important;
   padding: 0;
   top: 0;
   z-index: 500;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  color: #3d3d3d;
 }
 
 #nav .navbar-nav {
@@ -34,10 +35,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
   font-weight: 500;
   margin: 0 15px;
   padding: 0 !important;
+  color: #3d3d3d;
+  font-size: 14px;
+  min-width: 70px;
 
   &:hover {
     background-color: inherit;
@@ -45,8 +48,9 @@
 }
 
 #nav .navbar-trans .navbar-nav .nav-link {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
+  color: #3d3d3d;
 }
 
 #nav #nav-search {
@@ -102,21 +106,23 @@
   padding: 0;
 }
 
+#nav .navbar-trans .navbar-brand {
+  color: #3d3d3d;
+}
+
 #nav .navbar-brand {
-  font-family: 'Source Serif Pro', serif !important;
-  font-size: 16px;
+  font-family: 'Source Serif Pro' serif !important;
   font-weight: 900;
   text-align: center;
-
-  /* width: 100%;
-     display: none; */
+  color: #3d3d3d;
+  font-size: 28px;
 }
 
 #nav .container {
   margin-left: -40px !important;
   display: flex;
   flex-direction: column;
-  max-width: $container-width !important;
+  max-width: 900px !important;
 }
 
 .navbar-nav:nth-child(2) .nav-item:last-child a.nav-link:hover {
@@ -142,14 +148,16 @@ li.ancestor.nav-item > a:hover {
 }
 
 #nav .navbar-nav .nav-item .dropdown-menu {
-  margin-top: 20px;
-  margin-left: -4rem;
   background: #fff;
-  border: 0;
-  border-radius: 2px;
-  box-shadow: 0 10px 30px #0000004d;
   min-width: 220px;
-  padding: 10px 10px;
+  border: none;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.12);
+  color: #555;
+  margin-top: 20px;
+  margin-left: -1px;
+  font-size: 14px;
+  padding: 20px 10px;
+  width: 220px;
 }
 
 #nav .navbar-nav .nav-item .dropdown-menu::before {
@@ -166,7 +174,7 @@ li.ancestor.nav-item > a:hover {
 }
 
 #nav .navbar-nav .nav-item .dropdown-menu .dropdown-item {
-  font-size: 13px;
+  font-size: 14px;
   color: #555;
   padding: 5px 10px;
 }
@@ -199,11 +207,8 @@ li.ancestor.nav-item > a:hover {
 }
 
 /* responsive navbar */
-#nav {
-  margin-top: 30px;
-}
-
 #nav .navbar-collapse {
+  color: #3d3d3d;
   width: 100% !important;
   top: 40px;
 }

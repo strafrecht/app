@@ -3,8 +3,19 @@
 
 /* -------------------------------------------------------------------------------------------- */
 
+@font-face {
+  font-family: 'Corporal';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Corporal'), url('//assets/fonts/corporal-webfont.ttf') format('truetype');
+}
+
 * {
   font-family: 'Roboto', sans-serif;
+}
+
+.brand {
+  font-family: 'Corporal' sans-serif !important;
 }
 
 main.container {
@@ -88,6 +99,45 @@ body .header-image .header-caption {
   text-transform: uppercase;
   opacity: 0.75;
   font-weight: normal;
+}
+
+/* Footer */
+
+/* -------------------------------------------------------------------------------------------- */
+
+footer {
+  border-top: 1px solid #eee;
+  margin-top: 50px;
+  padding: 10px 0 10px 0;
+}
+
+footer .container {
+  max-width: 900px;
+}
+
+footer ul {
+  margin: 0;
+  padding: 0;
+}
+
+footer ul li {
+  display: inline-block;
+  font-size: 13px;
+  margin: 0 15px 0 0;
+}
+
+a.social-media-icon {
+  font-size: 25px !important;
+  width: 25px !important;
+  text-align: center;
+  text-decoration: none;
+  margin: 0 2px;
+  color: #6c757d !important;
+}
+
+a.social-media-icon:hover {
+  text-decoration: none;
+  color: #6c757d !important;
 }
 
 /* Forms */

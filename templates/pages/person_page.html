@@ -2,7 +2,6 @@
 {% load static wagtailcore_tags wagtailimages_tags website_tags %}
 
 {% block extra_css %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/person_page.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/news_article_index_page.css' %}">
 {% endblock %}
 
@@ -15,7 +14,7 @@
 	{% else %}
 		<div class="breadcrumb-new" style="margin: 50px auto 0 auto !important;">
 	{% endif %}
-		Du bist hier: 
+		Du bist hier:
 		{% for page in self.get_ancestors %}
 			{% if page.is_root == False %}
 			<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl page %}">{{ page.title|truncatechars:25 }}</a> >
@@ -42,9 +41,9 @@
 				<p>Telefon: {{ person.telephone }}</p>
 				<p>E-Mail: {{ person.email }}</p>
 				<p>Raum: {{ person.room }}</p>
-				
+
 				<br>
-				
+
 				<p class="richtext">{{ person.description|richtext }}</p>
 
 				<br><br>
