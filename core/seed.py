@@ -66,37 +66,28 @@ import re
 from bs4 import BeautifulSoup
 
 def start(request):
-    # Wiki
     #scrape_wiki(request)
-
-    # News
     #scrape_news(request)
     #scrape_abstimmungen(request)
-
-    # Events
     #scrape_events(request)
-
-    # Newsletter
     #scrape_newsletter(request)
-
-    # Lehre
     #scrape_lehre(request)
-
-    # Exams
     #scrape_exams(request)
-
-    # Redirects
     #scrape_redirects(request)
     #seed_redirects(request)
+    print("OK")
     return
 
 def scrape_wiki(request):
     # init
-    path = os.path.abspath("core")
-    os.chdir('/home/dev/Workspace/app/core')
+    path = os.path.dirname(os.path.abspath(__file__))
+    print(path)
+    os.chdir(path)
+    # os.chdir('/home/dev/Workspace/app/core')
     #os.chdir('C://Users//sfvso//Documents//serg1o//straf//app//core')
 
     # delete all wiki/categories
+    print("here")
     URLPath.objects.all().delete()
     ArticleRevision.objects.all().delete()
     Article.objects.all().delete()
@@ -131,6 +122,9 @@ def scrape_wiki(request):
                 path = os.path.join(root, file)
                 html = open(path).read()
                 soup = BeautifulSoup(html, "html.parser")
+
+                print(path)
+                print(get_type(soup))
 
                 # create categories
                 if "category" in get_type(soup):
@@ -206,7 +200,8 @@ def scrape_redirects(request):
                 with open(file_path, 'rb') as f:
                     try:
                         html = f.read()
-                        soup = BeautifulSoup(html)
+                        soup = BeautifulSoup(html, features="lxml")
+                        print(soup.find('a'))
                         link = soup.find('a').attrs['href'] if 'http' in soup.find('a').attrs['href'] else "https://strafrecht-online.org{}".format(soup.find('a').attrs['href'])
                         file = file_path.split('/')[-1].replace('.html', '')
 
@@ -227,7 +222,8 @@ def scrape_redirects(request):
                             if ".pdf" in link:
                                 # upload pdf
                                 # Target Directory
-                                target_dir = "/home/dev/Workspace/app/media/documents"
+                                path = os.path.dirname(os.path.abspath(__file__))
+                                target_dir = path + "/../media/documents"
 
                                 # Make the directory
                                 os.makedirs(target_dir, exist_ok=True)
@@ -258,13 +254,15 @@ def scrape_redirects(request):
                     except Exception as error:
                         print(error)
 
-    fo = open('/home/dev/Workspace/app/core/scrape/redirects.csv', 'w')
+    path = os.path.dirname(os.path.abspath(__file__))
+    fo = open(path + '/scrape/redirects.csv', 'w')
     fo.write(csv)
     fo.close()
 
 def seed_redirects(request):
     redirects = Redirect.objects.all()
-    to_review_file = open('/home/dev/Workspace/app/core/scrape/review_redirects.txt', 'a')
+    path = os.path.dirname(os.path.abspath(__file__))
+    to_review_file = open(path + '/scrape/review_redirects.txt', 'a')
 
     for redirect in redirects:
         if "strafrecht-online.org" in redirect.link:
@@ -338,7 +336,8 @@ def upload_poster_pdf(url):
     filename = url.split('tacheles/')[1].split('/')[2]
 
     # Target Directory
-    target_dir = "/home/dev/Workspace/app/media/documents"
+    path = os.path.dirname(os.path.abspath(__file__))
+    target_dir = path + "/../media/documents"
     new_filename = "Event_{semester}_{slug}_{filename}".format(
         semester=semester,
         slug=slug,
@@ -403,7 +402,7 @@ def upload_poster_image(url):
         return image
     except Exception as e:
         return None
-    
+
 def upload_poster_image_file(path, collection):
     filename = path.split('/')[-1]
 
@@ -441,7 +440,8 @@ def upload_newsletter_pdf(url):
         filename = url.split('newsletter/')[1].split('/')[1]
 
         # Target Directory
-        target_dir = "/home/dev/Workspace/app/media/documents"
+        path = os.path.dirname(os.path.abspath(__file__))
+        target_dir = path + "/../media/documents"
         new_filename = "Event_Newsletter_{semester}_{filename}".format(
             semester=semester,
             filename=filename
@@ -632,7 +632,8 @@ def upload_redirect_pdf(link):
     filename = link.split('/')[-1].split('.')[0][0:85] + '.pdf'
 
     # Target Directory
-    target_dir = "/home/dev/Workspace/app/media/documents"
+    path = os.path.dirname(os.path.abspath(__file__))
+    target_dir = path + "/../media/documents"
 
     # Make the directory
     os.makedirs(target_dir, exist_ok=True)
@@ -663,7 +664,8 @@ def upload_pdfs(semester, slug, pdfs):
             filename = pdf['href'].split('/')[-1].split('.')[0]
 
             # Target Directory
-            target_dir = "/home/dev/Workspace/app/media/documents"
+            path = os.path.dirname(os.path.abspath(__file__))
+            target_dir = path + "/../media/documents"
 
             #new_filename_root = "lehre_{semester}_{slug}_{filename}".format(
             #    semester=semester,
@@ -841,13 +843,14 @@ def extract_session(content):
     return result
 
 def scrape_newsletter(request):
+    path = os.path.dirname(os.path.abspath(__file__))
     root_collection = Collection.get_first_root_node()
     newsletters_col = root_collection.get_children().get(name='Newsletters')
     newsletters_col.get_children().all().delete()
 
     docs = []
 
-    with open('/home/dev/Workspace/app/core/scrape/newsletters.json', encoding='utf-8-sig') as f:
+    with open(path + '/scrape/newsletters.json', encoding='utf-8-sig') as f:
         data = json.load(f)
 
     for newsletter in data:
@@ -857,7 +860,7 @@ def scrape_newsletter(request):
             collection = newsletters_col.add_child(name=newsletter['year'])
 
         # Target Directory
-        target_dir = "/home/dev/Workspace/app/media/documents"
+        target_dir = path + "/../media/documents"
         new_filename = "{filename}".format(
             year=newsletter['year'],
             filename=newsletter['filename'].split('/')[-1]
@@ -918,7 +921,7 @@ def scrape_news(request):
         article = data[index]
         # ArticlesPage
         parent_page = ArticlesPage.objects.first()
-        
+
         users = {
             ' Von Jakob Bach ': 2,
             ' Von Roland Hefendehl ': 3,
@@ -1440,7 +1443,7 @@ def on_error(e):
 #        return None
 
 def _create_category(node, cat):
-    # 
+    #
     remaining = deque(cat["root"].split("/")[1:])
     traverse_category(node, remaining, cat)
 
@@ -1466,9 +1469,11 @@ def scrape_exams(request):
     import csv
     import dateutil.parser
 
-    exams = []
+    Exams.objects.all().delete()
 
-    with open('/home/dev/Workspace/app/core/exams.csv', newline='', encoding='utf-8-sig') as csvfile:
+    exams = []
+    path = os.path.dirname(os.path.abspath(__file__))
+    with open(path + '/exams.csv', newline='', encoding='utf-8-sig') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
         exam_type = {
@@ -1517,13 +1522,8 @@ def scrape_exams(request):
 
     for exam in exams: print(exam)
 
-    result = Exams.objects.bulk_create(exams)
-
-    if result:
-        return HttpResponse('<p>done</p>')
-    else:
-        return HttpResponse('<p>failed</p>')
-
+    #result = Exams.objects.bulk_create(exams)
+    return
 
 def search_wiki(request, query = False):
     from django.contrib.postgres.search import SearchVector, TrigramSimilarity, TrigramDistance

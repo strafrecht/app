@@ -7,7 +7,9 @@ from urllib.parse import urlparse
 import re
 
 def get_json():
-    os.chdir('/home/dev/Workspace/app/core/scrape')
+    path = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(path)
+    #os.chdir('/home/dev/Workspace/app/core/scrape')
     #f = open('eventsscrape.json', encoding='iso-8859-1')
     #f = open('eventsscrape_fixed.json', encoding='utf-8')
     #f = unicode(str, errors='replace')
@@ -52,7 +54,7 @@ def get_lehre(link_source, lehre_link):
     except:
         print("article title not found")
         pass
-    
+
 
     try:
         semester = link_soup.find('p', class_='subhead')
@@ -73,7 +75,7 @@ def get_lehre(link_source, lehre_link):
         seminar_title = seminar.text
         seminar_title = "".join(line.strip() for line in seminar_title.split("\n"))
         seminar_content = []
-        if seminar_title.startswith('Seminarank'): 
+        if seminar_title.startswith('Seminarank'):
             seminar_str = str(seminar)
             seminar_str = "".join(line.strip() for line in seminar_str.split("\n"))
             seminar_content.append(seminar_str)
@@ -115,7 +117,7 @@ def get_lehre(link_source, lehre_link):
     """
     links = info.find_all('a')
     for link in links:
-        try: 
+        try:
             if '.pdf' in link['href']:
                 href = link['href']
                 pdf_link = 'https://strafrecht-online.org/lehre' + root_path + href
@@ -134,7 +136,7 @@ def get_lehre(link_source, lehre_link):
             pass
     """
 
-    
+
     try:
         separator = info.find_next('hr')
         materials = separator.find_next_siblings()
@@ -147,7 +149,7 @@ def get_lehre(link_source, lehre_link):
             except:
                 pass
         material_strs = ''.join(material_strs)
-        lehre_data['materialien'] = material_strs 
+        lehre_data['materialien'] = material_strs
         # print(material_strs)
     except:
         print("materialien not found")
@@ -164,7 +166,7 @@ def get_lehre(link_source, lehre_link):
         for link_list in materials:
             links = link_list.find_all('a')
             for link in links:
-                try: 
+                try:
                     if '.pdf' in link['href']:
                         href = link['href']
                         pdf_link = 'https://strafrecht-online.org/lehre' + root_path + href
@@ -193,7 +195,7 @@ def get_lehre(link_source, lehre_link):
     try:
         links = side_soup.find_all('a')
         for link in links:
-            try: 
+            try:
                 if '.pdf' in link['href']:
                     href = link['href']
                     pdf_link = 'https://strafrecht-online.org/lehre' + root_path + href
@@ -224,7 +226,7 @@ def get_lehre(link_source, lehre_link):
             for infokasten in infokastens:
                 kasten_widget = {}
                 try:
-                    if infokasten.find('img')['src']: 
+                    if infokasten.find('img')['src']:
                         image = infokasten.find('img')['src']
                         image_str = str(image)
                         kasten_widget['type'] = "text + image"
@@ -262,7 +264,7 @@ def get_lehre(link_source, lehre_link):
                 kasten_widget['text'] = infokasten_str
                 lehre_data['widgets'].append(kasten_widget)
             # try:
-            #     # if enters here: it has content after kastens    
+            #     # if enters here: it has content after kastens
             #     if infokasten.find_all_next(['h2', 'h3', 'p']):
             #         side_contents = infokasten.find_all_next(['h2', 'h3', 'p']) # add h1 if LINKS ZUM ARTIKEL title is wanted
             #         side_strs = []
@@ -281,9 +283,9 @@ def get_lehre(link_source, lehre_link):
             #         lehre_data['widgets'].append(side_widget)
             #         # print(side_strs) # side_strs contain the side bar content
             #     else:
-            #         pass 
-            # except: 
-            #     pass   
+            #         pass
+            # except:
+            #     pass
         # if enters here: no image only text kasten
         elif side_soup.find_all(['h2', 'h3', 'p']):
             side_contents = side_soup.find_all(['h2', 'h3', 'p'])
