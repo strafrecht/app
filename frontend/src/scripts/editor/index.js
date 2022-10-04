@@ -15,7 +15,7 @@ const initEditor = () => {
         })
 
         editor.on('change', function() {
-            text.innerHTML = editor.getValue().replace(/\\/g, '')
+            text.innerHTML = editor.getMarkdown() //.replace(/\\/g, '')
         })
     }
 }
