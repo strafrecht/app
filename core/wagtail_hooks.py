@@ -2,14 +2,14 @@ from wagtail.contrib.modeladmin.options import ModelAdmin, ModelAdminGroup, mode
 from wagtail.core import hooks
 from wiki.models import Article, ArticleRevision
 
-from .models import Question, QuestionVersion, Submission
-
 from django.templatetags.static import static
 from django.utils.html import format_html
 from django.http import HttpResponse
 
 from wagtail.core import hooks
 from treemodeladmin.options import TreeModelAdmin
+
+from .models import Question, QuestionVersion, Submission
 
 #@hooks.register('before_serve_document')
 #def serve_pdf(document, request):

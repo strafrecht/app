@@ -8,7 +8,29 @@
 {% block contents %}
 <div class="flex">
 	<h4>Quiz Summary</h4>
+	<p> Ergebnis: {{ quiz.calculate_score }}</p>
+	<br>
+	<h5>deine Antworten</h5>
+	<!-- FIXME: new code (maybe) -->
+	{% for quiz in quiz_summary %}
+	<!-- {{quiz}} -->
+	<ul>
+          <div class="bg-white mb-4 p-2" style="border: 2px solid #ddd; border-radius: 8px;">
+            <p>{{ quiz.question.title }}</p>
+            <ul>
+              {% for item in quiz.answer %}
+              {% if item.correct %}
+              <li class="text-success">{{ item.text }}</li>
+              {% else %}
+              <li class="text-danger">{{ item.text }}</li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </ul>
+        {% endfor %}
 
+	<!-- FIXME: old code -->
 	{% for user_answer in quiz.useranswer_set.all %}
 		<div class="bg-white mb-4 p-2" style="border: 2px solid #ddd; border-radius: 8px;">
 			{{ user_answer.question.title }}

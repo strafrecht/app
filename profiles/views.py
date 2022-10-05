@@ -81,9 +81,42 @@ def wiki(request):
 @login_required
 def quiz_summary(request, id):
     quiz = Quiz.objects.get(pk=id)
+
+    quiz_summary = []
+
+    user_answers = UserAnswer.objects.filter(quiz=quiz)
+
+    for user_answer in user_answers:
+        # FIXME: this does not work as the users answers are not saved
+        # for choice in get_choices(user_answer):
+        for choice in user_answer.choice_set.all():
+            title = choice.answer.question_version.title
+            ans_val = choice.answer
+            found_val = [dictionary for dictionary in quiz_summary if dictionary["question"] == title]
+            rep_index = next((index for (index, dictionary) in enumerate(quiz_summary) if dictionary["question"] == title), None)
+            if len(found_val):
+                #The list is not empty
+                ans_list = quiz_summary[rep_index]["answer"]
+                ans_list.append(ans_val)
+                ans_list = list(dict.fromkeys(ans_list))
+                quiz_summary[rep_index] = dict(
+                    question=title,
+                    answer=ans_list
+                )
+
+            else:
+                quiz_summary.append(
+                    dict(
+                        question=title,
+                        answer=[ans_val]
+                    )
+                )
+
+
     return render(request, "profiles/quiz_summary.html", {
         "banner": "/media/images/login.original.jpg",
-        "quiz": quiz
+        "quiz": quiz,
+        "quiz_summary": quiz_summary
     })
 
 def login(request):
