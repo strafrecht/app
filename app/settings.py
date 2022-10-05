@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     'profiles',
     #'leaflet',
     'feedback',
+    'chat',
     'dashboard',
     'flashcards',
 
@@ -173,6 +174,8 @@ INSTALLED_APPS = [
     # cors-headers
     'corsheaders',
 
+    # django channels
+    'channels',
 ] + vars.vars.get("DEV_APPS", [])
 
 MIDDLEWARE = [

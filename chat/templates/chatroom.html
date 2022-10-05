@@ -1,0 +1,156 @@
+{% extends "base_vue.html" %} {% load static %} {% block content %}
+
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-8">
+            <form onkeypress="return event.keyCode != 13">
+                <h3><b>Chat</b></h3>
+                {% if request.user.is_authenticated %}
+                <div>
+                    <small> eingeloggt als: {{ request.user.username }}</small>
+                </div>
+                {% else %}
+                <div class="form-inline">
+                    <p class="name">Name: <input class="form-control" id="not-logged-user" v-model="showUser" type="text"
+                            placeholder="Ihren Namen einfügen"></p>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <input class="form-control" placeholder="Schreiben Sie hier Ihre Nachricht" id="input" type="text">
+                    <br>
+                    <input class="btn btn-secondary btn-sm" id="submit" type="button" value="Senden">
+                </div>
+                <div class="form-group">
+                    <textarea readonly class="form-control" id="chat-text" rows="20"
+                        style="max-height: 400px; border: none;"></textarea><br>
+                </div>
+            </form>
+        </div>
+        <div class="col-4">
+            <div>
+                <h5 class="graytit"><b>Gerade online</b></h5>
+                <div></div>
+            </div>
+            <section>
+                <ul id="online-users">
+                </ul>
+            </section>
+            <div>
+                <h5 class="graytit"><b>Online-Sprechstunde</b></h5>
+                <p>
+                    Neben unserem öffentlichen Chat bieten wir eine Online-Sprechstunde
+                    an. Bei Fragen, Anregungen oder Kritik können Sie sich direkt an
+                    das <a class="completely-useless-chat-button" href="#">Institutsteam</a> wenden.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ request.user.username|json_script:"user_username" }}
+{{ room_name|json_script:"room-name" }}
+
+<script>
+
+    document.querySelector('#submit').onclick = function (e) {
+        e.preventDefault();
+        
+        const user_username = JSON.parse(document.getElementById('user_username').textContent);
+        let notLoggedUser;
+        const notLoggedUserElement = document.getElementById('not-logged-user');
+        if (notLoggedUserElement) {
+            notLoggedUser = notLoggedUserElement.value;
+        }
+
+        const messageInputDom = document.getElementById('input');
+        const message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            message: message,
+            'username': user_username ? user_username : notLoggedUser,
+        }));
+        messageInputDom.value = '';
+    };
+
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://' +
+        window.location.host +
+        '/ws/chat/' +
+        roomName +
+        '/'
+    );
+    var list = document.getElementById('online-users');
+
+    chatSocket.onmessage = function (e) {
+
+        let elem = document.getElementById('chat-text');
+        elem.scrollTop = elem.scrollHeight;
+
+        const now = new Date();
+        const time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+        const data = JSON.parse(e.data);
+        if(data.type == 'chatroom_message') {
+            console.log(data)
+            document.querySelector('#chat-text').value += (time + ' - ' + data.username + ': ' + data.message + '\n')
+        }
+        else if(data.type == 'chatroom_joined') {
+            console.log(data.username + " Just joined the chat ");
+            var li = document.createElement('li')
+            li.appendChild(document.createTextNode(data.username))
+            li.className = 'member';
+            list.appendChild(li);
+        }
+        else if(data.type == 'chatroom_left') {
+            console.log(data.username + " Just left ");
+            var found = document.getElementsByClassName('member');
+            for(let i = 0 ; i < found.length ; i++) {
+                if(found[i].innerText == data.username) {
+                     list.removeChild(found[i]);
+                     break;
+                }
+            }
+
+        }
+        else {
+            console.log("current members ");
+            console.log(data.message);
+
+            data.message.forEach(member => {
+                var li = document.createElement('li')
+                li.appendChild(document.createTextNode(member))
+                li.className = 'member';
+                list.appendChild(li);
+            })
+        }
+
+    }
+</script>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    </script>
+
+
+<style>
+    .name {
+        color: grey;
+    }
+
+    .graytit {
+        color: rgb(140, 140, 140);
+    }
+
+    #nav {
+        position: relative !important;
+    }
+</style>
+
+{% endblock %} {% block extra_js %}{% endblock %}
