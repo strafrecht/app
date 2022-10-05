@@ -10,6 +10,7 @@ from .forms import SignupForm
 
 @login_required
 def profile(request):
+    # FIXME: broken
     if request.session.has_key('username'):
         posts = request.session['username']
         query = User.objects.filter(username=posts)

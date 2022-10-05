@@ -175,7 +175,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # django channels
-    'channels',
+    # 'channels',
 ] + vars.vars.get("DEV_APPS", [])
 
 MIDDLEWARE = [
