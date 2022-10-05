@@ -52,8 +52,8 @@ class QuizTestCase(TestCase):
         self.assertEqual(self.quiz.total_questions(), 1)
 
     def test_quiz_calculates_score(self):
-        # FIXME: calculation is broken...
-        self.assertEqual(self.quiz.calculate_score(), 0)
+        # FIXME: calculation is broken... ?
+        self.assertEqual(self.quiz.calculate_score(), 1)
 
 class IndexViewTests(TestCase):
 

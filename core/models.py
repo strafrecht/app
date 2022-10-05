@@ -89,22 +89,21 @@ class Quiz(models.Model):
                 answers = set()
                 uanswers = set()
 
-                if hasattr(y, 'question'):
-
-                    for answer in user_answer.question.answer_set.all():
+                for q_ver in user_answer.question.questions.all():
+                    for answer in q_ver.answers.all():
                         if answer.correct:
                             answers.add(answer.id)
 
-                    for choice in user_answer.choice_set.all():
-                        uanswers.add(choice.answer.id)
+                for choice in user_answer.choice_set.all():
+                    uanswers.add(choice.answer.id)
 
-                    # real answers
-                    x[user_answer.question.id] = answers
-                    # user answers
-                    y[user_answer.question.id] = uanswers
+                # real answers
+                x[user_answer.question.id] = answers
+                # user answers
+                y[user_answer.question.id] = uanswers
 
-                    if y[user_answer.question.id] == x[user_answer.question.id]:
-                        total += 1
+                if y[user_answer.question.id] == x[user_answer.question.id]:
+                    total += 1
 
             return total
 
