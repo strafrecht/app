@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     'profiles',
     #'leaflet',
     'feedback',
+    'dashboard',
     'flashcards',
 
     # Wagtail
