@@ -163,6 +163,7 @@ INSTALLED_APPS = [
     'wagtailpolls',
     'wagtail.contrib.modeladmin',
     'wagtailstreamforms',
+    'treemodeladmin',
 
     # DRF
     'rest_framework',

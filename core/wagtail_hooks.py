@@ -1,13 +1,15 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
 from wagtail.core import hooks
+from wiki.models import Article, ArticleRevision
 
-from .models import Question, QuestionVersion
+from .models import Question, QuestionVersion, Submission
 
 from django.templatetags.static import static
 from django.utils.html import format_html
 from django.http import HttpResponse
 
 from wagtail.core import hooks
+from treemodeladmin.options import TreeModelAdmin
 
 #@hooks.register('before_serve_document')
 #def serve_pdf(document, request):
@@ -30,25 +32,47 @@ def global_admin_css():
         static("css/wagtail.css")
     )
 
+# @modeladmin_register
+class SubmissionAdmin(TreeModelAdmin):
+    menu_label = 'Einreichungen'
+    model = Submission
+    parent_field = 'question_version'
+    list_display = ('submitted_by', 'reviewed_by', 'article_revision', 'question_version', 'status', 'message')
 
-class QuestionAdmin(ModelAdmin):
-    model = Question
-    menu_label = 'Fragen'
-    menu_icon = 'folder'
-    list_display = ('id', 'user')
-
-
-class QuestionVersionAdmin(ModelAdmin):
+# @modeladmin_register
+class QuestionVersionAdmin(TreeModelAdmin):
+    menu_label = 'Fragen Version'
+    menu_icon = 'list-ul'
     model = QuestionVersion
-    menu_label = 'Fragen Versionen'
-    menu_icon = 'folder'
-    list_display = ('question', 'title', 'description', 'categories', 'approved', 'answers')
+    parent_field = 'question'
+    child_field = 'submission_set'
+    child_model_admin = SubmissionAdmin
+    list_display = ('question', 'title', 'description', 'categories', 'approved', 'user')
 
+# @modeladmin_register
+class QuestionAdmin(TreeModelAdmin):
+    menu_label = 'Fragen Index'
+    menu_icon = 'list-ul'
+    model = Question
+    child_field = 'questionversion_set'
+    child_model_admin = QuestionVersionAdmin
+    list_display = ('filepath', 'slug')
 
-class MCTAdmin(ModelAdminGroup):
-    menu_label = 'MCT'
+class QuestionMenuAdmin(ModelAdminGroup):
+    menu_label = 'Fragen'
     menu_icon = 'folder'
     items = (QuestionAdmin, QuestionVersionAdmin)
 
+class ArticleAdmin(ModelAdmin):
+    model = ArticleRevision
+    menu_label = "Wiki Articles"
+    menu_icon = "placeholder"
+    # menu_order = 290
+    # add_to_settings_menu = False
+    # exclude_from_explorer = False
+    list_display = ('title', 'user', 'created', 'modified')
+    # search_fields = ("email", "full_name",)
 
-modeladmin_register(MCTAdmin)
+modeladmin_register(SubmissionAdmin)
+modeladmin_register(QuestionMenuAdmin)
+modeladmin_register(ArticleAdmin)

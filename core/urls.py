@@ -5,7 +5,6 @@ from rest_framework import routers
 app_name = 'quiz'
 
 router = routers.DefaultRouter()
-# router.register(r'questions', views.QuestionOnlyViewSet)
 router.register(r'question-versions', views.QuestionVersionViewSet)
 router.register(r'answers', views.AnswerViewSet)
 router.register(r'quizzes', views.QuizViewSet)
@@ -34,4 +33,3 @@ urlpatterns = [
 
     path('<str:semester>/<str:slug>/<str:filename>', views.pdf, name='pdf'),
 ]
-

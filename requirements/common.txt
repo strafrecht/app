@@ -99,6 +99,7 @@ wagtailfontawesome==1.2.1
 wagtailmenus==3.0.2
 wagtailnews==2.7.1
 wagtailstreamforms==3.15
+wagtail-treemodeladmin==1.5.0
 webencodings==0.5.1
 wget==3.2
 wiki==0.7.5
