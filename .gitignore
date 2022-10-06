@@ -1,3 +1,6 @@
+# don't check this into repo (app secrets ...)
+app/vars.py
+
 # Django #
 *.log
 *.pot
@@ -5,10 +8,7 @@
 __pycache__
 db.sqlite3
 node_modules/
-
-# don't check this into repo (app secrets ...)
-app/vars.py
-
+frontend/node_modules/
 /media/
 /static/*
 
