@@ -9,16 +9,15 @@ from .models import NewsletterEmail, LSHNewsletter
 @modeladmin_register
 class ContactAdmin(ModelAdmin):
     model = Contact
-    menu_label = 'Contacts'
+    menu_label = 'NL Adressen'
     menu_icon = 'user'
-    list_diplay = ('email', 'first_name', 'last_name', 'location')
+    list_diplay = ('email', 'tags') # FIXME: tag sdoes not work
 
 @modeladmin_register
-class LSHNewsletter(CampaignAdmin):
+class LSHNewsletterAdmin(CampaignAdmin):
     campaign = LSHNewsletter
     menu_label = 'LSH Newsletter'
     menu_icon = 'mail'
     menu_order = 200
     contact_class = Contact
     contact_filter_class = ContactFilter
-    

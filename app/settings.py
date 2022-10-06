@@ -90,7 +90,7 @@ INSTALLED_APPS = [
     'core',
     'pages',
     #'news',
-    #'emails',
+    'emails',
     'profiles',
     #'leaflet',
     'feedback',
@@ -161,8 +161,8 @@ INSTALLED_APPS = [
     'wagtailmenus',
 
     # Wagtail Newsletter
-    #'mjml',
-    #'birdsong',
+    'mjml',
+    'birdsong',
 
     # Link Checker
     #'wagtaillinkchecker',
@@ -231,7 +231,7 @@ TEMPLATES = [
 ASGI_APPLICATION = 'app.routing.application'
 
 if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = 'smtp.yourserver.com'

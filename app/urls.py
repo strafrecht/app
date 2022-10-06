@@ -12,7 +12,7 @@ from profiles.views import login
 
 from wagtailpolls.views.vote import vote
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls
-#from birdsong import urls as birdsong_urls
+from birdsong.urls import urlpatterns as birdsong_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,7 +33,7 @@ urlpatterns = [
     path('quiz/', include('core.urls')),
     path('run/', include('core.urls')),
 
-    #path('mail/', include(birdsong_urls)),
+    path('mail/', include(birdsong_urls)),
     path('', include('pwa.urls')),
 
     path('chat/', include('chat.urls')),
