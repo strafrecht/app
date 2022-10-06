@@ -26,4 +26,10 @@ vars = {
     "DEV_APPS": [
     	"django_extensions",
     ],
+    "EMAIL": {
+    	"host": "server address",
+    	"port": "25",
+    	"login": "your@email.address",
+    	"password": "password",
+    },
 }
