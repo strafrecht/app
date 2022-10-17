@@ -4,7 +4,7 @@
 *.pyc
 __pycache__
 db.sqlite3
-frontend/node_modules/
+node_modules/
 /media/
 /static/*
 core/scrape/@redirects/
