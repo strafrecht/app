@@ -8,6 +8,18 @@ def patch_wiki():
     from wiki.models.article import Article, ArticleRevision
     Article.add_revision = add_revision
 
+    from django.utils.decorators import method_decorator
+    from wiki.decorators import get_article
+    from wiki.views.article import History
+
+    # allow only access from moderators
+    @method_decorator(get_article(can_read=True, can_moderate=True))
+    def dispatch(self, request, article, *args, **kwargs):
+        return super(History, self).dispatch(request, article, *args, **kwargs)
+
+    History.dispatch = dispatch
+
+
 def add_revision(self, new_revision, save=True):
     """
     Sets the properties of a revision and ensures its the current
