@@ -330,6 +330,10 @@ WIKI_ANONYMOUS_WRITE = True
 WIKI_EDITOR = 'editors.modern.Modern'
 WIKI_CHECK_SLUG_URL_AVAILABLE = False
 
+from .wiki_patch import wiki_can_moderate
+WIKI_CAN_MODERATE = wiki_can_moderate
+WIKI_CAN_DELETE = wiki_can_moderate
+
 COMMENTS_APP = 'django_comments_xtd'
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5
 COMMENTS_XTD_CONFIRM_EMAIL = False
