@@ -4,11 +4,12 @@
 {% block wiki_pagetitle %}{% trans "Listing articles in" %} {{ article.current_revision.title }}{% endblock %}
 
 {% block extra_css %}
+{{ block.super }}
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<style>
-	äjurcoach-page .tabbed .wiki-children { 
-	  display: block; 
-	  margin-left: 0; 
+	#jurcoach-page .tabbed .wiki-children {
+	  display: block;
+	  margin-left: 0;
 	  clear: both;
 	  color: #3d3d3d;
 	}
@@ -34,7 +35,7 @@
 	#jurcoach-page .wiki-parents label h3 {
 	  color: #000  !important;
 	  margin-bottom: 0;
-	  display: block; 
+	  display: block;
 	  position: relative;
 	  border-bottom: 4px solid #FFE200;
 	  cursor: default;

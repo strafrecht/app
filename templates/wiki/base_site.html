@@ -3,11 +3,11 @@
 {% load wagtailpolls_tags %}
 {% load sekizai_tags i18n wiki_tags static pipeline %}
 
-{% block xcss %}
+{% block extra_css %}
 <link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
 {% endblock %}
 
-{% block xjs %}
+{% block extra_js %}
     <script src="{% static "wiki/js/jquery-3.6.0.min.js" %}"></script>
     <script src="{% static "wiki/js/core.js" %}"></script>
     <script src="{% static "wiki/js/popper.js" %}"></script>
