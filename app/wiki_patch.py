@@ -9,31 +9,34 @@ def patch_wiki():
     from wiki.models.article import Article
     Article.add_revision = add_revision
 
-    from django.utils.decorators import method_decorator
-    from wiki.decorators import get_article
-    # allow only access from moderators to history
-    from wiki.views.article import History
+    # fix mergeview get method
+    from wiki.views.article import MergeView
+    MergeView.get = fixed_mergeview_get
 
-    @method_decorator(get_article(can_read=True, can_moderate=True))
-    def dispatch(self, request, article, *args, **kwargs):
-        return super(History, self).dispatch(request, article, *args, **kwargs)
+    # deny access to not superusers
+    import wrapt
+    from django.http import HttpResponseForbidden
 
-    History.dispatch = dispatch
+    @wrapt.decorator
+    def is_superuser(wrapped, instance, args, kwargs):
+        if instance.request.user.is_superuser:
+            return wrapped(*args, **kwargs)
+        else:
+            return HttpResponseForbidden("Forbidden")
+
+    # allow only access from moderators to preview
+    from wiki.views.article import Preview
+    Preview.dispatch = is_superuser(Preview.dispatch)
 
     # allow only access from moderators to changerevisionview
     from wiki.views.article import ChangeRevisionView
+    ChangeRevisionView.dispatch = is_superuser(ChangeRevisionView.dispatch)
 
-    @method_decorator(get_article(can_write=True, can_moderate=True))
-    def dispatch(self, request, article, *args, **kwargs):
-        self.article = article
-        self.urlpath = kwargs.pop("kwargs", False)
-        self.change_revision()
+    # allow only access from moderators to history
+    from wiki.views.article import History
+    History.dispatch = is_superuser(History.dispatch)
 
-        return super(ChangeRevisionView, self).dispatch(request, *args, **kwargs)
-
-    ChangeRevisionView.dispatch = dispatch
-
-    # add message to user
+    # add review message to user
     from django.contrib import messages
     from django.utils.translation import gettext as _
     from wiki import models
@@ -60,6 +63,14 @@ def patch_wiki():
 
     Create.original_form_valid = Create.form_valid
     Create.form_valid = create_form_valid
+
+    # overwrite str method
+    from wiki.models.article import ArticleRevision
+
+    def ar_str(self):
+        return "%s (%d)" % (self.title, self.id)
+
+    ArticleRevision.__str__ = ar_str
 
 def add_revision(self, new_revision, save=True):
     """
@@ -106,3 +117,74 @@ def add_revision(self, new_revision, save=True):
         else:
             message = "Wiki page update: %s" % self.get_absolute_url()
         Submission.objects.create(article_revision=new_revision, submitted_by=new_revision.user, message=message)
+
+def fixed_mergeview_get(self, request, article, revision_id, *args, **kwargs):
+    from django.contrib import messages
+    from django.shortcuts import get_object_or_404
+    from django.shortcuts import render
+    from django.shortcuts import redirect
+    from django.utils.translation import gettext as _
+    from wiki import models
+    from wiki.core.diff import simple_merge
+
+    revision = get_object_or_404(
+        models.ArticleRevision, article=article, id=revision_id
+    )
+
+    current_text = (
+        article.current_revision.content if article.current_revision else ""
+    )
+    new_text = revision.content
+
+    content = simple_merge(current_text, new_text)
+    print(content)
+    # Save new revision
+    if not self.preview:
+        old_revision = article.current_revision
+
+        if revision.deleted:
+            c = {
+                "error_msg": _("You cannot merge with a deleted revision"),
+                "article": article,
+                "urlpath": self.urlpath,
+            }
+            return render(request, self.template_error_name, context=c)
+
+        new_revision = models.ArticleRevision()
+        new_revision.inherit_predecessor(article)
+        # following line was missing (user was not set ...)
+        new_revision.set_from_request(self.request)
+        new_revision.deleted = False
+        new_revision.locked = False
+        new_revision.title = article.current_revision.title
+        new_revision.content = content
+        new_revision.automatic_log = _(
+            "Merge between revision #%(r1)d and revision #%(r2)d"
+        ) % {"r1": revision.revision_number, "r2": old_revision.revision_number}
+        article.add_revision(new_revision, save=True)
+
+        old_revision.simpleplugin_set.all().update(article_revision=new_revision)
+        revision.simpleplugin_set.all().update(article_revision=new_revision)
+
+        messages.success(
+            request,
+            _(
+                "A new revision was created: Merge between revision #%(r1)d and revision #%(r2)d"
+            )
+            % {"r1": revision.revision_number, "r2": old_revision.revision_number},
+        )
+        if self.urlpath:
+            return redirect("wiki:edit", path=self.urlpath.path)
+        else:
+            return redirect("wiki:edit", article_id=article.id)
+
+    c = {
+        "article": article,
+        "title": article.current_revision.title,
+        "revision": None,
+        "merge1": revision,
+        "merge2": article.current_revision,
+        "merge": True,
+        "content": content,
+    }
+    return render(request, self.template_name, c)

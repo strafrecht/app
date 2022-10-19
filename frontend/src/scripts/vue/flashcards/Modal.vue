@@ -66,7 +66,7 @@ export default {
 }
 
 .modal-body {
-  width: 350px;
+  /* width: 350px; */
 }
 
 .modal-default-button {
