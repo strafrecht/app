@@ -55,15 +55,19 @@ def add_revision(self, new_revision, save=True):
     """
     # ArticleRevision not defined. Sometimes?
     from wiki.models.article import ArticleRevision
+    from core.models import Submission
 
     assert self.id or save, (
         "Article.add_revision: Sorry, you cannot add a"
         "revision to an article that has not been saved "
         "without using save=True"
     )
+    is_superuser = new_revision.user.is_superuser if new_revision.user else False
+    new_article = not self.id
+
     if not self.id:
         # new article: set other_read, so only admin can access new wiki page
-        self.other_read = new_revision.user.is_superuser
+        self.other_read = is_superuser
         self.save()
     revisions = self.articlerevision_set.all()
     try:
@@ -77,7 +81,15 @@ def add_revision(self, new_revision, save=True):
         new_revision.clean()
         new_revision.save()
     # set only the current edition if user is superuser
-    if new_revision.user.is_superuser:
+    if is_superuser:
         self.current_revision = new_revision
     if save:
         self.save()
+
+    # create submission for admins
+    if not is_superuser:
+        if new_article:
+            message = "New wiki page: %s" % self.get_absolute_url()
+        else:
+            message = "Wiki page update: %s" % self.get_absolute_url()
+        Submission.objects.create(article_revision=new_revision, submitted_by=new_revision.user, message=message)

@@ -58,6 +58,7 @@ class QuizTestCase(TestCase):
 class IndexViewTests(TestCase):
 
     def setUp(self):
+        #self.client.force_login(User.objects.get_or_create(username='admin')[0])
         URLPath.create_root(title="Root")
         URLPath.create_urlpath(URLPath.root(), "at",
                                title="Title 1",
