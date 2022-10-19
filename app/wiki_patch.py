@@ -9,9 +9,9 @@ def patch_wiki():
     from wiki.models.article import Article
     Article.add_revision = add_revision
 
-    # allow only access from moderators to history
     from django.utils.decorators import method_decorator
     from wiki.decorators import get_article
+    # allow only access from moderators to history
     from wiki.views.article import History
 
     @method_decorator(get_article(can_read=True, can_moderate=True))
@@ -19,6 +19,19 @@ def patch_wiki():
         return super(History, self).dispatch(request, article, *args, **kwargs)
 
     History.dispatch = dispatch
+
+    # allow only access from moderators to changerevisionview
+    from wiki.views.article import ChangeRevisionView
+
+    @method_decorator(get_article(can_write=True, can_moderate=True))
+    def dispatch(self, request, article, *args, **kwargs):
+        self.article = article
+        self.urlpath = kwargs.pop("kwargs", False)
+        self.change_revision()
+
+        return super(ChangeRevisionView, self).dispatch(request, *args, **kwargs)
+
+    ChangeRevisionView.dispatch = dispatch
 
     # add message to user
     from django.contrib import messages
