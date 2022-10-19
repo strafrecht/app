@@ -38,6 +38,7 @@ class SubmissionAdmin(ModelAdmin):
     model = Submission
     list_display = ('submitted_by', 'reviewed_by', 'article_revision', 'message', 'status', 'created', 'updated',)
     list_filter = ('status',)
+    ordering = ['-created']
 
 class QuestionVersionAdmin(TreeModelAdmin):
     menu_label = 'Fragen Version'
@@ -70,5 +71,7 @@ class ArticleAdmin(ModelAdmin):
     # menu_order = 290
     # add_to_settings_menu = False
     # exclude_from_explorer = False
-    list_display = ('title', 'user', 'created', 'modified')
+    list_display = ('id', 'revision_number', 'title', 'user', 'user_message', 'created', 'modified')
     # search_fields = ("email", "full_name",)
+    search_fields = ('title', 'id')
+    ordering = ['-created']
