@@ -45,7 +45,7 @@ USE_TZ = True
 
 # Languages available
 LANGUAGES = (
-    ('de', 'German'),
+    ('de', 'Deutsch'),
     ('en', 'English'),
 )
 
@@ -182,6 +182,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
