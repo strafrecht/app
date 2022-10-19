@@ -90,12 +90,12 @@ main > .container-inner > .content {
 	      {% endif %}
       </small>
    </div>
-	
+
    <section>
       {% block wiki_contents_tab %}
       {% endblock %}
    </section>
-	
+
 {% with selected_tab as selected %}
 {% if selected == "view" %}
    <section>
@@ -120,10 +120,10 @@ main > .container-inner > .content {
          <h2 style="margin-bottom: 50px;">Problemfeld-Wiki</h2>
       </div>
       <p>
-         Definitionen und Theorien zu Fragestellungen, die immer 
-         wieder in den Klausuren auf der Tagesordnung sind. Lorem 
-         ipsum dolor sit amet, consectetuer adipiscing elit. Aenean 
-         commodo ligula eget dolor. Aenean massa. Cum parturient 
+         Definitionen und Theorien zu Fragestellungen, die immer
+         wieder in den Klausuren auf der Tagesordnung sind. Lorem
+         ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+         commodo ligula eget dolor. Aenean massa. Cum parturient
          montes, nascetur ridiculus mus.
       </p>
    </div>
@@ -154,7 +154,7 @@ main > .container-inner > .content {
             <label>
                <h3>Problemfelder</h3>
             </label>
-            {% endif %} 
+            {% endif %}
          </div>
          <div class="wiki-children"> {% for urlpath in children_slice %} <a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a> {% empty%} <em>{% trans "There are no articles in this level" %}</em> {% endfor %} </div>
       </div>
