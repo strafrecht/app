@@ -648,7 +648,7 @@ def get_at_categories():
     return categories
 
 def get_bt_categories():
-    bt = URLPath.objects.filter(slug='bt').first()
+    bt = URLPath.objects.filter(slug='bt').last()
 
     categories = [
         {"category": child,
