@@ -40,6 +40,10 @@ def patch_wiki():
     from wiki.views.article import Move
     Move.dispatch = is_superuser(Move.dispatch)
 
+    # allow only access from moderators to settings
+    from wiki.views.article import Settings
+    Settings.dispatch = is_superuser(Settings.dispatch)
+
     # add review message to user
     from django.contrib import messages
     from django.utils.translation import gettext as _

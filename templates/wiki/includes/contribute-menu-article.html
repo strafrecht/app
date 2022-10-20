@@ -29,7 +29,7 @@
          </a>
       </p>
       {% endfor %}
-      {% if not user.is_anonymous %}
+      {% if article|can_moderate:user %}
       <p style="margin-bottom: 0px !important;{% if selected == "settings" %} display:none;{% endif %}">
          <a href="{% url 'wiki:settings' article_id=article.id path=urlpath.path %}">
          <span class="underlined green hover">Einstellungen aufrufen</span> <i class="bi bi-arrow-right"></i>
