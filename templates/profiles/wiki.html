@@ -1,22 +1,23 @@
 {% extends "profiles/index.html" %}
 
-{% load static %}
+{% load i18n %}
 
 {% block contents %}
 <div class="flex">
-	<h4>Wiki Revisions</h4>
+  <h4>Wiki Revisions</h4>
 
-		{% if revisions %}
-			{% for revision in revisions %}
-				<div class="bg-white rounded-lg p-3 my-2">
-					<a href="{% url 'wiki:change_revision' revision.article.id revision.id %}" class="text-info">
-						{{ revision.title }} [{{ revision.revision_number }}]
-					</a>
-					<div>Status: pending</div>
-				</div>
-			{% endfor %}
-		{% else %}
-			<p>No wiki revisions.</p>
-		{% endif %}
+  {% if revisions %}
+  {% for revision in revisions %}
+  <div class="bg-white rounded-lg p-3 my-2">
+    <a href="{{ revision.article_revision.article.get_absolute_url }}" class="text-info">
+      {{ revision.article_revision.title }} [{{ revision.article_revision.revision_number }}]
+    </a>
+    <div>Eingereicht: {{ revision.created | date }}</div>
+    <div>Status: {{ revision.status }}</div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p>No wiki revisions.</p>
+  {% endif %}
 </div>
 {% endblock %}

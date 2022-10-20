@@ -45,7 +45,7 @@ USE_TZ = True
 
 # Languages available
 LANGUAGES = (
-    ('de', 'German'),
+    ('de', 'Deutsch'),
     ('en', 'English'),
 )
 
@@ -182,6 +182,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -329,6 +330,10 @@ WIKI_ANONYMOUS_CREATE = True
 WIKI_ANONYMOUS_WRITE = True
 WIKI_EDITOR = 'editors.modern.Modern'
 WIKI_CHECK_SLUG_URL_AVAILABLE = False
+
+from .wiki_patch import wiki_can_moderate
+WIKI_CAN_MODERATE = wiki_can_moderate
+WIKI_CAN_DELETE = wiki_can_moderate
 
 COMMENTS_APP = 'django_comments_xtd'
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5

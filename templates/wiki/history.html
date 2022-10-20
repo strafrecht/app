@@ -45,63 +45,15 @@
 </style>
 {% endaddtoblock %}
 
-<p>
+<p class="lead">
   {% trans "Click each revision to see a list of edited lines. Click the Preview button to see how the article looked at this stage. At the bottom of this page, you can change to a particular revision or merge an old revision with the current one." %}
 </p>
-
-<!--script>
-setTimeout(() => {
-	let cards = document.querySelectorAll('.card')
-
-	for (var i = 0; i < cards.length; i++) {
-		let card = cards[i]
-		let toggle = card.querySelector('.wiki-card-toggle')
-
-		toggle.addEventListener('click', () => {
-			setTimeout(() => {
-			console.log(card)
-
-			let converter = new showdown.Converter()
-			let elements = card.querySelectorAll('.data')
-
-			if (elements) {
-				console.log(elements)
-				for (var j = 0; j < elements.length; j++) {
-					let action, text;
-					let data = elements[j]
-					let s = data.textContent
-
-					if (s.indexOf("- "))
-					{
-						prefix = "- "
-						suffix = s.slice(2, s.length)
-					}
-					else if (s.indexOf("+ "))
-					{
-						prefix = "+ "
-						suffix = s.slice(2, s.length)
-					}
-					else {
-						prefix = ""
-						suffix = s
-					}
-
-					let html = converter.makeHtml(suffix)
-
-					data.innerHTML = html
-				}
-			}
-			}, 250)
-		})
-	}
-}, 1000)
-</script-->
 
 <form method="GET">
   <div class="tab-content" style="overflow: visible;">
     {% for revision in revisions %}
       <div class="" id="accordion{{ revision.revision_number }}">
-        <div class="card bg-light" style="margin-bottom: 10px;">
+        <div class="card bg-light">
           <div class="card-body">
             <a class="wiki-card-toggle" data-revision="{{ revision.revision_number }}" data-json-url="{% url 'wiki:diff' revision.id %}"  style="float: left;" href="#collapse{{ revision.revision_number }}">
               {% if revision == article.current_revision %}
@@ -140,6 +92,14 @@ setTimeout(() => {
 
               {% if article|can_write:user and not article.current_revision.locked %}
               <input type="radio"{% if revision == article.current_revision %} disabled="true"{% endif %} style="margin: 0 10px;" value="{{ revision.id }}" name="revision_id" switch-button-href="{% url 'wiki:change_revision' path=urlpath.path revision_id=revision.id %}" merge-button-href="{% url 'wiki:merge_revision_preview' article_id=article.id revision_id=revision.id %}" merge-button-commit-href="{% url 'wiki:merge_revision' path=urlpath.path article_id=article.id revision_id=revision.id %}" />
+	      <a href="/cms/wiki/articlerevision/edit/{{ revision.id }}/" target="_blank">
+		<span class="fa fa-pencil fa-fw"></span>
+	      </a>
+	      {% if revision != article.current_revision %}
+	      <a href="/cms/wiki/articlerevision/delete/{{ revision.id }}/" target="_blank">
+		<span class="fa fa-trash fa-fw"></span>
+	      </a>
+	      {% endif %}
               {% endif %}
 
             </div>
@@ -156,7 +116,7 @@ setTimeout(() => {
                   <tr>
                     <th class="linenumber">{% if revision.previous_revision %}#{{revision.previous_revision.revision_number}}{% endif %}</th>
                     <th class="linenumber">#{{revision.revision_number}}</th>
-                    <th>{% trans "Changes" %}</th>
+                    <th>{% trans "Change" %}</th>
                   </tr>
                 </thead>
               </table>
@@ -220,7 +180,7 @@ setTimeout(() => {
       <div class="modal-content">
         <div class="modal-header">
           <h1>{% trans "Merge with current" %}</h1>
-          <p><span class="fa fa-info-circle"></span> {% trans "When you merge a revision with the current, all data will be retained from both versions and merged at its approximate location from each revision." %} <strong>{% trans "After this, it's important to do a manual review." %}</strong></p>
+          <p class="lead"><span class="fa fa-info-circle"></span> {% trans "When you merge a revision with the current, all data will be retained from both versions and merged at its approximate location from each revision." %} <strong>{% trans "After this, it's important to do a manual review." %}</strong></p>
         </div>
         <div class="modal-body">
           <iframe name="mergeWindow" frameborder="0" style="min-height: 0;"></iframe>

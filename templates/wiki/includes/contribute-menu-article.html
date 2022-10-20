@@ -15,11 +15,13 @@
          </a>
       </p>
       {% endif %}
+      {% if article|can_moderate:user %}
       <p style="margin-bottom: 0px !important;{% if selected == "history" %} display:none;{% endif %}">
          <a href="{% url 'wiki:history' article_id=article.id path=urlpath.path %}">
          <span class="underlined green hover">Versionsgeschichte anzeigen</span> <i class="bi bi-arrow-right"></i>
          </a>
       </p>
+      {% endif %}
       {% for plugin in article_tabs %}
       <p style="margin-bottom: 0px !important;{% if selected == plugin.slug %} display:none;{% endif %}">
          <a href="{% url 'wiki:plugin' slug=plugin.slug article_id=article.id path=urlpath.path %}">

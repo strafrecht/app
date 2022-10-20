@@ -32,14 +32,14 @@ def global_admin_css():
         static("css/wagtail.css")
     )
 
-# @modeladmin_register
-class SubmissionAdmin(TreeModelAdmin):
+@modeladmin_register
+class SubmissionAdmin(ModelAdmin):
     menu_label = 'Einreichungen'
     model = Submission
-    parent_field = 'question_version'
-    list_display = ('submitted_by', 'reviewed_by', 'article_revision', 'question_version', 'status', 'message')
+    list_display = ('submitted_by', 'reviewed_by', 'article_revision', 'message', 'status', 'created', 'updated',)
+    list_filter = ('status',)
+    ordering = ['-created']
 
-# @modeladmin_register
 class QuestionVersionAdmin(TreeModelAdmin):
     menu_label = 'Fragen Version'
     menu_icon = 'list-ul'
@@ -49,7 +49,6 @@ class QuestionVersionAdmin(TreeModelAdmin):
     child_model_admin = SubmissionAdmin
     list_display = ('question', 'title', 'description', 'categories', 'approved', 'user')
 
-# @modeladmin_register
 class QuestionAdmin(TreeModelAdmin):
     menu_label = 'Fragen Index'
     menu_icon = 'list-ul'
@@ -58,11 +57,13 @@ class QuestionAdmin(TreeModelAdmin):
     child_model_admin = QuestionVersionAdmin
     list_display = ('filepath', 'slug')
 
+@modeladmin_register
 class QuestionMenuAdmin(ModelAdminGroup):
     menu_label = 'Fragen'
     menu_icon = 'folder'
     items = (QuestionAdmin, QuestionVersionAdmin)
 
+@modeladmin_register
 class ArticleAdmin(ModelAdmin):
     model = ArticleRevision
     menu_label = "Wiki Articles"
@@ -70,9 +71,7 @@ class ArticleAdmin(ModelAdmin):
     # menu_order = 290
     # add_to_settings_menu = False
     # exclude_from_explorer = False
-    list_display = ('title', 'user', 'created', 'modified')
+    list_display = ('id', 'revision_number', 'title', 'user', 'user_message', 'created', 'modified')
     # search_fields = ("email", "full_name",)
-
-modeladmin_register(SubmissionAdmin)
-modeladmin_register(QuestionMenuAdmin)
-modeladmin_register(ArticleAdmin)
+    search_fields = ('title', 'id')
+    ordering = ['-created']

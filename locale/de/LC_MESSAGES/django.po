@@ -1,0 +1,701 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-19 18:33+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app/wiki_patch.py:46
+msgid "The new revision will be reviewed and published by the moderators."
+msgstr ""
+
+#: app/wiki_patch.py:57
+msgid "The new page will be reviewed and published by the moderators."
+msgstr ""
+
+#: templates/account/login.html:6 templates/account/login.html:12
+#: templates/account/login.html:45
+msgid "Sign In"
+msgstr ""
+
+#: templates/account/login.html:17
+#, python-format
+msgid ""
+"Please sign in with one\n"
+"\t\t\tof your existing third party accounts. Or, <a href=\"%(signup_url)s"
+"\">sign up</a>\n"
+"\t\t\tfor a %(site_name)s account and sign in below:"
+msgstr ""
+
+#: templates/account/login.html:27
+msgid "or"
+msgstr ""
+
+#: templates/account/login.html:34
+#, python-format
+msgid ""
+"Falls Sie noch kein Nutzerkonto erstellt haben,\n"
+"\t\t\t<a href=\"%(signup_url)s\">registrieren</a> Sie sich bitte zunächst."
+msgstr ""
+
+#: templates/account/login.html:44
+msgid "Forgot Password?"
+msgstr ""
+
+#: templates/account/signup.html:5
+msgid "Signup"
+msgstr ""
+
+#: templates/account/signup.html:10 templates/account/signup.html:20
+msgid "Sign Up"
+msgstr ""
+
+#: templates/account/signup.html:12
+#, python-format
+msgid ""
+"Haben Sie schon ein Nutzerkonto? Dann loggen Sie sich <a href=\"%(login_url)s"
+"\">hier</a> ein."
+msgstr ""
+
+#: templates/avatar/add.html:11 templates/avatar/change.html:11
+msgid "You haven't uploaded an avatar yet. Please upload one now."
+msgstr ""
+
+#: templates/avatar/add.html:17 templates/avatar/change.html:17
+msgid "Choose new Default"
+msgstr ""
+
+#: templates/avatar/add.html:22 templates/avatar/change.html:22
+msgid "Upload New Image"
+msgstr ""
+
+#: templates/comments/delete.html:6
+msgid "Remove comment"
+msgstr ""
+
+#: templates/comments/delete.html:10
+msgid "Remove this comment?"
+msgstr ""
+
+#: templates/comments/delete.html:13
+msgid ""
+"As a moderator you can delete comments. Deleting a comment does not remove "
+"it from the site, only prevents your website from showing the text. Click on "
+"the remove button to delete the following comment:"
+msgstr ""
+
+#: templates/comments/delete.html:51
+msgid "Remove"
+msgstr ""
+
+#: templates/comments/deleted.html:5
+msgid "Comment removed"
+msgstr ""
+
+#: templates/comments/deleted.html:12
+msgid "The comment has been removed."
+msgstr ""
+
+#: templates/comments/deleted.html:13 templates/comments/flagged.html:13
+msgid ""
+"Thank you for taking the time to improve the quality of discussion in our "
+"site."
+msgstr ""
+
+#: templates/comments/flag.html:6
+msgid "Flag comment"
+msgstr ""
+
+#: templates/comments/flag.html:14
+msgid "Flag this comment?"
+msgstr ""
+
+#: templates/comments/flag.html:17
+msgid ""
+"Click on the flag button to mark the following comment as inappropriate."
+msgstr ""
+
+#: templates/comments/flag.html:47
+msgid "Posted to "
+msgstr ""
+
+#: templates/comments/flag.html:62
+msgid "Flag"
+msgstr ""
+
+#: templates/comments/flag.html:63
+msgid "cancel"
+msgstr ""
+
+#: templates/comments/flagged.html:5
+msgid "Comment flagged"
+msgstr ""
+
+#: templates/comments/flagged.html:12
+msgid "The comment has been flagged."
+msgstr ""
+
+#: templates/comments/form.html:70
+msgid "send"
+msgstr ""
+
+#: templates/comments/form.html:71
+msgid "preview"
+msgstr ""
+
+#: templates/comments/list.html:25
+msgid "This comment has been removed."
+msgstr ""
+
+#: templates/comments/list.html:33
+msgid "Reply"
+msgstr ""
+
+#: templates/comments/posted.html:6
+msgid "Comment confirmation requested."
+msgstr ""
+
+#: templates/comments/posted.html:12
+msgid ""
+"A confirmation message has been sent to your\n"
+"            email address. Please, click on the link in the message to "
+"confirm\n"
+"            your comment."
+msgstr ""
+
+#: templates/comments/preview.html:6 templates/comments/preview.html:12
+msgid "Preview your comment"
+msgstr ""
+
+#: templates/comments/preview.html:16
+msgid "Preview of your comment for:"
+msgstr ""
+
+#: templates/comments/preview.html:23
+msgid "Empty comment."
+msgstr ""
+
+#: templates/comments/preview.html:55
+msgid "Post your comment"
+msgstr ""
+
+#: templates/news/choose.html:3 templates/news/index.html:4
+#: templates/news/index.html:11
+msgid "News"
+msgstr ""
+
+#: templates/news/chooser/chooser.html:2
+msgid "Choose a news item"
+msgstr ""
+
+#: templates/news/chooser/list.html:10 templates/wiki/dir.html:115
+msgid "Title"
+msgstr ""
+
+#: templates/news/chooser/list.html:11
+msgid "Status"
+msgstr ""
+
+#: templates/news/chooser/search_results.html:6
+#, python-format
+msgid ""
+"\n"
+"\t\t\tThere is one match\n"
+"\t\t"
+msgid_plural ""
+"\n"
+"\t\t\tThere are %(counter)s matches\n"
+"\t\t"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/news/chooser/search_results.html:19
+#, python-format
+msgid "Sorry, no news items match \"<em>%(query_string)s</em>\""
+msgstr ""
+
+#: templates/news/chooser/search_results.html:22
+#, python-format
+msgid ""
+"No %(newsitem_type_name_plural)s have been created. Why not <a href="
+"\"%(wagtailnews:create_url)s\">add one</a>?"
+msgstr ""
+
+#: templates/news/create.html:3
+#, python-format
+msgid "Creating %(type)s"
+msgstr ""
+
+#: templates/news/create.html:8
+msgid "New"
+msgstr ""
+
+#: templates/news/create.html:9
+msgid "news post"
+msgstr ""
+
+#: templates/news/create.html:23 templates/news/edit.html:14
+msgid "Save draft"
+msgstr ""
+
+#: templates/news/create.html:26 templates/news/edit.html:23
+msgid "Publish"
+msgstr ""
+
+#: templates/news/create.html:33 templates/wiki/edit.html:32
+msgid "Preview"
+msgstr ""
+
+#: templates/news/delete.html:3
+#, python-format
+msgid "Delete %(newsitem)s"
+msgstr ""
+
+#: templates/news/delete.html:7 templates/news/edit.html:21
+#: templates/news/newsitem_list.html:30
+msgid "Delete"
+msgstr ""
+
+#: templates/news/delete.html:13
+msgid "Are you sure you want to delete this news item?"
+msgstr ""
+
+#: templates/news/delete.html:15
+msgid ""
+"Alternatively you can unpublish the news item. This removes the news item "
+"from public view and you can edit or publish it again later."
+msgstr ""
+
+#: templates/news/delete.html:16 templates/news/delete.html:21
+msgid "Delete it"
+msgstr ""
+
+#: templates/news/delete.html:18
+msgid "Unpublish it"
+msgstr ""
+
+#: templates/news/edit.html:4
+#, python-format
+msgid "Editing %(type)s: %(newsitem)s"
+msgstr ""
+
+#: templates/news/edit.html:5 templates/news/newsitem_list.html:26
+#: templates/wiki/edit.html:5 templates/wiki/includes/article_menu.html:25
+msgid "Edit"
+msgstr ""
+
+#: templates/news/edit.html:18 templates/news/newsitem_list.html:33
+#: templates/news/unpublish.html:7
+msgid "Unpublish"
+msgstr ""
+
+#: templates/news/index.html:36
+msgid "Add news post"
+msgstr ""
+
+#: templates/news/newsitem_list.html:28
+#: templates/wiki/includes/article_menu.html:17
+msgid "View"
+msgstr ""
+
+#: templates/news/search.html:3 templates/news/search.html:17
+msgid "Search"
+msgstr ""
+
+#: templates/news/search_results.html:7
+#, python-format
+msgid ""
+"\n"
+"            There is one matching news item\n"
+"        "
+msgid_plural ""
+"\n"
+"            There are %(counter)s matching news items\n"
+"        "
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/news/search_results.html:30
+#, python-format
+msgid "Sorry, no news items match <em>\"%(query_string)s\"</em>"
+msgstr ""
+
+#: templates/news/search_results.html:33
+msgid "Enter a search term above"
+msgstr ""
+
+#: templates/news/unpublish.html:3
+#, python-format
+msgid "Unpublish %(newsitem)s"
+msgstr ""
+
+#: templates/news/unpublish.html:13
+msgid "Are you sure you want to unpublish this news item?"
+msgstr ""
+
+#: templates/news/unpublish.html:14
+msgid "Yes, unpublish it"
+msgstr ""
+
+#: templates/wiki/accounts/account_settings.html:4
+#: templates/wiki/accounts/account_settings.html:7
+msgid "Account Settings"
+msgstr ""
+
+#: templates/wiki/accounts/account_settings.html:11
+msgid "Update"
+msgstr ""
+
+#: templates/wiki/accounts/login.html:4
+msgid "Log in"
+msgstr ""
+
+#: templates/wiki/accounts/login.html:10
+msgid "Please log in"
+msgstr ""
+
+#: templates/wiki/accounts/login.html:18
+msgid "Log me in..."
+msgstr ""
+
+#: templates/wiki/accounts/login.html:25
+msgid "Don't have an account?"
+msgstr ""
+
+#: templates/wiki/accounts/login.html:25 templates/wiki/accounts/signup.html:3
+#: templates/wiki/accounts/signup.html:6
+msgid "Sign up"
+msgstr ""
+
+#: templates/wiki/accounts/signup.html:14
+msgid "Sign me up..."
+msgstr ""
+
+#: templates/wiki/article.html:90 templates/wiki/includes/revision_info.html:21
+msgid "locked"
+msgstr ""
+
+#: templates/wiki/article.html:160 templates/wiki/dir.html:107
+#: templates/wiki/dir.html:137
+msgid "There are no articles in this level"
+msgstr ""
+
+#: templates/wiki/create.html:51 templates/wiki/delete.html:40
+#: templates/wiki/delete.html:76 templates/wiki/move.html:37
+msgid "Go back"
+msgstr ""
+
+#: templates/wiki/create.html:55
+msgid "Create article"
+msgstr ""
+
+#: templates/wiki/delete.html:21 templates/wiki/delete.html:80
+#: templates/wiki/edit.html:49
+msgid "Delete article"
+msgstr ""
+
+#: templates/wiki/delete.html:39
+msgid "You cannot delete a root article."
+msgstr ""
+
+#: templates/wiki/delete.html:45
+msgid ""
+"You cannot delete this article because you do not have permission to delete "
+"articles with children. Try to remove the children manually one-by-one."
+msgstr ""
+
+#: templates/wiki/delete.html:51
+msgid ""
+"You are deleting an article. This means that its children will be deleted as "
+"well. If you choose to purge, children will also be purged!"
+msgstr ""
+
+#: templates/wiki/delete.html:53
+msgid "Articles that will be deleted"
+msgstr ""
+
+#: templates/wiki/delete.html:59
+msgid "...and more!"
+msgstr ""
+
+#: templates/wiki/delete.html:67
+msgid "You are deleting an article. Please confirm."
+msgstr ""
+
+#: templates/wiki/deleted_list.html:4
+msgid "Admin Panel"
+msgstr ""
+
+#: templates/wiki/deleted_list.html:8
+msgid "Deleted Articles"
+msgstr ""
+
+#: templates/wiki/deleted_list.html:13
+msgid "Page Title"
+msgstr ""
+
+#: templates/wiki/deleted_list.html:14
+msgid "Date Deleted"
+msgstr ""
+
+#: templates/wiki/deleted_list.html:15
+msgid "Restore Article"
+msgstr ""
+
+#: templates/wiki/deleted_list.html:24
+msgid "Restore"
+msgstr ""
+
+#: templates/wiki/deleted_list.html:30
+msgid "No deleted articles to display"
+msgstr ""
+
+#: templates/wiki/dir.html:4
+msgid "Listing articles in"
+msgstr ""
+
+#: templates/wiki/dir.html:60
+msgid "Up one level"
+msgstr ""
+
+#: templates/wiki/dir.html:65
+msgid "Add article"
+msgstr ""
+
+#: templates/wiki/dir.html:74
+msgid "clear"
+msgstr ""
+
+#: templates/wiki/dir.html:86
+msgid "article,articles"
+msgstr ""
+
+#: templates/wiki/dir.html:86
+msgid "is,are"
+msgstr ""
+
+#: templates/wiki/dir.html:86
+#, python-format
+msgid ""
+"Browsing <strong><a href=\"%(self_url)s\">/%(path)s</a></strong>. There "
+"%(articles_plur_verb)s <strong>%(cnt)s %(articles_plur)s</strong> in this "
+"level."
+msgstr ""
+
+#: templates/wiki/dir.html:116
+msgid "Last modified"
+msgstr ""
+
+#: templates/wiki/edit.html:11
+msgid ""
+"<strong>Warning:</strong> You are not logged in. Your IP address will be "
+"logged."
+msgstr ""
+
+#: templates/wiki/edit.html:12
+msgid "Click here to log in"
+msgstr ""
+
+#: templates/wiki/edit.html:36 templates/wiki/edit.html:83
+msgid "Save changes"
+msgstr ""
+
+#: templates/wiki/edit.html:43 templates/wiki/move.html:41
+msgid "Move article"
+msgstr ""
+
+#: templates/wiki/edit.html:79
+msgid "Back to editor"
+msgstr ""
+
+#: templates/wiki/error.html:5 templates/wiki/error.html:26
+msgid "Error"
+msgstr ""
+
+#: templates/wiki/error.html:15
+msgid "Not found"
+msgstr ""
+
+#: templates/wiki/error.html:18
+msgid "This article was not found, and neither was its parent article."
+msgstr ""
+
+#: templates/wiki/error.html:20
+msgid "Start page"
+msgstr ""
+
+#: templates/wiki/error.html:30
+msgid "There was some sort of error accessing this page. Sorry!"
+msgstr ""
+
+#: templates/wiki/error.html:38
+msgid "Back to"
+msgstr ""
+
+#: templates/wiki/includes/anonymous_blocked.html:7
+#, python-format
+msgid ""
+"You need to <a href=\"%(login_url)s\">log in</a> or <a href=\"%(signup_url)s"
+"\">sign up</a> to use this function."
+msgstr ""
+
+#: templates/wiki/includes/anonymous_blocked.html:11
+msgid "You need to log in or sign up to use this function."
+msgstr ""
+
+#: templates/wiki/includes/article_menu.html:6
+#: templates/wiki/includes/breadcrumbs.html:16
+msgid "Sub-articles for"
+msgstr ""
+
+#: templates/wiki/includes/article_menu.html:32
+msgid "View Source"
+msgstr ""
+
+#: templates/wiki/includes/article_menu.html:40
+msgid "Changes"
+msgstr ""
+
+#: templates/wiki/includes/article_menu.html:57
+msgid "Settings"
+msgstr ""
+
+#: templates/wiki/includes/breadcrumbs.html:27
+msgid "No sub-articles"
+msgstr ""
+
+#: templates/wiki/includes/breadcrumbs.html:30
+msgid "...and more"
+msgstr ""
+
+#: templates/wiki/includes/breadcrumbs.html:33
+msgid "Browse articles in this level"
+msgstr ""
+
+#: templates/wiki/includes/contribute-menu-category.html:6
+msgid ""
+"Neues Problemfeld in dieser Kategorie erstellen</span> <i class=\"bi bi-"
+"arrow-right\"></i>"
+msgstr ""
+
+#: templates/wiki/includes/revision_info.html:10
+msgid "by"
+msgstr ""
+
+#: templates/wiki/includes/revision_info.html:10
+msgid "anonymous (IP logged)"
+msgstr ""
+
+#: templates/wiki/includes/revision_info.html:15
+msgid "deleted"
+msgstr ""
+
+#: templates/wiki/includes/revision_info.html:18
+msgid "restored"
+msgstr ""
+
+#: templates/wiki/includes/revision_info.html:24
+msgid "unlocked"
+msgstr ""
+
+#: templates/wiki/move.html:4
+msgid "Move"
+msgstr ""
+
+#: templates/wiki/move.html:23
+#, python-format
+msgid ""
+"%(cnt)s nested article will also be moved.<br> Be careful, links to this "
+"article and %(cnt)s article nested in this hierarchy will not be updated."
+msgid_plural ""
+"%(cnt)s nested articles will also be moved.<br> Be careful, links to this "
+"article and %(cnt)s articles nested in this hierarchy will not be updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/wiki/permission_denied.html:8
+msgid "Permission Denied"
+msgstr ""
+
+#: templates/wiki/permission_denied.html:11
+msgid "Sorry, you don't have permission to access this page."
+msgstr ""
+
+#: templates/wiki/permission_denied.html:16
+msgid "This article is locked for editing."
+msgstr ""
+
+#: templates/wiki/permission_denied.html:23
+#: templates/wiki/permission_denied.html:27
+msgid "Back to article"
+msgstr ""
+
+#: templates/wiki/preview_inline.html:8
+msgid "Previewing revision"
+msgstr ""
+
+#: templates/wiki/preview_inline.html:15
+msgid "Previewing merge between"
+msgstr ""
+
+#: templates/wiki/preview_inline.html:17
+msgid "and"
+msgstr ""
+
+#: templates/wiki/preview_inline.html:22
+msgid "You cannot merge with a deleted revision"
+msgstr ""
+
+#: templates/wiki/preview_inline.html:31
+msgid "This revision has been deleted."
+msgstr ""
+
+#: templates/wiki/preview_inline.html:32
+msgid "Restoring to this revision will mark the article as deleted."
+msgstr ""
+
+#: templates/wiki/root_missing.html:10
+msgid "Congratulations!"
+msgstr ""
+
+#: templates/wiki/root_missing.html:12
+msgid ""
+"You have django-wiki installed and it seems to be working. But there are no "
+"articles yet."
+msgstr ""
+
+#: templates/wiki/root_missing.html:17
+msgid ""
+"Not to worry! You simply have to login with a superuser account and create "
+"the first article in the root of the URL hierarchy."
+msgstr ""
+
+#: templates/wiki/root_missing.html:21
+msgid "Click here to login"
+msgstr ""
+
+#: templates/wiki/root_missing.html:27
+msgid ""
+"But since you're logged in as a superuser, we should really get started..."
+msgstr ""
+
+#: templates/wiki/root_missing.html:29
+msgid "Yes, I'll go and create the first article"
+msgstr ""
+
+#: templates/wiki/root_missing.html:30
+msgid "No thanks, I'd rather read the documentation"
+msgstr ""
