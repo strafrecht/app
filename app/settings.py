@@ -181,6 +181,7 @@ INSTALLED_APPS = [
 ] + vars.vars.get("DEV_APPS", [])
 
 MIDDLEWARE = [
+    'app.middleware.XForwardedForMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
