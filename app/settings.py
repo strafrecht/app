@@ -126,11 +126,13 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'wiki.apps.WikiConfig',
     # 'wiki.plugins.attachments.apps.AttachmentsConfig',
-    'wiki.plugins.notifications.apps.NotificationsConfig',
+    # not used
+    # 'wiki.plugins.notifications.apps.NotificationsConfig',
     # 'wiki.plugins.images.apps.ImagesConfig',
     # 'wiki.plugins.macros.apps.MacrosConfig',
 
-    'wiki.plugins.editsection.apps.EditSectionConfig',
+    # this is buggy
+    # 'wiki.plugins.editsection.apps.EditSectionConfig',
     'wiki.plugins.help.apps.HelpConfig',
     'wiki.plugins.links.apps.LinksConfig',
     'wiki.plugins.globalhistory.apps.GlobalHistoryConfig',
