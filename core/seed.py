@@ -75,14 +75,17 @@ def start(request):
     # scrape_redirects(request)
     # scrape_wiki(request)
 
+    # TO TEST
+    # scrape_news(request)
+    # scrape_abstimmungen(request)
+    # scrape_newsletter(request)
+    # scrape_exams(request)
+    # NOT USED??? seed_redirects(request)
+
     # NOK
-    #scrape_news(request)
-    #scrape_abstimmungen(request)
-    #scrape_events(request)
-    #scrape_newsletter(request)
-    #scrape_lehre(request)
-    #scrape_exams(request)
-    #seed_redirects(request)
+    # scrape_lehre(request)
+    # scrape_events(request)
+
     print("OK")
     return HttpResponse(200)
 
