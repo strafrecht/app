@@ -31,7 +31,10 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.models import User
 from django.core import serializers
 from wagtail.core.models import Page
+
 from wiki.models import Article, ArticleRevision, URLPath
+from wiki.plugins.notifications.models import ArticleSubscription
+
 from .models import Question, QuestionVersion, AnswerVersion, Quiz, UserAnswer, Choice
 from pages.models.exams import Exams
 from pages.models.news import ArticlesPage, ArticlePage
@@ -63,20 +66,25 @@ import PIL
 
 # redirects
 import re
-from bs4 import BeautifulSoup
 
 def start(request):
-    #scrape_wiki(request)
+    if not request.user.is_superuser:
+        raise "only for superusers"
+
+    # OK
+    # scrape_redirects(request)
+    # scrape_wiki(request)
+
+    # NOK
     #scrape_news(request)
     #scrape_abstimmungen(request)
     #scrape_events(request)
     #scrape_newsletter(request)
     #scrape_lehre(request)
     #scrape_exams(request)
-    #scrape_redirects(request)
     #seed_redirects(request)
     print("OK")
-    return
+    return HttpResponse(200)
 
 def scrape_wiki(request):
     # init
@@ -87,7 +95,7 @@ def scrape_wiki(request):
     #os.chdir('C://Users//sfvso//Documents//serg1o//straf//app//core')
 
     # delete all wiki/categories
-    print("here")
+    ArticleSubscription.objects.all().delete()
     URLPath.objects.all().delete()
     ArticleRevision.objects.all().delete()
     Article.objects.all().delete()
@@ -102,7 +110,8 @@ def scrape_wiki(request):
     root_url.save()
 
     # prepare module
-    base_dir = "stgb"
+    base_dir = 'scrape/problemfelder'
+    wiki_root_dir = 'stgb'
     # get = lambda node_id: Category.objects.get(pk=node_id)
     # root_node = Category.add_root(name="StGB", slug="stgb")
 
@@ -116,62 +125,68 @@ def scrape_wiki(request):
     #for root, dirs, files in os.walk(base_dir, topdown=True, onerror=on_error):
     for root, dirs, files in tqdm(os.walk(base_dir, topdown=True, onerror=on_error), total=filecounter, unit=" files"):
 
-        #if "grundlagen" in root:
-        if True:
-            for file in files:
-                path = os.path.join(root, file)
-                html = open(path).read()
-                soup = BeautifulSoup(html, "html.parser")
+        for file in files:
+            print(file)
+            if file == 'Neu anzulegende Problemfelder.pdf':
+                continue
+            # skip files containing tilde -> git merge lefovers
+            if "~" in file:
+                continue
 
-                print(path)
-                print(get_type(soup))
+            path = os.path.join(root, file)
+            html = open(path).read()
+            soup = BeautifulSoup(html, "html.parser")
 
-                # create categories
-                if "category" in get_type(soup):
-                    cat = {
-                        "root": root,
-                        "slug": root.split("/")[-1],
-                        "name": soup.article.h1.text.strip(),
-                        #"long_name": extract("long_name", soup),
-                    }
+            print(path)
+            print(get_type(soup))
 
-                    create_category(cat)
+            parent_dir = wiki_root_dir + "/" + "/".join(root.split("/")[2:])
 
-                # create wikis
-                if "problem" in get_type(soup):
-                    wiki = {
-                        "root": root,
-                        "slug": root.split("/")[-1],
-                        "name": soup.article.h1.text.strip() if soup.article.h1 else '?',
-                        #"long_name": extract("long_name", soup),
-                        "tags": extract("tags", soup),
-                        "content": extract("content", soup),
-                    }
+            # create categories
+            if "category" in get_type(soup):
+                cat = {
+                    "root": parent_dir,
+                    "slug": root.split("/")[-1][0:50],
+                    "name": soup.article.h1.text.strip(),
+                    #"long_name": extract("long_name", soup),
+                }
 
-                    create_wiki(wiki)
+                create_category(cat)
 
-                # create mct
-                if "frage" in get_type(soup):
-                    question = {
-                        "root": root,
-                        "slug": root.split("/")[-1],
-                        "category": "", #Category
-                        #"title": extract("question", soup),
-                        "answers": extract("answers", soup),
-                        #"description": extract("description", soup),
-                        "order": extract("order", soup),
-                    }
+            # create wikis
+            if "problem" in get_type(soup):
+                wiki = {
+                    "root": parent_dir,
+                    "slug": root.split("/")[-1][0:50],
+                    "name": soup.article.h1.text.strip() if soup.article.h1 else '?',
+                    #"long_name": extract("long_name", soup),
+                    "tags": extract("tags", soup),
+                    "content": extract("content", soup),
+                }
+                create_wiki(wiki)
 
-                    question = create_question(question)
+            # create mct
+            if "frage" in get_type(soup):
+                question = {
+                    "root": parent_dir,
+                    "slug": root.split("/")[-1][0:50],
+                    "category": "", #Category
+                    #"title": extract("question", soup),
+                    "answers": extract("answers", soup),
+                    #"description": extract("description", soup),
+                    "order": extract("order", soup),
+                }
 
-                    question_version = {
-                        "question_id": question.id,
-                        "title": extract("question", soup),
-                        "answers": extract("answers", soup),
-                        "description": extract("description", soup),
-                    }
+                question = create_question(question)
 
-                    create_question_version(question_version)
+                question_version = {
+                    "question_id": question.id,
+                    "title": extract("question", soup),
+                    "answers": extract("answers", soup),
+                    "description": extract("description", soup),
+                }
+
+                create_question_version(question_version)
 
     # output
     #categories = Category.objects.all()
@@ -192,72 +207,57 @@ def scrape_redirects(request):
     print(os.getcwd())
     csv = ""
 
+    # Target Directory
+    path = os.path.dirname(os.path.abspath(__file__))
+    target_dir = path + "/../media/documents"
+
+    # Make the directory
+    os.makedirs(target_dir, exist_ok=True)
+
     for root, subdirs, files in os.walk(rootdir):
         for subdir in subdirs:
             for filename in os.listdir(os.path.join(root, subdir)):
                 file_path = os.path.join(root, subdir, filename)
 
                 with open(file_path, 'rb') as f:
-                    try:
-                        html = f.read()
-                        soup = BeautifulSoup(html, features="lxml")
-                        print(soup.find('a'))
-                        link = soup.find('a').attrs['href'] if 'http' in soup.find('a').attrs['href'] else "https://strafrecht-online.org{}".format(soup.find('a').attrs['href'])
-                        file = file_path.split('/')[-1].replace('.html', '')
+                    if "newsletter-urls.txt" in file_path:
+                        continue
 
-                        if False and "strafrecht-online.org" in link or "//" not in link:
-                            if ".jpg" in link:
-                                # upload image
-                                image_id = upload_image(link)
+                    html = f.read()
+                    soup = BeautifulSoup(html, features="lxml")
+                    print(file_path)
+                    print(soup.find('a'))
+                    link = soup.find('a').attrs['href'] if 'http' in soup.find('a').attrs['href'] else "https://strafrecht-online.org{}".format(soup.find('a').attrs['href'])
+                    print(link)
+                    redirect_name = file_path.split('/')[-1].replace('.html', '')
 
-                                root_collection = Collection.get_first_root_node()
-                                redirects = root_collection.get_children().get(name='Redirects')
+                    if "strafrecht-online.org/" in link or "://" not in link:
+                        ext = link.split(".")[-1]
+                        print(ext)
+                        if ext in ("pdf", "jpeg", "jpg", "JPG", "PNG", "gif", "doc"):
+                            local_file = requests.get(link, allow_redirects=True)  # target_dir)
+                            print(local_file)
+                            file_name = redirect_name + "." + ext
+                            open(os.path.join(target_dir, file_name), 'wb').write(local_file.content)
+                            link = settings.SITE_URL + "/media/documents/" + file_name.replace(" ", "%20")
+                            Document(
+                                title=file_name,
+                                file="documents/{}".format(file_name),
+                                collection=redirects,
+                                tags=['redirects']
+                            ).save()
 
-                                Document(
-                                    title=file,
-                                    file="documents/{}".format(new_filename),
-                                    collection=redirects,
-                                    tags=['testing']
-                                ).save()
-                            if ".pdf" in link:
-                                # upload pdf
-                                # Target Directory
-                                path = os.path.dirname(os.path.abspath(__file__))
-                                target_dir = path + "/../media/documents"
+                    csv += '"{}","{}"\n'.format(redirect_name, link)
 
-                                # Make the directory
-                                os.makedirs(target_dir, exist_ok=True)
-
-                                try:
-                                    local_file = requests.get(link, allow_redirects=True)  # target_dir)
-                                    open(os.path.join(target_dir, file), 'wb').write(local_file.content)
-
-                                    root_collection = Collection.get_first_root_node()
-                                    redirects = root_collection.get_children().get(name='Redirects')
-
-                                    Document(
-                                        title=file,
-                                        file="documents/{}".format(file),
-                                        collection=redirects,
-                                        tags=['testing']
-                                    ).save()
-                                except Exception as e:
-                                    print(" ERROR - {}".format(e))
-                                    print(" URL - {}".format(url))
-                                    print("\n\n")
-
-                        csv += '"{}","{}"\n'.format(file, link)
-
-                        #res = requests.get(link)
-                        #if res.is_redirect:
-                        #    print("Redirect: {}".format(link))
-                    except Exception as error:
-                        print(error)
+                    #res = requests.get(link)
+                    #if res.is_redirect:
+                    #    print("Redirect: {}".format(link))
 
     path = os.path.dirname(os.path.abspath(__file__))
     fo = open(path + '/scrape/redirects.csv', 'w')
     fo.write(csv)
     fo.close()
+    print("Import redirects with: ./manage.py import_redirects --src core/scrape/redirects.csv")
 
 def seed_redirects(request):
     redirects = Redirect.objects.all()
@@ -1103,6 +1103,8 @@ def upload_image(path):
     else:
         image_url = os.path.join("https://strafrecht-online.org/", path.lstrip(os.path.sep))
 
+    print(image_url)
+
     # download if file does not exist
     try:
         if not os.path.isfile("/tmp/images/{}".format(filename)):
@@ -1166,46 +1168,6 @@ def traverse_ancestors(parent, slug_list):
 
     #print("  EXIT: traverse_ancestors()")
 
-def old_create_category(wiki):
-    admin = User.objects.first()
-    root = Article.objects.first().urlpath_set.first()
-
-    slug_list = deque(wiki["root"].split("/")[1:])
-    parent = traverse_ancestors(root, slug_list)
-
-    # create Article
-    article = Article(
-        owner=admin,
-        #is_category=True,
-    )
-    article.save()
-
-    # create URLPath
-    urlpath = URLPath(
-        parent=parent,
-        article=article,
-        slug=wiki['slug'],
-        site_id=1
-    )
-    urlpath.save()
-
-    # add URLPath to Article
-    article.urlpath_set.add(urlpath)
-
-    article_revision = ArticleRevision(
-        article=article,
-        title=wiki['name'],
-        #long_name=wiki['long_name'],
-        content="LINKS",
-        revision_number=1
-    )
-
-    # save wiki
-    article_revision.save()
-
-    # add tags
-    #article_revision.tags.add(*tags)
-
 def create_category(wiki):
     #print("ENTER: create_category()")
     root = Article.objects.first().urlpath_set.first()
@@ -1251,50 +1213,9 @@ def create_wiki(wiki):
         content=wiki['content'],
     )
 
+    #print(wiki['content'])
+
     urlpath.save()
-
-    #print("NEW: {}".format(urlpath))
-    #print("EXIT: create_wiki()")
-
-def old_create_wiki(wiki):
-    tags = wiki['tags']
-    admin = User.objects.first()
-    root = Article.objects.first().urlpath_set.first()
-
-    slug_list = deque(wiki["root"].split("/")[1:])
-    parent = traverse_ancestors(root, slug_list)
-
-    # create Article
-    article = Article(
-        owner=admin,
-    )
-    article.save()
-
-    # create URLPath
-    urlpath = URLPath(
-        parent=parent,
-        article=article,
-        slug=wiki['slug'],
-        site_id=1
-    )
-    urlpath.save()
-
-    # add URLPath to Article
-    article.urlpath_set.add(urlpath)
-
-    article_revision = ArticleRevision(
-        article=article,
-        title=wiki['name'],
-        #long_name=wiki['long_name'],
-        content=wiki['content'],
-        revision_number=1
-    )
-
-    # save wiki
-    article_revision.save()
-
-    # add tags
-    # article.tags.add(*tags)
 
 def create_question(question_data):
     root = Article.objects.first().urlpath_set.first()
@@ -1335,7 +1256,10 @@ def create_question_version(question_data):
     question_version.save()
 
 def get_type(soup):
-    return extract("type", soup)
+    try:
+        return extract("type", soup)
+    except KeyError:
+        return "no type defined"
 
 def extract(field, soup):
     if field == "question":
@@ -1396,7 +1320,8 @@ def extract(field, soup):
 
                 # replace <u> with <b>
                 #html = str(nextNode).replace("<u>", " <b>").replace("</u>", "</b> ").replace("<a", " <a").replace("/a>", "/a> ").replace("<span>", "").replace("</span>", "")
-                html = str(nextNode).replace("<u>", " <b>").replace("</u>", "</b> ").replace("<span>", "").replace("</span>", "").replace("<em>", "<i>").replace("</em>", "</i>").replace("<h5", "<p").replace("</h5>", "</p>")
+                # Fix 2515: remove cr and nl
+                html = str(nextNode).replace("<u>", " <b>").replace("</u>", "</b> ").replace("<span>", "").replace("</span>", "").replace("<em>", "<i>").replace("</em>", "</i>").replace("<h5", "<p").replace("</h5>", "</p>").replace("\r", " ").replace("\n", " ")
 
                 if "Fragment" in html: html = html.replace("<!--StartFragment-->", "").replace("<!--EndFragment-->", "")
                 if "siehe hier" in soup.prettify():
@@ -1431,39 +1356,6 @@ def extract(field, soup):
 
 def on_error(e):
     raise e
-
-#def match_category(root):
-#    list = root.split("/")[:-1]
-#    filepath = "/".join(list)
-#
-#    try:
-#        category = Category.objects.filter(filepath=filepath).first()
-#        return category
-#    except AttributeError:
-#        return None
-
-def _create_category(node, cat):
-    #
-    remaining = deque(cat["root"].split("/")[1:])
-    traverse_category(node, remaining, cat)
-
-def _traverse_category(node, remaining, cat):
-    # if any items remain in path list, keep traversing
-    if remaining:
-        current = remaining.popleft()
-
-        if node.get_children().filter(slug=current):
-            child = node.get_children().get(slug=current)
-            traverse_category(child, remaining, cat)
-        else:
-            child = node.add_child(
-                name=cat["name"],
-                slug=cat["slug"],
-                #long_name=cat["long_name"],
-                filepath=cat["root"]
-            )
-            traverse_category(child, remaining, cat)
-            child.save()
 
 def scrape_exams(request):
     import csv
@@ -1524,198 +1416,3 @@ def scrape_exams(request):
 
     #result = Exams.objects.bulk_create(exams)
     return
-
-def search_wiki(request, query = False):
-    from django.contrib.postgres.search import SearchVector, TrigramSimilarity, TrigramDistance
-    #articles = Article.objects.annotate(
-    #    #similarity=TrigramSimilarity('current_revision__title', query),
-    #    distance=TrigramDistance('current_revision__content', query),
-    #).filter(distance__gt=0.7).order_by('distance')
-
-    if query:
-        results = Article.objects.annotate(
-            search=SearchVector(
-            #'current_revision__title',
-            'current_revision__content',
-            ),
-        ).filter(search__icontains=query)
-    else:
-        results = Article.objects.all()
-
-    articles = [{
-        'title': article.current_revision.title,
-        'url': article.get_absolute_url(),
-        'content': article.current_revision.content,
-        #'breadcrumb': " / ".join([ancestor.article.current_revision.title for ancestor in article.ancestor_objects()])
-    } for article in results if sum(1 for x in article.get_children()) == 0 and article.id != 1]
-
-    # get breadcrumb
-    # filter by content
-
-    return JsonResponse({'data': articles})
-
-def api_exams(request):
-    exams = Exams.objects.all()
-
-    data = [{
-    	'id': exam.id,
-    	'type': exam.type,
-    	'datetime': exam.date,
-    	'difficulty': exam.difficulty,
-    	'paragraphs': exam.paragraphs,
-    	'problems': exam.problems,
-    	'situation': exam.sachverhalt_link,
-    	'solution': exam.loesung_link,
-    } for exam in exams]
-
-    return JsonResponse({'data': data})
-
-def get_first_at(cat):
-    categories = [child for child in cat.get_descendants()]
-    question_set = [sub.article.question_set.all() for sub in categories if len(sub.article.question_set.all()) > 0]
-    pre = [[q for q in question] for question in question_set]
-    result = list(chain.from_iterable(pre))
-    if len(result) > 0:
-        return result[0]
-    else:
-        Question.objects.first()
-
-def get_first_bt(cat):
-    cur_question_set = cat.article.question_set.all()
-    question_set = [sub.article.question_set.all() for sub in cat.get_descendants() if len(sub.article.question_set.all()) > 0]
-
-    pre = [[q for q in question] for question in question_set]
-    result = list(chain.from_iterable(pre)) + [question for question in list(cur_question_set)]
-
-    if len(result) > 0:
-        return result[0]
-    else:
-        #print("YYY")
-        Question.objects.first()
-
-def get_at_categories():
-    at = URLPath.objects.filter(slug='at').last()
-    grundlagen = URLPath.objects.filter(slug='grundlagen').first()
-
-    categories = [
-        {"category": child,
-        "first": get_first_at(child),
-        "questions": [
-            [
-                question for question in sub.article.question_set.all() if len(sub.article.question_set.all()) > 1
-            ] for sub in child.get_descendants() if len(child.get_descendants()) > 0
-        ]} for child in at.get_children()]
-
-    categories.insert(0, {
-        "category": grundlagen,
-        "first": grundlagen.article.question_set.first(),
-        "questions": [
-            question for question in grundlagen.article.question_set.all() if len(grundlagen.article.question_set.all()) > 1
-        ]
-    })
-
-    return categories
-
-def get_bt_categories():
-    bt = URLPath.objects.filter(slug='bt').first()
-
-    categories = [
-        {"category": child,
-        "first": get_first_bt(child),
-        "questions": [
-            [
-            question for question in child.article.question_set.all() if len(child.article.question_set.all()) > 0
-        ]
-    ]} for child in bt.get_children()]
-
-    categories.sort(key=lambda c: c["category"].path)
-
-    return categories
-
-
-# @login_required(login_url="/profile/login")
-def add_question(request):
-    user = request.user
-    return render(request, 'core/add_question.html', {"user": user})
-
-
-class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
-    serializer_class = QuestionSerializer
-
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [AllowAny,]
-
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        categories = Article.objects.filter(id__in=data.get("categories"))
-
-        if request.user.is_authenticated:
-            question = Question(user=request.user)
-        else:
-            question = Question()
-        question.save()
-
-        question_version = QuestionVersion.objects.create(
-            question=question,
-            title=data.get("title"),
-            description=data.get("description")
-        )
-
-        question_version.categories.set(categories)
-        question_version.save()
-
-        for answer in data.get("answers"):
-            AnswerVersion.objects.create(
-                question_version=question_version,
-                text=answer.get("text"),
-                correct=answer.get("correct")
-            )
-
-        return JsonResponse(data={"success": True}, status=200)
-
-
-# class QuestionOnlyViewSet(viewsets.ModelViewSet):
-#     queryset = Question.objects.all()
-#     serializer_class = QuestionOnlySerializer
-#     permission_classes = [AllowAny]
-
-class QuestionVersionViewSet(viewsets.ModelViewSet):
-    queryset = QuestionVersion.objects.all()
-    serializer_class = QuestionVersionSerializer
-    permission_classes = [AllowAny]
-
-
-class AnswerViewSet(viewsets.ModelViewSet):
-    queryset = AnswerVersion.objects.all()
-    serializer_class = AnswerSerializer
-    permission_classes = [AllowAny]
-
-
-class QuizViewSet(viewsets.ModelViewSet):
-    queryset = Quiz.objects.all()
-    serializer_class = QuizSerializer
-    permission_classes = [AllowAny]
-
-
-class UserAnswerViewSet(viewsets.ModelViewSet):
-    queryset = UserAnswer.objects.all()
-    serializer_class = UserAnswerSerializer
-    permission_classes = [AllowAny]
-
-
-class ChoiceViewSet(viewsets.ModelViewSet):
-    queryset = Choice.objects.all()
-    serializer_class = ChoiceSerializer
-    permission_classes = [AllowAny]
-
-def get_category_tree(request):
-    root = URLPath.objects.first()
-    tree = create_categories(root)
-    return JsonResponse(tree)
-
-def create_categories(category):
-    return {
-        "id": category.article.id,
-        "label": category.article.articlerevision_set.first().title,
-        "children": [create_categories(child) for child in category.get_children() if len(category.get_children()) > 0]
-    }

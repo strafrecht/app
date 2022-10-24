@@ -212,8 +212,7 @@ def _get_questions_for_category(category_id):
 
 
 def scrape(request):
-    start(request, request.user)
-    return HttpResponse(200)
+    return start(request)
 
 def exams(request):
     return render(request, 'pages/exam_table.html', {

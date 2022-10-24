@@ -1,4 +1,5 @@
 vars = {
+    "SITE_URL": "http://localhost:8000",
     "DEBUG": True,
     "SECRET_KEY": 'eo3taeleev0ZeiReeteer9Xeepoor3quai7poorai1laishaeshohmaej6weiC3e',
     "ALLOWED_HOSTS": [
