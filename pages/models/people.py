@@ -31,10 +31,10 @@ from pages.models.news import ArticlePage
 class PeopleIndexPage(RoutablePageMixin, Page):
     class Meta:
         verbose_name = "Aktuelle Mitarbeiter*innen-Seite"
-        
+
     subtitle = models.CharField(max_length=255, null=True, blank=True)
 
-    content_panels = Page.content_panels + [                                          
+    content_panels = Page.content_panels + [
         FieldPanel('subtitle'),
     ]
 
@@ -67,11 +67,11 @@ class PeopleIndexPage(RoutablePageMixin, Page):
         context['groups'] = years
         context['person'] = person
         return render(request, "pages/person_page.html", context)
-    
+
 class FormerPeopleIndexPage(Page):
     class Meta:
         verbose_name = "Ehemalige Mitarbeiter*innen-Seite"
-        
+
     def get_context(self, request):
         context = super().get_context(request)
         formerstaff = People.objects.filter(status='former')
@@ -87,7 +87,7 @@ class People(models.Model):
     ]
 
     ROLE_CHOICES = [
-        ('chairholder', 'Lehstuhlinhaber'),
+        ('chairholder', 'Lehrstuhlinhaber'),
         ('office-management', 'Office Management'),
         ('academic-staff-male', 'Wiss. Mitarbeiter'),
         ('academic-staff-female', 'Wiss. Mitarbeiterin'),
