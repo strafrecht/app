@@ -71,14 +71,12 @@ def pdf(request, semester, slug, filename):
         return HttpResponseNotFound('<h1>File not found</h1>')
 
 def index(request):
-    categories_at = get_at_categories()
-    categories_bt = get_bt_categories()
     header_image = JurcoachPage.objects.all().last().header
     header_headline = JurcoachPage.objects.all().last().header_headline
     header_slogan = JurcoachPage.objects.all().last().header_slogan
     return render(request, "core/quiz.html", {
-        "categories_at": categories_at,
-        "categories_bt": categories_bt,
+        "categories_at": get_categories("at"),
+        "categories_bt": get_categories("bt"),
         "header_image": header_image,
         "header_headline": header_headline,
         "header_slogan": header_slogan
@@ -174,16 +172,13 @@ def category_question(request, category_id, question_id):
 
         question = question_version
 
-        categories_at = get_at_categories()
-        categories_bt = get_bt_categories()
-
         return render(request, 'core/category_question.html', {
             'banner': '/media/original_images/ohnediefrau.png',
             'category': category,
             'question': question,
             'questions': questions,
-            'categories_at': get_at_categories(),
-            'categories_bt': get_bt_categories(),
+            'categories_at': get_categories("at"),
+            'categories_bt': get_categories("bt"),
             #'categories': get_bt_categories() if '/bt' in category.get_absolute_url() else get_at_categories()
         })
 
@@ -264,68 +259,32 @@ def api_exams(request):
 
     return JsonResponse({'data': data})
 
-def get_first_at(cat):
-    categories = [child for child in cat.get_descendants()]
-    question_set = [sub.article.question_set.all() for sub in categories if len(sub.article.question_set.all()) > 0]
+def get_questions(cat):
+    question_set = [cat.article.question_set.all()] + [sub.article.question_set.all() for sub in cat.get_children()]
     pre = [[q for q in question] for question in question_set]
     result = list(chain.from_iterable(pre))
-    if len(result) > 0:
-        return result[0]
-    else:
-        Question.objects.first()
+    return result
 
-def get_first_bt(cat):
-    cur_question_set = cat.article.question_set.all()
-    question_set = [sub.article.question_set.all() for sub in cat.get_descendants() if len(sub.article.question_set.all()) > 0]
+def get_categories(slug):
+    cat = URLPath.objects.filter(slug=slug, parent_id=URLPath.objects.first().id).get()
 
-    pre = [[q for q in question] for question in question_set]
-    result = list(chain.from_iterable(pre)) + [question for question in list(cur_question_set)]
+    categories = []
 
-    if len(result) > 0:
-        return result[0]
-    else:
-        #print("YYY")
-        Question.objects.first()
+    for child in cat.get_children():
+        questions = get_questions(child)
+        if len(questions) == 0:
+            continue
 
-def get_at_categories():
-    at = URLPath.objects.filter(slug='at').last()
-    grundlagen = URLPath.objects.filter(slug='grundlagen').first()
-
-    categories = [
-        {"category": child,
-        "first": get_first_at(child),
-        "questions": [
-            [
-                question for question in sub.article.question_set.all() if len(sub.article.question_set.all()) > 1
-            ] for sub in child.get_descendants() if len(child.get_descendants()) > 0
-        ]} for child in at.get_children()]
-
-    categories.insert(0, {
-        "category": grundlagen,
-        "first": grundlagen.article.question_set.first(),
-        "questions": [
-            question for question in grundlagen.article.question_set.all() if len(grundlagen.article.question_set.all()) > 1
-        ]
-    })
-
-    return categories
-
-def get_bt_categories():
-    bt = URLPath.objects.filter(slug='bt').last()
-
-    categories = [
-        {"category": child,
-        "first": get_first_bt(child),
-        "questions": [
-            [
-            question for question in child.article.question_set.all() if len(child.article.question_set.all()) > 0
-        ]
-    ]} for child in bt.get_children()]
+        category = {
+            "category": child,
+            "first": questions[0],
+            "questions": [questions],
+        }
+        categories.append(category)
 
     categories.sort(key=lambda c: c["category"].path)
 
     return categories
-
 
 # @login_required(login_url="/profile/login")
 def add_question(request):
