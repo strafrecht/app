@@ -82,77 +82,67 @@ def index(request):
         "header_slogan": header_slogan
     })
 
+# FIXME: what is the emeaning of this?
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'core/question.html', {'question': question})
 
+# FIXME: what is the emeaning of this?
 def category(request, category_id):
     category = get_object_or_404(Article, id=category_id)
     questions = Question.objects.filter(category_id=category_id)
     return render(request, 'core/category.html', {'category': category, 'questions': questions})
 
-def category_question(request, category_id, question_id):
+def quiz(request, category_id, question_id):
     category = get_object_or_404(Article, id=category_id)
 
     if request.method == 'POST':
         question_id = request.POST['question-id']
 
-        if request.user:
-            question = Question.objects.get(pk=question_id)
-
-            if request.user.id:
-                user = User.objects.get(pk=request.user.id)
-            else:
-                user = User.objects.get(username="anonym")
-
-            quiz = Quiz.objects.filter(category__id=category.id).filter(user__id=user.id).filter(completed=False).last()
-
-            user_answer = UserAnswer(
-                question=question,
-                quiz=quiz,
-            )
-            user_answer.save()
-
-            logger.error(request.POST)
-            for answer in request.POST.getlist('answer'):
-                choice = Choice(
-                    user_answer=user_answer,
-                    answer=AnswerVersion.objects.get(pk=answer)
-                )
-                choice.save()
-
-            questions = _get_questions_for_category(category_id)
-
-            next_question = questions.filter(id__gt=question_id).first()
-
-            #return render(request, 'core/category_question.html', {'category': category, 'question': next_question, 'questions': questions})
-            if request.POST.get('state') == 'finished':
-                quiz.completed = True
-                quiz.save()
-
-                return HttpResponseRedirect('/profile/quizzes')
-            else:
-                return HttpResponseRedirect('/quiz/category/{}/question/{}'.format(category.id, next_question.id))
-        else:
-            request.session['category'][category_id]['question'][question_id]['answer'][answer_id]
-    else:
-        category = get_object_or_404(Article, id=category_id)
-
-        id = category_id
-        # Get article object
-        article_schuld = Article.objects.get(pk=id)
-        # Get target article's URLPath
-        path_schuld = URLPath.objects.get(article=article_schuld.id)
-        # Get URLPath descendants
-        schuld_descendants = path_schuld.get_descendants()
-        # Get Article IDs
-        ids = [path.article.id for path in schuld_descendants]
-        # Get questions
-        questions = Question.objects.filter(category_id=id) | Question.objects.filter(category_id__in=ids)
         question = Question.objects.get(pk=question_id)
-        # user
+
         if request.user.id:
-            user = User.objects.get(pk=request.user.id)
+            user = request.user
+        else:
+            user = User.objects.get(username="anonym")
+
+        # FIXME: anonymous users overwrite their quizes (was hat sich hier jemand gedacht?)
+        quiz = Quiz.objects.filter(category__id=category.id).filter(user__id=user.id).filter(completed=False).last()
+        print(quiz)
+        user_answer = UserAnswer(
+            question=question,
+            quiz=quiz,
+        )
+        user_answer.save()
+
+        for answer in request.POST.getlist('answer'):
+            choice = Choice(
+                user_answer=user_answer,
+                answer=AnswerVersion.objects.get(pk=answer)
+            )
+            choice.save()
+
+        questions = _get_questions_for_category(category_id)
+        next_question = questions.filter(id__gt=question_id).first()
+
+        if request.POST.get('state') == 'finished':
+            quiz.completed = True
+            quiz.save()
+
+            if request.user.is_anonymous:
+                return HttpResponseRedirect('/quiz')
+            else:
+                return HttpResponseRedirect('/profile/quizzes')
+        else:
+            return HttpResponseRedirect('/quiz/category/{}/question/{}'.format(category.id, next_question.id))
+        #else:
+        #    request.session['category'][category_id]['question'][question_id]['answer'][answer_id]
+    else:
+        questions = _get_questions_for_category(category.id)
+        question = Question.objects.get(pk=question_id)
+
+        if request.user.id:
+            user = request.user
         else:
             user = User.objects.get(username="anonym")
 
@@ -167,44 +157,35 @@ def category_question(request, category_id, question_id):
 
             question = questions.first()
 
-        #question_version = QuestionVersion.objects.first()
         question_version = question.questions.all().first()
-
-        question = question_version
 
         return render(request, 'core/category_question.html', {
             'banner': '/media/original_images/ohnediefrau.png',
             'category': category,
-            'question': question,
+            'question': question_version,
             'questions': questions,
             'categories_at': get_categories("at"),
             'categories_bt': get_categories("bt"),
-            #'categories': get_bt_categories() if '/bt' in category.get_absolute_url() else get_at_categories()
         })
 
+# FIXME: what is the emeaning of this?
 def category_summary(request, category_id):
     category = get_object_or_404(Article, id=category_id)
-    user_id = request.user.id
-    quiz = Quiz.objects.filter(category__id=category.id).filter(user__id=user_id).filter(completed=False).first()
+    quiz = Quiz.objects.filter(category__id=category.id).filter(user__id=request.user.id).filter(completed=False).first()
     quiz.completed = True
     quiz.save()
 
     return render(request, 'core/category_summary.html', {'category': category})
 
 def _get_questions_for_category(category_id):
-    id = category_id
     # Get article object
-    article_schuld = Article.objects.get(pk=id)
-    # Get target article's URLPath
-    path_schuld = URLPath.objects.get(article=article_schuld.id)
-    # Get URLPath descendants
-    schuld_descendants = path_schuld.get_descendants()
+    article = Article.objects.get(pk=category_id)
+    descendants = URLPath.objects.get(article=article.id).get_descendants()
     # Get Article IDs
-    ids = [path.article.id for path in schuld_descendants]
+    ids = [path.article.id for path in descendants]
     # Get questions
-    questions = Question.objects.filter(category_id=id) | Question.objects.filter(category_id__in=ids)
+    questions = Question.objects.filter(category_id=category_id) | Question.objects.filter(category_id__in=ids)
     return questions.order_by('id')
-
 
 def scrape(request):
     return start(request)
@@ -300,29 +281,33 @@ class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        categories = Article.objects.filter(id__in=data.get("categories"))
+        category = Article.objects.filter(id__in=data.get("categories")).first()
 
-        if request.user.is_authenticated:
-            question = Question(user=request.user)
-        else:
-            question = Question()
+        # if request.user.is_authenticated:
+        #     question = Question(user=request.user)
+        # else:
+
+        question = Question(
+            user=request.user,
+            category=category,
+        )
         question.save()
 
         question_version = QuestionVersion.objects.create(
             question=question,
             title=data.get("title"),
-            description=data.get("description")
+            description=data.get("description"),
         )
 
-        question_version.categories.set(categories)
-        question_version.save()
+        #question_version.categories.set(categories)
 
         for answer in data.get("answers"):
-            AnswerVersion.objects.create(
-                question_version=question_version,
+            question_version.answers.create(
                 text=answer.get("text"),
                 correct=answer.get("correct")
             )
+
+        question_version.save()
 
         return JsonResponse(data={"success": True}, status=200)
 
