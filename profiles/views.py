@@ -35,9 +35,6 @@ def quizzes(request):
     filter_by = request.GET.get('filter_by', 'all')
     order_by = request.GET.get('order_by', 'created')
 
-    print(filter_by)
-    print(order_by)
-
     query = Quiz.objects.filter(user__id=request.user.id)
 
     if filter_by == 'completed':
@@ -112,7 +109,6 @@ def quiz_summary(request, id):
                         answer=[ans_val]
                     )
                 )
-
 
     return render(request, "profiles/quiz_summary.html", {
         "banner": "/media/images/login.original.jpg",

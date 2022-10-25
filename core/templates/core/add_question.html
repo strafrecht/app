@@ -8,6 +8,7 @@
       <form @submit.prevent="addQuestion">
         {% csrf_token %}
         <h2>neue Frage hinzufügen</h2>
+	<br/>
         <div>
           <textarea id="add-title" name="add-title" rows="2" cols="50" v-model="title"
             placeholder="Bitte geben Sie hier Ihre Frage ein" required>
@@ -21,7 +22,7 @@
         </div>
         <br />
         <div>
-          <button @click="generateAnswer">neu Antwort</button>
+          <button @click="generateAnswer">Neue Antwort</button>
         </div>
         <br />
         <div>
@@ -49,7 +50,7 @@
           <label class="label">Kategorie wählen</label>
         </div>
         <div>
-          <treeselect class="treeselect" v-model="selectedCategory" :multiple="true" :options="categories" required />
+          <treeselect class="treeselect" v-model="selectedCategory" :multiple="false" :options="categories" :searchable="searchable" :close-on-select="closeOnSelect" :disable-branch-nodes="true" required />
         </div>
         <br />
         <button type="submit" class="button is-link">Speichern</button>
@@ -129,7 +130,7 @@
               withCredentials: true,
             }
 
-            await axios.post("http://localhost:8000/quiz/questions/", newQuestion, config)
+            await axios.post("/quiz/questions/", newQuestion, config)
 
             this.title = null;
             this.description = null;
@@ -143,7 +144,7 @@
         },
         getCategories() {
           axios
-            .get("http://127.0.0.1:8000/quiz/api/category_tree/")
+            .get("/quiz/api/category_tree/")
             .then((response) => this.categories.push(response.data));
         },
       },

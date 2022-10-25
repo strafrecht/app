@@ -14,6 +14,10 @@ router.register(r'choices', views.ChoiceViewSet)
 urlpatterns = [
     path('', views.index, name='index'),
     path('add_question/', views.add_question, name='add_question'),
+    # POST new question
+    path('questions/', views.QuestionViewSet.as_view(), name='questions'),
+    # Get tree for dropdown in add_question
+    path('api/category_tree/', views.get_category_tree, name='get_category_tree'),
     path('question/<int:question_id>/', views.detail, name='detail'),
     path('category/<int:category_id>/', views.category, name='category'),
     path('category/<int:category_id>/question/<int:question_id>/', views.quiz, name='category_question'),
@@ -24,9 +28,7 @@ urlpatterns = [
     path('search/wiki/', views.search_wiki, name='search_wiki'),
     path('search/wiki/<str:query>', views.search_wiki, name='search_wiki'),
 
-    path('questions/', views.QuestionViewSet.as_view(), name='questions'),
     path('api/exams', views.api_exams, name='api_exams'),
-    path('api/category_tree/', views.get_category_tree, name='get_category_tree'),
     path('api/json/', include(router.urls)),
     path('api/auth/', include('rest_framework.urls', namespace='rest_framework')),
 

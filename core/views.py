@@ -108,7 +108,6 @@ def quiz(request, category_id, question_id):
 
         # FIXME: anonymous users overwrite their quizes (was hat sich hier jemand gedacht?)
         quiz = Quiz.objects.filter(category__id=category.id).filter(user__id=user.id).filter(completed=False).last()
-        print(quiz)
         user_answer = UserAnswer(
             question=question,
             quiz=quiz,
@@ -281,25 +280,18 @@ class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        category = Article.objects.filter(id__in=data.get("categories")).first()
+        category = get_object_or_404(Article, pk=data.get("categories"))
 
-        # if request.user.is_authenticated:
-        #     question = Question(user=request.user)
-        # else:
-
-        question = Question(
+        question = Question.objects.create(
             user=request.user,
             category=category,
         )
-        question.save()
 
         question_version = QuestionVersion.objects.create(
             question=question,
             title=data.get("title"),
             description=data.get("description"),
         )
-
-        #question_version.categories.set(categories)
 
         for answer in data.get("answers"):
             question_version.answers.create(
@@ -348,12 +340,27 @@ class ChoiceViewSet(viewsets.ModelViewSet):
 
 def get_category_tree(request):
     root = URLPath.objects.first()
-    tree = create_categories(root)
+    tree = {
+            "id": "cat",
+            "label": "Quiz-Teil",
+            "children": [
+                {
+                    "id": "at",
+                    "label": "Allgemeiner Teil",
+                    "children": [_tree_entry(child) for child in get_categories("at")],
+                },
+                {
+                    "id": "bt",
+                    "label": "Besonderer Teil",
+                    "children": [_tree_entry(child) for child in get_categories("bt")],
+                },
+            ]
+    }
+
     return JsonResponse(tree)
 
-def create_categories(category):
+def _tree_entry(category):
     return {
-        "id": category.article.id,
-        "label": category.article.articlerevision_set.first().title,
-        "children": [create_categories(child) for child in category.get_children() if len(category.get_children()) > 0]
+        "id": category["category"].article.id,
+        "label": category["category"].article.articlerevision_set.first().title,
     }
