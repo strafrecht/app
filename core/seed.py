@@ -18,7 +18,6 @@ from rest_framework.authtoken.models import Token
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
-from tqdm import tqdm
 from markdownify import markdownify as md
 from bs4 import BeautifulSoup
 from collections import deque
@@ -73,7 +72,7 @@ def start(request):
 
     # OK
     # scrape_redirects(request)
-    # scrape_wiki(request)
+    scrape_wiki(request)
 
     # TO TEST
     # scrape_news(request)
@@ -126,7 +125,7 @@ def scrape_wiki(request):
 
     # run main code
     #for root, dirs, files in os.walk(base_dir, topdown=True, onerror=on_error):
-    for root, dirs, files in tqdm(os.walk(base_dir, topdown=True, onerror=on_error), total=filecounter, unit=" files"):
+    for root, dirs, files in os.walk(base_dir, topdown=True, onerror=on_error):
 
         for file in files:
             print(file)
@@ -140,7 +139,10 @@ def scrape_wiki(request):
             html = open(path).read()
             soup = BeautifulSoup(html, "html.parser")
 
+            print()
+            print()
             print(path)
+            print()
             print(get_type(soup))
 
             parent_dir = wiki_root_dir + "/" + "/".join(root.split("/")[2:])
@@ -1172,7 +1174,8 @@ def traverse_ancestors(parent, slug_list):
     #print("  EXIT: traverse_ancestors()")
 
 def create_category(wiki):
-    #print("ENTER: create_category()")
+    print("ENTER: create_category()")
+    print(wiki)
     root = Article.objects.first().urlpath_set.first()
     slug_list = deque(wiki["root"].split("/")[1:])
     parent = traverse_ancestors(root, slug_list)
@@ -1196,7 +1199,8 @@ def create_category(wiki):
     #print("EXIT: create_category()")
 
 def create_wiki(wiki):
-    #print("ENTER: create_wiki()")
+    print("ENTER: create_wiki()")
+    print(wiki)
     root = Article.objects.first().urlpath_set.first()
     slug_list = deque(wiki["root"].split("/")[1:])
     parent = traverse_ancestors(root, slug_list)
@@ -1221,6 +1225,8 @@ def create_wiki(wiki):
     urlpath.save()
 
 def create_question(question_data):
+    print("ENTER: create_question()")
+    print(question_data)
     root = Article.objects.first().urlpath_set.first()
     slug_list = deque(question_data["root"].split("/")[1:-2])
     parent = traverse_ancestors(root, slug_list)
@@ -1240,8 +1246,9 @@ def create_question(question_data):
     return question
 
 def create_question_version(question_data):
+    print("ENTER: create_question_version()")
+    print(question_data)
     answers = question_data['answers']
-    print(answers)
 
     question_version = QuestionVersion(
         question_id=question_data['question_id'],
