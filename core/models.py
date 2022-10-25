@@ -18,16 +18,15 @@ class Question(ClusterableModel):
     order = models.CharField(max_length=255, null=True, blank=True)
     category = models.ForeignKey('wiki.Article', on_delete=models.SET_NULL, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-
-    def __str__(self):
-        # return self.questionversion_set.all().first().title
-        return "{}".format(self.id)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     panels = [
         FieldPanel('filepath'),
         FieldPanel('slug'),
         FieldPanel('order'),
-        FieldPanel('user')
+        FieldPanel('category'),
+        FieldPanel('user'),
     ]
 
 
@@ -36,19 +35,11 @@ class QuestionVersion(ClusterableModel):
     slug = models.CharField(max_length=255, blank=True, null=True)
     title = models.TextField(max_length=255)
     description = models.TextField(null=True, blank=True)
-    # category = models.ForeignKey('wiki.Article', on_delete=models.SET_NULL, null=True, blank=True)
     categories = models.ManyToManyField(Article, blank=True)
     approved = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-
-
-# class Answer(models.Model):
-#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-#     text = models.TextField()
-#     correct = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return self.text
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     panels = [
             FieldPanel('question'),
