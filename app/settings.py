@@ -60,6 +60,8 @@ INTERNAL_IPS = [
 # Application definition
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
+# a better shell
+SHELL_PLUS = "ipython"
 
 INSTALLED_APPS = [
     # Live Reload
