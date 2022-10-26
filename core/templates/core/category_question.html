@@ -86,16 +86,14 @@
 	<div class="tea-drinker"></div>
 	<div class="col-md-8 flex-col bg-white rounded p-0">
 		<div class="p-0">
-			<h6 class="p-0 question-title">{{ question.title | markdown }}</h6>
+			<h6 class="p-0 question-title">{{ question_version.title | markdown }}</h6>
 		</div>
 
 		<div class="p-0 mb-2">
-		<form action="{% url 'quiz:category_question' category.id question.question.id %}" method="post" class="mct-input">
+		<form action="{% url 'quiz:category_question' category.id question_version.question.id %}" method="post" class="mct-input">
 			{% csrf_token %}
-			<input type="hidden" name="question-id" value={{question.question.id}}>
-
 			<ul class="p-2">
-				{% for answer in question.answers.all %}
+				{% for answer in question_version.answers.all %}
 					<label for={{answer.id}}>
 						<input type="checkbox" id={{answer.id}} class="answer mct-checkbox" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}>
 						<span class="mct-input-helper"></span>
@@ -108,7 +106,7 @@
 			<div class="float-right">
 				<button id="show-results-button" class="show-results-button">Lösung</button>
 				{% for quest in questions %}
-					{% if quest.id == question.question.id %}
+					{% if quest.id == question_version.question.id %}
 						{% if forloop.counter == questions.count %}
 							<input class="show-results-button" type="hidden" value="finished" name="state">
 							<input class="show-results-button" type="submit" value="Finish Quiz" hidden>
@@ -123,7 +121,7 @@
 				<h6 class="correct" hidden>Super! Deine Antwort ist richtig.</h6>
 				<h6 class="false" hidden>Leider falsch.</h6>
 
-				<div>{{ question.description | markdown }}</div>
+				<div>{{ question_version.description | markdown }}</div>
 			</div>
 		</form>
 
@@ -215,8 +213,8 @@
 			<h5 style="background: black; color: white; font-family: inherit; font-size: 14px; top: -10px; position: absolute; text-transform: uppercase; padding: 2px 8px;">Score</h5>
 			<div class="" style="color: black; font-weight: 800; font-size: 1.1rem; font-family: inherit; padding-top: 10px;">
 				{% for quest in questions %}
-					{% if quest.id == question.question.id %}
-						<p style="font-family: inherit;">Frage {{forloop.counter}} von {{questions.count}}</p>
+					{% if quest.id == question_version.question.id %}
+						<p style="font-family: inherit;">Frage {{ forloop.counter }} von {{ questions.count }}</p>
 					{% endif %}
 				{% endfor %}
 			</div>

@@ -5,7 +5,7 @@
 {% block content %}
 <section id="question-form">
   <form @submit.prevent="addQuestion">
-    <h2>Neue Frage hinzufügen</h2>
+    <h2>Frage bearbeiten</h2>
 
     <div><label class="label">Frage</label></div>
     <div>
@@ -23,28 +23,21 @@
     </div>
     <br />
 
-    <div>
-      <label class="label">Kategorie wählen</label>
-    </div>
-    <div>
-      <treeselect class="treeselect" v-model="selectedCategory" :multiple="false" :options="categories" :searchable="searchable" :disable-branch-nodes="true" required />
-    </div>
-    <br/>
-
     <div><label class="label">Antworten</label></div>
     <div>
       <div v-for="(answer, index) in answers">
         <span class="trashcan" title="Antwort löschen" @click="deleteAnswer(index)">&#128465;</span>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <textarea id="answer-option" v-model="answer.text" :key="index" rows="2" cols="50"
-                  placeholder="Antwortmöglichkeit" required></textarea>
+		  placeholder="Antwortmöglichkeit" required></textarea>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <label class="switch">
-          <input type="checkbox" @click="handleCheckboxClick(index)" :value="answer.correct" />
+          <input type="checkbox" @click="handleCheckboxClick(index)" v-model="answer.correct" />
           <div class="slider round"></div>
         </label>
       </div>
     </div>
+    <br />
     <div>
       <button class="btn btn-primary" @click="generateAnswer">Antwort hinzufügen</button>
     </div>
@@ -54,7 +47,6 @@
   </form>
 </div>
 </section>
-
 <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.umd.min.js"></script>
@@ -67,16 +59,16 @@
 
     data() {
       return {
-        title: "",
-        description: "",
-        answers: [{ text: "", correct: false }],
-        selectedCategory: null,
-        categories: [],
+	question_id: {{ question.id }},
+        title: "{{ question.current.title }}",
+        description: "{{ question.current.description }}",
+	comment: "",
+	answers: JSON.parse(document.getElementById('answers-json').textContent),
       };
     },
 
     mounted() {
-      this.getCategories();
+      // nothing
     },
     methods: {
       generateAnswer() {
@@ -94,10 +86,10 @@
       async addQuestion() {
         try {
           const newQuestion = {
-            title: this.title,
+            title:       this.title,
             description: this.description,
-            categories: this.selectedCategory,
-            answers: this.answers,
+            answers:     this.answers,
+	    question_id: this.question_id,
           };
 
           const config = {
@@ -108,21 +100,11 @@
           }
 
           await axios.post("/quiz/questions/", newQuestion, config)
-
-          this.title = null;
-          this.description = null;
-          this.selectedCategory = null;
-          this.answers = [];
-
+	  // FIXME: redirect user ...
           alert("neue Frage gespeichert!");
         } catch (error) {
-          console.log(error);
+	  alert("Fehler beim Speichern. Bitte versuche es noch einmal!");
         }
-      },
-      getCategories() {
-        axios
-          .get("/quiz/api/category_tree/")
-          .then((response) => this.categories.push(response.data));
       },
     },
   });

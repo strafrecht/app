@@ -14,6 +14,7 @@ router.register(r'choices', views.ChoiceViewSet)
 urlpatterns = [
     path('', views.index, name='index'),
     path('add_question/', views.add_question, name='add_question'),
+    path('edit_question/<int:question_id>/', views.edit_question, name='edit_question'),
     # POST new question
     path('questions/', views.QuestionViewSet.as_view(), name='questions'),
     # Get tree for dropdown in add_question

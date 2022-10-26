@@ -28,11 +28,11 @@ from django.contrib.auth.models import User
 from django.core import serializers
 from wagtail.documents.models import Document
 from wiki.models import Article, ArticleRevision, URLPath
-from .models import Question, QuestionVersion, AnswerVersion, Quiz, UserAnswer, Choice
+from core.models import Question, QuestionVersion, AnswerVersion, Quiz, UserAnswer, Choice
 from pages.models.exams import Exams
 from pages.models.jurcoach import JurcoachPage
 from pages.models.sessions import SessionPage
-from .seed import start
+from core.seed import start
 
 from rest_framework import viewsets, permissions, mixins, generics, response
 from .serializers import QuestionSerializer, ChoiceSerializer, UserAnswerSerializer, QuizSerializer, AnswerSerializer, \
@@ -95,17 +95,17 @@ def category(request, category_id):
 
 def quiz(request, category_id, question_id):
     category = get_object_or_404(Article, id=category_id)
+    question = get_object_or_404(Question, id=question_id)
+    questions = get_questions(URLPath.objects.get(article=category.id))
+
+    if request.user.id:
+        user = request.user
+    else:
+        user = User.objects.get(username="anonym")
+    print(request.POST)
 
     if request.method == 'POST':
-        question_id = request.POST['question-id']
-
-        question = Question.objects.get(pk=question_id)
-
-        if request.user.id:
-            user = request.user
-        else:
-            user = User.objects.get(username="anonym")
-
+        print(request.POST)
         # FIXME: anonymous users overwrite their quizes (was hat sich hier jemand gedacht?)
         quiz = Quiz.objects.filter(category__id=category.id).filter(user__id=user.id).filter(completed=False).last()
         user_answer = UserAnswer(
@@ -121,9 +121,6 @@ def quiz(request, category_id, question_id):
             )
             choice.save()
 
-        questions = _get_questions_for_category(category_id)
-        next_question = questions.filter(id__gt=question_id).first()
-
         if request.POST.get('state') == 'finished':
             quiz.completed = True
             quiz.save()
@@ -133,18 +130,11 @@ def quiz(request, category_id, question_id):
             else:
                 return HttpResponseRedirect('/profile/quizzes')
         else:
+            next_question = questions.filter(id__gt=question_id).first()
             return HttpResponseRedirect('/quiz/category/{}/question/{}'.format(category.id, next_question.id))
         #else:
         #    request.session['category'][category_id]['question'][question_id]['answer'][answer_id]
     else:
-        questions = _get_questions_for_category(category.id)
-        question = Question.objects.get(pk=question_id)
-
-        if request.user.id:
-            user = request.user
-        else:
-            user = User.objects.get(username="anonym")
-
         # If user starts a new quiz, create quiz object
         if request.GET.get('state') == 'start':
             quiz = Quiz(
@@ -153,15 +143,13 @@ def quiz(request, category_id, question_id):
                 user=user,
             )
             quiz.save()
+            question = questions[0]
 
-            question = questions.first()
-
-        question_version = question.questions.all().first()
-
+        question_version = question.current()
         return render(request, 'core/category_question.html', {
             'banner': '/media/original_images/ohnediefrau.png',
             'category': category,
-            'question': question_version,
+            'question_version': question_version,
             'questions': questions,
             'categories_at': get_categories("at"),
             'categories_bt': get_categories("bt"),
@@ -175,16 +163,6 @@ def category_summary(request, category_id):
     quiz.save()
 
     return render(request, 'core/category_summary.html', {'category': category})
-
-def _get_questions_for_category(category_id):
-    # Get article object
-    article = Article.objects.get(pk=category_id)
-    descendants = URLPath.objects.get(article=article.id).get_descendants()
-    # Get Article IDs
-    ids = [path.article.id for path in descendants]
-    # Get questions
-    questions = Question.objects.filter(category_id=category_id) | Question.objects.filter(category_id__in=ids)
-    return questions.order_by('id')
 
 def scrape(request):
     return start(request)
@@ -240,13 +218,16 @@ def api_exams(request):
     return JsonResponse({'data': data})
 
 def get_questions(cat):
-    question_set = [cat.article.question_set.all()] + [sub.article.question_set.all() for sub in cat.get_children()]
-    pre = [[q for q in question] for question in question_set]
-    result = list(chain.from_iterable(pre))
-    return result
+    questions_set = [cat.article.questions.all()] + [sub.article.questions.all() for sub in cat.get_children()]
+    ids = []
+    for questions in questions_set:
+        for question in questions:
+            if question.current():
+                ids.append(question.id)
+    return Question.objects.filter(id__in=ids).order_by('id')
 
 def get_categories(slug):
-    cat = URLPath.objects.filter(slug=slug, parent_id=URLPath.objects.first().id).get()
+    cat = URLPath.get_by_path(slug)
 
     categories = []
 
@@ -266,11 +247,12 @@ def get_categories(slug):
 
     return categories
 
-# @login_required(login_url="/profile/login")
 def add_question(request):
-    user = request.user
-    return render(request, 'core/add_question.html', {"user": user})
+    return render(request, 'core/add_question.html', { "user": request.user })
 
+def edit_question(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'core/edit_question.html', { "user": request.user, "question": question })
 
 class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
     serializer_class = QuestionSerializer
@@ -280,17 +262,26 @@ class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        category = get_object_or_404(Article, pk=data.get("categories"))
+        question_id = data.get("question_id")
 
-        question = Question.objects.create(
-            user=request.user,
-            category=category,
-        )
+        if question_id:
+            # we have an update to a question
+            question = get_object_or_404(Question, pk=question_id)
+        else:
+            # a new question
+            category = get_object_or_404(Article, pk=data.get("categories"))
+
+            question = Question.objects.create(
+                user=request.user,
+                category=category,
+            )
 
         question_version = QuestionVersion.objects.create(
             question=question,
             title=data.get("title"),
             description=data.get("description"),
+            user=request.user,
+            approved=False,
         )
 
         for answer in data.get("answers"):
@@ -300,6 +291,9 @@ class QuestionViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
             )
 
         question_version.save()
+
+        if request.user.is_superuser:
+            question_version.approve()
 
         return JsonResponse(data={"success": True}, status=200)
 
@@ -339,7 +333,6 @@ class ChoiceViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
 def get_category_tree(request):
-    root = URLPath.objects.first()
     tree = {
             "id": "cat",
             "label": "Quiz-Teil",

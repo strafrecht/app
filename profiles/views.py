@@ -65,7 +65,7 @@ def quizzes(request):
         "banner": "/media/images/login.original.jpg",
         "quizzes": quizzes,
         "filter": filter_by,
-        "order": order_by
+        "order": order_by,
     })
 
 @login_required

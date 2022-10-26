@@ -13,10 +13,8 @@ logger = logging.getLogger('django')
 
 
 class Question(ClusterableModel):
-    filepath = models.CharField(max_length=255, null=True, blank=True)
-    slug = models.CharField(max_length=255, null=True, blank=True)
+    category = models.ForeignKey('wiki.Article', on_delete=models.SET_NULL, null=True, blank=True, related_name='questions')
     order = models.CharField(max_length=255, null=True, blank=True)
-    category = models.ForeignKey('wiki.Article', on_delete=models.SET_NULL, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -29,24 +27,33 @@ class Question(ClusterableModel):
         FieldPanel('user'),
     ]
 
+    # FIXME: return the first approved QuestionVersion
+    def current(self):
+        return self.questions.filter(approved=True).first()
 
 class QuestionVersion(ClusterableModel):
     question = ParentalKey(Question, on_delete=models.CASCADE, related_name='questions')
-    slug = models.CharField(max_length=255, blank=True, null=True)
-    title = models.TextField(max_length=255)
-    description = models.TextField(null=True, blank=True)
-    categories = models.ManyToManyField(Article, blank=True)
+    title = models.TextField(max_length=1000)
+    description = models.TextField(max_length=2000)
     approved = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def answers_json(self):
+        return [{ "text": o.text, "correct": o.correct } for o in self.answers.all()]
+
+    def approve(self):
+        for qv in self.question.questions.all():
+            qv.approved = False
+            qv.save()
+        self.approved = True
+        self.save()
+
     panels = [
             FieldPanel('question'),
-            FieldPanel('slug'),
             FieldPanel('title'),
             FieldPanel('description'),
-            FieldPanel('categories'),
             FieldPanel('approved'),
             InlinePanel('answers'),
         ]
@@ -62,7 +69,7 @@ class AnswerVersion(ClusterableModel):
 
 
 class Quiz(models.Model):
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     category = models.ForeignKey('wiki.Article', on_delete=models.SET_NULL, null=True, blank=True)
     completed = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -99,20 +106,13 @@ class Quiz(models.Model):
             return total
 
     def total_questions(self):
-        return self._get_questions_for_category().count()
+        return self.get_questions_for_category().count()
 
-    def _get_questions_for_category(self):
-        id = self.category.id
-        # Get article object
-        article_schuld = Article.objects.get(pk=id)
-        # Get target article's URLPath
-        path_schuld = URLPath.objects.get(article=article_schuld.id)
-        # Get URLPath descendants
-        schuld_descendants = path_schuld.get_descendants()
-        # Get Article IDs
-        ids = [path.article.id for path in schuld_descendants]
+    def get_questions_for_category(self):
+        path = URLPath.objects.get(article=self.category.id)
+        ids = [path.article.id for path in path.get_descendants()]
         # Get questions
-        questions = Question.objects.filter(category_id=id) | Question.objects.filter(category_id__in=ids)
+        questions = Question.objects.filter(category_id=self.category.id) | Question.objects.filter(category_id__in=ids)
         return questions.order_by('id')
 
 class UserAnswer(models.Model):
