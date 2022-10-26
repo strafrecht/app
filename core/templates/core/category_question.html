@@ -92,10 +92,10 @@
       <div class="p-0 mb-2">
 	<form action="{% url 'quiz:category_question' category.id question_version.question.id %}" method="post" class="mct-input">
 	  {% csrf_token %}
-	  <div class="p-2">
+	  <div id="answers-form" class="p-2">
 	    {% for answer in question_version.answers.all %}
 	    <label for={{answer.id}}>
-	      <input type="checkbox" id={{answer.id}} class="answer mct-checkbox" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}>
+	      <input type="checkbox" id="{{answer.id}}" class="answer mct-checkbox" name="answer" value="{{answer.id}}" data-correct="{{answer.correct}}">
 	      <span class="mct-input-helper"></span>
 	      <span class="answer-text">{{ answer }}</span>
 	      <span>
@@ -205,6 +205,7 @@
   var description = document.querySelector('.description')
   var correctHeader = description.querySelector('.correct')
   var falseHeader = description.querySelector('.false')
+  var answers_form = document.querySelector('#answers-form')
 
   button.addEventListener('click', function(e) {
     e.preventDefault();
@@ -213,7 +214,7 @@
 
     for (i = 0; i < answers.length; i++) {
       answer = answers[i]
-      answer.disabled = true
+      answers_form.style.pointerEvents = "none";
       answers[i].parentNode.parentNode.classList.add('mct-solution')
 
       if (answer.getAttribute('data-correct') == 'True') {
