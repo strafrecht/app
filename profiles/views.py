@@ -33,7 +33,7 @@ def flashcards(request):
 @login_required
 def quizzes(request):
     filter_by = request.GET.get('filter_by', 'all')
-    order_by = request.GET.get('order_by', 'created')
+    order_by = request.GET.get('order_by', 'created-new')
 
     query = Quiz.objects.filter(user__id=request.user.id)
 
@@ -52,6 +52,7 @@ def quizzes(request):
         query = query.order_by('-created')
     elif order_by == 'created-old':
         query = query.order_by('created')
+    # FIXME: order by score is not implemented
     elif order_by == 'score-high':
         query = query.order_by('created')
     elif order_by == 'score-low':

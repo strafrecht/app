@@ -67,14 +67,14 @@
 			window.location = `?filter_by=${filter_by}&order_by=${e.value}`
 		}
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/chartist@0.11.4/dist/chartist.min.js"></script>
+	<script src="{% static 'js/chartist-plugin-fill-donut.js' %}"></script>
 
 		{% if quizzes %}
 			{% for quiz in quizzes %}
 				<div class="d-flex flex-col bg-white rounded-lg p-3 my-2">
 					<div class="">
 						<div class="ct-chart ct-chart-{{forloop.counter}}"></div>
-						<script src="https://cdn.jsdelivr.net/npm/chartist@0.11.4/dist/chartist.min.js"></script>
-						<script src="/static/js/chartist-plugin-fill-donut.js"></script>
 						<script>
 							var score = parseInt({{  quiz.calculate_score }})
 							var total = parseInt({{  quiz.total_questions }})
@@ -148,5 +148,4 @@
 {% endblock %}
 
 {% block extra_js %}
-	<script src="/static/js/chartist-plugin-fill-donut.js"></script>
 {% endblock %}

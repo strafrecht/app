@@ -87,11 +87,11 @@ def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'core/question.html', {'question': question})
 
-# FIXME: what is the emeaning of this?
+# retake quizz redirect (called from profile/quizzes)
 def category(request, category_id):
     category = get_object_or_404(Article, id=category_id)
-    questions = Question.objects.filter(category_id=category_id)
-    return render(request, 'core/category.html', {'category': category, 'questions': questions})
+    question = get_questions(URLPath.objects.get(article=category.id)).first()
+    return HttpResponseRedirect('/quiz/category/{}/question/{}/?state=start'.format(category.id, question.id))
 
 def quiz(request, category_id, question_id):
     category = get_object_or_404(Article, id=category_id)
@@ -102,10 +102,8 @@ def quiz(request, category_id, question_id):
         user = request.user
     else:
         user = User.objects.get(username="anonym")
-    print(request.POST)
 
     if request.method == 'POST':
-        print(request.POST)
         # FIXME: anonymous users overwrite their quizes (was hat sich hier jemand gedacht?)
         quiz = Quiz.objects.filter(category__id=category.id).filter(user__id=user.id).filter(completed=False).last()
         user_answer = UserAnswer(
@@ -131,7 +129,7 @@ def quiz(request, category_id, question_id):
                 return HttpResponseRedirect('/profile/quizzes')
         else:
             next_question = questions.filter(id__gt=question_id).first()
-            return HttpResponseRedirect('/quiz/category/{}/question/{}'.format(category.id, next_question.id))
+            return HttpResponseRedirect('/quiz/category/{}/question/{}/'.format(category.id, next_question.id))
         #else:
         #    request.session['category'][category_id]['question'][question_id]['answer'][answer_id]
     else:
