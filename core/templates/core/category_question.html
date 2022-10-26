@@ -4,241 +4,247 @@
 {% load wagtailmarkdown %}
 
 {% block extra_css %}
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-	<style>
-	.tabbed figure {
-		display: block;
-		margin-left: 0;
-		clear: both;
-	}
-	.tabbed > input,
-	.tabbed figure > div { display: none; }
-	.tabbed figure > div {
-		width: 100%;
-		color: #3d3d3d;
-	}
-	.tabbed figure > div a > span.badge {
-		background: #fff;
-		padding: .4rem 1rem;
-		border: 3px solid #E8E7E0;
-		color: #3d3d3d;
-		font-size: 14px;
-		margin-bottom: .5rem;
-	}
-	.tabbed figure > div a > span.badge:hover {
-		background: #FFE200;
-		border: 3px solid #FFE200;
-		cursor: pointer;
-	}
-	#jurcoach-page .tabbed nav {
-		margin-bottom: 20px;
-	}
-	#jurcoach-page .tabbed nav label {
-		cursor: pointer;
-		margin: 0 .6rem;
-	}
-	#jurcoach-page .tabbed nav label h3 {
-		color: #999 !important;
-		margin-bottom: 0;
-	}
-	#at:checked ~ figure .at,
-	#bt:checked ~ figure .bt { display: block; }
-	#at:checked ~ nav label[for="at"],
-	#bt:checked ~ nav label[for="bt"] {
-		position: relative;
-		color: #000  !important;
-		border-bottom: 4px solid #FFE200;
-		cursor: default;
-	}
-	#jurcoach-page #at:checked ~ nav label[for="at"] h3,
-	#jurcoach-page #bt:checked ~ nav label[for="bt"] h3 {
-		color: #000  !important;
-	}
-	main>.container-inner>.content {
-		max-width: none;
-	}
-	.false-icon,
-	.correct-icon {
-		display: none;
-	}
-	.check-icon .correct-icon {
-		display: inline;
-	}
-	.dash-icon .false-icon {
-		display: inline;
-	}
-	.mct-solution label input,
-	.mct-solution label .answer-text {
-		cursor: default !important;
-	}
-	</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<style>
+  .tabbed figure {
+    display: block;
+    margin-left: 0;
+    clear: both;
+  }
+  .tabbed > input,
+  .tabbed figure > div { display: none; }
+  .tabbed figure > div {
+    width: 100%;
+    color: #3d3d3d;
+  }
+  .tabbed figure > div a > span.badge {
+    background: #fff;
+    padding: .4rem 1rem;
+    border: 3px solid #E8E7E0;
+    color: #3d3d3d;
+    font-size: 14px;
+    margin-bottom: .5rem;
+  }
+  .tabbed figure > div a > span.badge:hover {
+    background: #FFE200;
+    border: 3px solid #FFE200;
+    cursor: pointer;
+  }
+  #jurcoach-page .tabbed nav {
+    margin-bottom: 20px;
+  }
+  #jurcoach-page .tabbed nav label {
+    cursor: pointer;
+    margin: 0 .6rem;
+  }
+  #jurcoach-page .tabbed nav label h3 {
+    color: #999 !important;
+    margin-bottom: 0;
+  }
+  #at:checked ~ figure .at,
+  #bt:checked ~ figure .bt { display: block; }
+  #at:checked ~ nav label[for="at"],
+  #bt:checked ~ nav label[for="bt"] {
+    position: relative;
+    color: #000  !important;
+    border-bottom: 4px solid #FFE200;
+    cursor: default;
+  }
+  #jurcoach-page #at:checked ~ nav label[for="at"] h3,
+  #jurcoach-page #bt:checked ~ nav label[for="bt"] h3 {
+    color: #000  !important;
+  }
+  main>.container-inner>.content {
+    max-width: none;
+  }
+  .false-icon,
+  .correct-icon {
+    display: none;
+  }
+  .check-icon .correct-icon {
+    display: inline;
+  }
+  .dash-icon .false-icon {
+    display: inline;
+  }
+  .mct-solution label input,
+  .mct-solution label .answer-text {
+    cursor: default !important;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
 <div id="quiz-category-question">
-	<div class="h2-wrapper-container">
-		<div class="h2-wrapper text-center">
-			<h2>{{ category }}</h2>
+  <div class="h2-wrapper-container">
+    <div class="h2-wrapper text-center">
+      <h2>{{ category }}</h2>
+    </div>
+  </div>
+
+  <div class="d-flex col-md-12">
+    <div class="tea-drinker"></div>
+    <div class="col-md-8 flex-col bg-white rounded p-0">
+      <div class="p-0">
+	<h6 class="p-0 question-title">{{ question_version.title | markdown }}</h6>
+      </div>
+
+      <div class="p-0 mb-2">
+	<form action="{% url 'quiz:category_question' category.id question_version.question.id %}" method="post" class="mct-input">
+	  {% csrf_token %}
+	  <ul class="p-2">
+	    {% for answer in question_version.answers.all %}
+	    <label for={{answer.id}}>
+	      <input type="checkbox" id={{answer.id}} class="answer mct-checkbox" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}>
+	      <span class="mct-input-helper"></span>
+	      <span class="answer-text">{{ answer }}</span>
+	      <span>
+		<i class="bi bi-check-circle-fill correct-icon"></i>
+		<i class="bi bi-dash-circle-fill false-icon"></i>
+	      </span>
+	    </label><br>
+	    {% endfor %}
+	  </ul>
+
+	  <div class="float-right">
+	    <button id="show-results-button" class="show-results-button">Lösung</button>
+	    {% for quest in questions %}
+	      {% if quest.id == question_version.question.id %}
+	        {% if forloop.counter == questions.count %}
+	          <input class="show-results-button" type="hidden" value="finished" name="state">
+		  <input class="show-results-button" type="submit" value="Finish Quiz" hidden>
+		{% else %}
+		  <input class="show-results-button" type="submit" value="Nächste Frage" hidden>
+		{% endif %}
+	      {% endif %}
+	    {% endfor %}
+	  </div>
+
+	  <div class="description" hidden>
+	    <h6 class="correct" hidden>Super! Deine Antwort ist richtig.</h6>
+	    <h6 class="false" hidden>Leider falsch.</h6>
+
+	    <div>{{ question_version.description | markdown }}</div>
+	  </div>
+	</form>
+
+      </div>
+      <section id="jurcoach-page" class="text-center" style="margin-top: 120px;">
+	<div class="container">
+	  <div>
+	    <div class="tabbed">
+	      <input checked="checked" id="at" type="radio" name="tabs" />
+	      <input id="bt" type="radio" name="tabs" />
+
+	      <nav>
+		<label for="at"><h3>Allgemeiner Teil</h3></label>
+		<label for="bt"><h3>Besonderer Teil</h3></label>
+	      </nav>
+
+	      <figure style="margin-top: 20px;">
+		<div class="at">
+		  {% for item in categories_at %}
+		    {% if item.first.id > 0 %}
+		      <a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+		    {% endif %}
+		  {% endfor %}
 		</div>
+		<div class="bt">
+		  {% for item in categories_bt %}
+		    {% if item.first.id > 0 %}
+		      <a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+		    {% endif %}
+		  {% endfor %}
+		</div>
+	      </figure>
+	    </div>
+	  </div>
+	</div>
+      </section>
+    </div>
+
+    <div class="col-md-4" style="margin-left: 50px;">
+      <div class="rounded p-4 pb-0 mb-4" style="border-bottom: 4px solid black; border-right: 4px solid black; background: #EEEDE8; position: relative; font-family: 'Roboto Slab' !important;">
+	<h5 style="background: black; color: white; font-family: inherit; font-size: 14px; top: -10px; position: absolute; text-transform: uppercase; padding: 2px 8px;">Score</h5>
+	<div class="" style="color: black; font-weight: 800; font-size: 1.1rem; font-family: inherit; padding-top: 10px;">
+	  {% for quest in questions %}
+	    {% if quest.id == question_version.question.id %}
+	      <p style="font-family: inherit;">Frage {{ forloop.counter }} von {{ questions.count }}</p>
+	    {% endif %}
+	  {% endfor %}
+	</div>
+      </div>
+      <div class="flex flex-col">
+	<a href="?state=start" class="btn" style="background: black; color: white; width: 100%;">Neu starten</a>
+      </div>
+      <div class="bg-white rounded shadow p-4" hidden>
+	<h5>Kategorie wählen</h5>
+
+	<div class="flex flex-col flex-wrap" style="display: flex; flex-flow: column; max-height: 320px;">
+	  {% for item in categories %}
+	    {% if item.first %}
+	      <div style="width: 50%;">
+		<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}">
+		  § {{ item.category.slug }}
+		</a>
+	      </div>
+	    {% endif %}
+	  {% endfor %}
 	</div>
 
-<div class="d-flex col-md-12">
-	<div class="tea-drinker"></div>
-	<div class="col-md-8 flex-col bg-white rounded p-0">
-		<div class="p-0">
-			<h6 class="p-0 question-title">{{ question_version.title | markdown }}</h6>
-		</div>
-
-		<div class="p-0 mb-2">
-		<form action="{% url 'quiz:category_question' category.id question_version.question.id %}" method="post" class="mct-input">
-			{% csrf_token %}
-			<ul class="p-2">
-				{% for answer in question_version.answers.all %}
-					<label for={{answer.id}}>
-						<input type="checkbox" id={{answer.id}} class="answer mct-checkbox" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}>
-						<span class="mct-input-helper"></span>
-						<span class="answer-text">{{ answer }}</span>
-						<span><i class="bi bi-check-circle-fill correct-icon"></i><i class="bi bi-dash-circle-fill false-icon"></i></span>
-					</label><br>
-				{% endfor %}
-			</ul>
-
-			<div class="float-right">
-				<button id="show-results-button" class="show-results-button">Lösung</button>
-				{% for quest in questions %}
-					{% if quest.id == question_version.question.id %}
-						{% if forloop.counter == questions.count %}
-							<input class="show-results-button" type="hidden" value="finished" name="state">
-							<input class="show-results-button" type="submit" value="Finish Quiz" hidden>
-						{% else %}
-							<input class="show-results-button" type="submit" value="Nächste Frage" hidden>
-						{% endif %}
-					{% endif %}
-				{% endfor %}
-			</div>
-
-			<div class="description" hidden>
-				<h6 class="correct" hidden>Super! Deine Antwort ist richtig.</h6>
-				<h6 class="false" hidden>Leider falsch.</h6>
-
-				<div>{{ question_version.description | markdown }}</div>
-			</div>
-		</form>
-
-		<script>
-			var button = document.querySelector("#show-results-button")
-			var answers = document.querySelectorAll('.answer')
-			var sub = document.querySelector('input[type=submit]')
-			var description = document.querySelector('.description')
-			var correctHeader = description.querySelector('.correct')
-			var falseHeader = description.querySelector('.false')
-			var list = document.querySelector('form ul')
-
-			button.addEventListener('click', function(e) {
-				e.preventDefault();
-
-				var correct = true;
-
-				for (i = 0; i < answers.length; i++) {
-					answer = answers[i]
-					answer.disabled = true
-					answers[i].parentNode.parentNode.classList.add('mct-solution')
-
-					if (answer.getAttribute('data-correct') == 'True') {
-						correct = correct && answer.checked
-						if (answer.checked) {
-							answers[i].parentNode.classList.add('check-icon')
-						} else {
-							answers[i].parentNode.classList.add('dash-icon')
-						}
-						answers[i].parentNode.classList.add('mct-correct-answer')
-					} else {
-						if (answer.checked) {
-							correct = correct && false
-							answers[i].parentNode.classList.add('dash-icon')
-						} else {
-							answers[i].parentNode.classList.add('check-icon')
-						}
-					}
-				}
-
-				if (correct) {
-					correctHeader.hidden = false
-				} else {
-					falseHeader.hidden = false
-				}
-
-				button.hidden = true
-				sub.hidden = false
-				description.hidden = false
-			})
-		</script>
-		</div>
-		<section id="jurcoach-page" class="text-center" style="margin-top: 120px;">
-			<div class="container">
-				<div>
-					<div class="tabbed">
-					   <input checked="checked" id="at" type="radio" name="tabs" />
-					   <input id="bt" type="radio" name="tabs" />
-
-					   <nav>
-						  <label for="at"><h3>Allgemeiner Teil</h3></label>
-						  <label for="bt"><h3>Besonderer Teil</h3></label>
-					   </nav>
-
-					   <figure style="margin-top: 20px;">
-						  <div class="at">
-						{% for item in categories_at %}
-							{% if item.first.id > 0 %}
-								<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
-							{% endif %}
-						{% endfor %}
-						  </div>
-						  <div class="bt">
-						{% for item in categories_bt %}
-							{% if item.first.id > 0 %}
-								<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
-							{% endif %}
-						{% endfor %}
-						  </div>
-					   </figure>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
-
-	<div class="col-md-4" style="margin-left: 50px;">
-		<div class="rounded p-4 pb-0 mb-4" style="border-bottom: 4px solid black; border-right: 4px solid black; background: #EEEDE8; position: relative; font-family: 'Roboto Slab' !important;">
-			<h5 style="background: black; color: white; font-family: inherit; font-size: 14px; top: -10px; position: absolute; text-transform: uppercase; padding: 2px 8px;">Score</h5>
-			<div class="" style="color: black; font-weight: 800; font-size: 1.1rem; font-family: inherit; padding-top: 10px;">
-				{% for quest in questions %}
-					{% if quest.id == question_version.question.id %}
-						<p style="font-family: inherit;">Frage {{ forloop.counter }} von {{ questions.count }}</p>
-					{% endif %}
-				{% endfor %}
-			</div>
-		</div>
-		<div class="flex flex-col">
-			<a href="?state=start" class="btn" style="background: black; color: white; width: 100%;">Neu starten</a>
-		</div>
-		<div class="bg-white rounded shadow p-4" hidden>
-			<h5>Kategorie wählen</h5>
-
-			<div class="flex flex-col flex-wrap" style="display: flex; flex-flow: column; max-height: 320px;">
-			{% for item in categories %}
-				{% if item.first %}
-				<div style="width: 50%;">
-					<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}">
-						§ {{ item.category.slug }}
-					</a>
-				</div>
-				{% endif %}
-			{% endfor %}
-			</div>
-
-		</div>
-	</div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
+
+
+<script>
+  var button = document.querySelector("#show-results-button")
+  var answers = document.querySelectorAll('.answer')
+  var sub = document.querySelector('input[type=submit]')
+  var description = document.querySelector('.description')
+  var correctHeader = description.querySelector('.correct')
+  var falseHeader = description.querySelector('.false')
+  var list = document.querySelector('form ul')
+
+  button.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    var correct = true;
+
+    for (i = 0; i < answers.length; i++) {
+      answer = answers[i]
+      answer.disabled = true
+      answers[i].parentNode.parentNode.classList.add('mct-solution')
+
+      if (answer.getAttribute('data-correct') == 'True') {
+	correct = correct && answer.checked
+	if (answer.checked) {
+	  answers[i].parentNode.classList.add('check-icon')
+	} else {
+	  answers[i].parentNode.classList.add('dash-icon')
+	}
+	answers[i].parentNode.classList.add('mct-correct-answer')
+      } else {
+	if (answer.checked) {
+	  correct = correct && false
+	  answers[i].parentNode.classList.add('dash-icon')
+	} else {
+	  answers[i].parentNode.classList.add('check-icon')
+	}
+      }
+    }
+
+    if (correct) {
+      correctHeader.hidden = false
+    } else {
+      falseHeader.hidden = false
+    }
+
+    button.hidden = true
+    sub.hidden = false
+    description.hidden = false
+  })
+</script>
+
 {% endblock %}
