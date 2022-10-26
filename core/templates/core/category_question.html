@@ -92,7 +92,7 @@
       <div class="p-0 mb-2">
 	<form action="{% url 'quiz:category_question' category.id question_version.question.id %}" method="post" class="mct-input">
 	  {% csrf_token %}
-	  <ul class="p-2">
+	  <div class="p-2">
 	    {% for answer in question_version.answers.all %}
 	    <label for={{answer.id}}>
 	      <input type="checkbox" id={{answer.id}} class="answer mct-checkbox" name="answer" value="{{answer.id}}" data-correct={{answer.correct}}>
@@ -104,7 +104,7 @@
 	      </span>
 	    </label><br>
 	    {% endfor %}
-	  </ul>
+	  </div>
 
 	  <div class="float-right">
 	    <button id="show-results-button" class="show-results-button">Lösung</button>
@@ -205,7 +205,6 @@
   var description = document.querySelector('.description')
   var correctHeader = description.querySelector('.correct')
   var falseHeader = description.querySelector('.false')
-  var list = document.querySelector('form ul')
 
   button.addEventListener('click', function(e) {
     e.preventDefault();
