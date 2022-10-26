@@ -173,18 +173,15 @@ def scrape_wiki(request):
             # create mct
             if "frage" in get_type(soup):
                 question = {
+                    "user": request.user,
                     "root": parent_dir,
-                    "slug": root.split("/")[-1][0:50],
-                    "category": "", #Category
-                    #"title": extract("question", soup),
-                    "answers": extract("answers", soup),
-                    #"description": extract("description", soup),
                     "order": extract("order", soup),
                 }
 
                 question = create_question(question)
 
                 question_version = {
+                    "user": request.user,
                     "question_id": question.id,
                     "title": extract("question", soup),
                     "answers": extract("answers", soup),
@@ -1232,11 +1229,8 @@ def create_question(question_data):
     parent = traverse_ancestors(root, slug_list)
 
     question = Question(
-        filepath=question_data['root'],
-        slug=question_data['slug'],
-        #title=question_data['title'],
         order=question_data['order'],
-        #description=question_data['description'],
+        user=question_data['user'],
         category=parent.article,
     )
 
@@ -1253,9 +1247,7 @@ def create_question_version(question_data):
     question_version = QuestionVersion(
         question_id=question_data['question_id'],
         title=question_data['title'],
-        #title="placeholder title",
         description=question_data['description'],
-        #description="placeholder description"
     )
 
     # save answers
@@ -1264,6 +1256,7 @@ def create_question_version(question_data):
         question_version.answers.create(text=answer['text'], correct=answer['correct'])
 
     question_version.save()
+    question_version.approve()
 
 def get_type(soup):
     try:
