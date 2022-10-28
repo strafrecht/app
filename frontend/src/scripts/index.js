@@ -24,5 +24,5 @@ new Vue({
 }).$mount("deck");
 
 $(document).ready(function () {
-  window.console.log("dom ready");
+  // window.console.log("dom ready");
 });
