@@ -26,16 +26,16 @@
                 </select>
               </div>
             </div>
-            <!-- 
+            <!--
 
               DISCLAIMER: use this code to add wiki category per deck
-              (possible future feature), vue treeselect is used to 
-              show the wiki category dropdown (as it is in 
+              (possible future feature), vue treeselect is used to
+              show the wiki category dropdown (as it is in
               add_question.html). wiki category field also should
               be added in models.py in case is gonna be used
 
 
-              <div class="wiki-category">  
+              <div class="wiki-category">
               <label class="label">Wiki Kategorie</label>
             </div>
             <div>
@@ -62,7 +62,7 @@
             <h5>{{ deck.name }}</h5>
             <br>
             <br>
-            <p v-if="categoriesById[deck.category]">{{ categoriesById[deck.category].name }}</p> 
+            <p v-if="categoriesById[deck.category]">{{ categoriesById[deck.category].name }}</p>
           </div>
           <div class="buttons">
             <i
@@ -236,7 +236,7 @@
 
 <script>
 import axios from "axios";
-import Modal from "./Modal.vue";
+import Modal from "./modal.vue";
 // import Treeselect from "@riophae/vue-treeselect";
 import Flashcard from "./flashcard.vue";
 // import '@riophae/vue-treeselect/dist/vue-treeselect.css';
@@ -274,7 +274,7 @@ export default {
   },
   created() {
     // to generate the specific url per each deck and category
-    const queryParams = new URLSearchParams(window.location.search); 
+    const queryParams = new URLSearchParams(window.location.search);
     const deckId = queryParams.get("deck");
     const categoryId = queryParams.get("category");
     if (deckId) {
@@ -352,7 +352,7 @@ export default {
               return 1;
             }
           }
-           
+
           return 0;
         })
       }
