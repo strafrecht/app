@@ -236,9 +236,9 @@
 
 <script>
 import axios from "axios";
-import Modal from "./modal.vue";
+import Modal from "./Modal.vue";
+import Flashcard from "./Flashcard.vue";
 // import Treeselect from "@riophae/vue-treeselect";
-import Flashcard from "./flashcard.vue";
 // import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 
 export default {
@@ -518,81 +518,6 @@ export default {
   },
 };
 </script>
-
-
-<style>
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
-
-.decks {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.deckspace {
-  padding: 10px;
-  background-color: #fff;
-  color: #2c3e50;
-  height: fit-content;
-}
-
-.deck {
-  border: 1px solid #d7d7d7;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
-  width: 150px;
-  height: 200px;
-  color: #2c3e50;
-  height: fit-content;
-}
-
-.deck:hover {
-  box-shadow: 5px 5px rgba(0,0,0,0.1);
-}
-
-.deckarea:hover,
-.bi:hover {
-  cursor: pointer;
-}
-
-.tooltips {
-  position: relative;
-  display: inline-block;
-}
-
-.tooltips .tooltiptexts {
-  visibility: hidden;
-  width: 80px;
-  top: 100%;
-  left: 50%;
-  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
-  background-color: rgba(0, 0, 0, 0.639);
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltips:hover .tooltiptexts {
-  visibility: visible;
-}
-
-.deckwrap {
-  display: inline-flex;
-  width: 850px;
-}
-
-.sidemenu {
-  position: relative;
-  float: right;
-  flex-direction: column;
-}
-
-.neu {
-  margin-left: 15px;
-}
+<style lang="scss" scoped>
+  @import './styles/deckspace.scss';
 </style>

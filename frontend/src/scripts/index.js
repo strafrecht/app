@@ -4,7 +4,7 @@ import $ from "jquery/dist/jquery.slim"
 import "bootstrap/dist/js/bootstrap.bundle"
 import { initEditor } from  './editor/index'
 // import moment from "moment";
-import deck from "./vue/flashcards/deck.vue";
+import deck from "./vue/flashcards/Deck.vue";
 
 initEditor()
 

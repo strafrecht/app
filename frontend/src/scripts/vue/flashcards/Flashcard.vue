@@ -196,11 +196,11 @@
             >
               <div class="flashcard-front">
                 <span class="card-content">{{ front_side }}</span>
-                <br />  
+                <br />
               </div>
               <div class="flashcard-back">
                 <span class="card-content"> {{ back_side }}</span>
-                <br />  
+                <br />
               </div>
             </div>
           </div>
@@ -371,9 +371,9 @@ export default {
   },
   methods: {
     // in learning mode: if a card is learned it gets removed from the slider
-    // if is not learned (click in not learned). it reduces its probabilty of 
+    // if is not learned (click in not learned). it reduces its probabilty of
     // showing up again in the learnin' mode slider.
-    // when you finally clicked 'learned' in all cards, the results of how 
+    // when you finally clicked 'learned' in all cards, the results of how
     // many times you did not remember a card content is shown!
     updateCardProbability(modifier = 0) {
       const selectedCardId = this.gameModeCards[this.selectedCardIndex]?.id
@@ -388,7 +388,7 @@ export default {
       this.$set(this.flashcards, flashcardIndex, updatedCard)
     },
     onCardLearned() {
-      const card = this.gameModeCards[this.selectedCardIndex]    
+      const card = this.gameModeCards[this.selectedCardIndex]
       if (!(card.id in this.gameProgress)) {
         this.$set(this.gameProgress, card.id, {
           card,
@@ -535,196 +535,11 @@ export default {
       else {
         alert("Zuerst eine Karte erstellen");
       }
-      
+
     },
   },
 };
 </script>
-
-<style>
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
-@import url("https://unpkg.com/swiper/swiper-bundle.min.css");
-
-.gamemode {
-  overflow: hidden; 
-  width: 270px;
-  margin: 0 auto;
-}
-
-.swiper-controls {
-  width: 12rem;
-  height: 2.1rem;
-  margin: 1rem auto;
-  display: flex;
-  justify-content: space-between;
-}
-
-.swiper-controls .swiper-button-next,
-.swiper-controls .swiper-button-prev {
-  position: relative;
-  margin-top: 0;
-  inset: initial;
-}
-
-.swiper-container {
-  width: 18rem;
-  height: 25rem;
-}
-
-.swiper-slide {
-  perspective: 1000px;
-}
-
-.swiper-flashcard {
-  background: #fff;
-  border-radius: 1em;
-  width: 16rem;
-  height: 24rem;
-  transition: 0.5s;
-  transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-.flashcard-back {
-  transform: rotateY(180deg);
-}
-
-.swiper-slide-rotate {
-  transform: rotateY(180deg);
-}
-
-.flashcard-front,
-.flashcard-back {
-  border-radius: 1em;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: small;
-}
-
-.flashcard-front {
-  background: #e9e9e9;
-}
-
-.flashcard-back {
-  background: #cfe6d4;
-}
-
-.flashcards {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.card {
-  margin: 5px;
-  padding: 4px;
-  background-color: #fff;
-  color: #2c3e50;
-  height: fit-content;
-  border: none;
-}
-
-.flip-card {
-  border-radius: 1em;
-  background-color: transparent;
-  width: 150px;
-  height: 220px;
-  perspective: 1000px;
-}
-
-.flip-card-inner {
-  border-radius: 1em;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-  padding: 0px 10px 0px 10px;
-  border-radius: 1em;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-.flip-card-front {
-  background-color: rgb(233, 233, 233);
-  color: black;
-}
-
-.flip-card-back {
-  background-color: rgb(233, 233, 233);
-  color: black;
-  transform: rotateY(180deg);
-}
-
-i:hover {
-  cursor: pointer;
-}
-
-.tooltips {
-  position: relative;
-  display: inline-block;
-}
-
-.tooltips .tooltiptexts {
-  visibility: hidden;
-  width: 80px;
-  top: 100%;
-  left: 50%;
-  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
-  background-color: rgba(0, 0, 0, 0.639);
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltips:hover .tooltiptexts {
-  visibility: visible;
-}
-
-.sidemenu {
-  position: relative;
-  float: right;
-}
-
-.cards-container {
-  display: inline-flex;
-  width: 850px;
-}
-
-.swiper-button-next:after,
-.swiper-button-prev:after {
-  color: #6c757d;
-  font-size: 28px;
-}
-
-.card-content {
-  margin: 20px;
-  text-align: center;
-}
-
-.hide {
-  display: none;
-}
-
+<style lang="scss" scoped>
+  @import './styles/flashcard.scss';
 </style>
