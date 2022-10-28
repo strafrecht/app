@@ -1,5 +1,10 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
-@import url("https://unpkg.com/swiper/swiper-bundle.min.css");
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import "chartist/dist/chartist.css";
+@import "swiper/css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
 $body-color: #3d3d3d;
 $yellow: #ffe200;
@@ -94,7 +99,6 @@ h3::after {
 @import "pages/feedback.css";
 @import "pages/profile.css";
 
-//@import "old/app.css";
 @import "old/columns.css";
 @import "old/comments.css";
 @import "old/content.css";
@@ -102,7 +106,6 @@ h3::after {
 @import "old/custom-wagtail-columns.css";
 @import "old/flipcard-widget.scss";
 //@import "old/django-pwa-app.css";
-//@import "old/main.css";
 @import "old/mysite.css";
 @import "old/person_index_page.css";
 @import "old/person_page.css";

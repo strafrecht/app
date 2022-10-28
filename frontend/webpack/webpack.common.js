@@ -12,10 +12,10 @@ module.exports = {
     filename: 'js/[name].js',
   },
   optimization: {
-  	splitChunks: {
-    	chunks: 'all',
-    	name: 'vendors',
-  	},
+    // splitChunks: {
+    //   chunks: 'all',
+    //   name: 'vendors',
+    // },
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -37,7 +37,7 @@ module.exports = {
         type: 'javascript/auto',
       },
       {
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        test: /\.(ico|jpg|jpeg|png|gif|webp|svg|eot|otf|ttf|woff|woff2)(\?.*)?$/,
         use: {
           loader: 'file-loader',
           options: {

@@ -14,7 +14,6 @@
     	</form>
 	</div>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
 		$("#poll > label").empty()
 		$("#poll").submit(function(e) {
@@ -58,7 +57,7 @@
         				console.log(xhr.status + ": " + xhr.responseText);
     				}
     			});
-			});	
+			});
 		</script>
 		{% endif %}
 	{% endblock %}
@@ -75,4 +74,3 @@
 	</div>
 	{% endif %}
 {% endblock #}
-
