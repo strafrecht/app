@@ -1,3 +1,4 @@
+require('@toast-ui/editor/dist/toastui-editor.css'); // editor ui
 import Editor from '@toast-ui/editor'
 
 const initEditor = () => {

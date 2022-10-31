@@ -98,83 +98,45 @@
 		</div>
 	</div>
 
-	<script>
-		jQuery(function($){
-			var $status = $('.slider-pagination');
-			var $slickElement = $('.carousel');
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    jQuery(function($){
+      var $status = $('.slider-pagination');
+      var $slickElement = $('.carousel');
 
-			$slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
-				if ((currentSlide == 0) || (currentSlide === undefined)) {
-					var i = 1;
-				} else if (currentSlide > 0 && currentSlide < 5) {
-					var i = 2;
-				} else {
-					var i = 3;
-				}
-			  $status.text(i + '/' + 2);
-			});
+      $slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
+	if ((currentSlide == 0) || (currentSlide === undefined)) {
+	  var i = 1;
+	} else if (currentSlide > 0 && currentSlide < 5) {
+	  var i = 2;
+	} else {
+	  var i = 3;
+	}
+	$status.text(i + '/' + 2);
+      });
 
-			$slickElement.slick({
-			  autoplay: false,
-			  arrows: false,
-			  infinite: false,
-			  slidesToShow: 4,
-			  slidesToScroll: 4
-			});
+      $slickElement.slick({
+	autoplay: false,
+	arrows: false,
+	infinite: false,
+	slidesToShow: 4,
+	slidesToScroll: 4
+      });
 
-			$('.carousel-prev').click(function(){
-				$(this).parent().parent().find('.carousel').slick('slickPrev');
-			} );
+      $('.carousel-prev').click(function(){
+	$(this).parent().parent().find('.carousel').slick('slickPrev');
+      } );
 
-			$('.carousel-next').click(function(e){
-				e.preventDefault();
-				$(this).parent().parent().find('.carousel').slick('slickNext');
-			} );
-		});
-	</script>
-	<script>
-		$("#poll > label").empty()
-		$("#poll").submit(function(e) {
-			e.preventDefault()
-
-    		$.ajax({
-        		type:'POST',
-        		url:'{% url "wagtailpolls_vote" page.poll.id %}',
-        		data:{
-					question: parseInt($('input[name="question"]:checked').val()),
-            		csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            		action: 'post'
-        		},
-        		success:function(json){
-        			console.log(json)
-        			const total = json.total_votes
-
-					$("#poll").empty();
-						let elements = Object.entries(json.votes).map((vote) => {
-							let question = vote[0]
-							let votes = vote[1]
-							let ratio = Math.round((votes / total) * 100)
-
-							return `
-								<div class="answer">
-									<div class="bar">
-										<div style="width: ${ratio}%;"></div><span>${votes} (${ratio}%)</span>
-									</div>
-									<div>${question}</div>
-								</div>
-						`
-						})
-
-						$("#poll").append(`
-							<div class="answers">
-							${elements.join('')}
-							</div>
-						`)
-        			},
-        			error : function(xhr,errmsg,err) {
-        				console.log(xhr.status + ": " + xhr.responseText);
-    				}
-    			});
-			});
-		</script>
+      $('.carousel-next').click(function(e){
+	e.preventDefault();
+	$(this).parent().parent().find('.carousel').slick('slickNext');
+      } );
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
+  });
+</script>
 {% endblock %}
