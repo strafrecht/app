@@ -82,6 +82,11 @@
 				{% endfor %}
 				<div class="bottom-item">
 					{% if self.poll %}
+					<script>
+					  document.addEventListener("DOMContentLoaded", function(event) {
+					    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
+					  });
+					</script>
 					<div class="jurcoach-poll">
 						<h3>{{ self.poll.title }}</h3>
 						<form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
@@ -90,7 +95,6 @@
 						<input type="submit" value="Abstimmen" class="poll-vote-button">
 					</form>
 					</div>
-					<div class="illustration-container"><div class="poll-illustration"></div></div>
 					{% endif %}
 				</div>
 
@@ -132,11 +136,6 @@
 	$(this).parent().parent().find('.carousel').slick('slickNext');
       } );
     });
-  });
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function(event) {
-    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
   });
 </script>
 {% endblock %}

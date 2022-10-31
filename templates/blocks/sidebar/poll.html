@@ -14,16 +14,17 @@
     	</form>
 	</div>
 
-	<script>
-	  document.addEventListener("DOMContentLoaded", function(event) {
-	    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
-	  });
-	</script>
 		{% endif %}
 	{% endblock %}
 
 {# block widget %}
 	{% if page.poll %}
+	<script>
+	  // FIXME: move to template
+	  document.addEventListener("DOMContentLoaded", function(event) {
+	    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
+	  });
+	</script>
 	<div class="sidebar sidebar-poll poll">
 		<h3><b>{{ page.poll.title }}</b></h3>
 		<form class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
