@@ -230,6 +230,10 @@ TEMPLATES = [
 #WSGI_APPLICATION = 'wsgi.application'
 ASGI_APPLICATION = 'app.routing.application'
 
+ADMINS = vars.vars["ADMINS"]
+SERVER_EMAIL = vars.vars["SERVER_EMAIL"]
+DEFAULT_FROM_EMAIL = vars.vars["DEFAULT_FROM_EMAIL"]
+
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
@@ -427,7 +431,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'DEBUG',
+            'level': vars.vars["LOGGING"]["level"],
             'class': 'logging.FileHandler',
             'filename': vars.vars["LOGGING"]["filename"],
         },

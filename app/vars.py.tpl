@@ -1,6 +1,9 @@
 vars = {
     "SITE_URL": "http://localhost:8000",
     "DEBUG": True,
+    "ADMINS": [],
+    "SERVER_EMAIL": "system@localhost",
+    "DEFAULT_FROM_EMAIL": "webmaster@localhost",
     "SECRET_KEY": 'eo3taeleev0ZeiReeteer9Xeepoor3quai7poorai1laishaeshohmaej6weiC3e',
     "ALLOWED_HOSTS": [
         'localhost',
