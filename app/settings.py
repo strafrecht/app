@@ -90,7 +90,7 @@ INSTALLED_APPS = [
     'core',
     'pages',
     #'news',
-    #'emails',
+    'emails',
     'profiles',
     #'leaflet',
     'feedback',
@@ -161,8 +161,8 @@ INSTALLED_APPS = [
     'wagtailmenus',
 
     # Wagtail Newsletter
-    #'mjml',
-    #'birdsong',
+    'mjml',
+    'birdsong',
 
     # Link Checker
     #'wagtaillinkchecker',
@@ -231,15 +231,15 @@ TEMPLATES = [
 ASGI_APPLICATION = 'app.routing.application'
 
 if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.yourserver.com'
-    EMAIL_PORT = '<your-server-port>'
-    EMAIL_HOST_USER = 'your@djangoapp.com'
-    EMAIL_HOST_PASSWORD = 'your-email account-password'
+    EMAIL_HOST = vars.vars["EMAIL"]["host"]
+    EMAIL_PORT = vars.vars["EMAIL"]["port"]
+    EMAIL_HOST_USER = vars.vars["EMAIL"]["login"]
+    EMAIL_HOST_PASSWORD = vars.vars["EMAIL"]["password"]
     EMAIL_USE_TLS = True
-    EMAIL_USE_SSL = False
+    EMAIL_USE_SSL = True
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
