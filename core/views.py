@@ -246,7 +246,9 @@ def get_categories(slug):
     return categories
 
 def add_question(request):
-    return render(request, 'core/add_question.html', { "user": request.user })
+    category_id = request.GET.get('category_id')
+    category = get_object_or_404(Article, id=category_id)
+    return render(request, 'core/add_question.html', { "user": request.user, "category": category })
 
 def edit_question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)

@@ -41,8 +41,16 @@
     <div>
       <button class="btn btn-primary" @click="generateAnswer">Antwort hinzufügen</button>
     </div>
-
     <br />
+
+    <div><label class="label">Kommentar</label></div>
+    <div>
+      <textarea id="add-comment" name="add-comment" rows="2" cols="50" v-model="comment"
+		placeholder="Bitte geben Sie hier eine kurze Beschreibung ihrer Änderung ein" required>
+      </textarea>
+    </div>
+    <br />
+
     <button type="submit" class="btn btn-success">Speichern</button>
   </form>
 </div>
@@ -50,8 +58,11 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.umd.min.js"></script>
-
 <script>
+{% autoescape off %}
+  var answers = {{ question.current.answers_json }};
+{% endautoescape %}
+
   Vue.component("treeselect", VueTreeselect.Treeselect);
 
   new Vue({
@@ -63,7 +74,7 @@
         title: "{{ question.current.title }}",
         description: "{{ question.current.description }}",
 	comment: "",
-	answers: JSON.parse(document.getElementById('answers-json').textContent),
+	answers: answers,
       };
     },
 
@@ -86,6 +97,7 @@
       async addQuestion() {
         try {
           const newQuestion = {
+            comment:     this.comment,
             title:       this.title,
             description: this.description,
             answers:     this.answers,
@@ -101,9 +113,10 @@
 
           await axios.post("/quiz/questions/", newQuestion, config)
 	  // FIXME: redirect user ...
-          alert("neue Frage gespeichert!");
+          alert("Quiz-Frage gespeichert! Die Änderung wird von uns geprüft und freigegeben.");
+	  window.location = "{% url 'quiz:category_question' question.category.id question.id %}";
         } catch (error) {
-	  alert("Fehler beim Speichern. Bitte versuche es noch einmal!");
+	  alert("Fehler beim Speichern. Bitte versuchen Sie es noch einmal!");
         }
       },
     },

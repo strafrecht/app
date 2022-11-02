@@ -8,6 +8,7 @@ from taggit.managers import TaggableManager
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wiki.models import Article, ArticleRevision, URLPath
 import logging
+import json
 
 logger = logging.getLogger('django')
 
@@ -41,7 +42,7 @@ class QuestionVersion(ClusterableModel):
     updated = models.DateTimeField(auto_now=True)
 
     def answers_json(self):
-        return [{ "text": o.text, "correct": o.correct } for o in self.answers.all()]
+        return json.dumps([{ "text": o.text, "correct": o.correct } for o in self.answers.all()])
 
     def approve(self):
         for qv in self.question.questions.all():

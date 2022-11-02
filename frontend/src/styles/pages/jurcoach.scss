@@ -10,6 +10,15 @@
   background: $yellow;
 }
 
+.contribution-area a {
+  font-weight: 700;
+  font-size: 14px;
+
+  &:hover {
+    text-decoration: none !important;
+  }
+}
+
 #jurcoach-page .container a {
   /* color: #333 !important; */
   font-weight: 700;
@@ -45,7 +54,7 @@
   content: none !important;
 }
 
-#jurcoach-page .underlined {
+.underlined {
   $border-bottom: 4px solid #fff;
 
   border-bottom: $border-bottom;
@@ -247,30 +256,30 @@
   white-space: nowrap;
 }
 
-#jurcoach-page .illustration-container {
+.illustration-container {
   position: absolute;
   height: 0;
   margin: 0;
-}
 
-#jurcoach-page .illustration-container .jurcoach-logo {
-  position: relative;
-  top: -120px;
-  right: -660px;
-  width: 270px;
-  height: 300px;
-  background-image: $icon-jurcoach-logo;
-  background-repeat: no-repeat;
-}
+  .jurcoach-logo {
+    position: relative;
+    top: -120px;
+    right: -660px;
+    width: 270px;
+    height: 300px;
+    background-image: $icon-jurcoach-logo;
+    background-repeat: no-repeat;
+  }
 
-#jurcoach-page .illustration-container .poll-illustration {
-  position: relative;
-  width: 150px;
-  height: 220px;
-  top: -170px;
-  left: -110px;
-  background-image: $icon-jurcoach-poll;
-  background-repeat: no-repeat;
+  .poll-illustration {
+    position: relative;
+    width: 150px;
+    height: 220px;
+    top: -170px;
+    left: -110px;
+    background-image: $icon-jurcoach-poll;
+    background-repeat: no-repeat;
+  }
 }
 
 #jurcoach-page .carousel-item .person {

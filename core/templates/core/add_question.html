@@ -111,18 +111,19 @@
 
           this.title = null;
           this.description = null;
-          this.selectedCategory = null;
-          this.answers = [];
+          this.answers = [{ text: "", correct: false }];
 
-          alert("neue Frage gespeichert!");
+          alert("Neue Quiz-Frage gespeichert! Die Änderung wird von uns geprüft und freigegeben.");
         } catch (error) {
-          console.log(error);
+          alert("Fehler beim Speichern. Bitte versuchen Sie es noch einmal!");
         }
       },
       getCategories() {
         axios
           .get("/quiz/api/category_tree/")
-          .then((response) => this.categories.push(response.data));
+          .then((response) => { this.categories.push(response.data);
+				this.selectedCategory = {{ category.id }} });
+
       },
     },
   });
