@@ -239,7 +239,7 @@ else:
     EMAIL_HOST_USER = vars.vars["EMAIL"]["login"]
     EMAIL_HOST_PASSWORD = vars.vars["EMAIL"]["password"]
     EMAIL_USE_TLS = True
-    EMAIL_USE_SSL = True
+    EMAIL_USE_SSL = False
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
