@@ -20,7 +20,7 @@
 {# block widget %}
 	{% if page.poll %}
 	<script>
-	  // FIXME: move to template
+	  // FIXME: move to template (see jurcoach_page)
 	  document.addEventListener("DOMContentLoaded", function(event) {
 	    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
 	  });
