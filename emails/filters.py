@@ -5,10 +5,8 @@ from birdsong.models import Contact
 
 
 class ContactFilter(FilterSet):
-    campaign = AllValuesFilter()
     email = AllValuesFilter()
-    receipt = AllValuesFilter()
 
     class Meta:
         model = Contact
-        fields = ('campaign', 'email', 'receipt',)
+        fields = ('email',)
