@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('birdsong', '0005_alter_receipt_success'),
+        ('birdsong', '0004_campaign_status'),
     ]
 
     operations = [
