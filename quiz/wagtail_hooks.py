@@ -8,7 +8,7 @@ class QuestionVersionAdmin(TreeModelAdmin):
     menu_icon = 'list-ul'
     model = QuestionVersion
     parent_field = 'question'
-    list_display = ('question', 'title', 'description', 'approved', 'user')
+    list_display = ('id', 'question', 'title', 'description', 'approved', 'user')
 
 class QuestionAdmin(TreeModelAdmin):
     menu_label = 'Fragen Index'

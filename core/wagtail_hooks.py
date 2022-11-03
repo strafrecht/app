@@ -32,7 +32,7 @@ def global_admin_css():
 class SubmissionAdmin(ModelAdmin):
     menu_label = 'Einreichungen'
     model = Submission
-    list_display = ('submitted_by', 'reviewed_by', 'article_revision', 'message', 'status', 'created', 'updated',)
+    list_display = ('submitted_by', 'reviewed_by', 'content_type', 'content_object', 'message', 'status', 'created', 'updated',)
     list_filter = ('status',)
     ordering = ['-created']
 

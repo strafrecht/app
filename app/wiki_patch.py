@@ -124,7 +124,7 @@ def add_revision(self, new_revision, save=True):
             message = "New wiki page: %s" % self.get_absolute_url()
         else:
             message = "Wiki page update: %s" % self.get_absolute_url()
-        Submission.objects.create(article_revision=new_revision, submitted_by=new_revision.user, message=message)
+        Submission.objects.create(content_object=new_revision, submitted_by=new_revision.user, message=message)
 
 def fixed_mergeview_get(self, request, article, revision_id, *args, **kwargs):
     from django.contrib import messages

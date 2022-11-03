@@ -122,24 +122,26 @@ class QuestionCreateOrUpdateSet(mixins.CreateModelMixin, generics.GenericAPIView
     def post(self, request, *args, **kwargs):
         data = request.data
         question_id = data.get("question_id")
+        user = request.user if request.user.id else None
 
         if question_id:
             # we have an update to a question
             question = get_object_or_404(Question, pk=question_id)
+            message = "New question: %s" % question.category.get_absolute_url()
         else:
             # a new question
             category = get_object_or_404(Article, pk=data.get("categories"))
-
             question = Question.objects.create(
-                user=request.user,
+                user=user,
                 category=category,
             )
+            message = "Question update: %s" % question.category.get_absolute_url()
 
         question_version = QuestionVersion.objects.create(
             question=question,
             title=data.get("title"),
             description=data.get("description"),
-            user=request.user,
+            user=user,
             approved=False,
         )
 
@@ -153,6 +155,8 @@ class QuestionCreateOrUpdateSet(mixins.CreateModelMixin, generics.GenericAPIView
 
         if request.user.is_superuser:
             question_version.approve()
+        else:
+            Submission.objects.create(content_object=question_version, submitted_by=user, message=message)
 
         return JsonResponse(data={"success": True}, status=200)
 
