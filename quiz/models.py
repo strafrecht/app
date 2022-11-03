@@ -15,8 +15,6 @@ class Question(ClusterableModel):
     updated = models.DateTimeField(auto_now=True)
 
     panels = [
-        FieldPanel('filepath'),
-        FieldPanel('slug'),
         FieldPanel('order'),
         FieldPanel('category'),
         FieldPanel('user'),
