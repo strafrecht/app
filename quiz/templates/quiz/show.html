@@ -92,7 +92,7 @@
 	</div>
 
 	<div class="p-0 mb-2">
-	  <form action="{% url 'quiz:category_question' category.id question_version.question.id %}" method="post" class="mct-input">
+	  <form action="{% url 'quiz:show' category.id question_version.question.id %}" method="post" class="mct-input">
 	    {% csrf_token %}
 	    <div id="answers-form" class="p-2">
 	      {% for answer in question_version.answers.all %}
@@ -157,7 +157,7 @@
 	<a href="{% url 'quiz:edit_question' question_version.question.id %}">
 	  <span class="underlined green hover">{% trans "Quiz-Frage bearbeiten" %}</span> <i class="bi bi-arrow-right"></i>
 	</a>
-	<a href="{% url 'quiz:add_question' %}?category_id={{ category.id }}">
+	<a href="{% url 'quiz:new_question' %}?category_id={{ category.id }}">
 	  <span class="underlined green hover">{% trans "Neue Quiz-Frage in dieser Kategorie hinzufügen" %}</span> <i class="bi bi-arrow-right"></i>
 	</a>
       </div>
@@ -182,14 +182,14 @@
 		<div class="at">
 		  {% for item in categories_at %}
 		  {% if item.first.id > 0 %}
-		  <a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+		  <a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
 		  {% endif %}
 		  {% endfor %}
 		</div>
 		<div class="bt">
 		  {% for item in categories_bt %}
 		  {% if item.first.id > 0 %}
-		  <a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+		  <a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
 		  {% endif %}
 		  {% endfor %}
 		</div>

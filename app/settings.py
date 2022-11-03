@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     # Pages
     'app',
     'core',
+    'quiz',
     'pages',
     #'news',
     'emails',

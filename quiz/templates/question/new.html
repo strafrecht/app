@@ -107,7 +107,7 @@
             withCredentials: true,
           }
 
-          await axios.post("/quiz/questions/", newQuestion, config)
+          await axios.post("{% url 'quiz:post_question' %}", newQuestion, config)
 
           this.title = null;
           this.description = null;
@@ -120,7 +120,7 @@
       },
       getCategories() {
         axios
-          .get("/quiz/api/category_tree/")
+          .get("{% url 'quiz:get_category_tree' %}")
           .then((response) => { this.categories.push(response.data);
 				this.selectedCategory = {{ category.id }} });
 

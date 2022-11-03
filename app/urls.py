@@ -30,8 +30,9 @@ urlpatterns = [
     path('profile/flashcards/', include('flashcards.urls')),
 
     path('profile/', include('profiles.urls')),
-    path('quiz/', include('core.urls')),
+    path('quiz/', include('quiz.urls')),
     path('run/', include('core.urls')),
+    path('lehre/', include('core.urls')),
 
     path('mail/', include(birdsong_urls)),
     path('', include('pwa.urls')),
@@ -43,7 +44,6 @@ urlpatterns = [
 
     path('wiki/', include('wiki.urls')),
     path('', include(wagtail_urls)),
-    path('lehre/', include('core.urls')),
     path('avatar/', include('avatar.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

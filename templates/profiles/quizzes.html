@@ -134,7 +134,7 @@
 						</h5>
 						<div>Date: {{ quiz.updated }}</div>
 						<div>
-							<a href="{% url 'quiz:category' quiz.category.id %}" class="btn btn-success" style="border-width: 2px; font-weight: bold;">Retake Quiz</a>
+							<a href="{% url 'quiz:for_category' quiz.category.id %}" class="btn btn-success" style="border-width: 2px; font-weight: bold;">Retake Quiz</a>
 							<a href="{% url 'profile:quiz_summary' quiz.id %}" class="btn btn-outline-light" style="font-weight: bold; border: 2px solid #ddd; color: #444;">View Summary</a>
 						</div>
 					</div>
