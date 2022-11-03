@@ -11,13 +11,18 @@
 {% endblock %}
 
 {% block contents %}
-	<div class="flashcards-container flex">
-		<h4>Flashcards</h4>
-		<div class="flex">
-		<deck></deck>
-		</div>
-	</div>
+<div class="flashcards-container flex">
+  <h4>Flashcards</h4>
+  <div class="flex">
+    <deck></deck>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
+<script>
+  new LVue({
+    render: (h) => h(DeckApp),
+  }).$mount("deck");
+</script>
 {% endblock %}

@@ -12,8 +12,8 @@ import "@fontsource/source-serif-pro";
 
 // import Vue from "vue";
 // import full Vue build
-import Vue from 'vue/dist/vue.js';
-global.Vue = Vue;
+import LVue from 'vue/dist/vue.js';
+global.LVue = LVue;
 
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 import VTreeselect from '@riophae/vue-treeselect';
@@ -38,9 +38,7 @@ import { initEditor } from  './editor/index.js';
 initEditor();
 
 import deck from "./vue/flashcards/Deck.vue";
-new Vue({
-  render: (h) => h(deck),
-}).$mount("deck");
+global.DeckApp = deck;
 
 // menu resize
 //

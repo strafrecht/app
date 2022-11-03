@@ -103,7 +103,14 @@
   		</v-data-table>
   		</v-card>
   	</v-app>
+	</div>
 
+
+	<script src="{% static 'vue/polyfill.min.js' %}"></script>
+	<link href="{% static 'vue/materialdesignicons.min.css' %}" rel="stylesheet">
+	<link href="{% static 'vue/vuetify.min.css' %}" rel="stylesheet">
+	<script src="{% static 'vue/vue.js' %}"></script>
+	<script src="{% static 'vue/vuetify.js' %}"></script>
 		<script>
 			new Vue({
 				el: '#app',
@@ -259,7 +266,5 @@
   			}
   		}
 		</script>
-	</div>
-
 </div>
 {% endblock %}

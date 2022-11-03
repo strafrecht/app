@@ -74,7 +74,7 @@
     "swiper": "8.4.4",
     "vue": "^2.6.12",
     "vue-select": "3.20.0",
-    "vuetify": "^1.4.7",
+    "vuetify": "^2.4.7",
     "vuetify-avatar-uploader": "^0.3.0",
     "webpacker": "4.6.0",
     "yuglify": "2.0.0"
