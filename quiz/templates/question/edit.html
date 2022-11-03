@@ -53,12 +53,11 @@
 
     <button type="submit" class="btn btn-success">Speichern</button>
   </form>
-</div>
 </section>
+{% endblock %}
 
+{% block extra_js %}
 <script>
-  Vue.component("treeselect", VueTreeselect.Treeselect);
-
   new Vue({
     el: "#question-form",
 
@@ -71,7 +70,6 @@
 	answers: JSON.parse("{{ question.current.answers_json | escapejs }}"),
       };
     },
-
     mounted() {
       // nothing
     },
@@ -116,7 +114,4 @@
     },
   });
 </script>
-
-{% endblock %}
-{% block extra_js %}
 {% endblock %}

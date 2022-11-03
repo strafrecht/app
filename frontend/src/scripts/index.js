@@ -10,10 +10,18 @@ import "@fontsource/roboto";
 import "@fontsource/roboto-slab";
 import "@fontsource/source-serif-pro";
 
-import Vue from "vue";
-import vSelect from "vue-select";
-import VTreeselect from 'vue-treeselect'
+// import Vue from "vue";
+// import full Vue build
+import Vue from 'vue/dist/vue.js';
+global.Vue = Vue;
+
+import '@riophae/vue-treeselect/dist/vue-treeselect.css';
+import VTreeselect from '@riophae/vue-treeselect';
+global.VTreeselect = VTreeselect;
+
 import axios from "axios";
+global.axios = axios;
+
 import Swiper from 'swiper';
 
 global.$ = require('jquery');

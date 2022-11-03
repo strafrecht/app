@@ -27,7 +27,7 @@
       <label class="label">Kategorie wählen</label>
     </div>
     <div>
-      <treeselect class="treeselect" v-model="selectedCategory" :multiple="false" :options="categories" :searchable="searchable" :disable-branch-nodes="true" required />
+      <vtreeselect class="treeselect" v-model="selectedCategory" :multiple="false" :options="categories" :disable-branch-nodes="true" required></vtreeselect>
     </div>
     <br/>
 
@@ -52,12 +52,11 @@
     <br />
     <button type="submit" class="btn btn-success">Speichern</button>
   </form>
-</div>
 </section>
+{% endblock %}
 
+{% block extra_js %}
 <script>
-  Vue.component("treeselect", VueTreeselect.Treeselect);
-
   new Vue({
     el: "#question-form",
 
@@ -74,6 +73,7 @@
     mounted() {
       this.getCategories();
     },
+    components: { "vtreeselect": VTreeselect },
     methods: {
       generateAnswer() {
         this.answers.push({ text: "", correct: false });
@@ -114,17 +114,17 @@
           alert("Fehler beim Speichern. Bitte versuchen Sie es noch einmal!");
         }
       },
+
       getCategories() {
         axios
           .get("{% url 'quiz:get_category_tree' %}")
-          .then((response) => { this.categories.push(response.data);
-				this.selectedCategory = {{ category.id }} });
+          .then((response) => {
+	    this.categories.push(response.data);
+	    this.selectedCategory = {{ category.id }};
+	  });
 
       },
     },
   });
 </script>
-
-{% endblock %}
-{% block extra_js %}
 {% endblock %}
