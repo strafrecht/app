@@ -34,15 +34,13 @@ from wagtail.core.models import Page
 from wiki.models import Article, ArticleRevision, URLPath
 from wiki.plugins.notifications.models import ArticleSubscription
 
-from .models import Question, QuestionVersion, AnswerVersion, Quiz, UserAnswer, Choice
+from quiz.models import Question, QuestionVersion, AnswerVersion, Quiz, UserAnswer, Choice
 from pages.models.exams import Exams
 from pages.models.news import ArticlesPage, ArticlePage
 from pages.models.sessions import SessionsPage, SessionPage
 from pages.models.events import EventsPage, EventPage
 
 from rest_framework import viewsets, permissions, mixins, generics, response
-from .serializers import QuestionSerializer, ChoiceSerializer, UserAnswerSerializer, QuizSerializer, AnswerSerializer, \
-    QuestionVersionSerializer, QuestionOnlySerializer
 from .scrape.news import get_json as get_news_json
 from .scrape.abstimmungen import get_json as get_abstimmungen_json
 from .scrape.lehre import get_json as get_lehre_json

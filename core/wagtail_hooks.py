@@ -1,15 +1,11 @@
-from wagtail.contrib.modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.core import hooks
-from wiki.models import Article, ArticleRevision
+from wiki.models import ArticleRevision
 
 from django.templatetags.static import static
 from django.utils.html import format_html
-from django.http import HttpResponse
 
-from wagtail.core import hooks
-from treemodeladmin.options import TreeModelAdmin
-
-from .models import Question, QuestionVersion, Submission
+from .models import Submission
 
 #@hooks.register('before_serve_document')
 #def serve_pdf(document, request):
@@ -39,29 +35,6 @@ class SubmissionAdmin(ModelAdmin):
     list_display = ('submitted_by', 'reviewed_by', 'article_revision', 'message', 'status', 'created', 'updated',)
     list_filter = ('status',)
     ordering = ['-created']
-
-class QuestionVersionAdmin(TreeModelAdmin):
-    menu_label = 'Fragen Version'
-    menu_icon = 'list-ul'
-    model = QuestionVersion
-    parent_field = 'question'
-    child_field = 'submission_set'
-    child_model_admin = SubmissionAdmin
-    list_display = ('question', 'title', 'description', 'categories', 'approved', 'user')
-
-class QuestionAdmin(TreeModelAdmin):
-    menu_label = 'Fragen Index'
-    menu_icon = 'list-ul'
-    model = Question
-    child_field = 'questionversion_set'
-    child_model_admin = QuestionVersionAdmin
-    list_display = ('filepath', 'slug')
-
-@modeladmin_register
-class QuestionMenuAdmin(ModelAdminGroup):
-    menu_label = 'Fragen'
-    menu_icon = 'folder'
-    items = (QuestionAdmin, QuestionVersionAdmin)
 
 @modeladmin_register
 class ArticleAdmin(ModelAdmin):

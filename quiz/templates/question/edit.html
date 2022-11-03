@@ -57,10 +57,6 @@
 </section>
 
 <script>
-{% autoescape off %}
-  var answers = {{ question.current.answers_json }};
-{% endautoescape %}
-
   Vue.component("treeselect", VueTreeselect.Treeselect);
 
   new Vue({
@@ -69,10 +65,10 @@
     data() {
       return {
 	question_id: {{ question.id }},
-        title: "{{ question.current.title }}",
-        description: "{{ question.current.description }}",
+        title: "{{ question.current.title | escapejs }}",
+        description: "{{ question.current.description | escapejs }}",
 	comment: "",
-	answers: answers,
+	answers: JSON.parse("{{ question.current.answers_json | escapejs }}"),
       };
     },
 
@@ -109,10 +105,10 @@
             withCredentials: true,
           }
 
-          await axios.post("/quiz/questions/", newQuestion, config)
+          await axios.post("{% url 'quiz:post_question' %}", newQuestion, config)
 	  // FIXME: redirect user ...
           alert("Quiz-Frage gespeichert! Die Änderung wird von uns geprüft und freigegeben.");
-	  window.location = "{% url 'quiz:category_question' question.category.id question.id %}";
+	  window.location = "{% url 'quiz:show' question.category.id question.id %}";
         } catch (error) {
 	  alert("Fehler beim Speichern. Bitte versuchen Sie es noch einmal!");
         }

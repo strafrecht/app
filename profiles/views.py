@@ -4,8 +4,11 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from core.models import Quiz, Question, QuestionVersion, UserAnswer, AnswerVersion, Submission
+
 from wiki.models import ArticleRevision
+
+from core.models import Submission
+from quiz.models import Quiz, UserAnswer
 from .forms import SignupForm
 
 @login_required

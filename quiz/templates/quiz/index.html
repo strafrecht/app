@@ -113,14 +113,14 @@ style="
 			      <div class="at">
 				{% for item in categories_at %}
 					{% if item.first.id > 0 %}
-						<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+						<a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
 					{% endif %}
 				{% endfor %}
 			      </div>
 			      <div class="bt">
 				{% for item in categories_bt %}
 					{% if item.first.id > 0 %}
-						<a href="{% url 'quiz:category_question' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+						<a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
 					{% endif %}
 				{% endfor %}
 			      </div>
