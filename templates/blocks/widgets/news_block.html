@@ -14,7 +14,7 @@
 			<div class="news-widget-inner">
 				<div class="date">{{ article.date|date:"d.m.Y" }}</div>
 				<div class="title">{{ article.title }}</div>
-				<div class="body">{{ article.body | richtext | truncatechars:400 }} <a href="{% routablepageurl article.articles_page 'article_by_date' 2020 10 10 article.slug %}">weiterlesen</a></div>
+				<div class="body">{{ article.body | richtext | truncatechars:250 }} <a href="{% routablepageurl article.articles_page 'article_by_date' 2020 10 10 article.slug %}">weiterlesen</a></div>
 				{% get_comment_count for article as comment_count %}
 				<div class="comments">
 					{% if comment_count == 0 %}
