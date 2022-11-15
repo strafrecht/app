@@ -21,6 +21,13 @@
 					<a href="{% routablepageurl page "person" person.id %}">{{ person.first_name }} {{ person.last_name }}</a>
 				{% endfor %}
 				</div>
+				
+				<div class="role-group">
+				<h5>Stellvertretender Leiter Schadensregulierung M-Z</h5>
+				{% for person in head|dictsort:"last_name" %}
+					<a href="{% routablepageurl page "person" person.id %}">{{ person.first_name }} {{ person.last_name }}</a>
+				{% endfor %}
+				</div>
 
 				<div class="role-group">
 				<h5>Office</h5>
