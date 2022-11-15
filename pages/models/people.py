@@ -43,6 +43,7 @@ class PeopleIndexPage(RoutablePageMixin, Page):
         staff = People.objects.filter(status='current')
 
         context['head'] = staff.filter(role='chairholder')
+        context['deputy'] = staff.filter(role='deputy-director-claims-settlement-M-Z')
         context['office'] = staff.filter(role='office-management')
         context['academic'] = staff.filter(
             Q(role='academic-staff-male') | Q(role='academic-staff-female') | Q(role='academic-assistant')
