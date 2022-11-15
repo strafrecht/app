@@ -98,6 +98,7 @@ class People(models.Model):
         ('jurcoach-web-team', 'Jurcoach Informatik-Team'),
         ('webmaster', 'Webmaster'),
         ('associate-professor', 'Privatdozent'),
+        ('deputy-director-claims-settlement-M-Z', 'Stellvertretender Leiter Schadensregulierung M-Z'),
     ]
 
     user = models.ForeignKey(
