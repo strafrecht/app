@@ -114,7 +114,7 @@ h3::after {
 }
 
 .block-sidebar {
-  width: 80%;
+  width: 100%;
 }
 
 .article-edit-form {
@@ -125,7 +125,7 @@ h3::after {
 
 main.container {
   background: white;
-  max-width: $container-width;
+  max-width: 900px;
 }
 
 main > .container-inner > .content {
