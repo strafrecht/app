@@ -98,7 +98,7 @@ msgid "A file was deleted: %s"
 msgstr "Eine Datei wurde gelöscht: %s"
 
 msgid "A new revision of the article was successfully added."
-msgstr "Ihre Überarbeitung wurde erfolgreich hinzugefügt."
+msgstr "Eine neue Revision des Artikels wurde erfolgreich hinzugefügt."
 
 msgid ""
 "A new revision was created: Merge between revision #%(r1)d and revision #"
