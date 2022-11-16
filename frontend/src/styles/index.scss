@@ -33,7 +33,7 @@ h2 {
   background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #e8e7df 20px, #e8e7df 45px) !important;
   line-height: 20px !important;
   display: inline !important;
-  margin-bottom: 30px !important;
+  margin-bottom: 50px !important;
 }
 
 h3,
@@ -130,13 +130,13 @@ main.container {
 
 main > .container-inner > .content {
   flex-grow: 1;
-  max-width: 600px;
-  max-width: 800px;
+  max-width: 720px;
+  max-width: 900px;
 }
 
 main.container,
 main.container > div > .container {
-  padding: 0 !important;
+  padding: 10px !important;
 }
 
 .container-inner {
