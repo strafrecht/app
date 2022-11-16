@@ -20,11 +20,11 @@ msgstr ""
 
 #: app/wiki_patch.py:46
 msgid "The new revision will be reviewed and published by the moderators."
-msgstr "Ihre Überarbeitung wird von unserem Team überprüft."
+msgstr ""
 
 #: app/wiki_patch.py:57
 msgid "The new page will be reviewed and published by the moderators."
-msgstr "Ihr Problemfeld wird von unserem Team überprüft."
+msgstr ""
 
 #: templates/account/login.html:6 templates/account/login.html:12
 #: templates/account/login.html:45
