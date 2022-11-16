@@ -21,9 +21,9 @@
 	appearance: none; /* in case this ever gets supported */
 	background: #fff;
 	border-radius: 100%;
-	border: 1px solid transparent;
+	border: 0px solid transparent;
 	box-shadow:
-		0 0 0 2px rgb(225, 213, 196),
+		0 0 0 0px rgb(225, 213, 196),
 		inset 0 0 0 0px rgba(13,81,146, 0);
 	margin-right: .25em;
 	transition:
@@ -38,8 +38,8 @@
 .sidebar-poll label input[type="radio"]:checked {
 	border-color: #fff;
 	box-shadow:
-		0 0 0 2px rgb(225, 213, 196),
-		inset 0 0 0 10px rgb(76, 158, 187);
+		0 0 0 0px rgb(225, 213, 196),
+		inset 0 0 0 0px rgb(76, 158, 187);
 }
 .sidebar-poll .question {
 	display: flex;
