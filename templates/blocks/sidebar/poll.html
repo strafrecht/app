@@ -4,34 +4,19 @@
 {% load wagtailpolls_tags %}
 
 {% block widget %}
-	{% if page.poll %}
-	<div class="sidebar sidebar-poll poll">
-		<h2>{{ page.poll.title }}</h2>
-		<form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
-			{% csrf_token %}
-			{{ page.poll.form }}
-    		<input type="submit" value="Abstimmen" class="poll-vote-button">
-    	</form>
-	</div>
-
-		{% endif %}
-	{% endblock %}
-
-{# block widget %}
-	{% if page.poll %}
-	<script>
-	  // FIXME: move to template (see jurcoach_page)
-	  document.addEventListener("DOMContentLoaded", function(event) {
-	    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
-	  });
-	</script>
-	<div class="sidebar sidebar-poll poll">
-		<h3><b>{{ page.poll.title }}</b></h3>
-		<form class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
-			{% csrf_token %}
-			{{ page.poll.form }}
-    		<input type="submit" value="Abstimmen" class="poll-vote-button">
-    	</form>
-	</div>
-	{% endif %}
-{% endblock #}
+{% if page.poll %}
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
+  });
+</script>
+<div class="sidebar sidebar-poll poll">
+  <h2>{{ page.poll.title }}</h2>
+  <form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
+    {% csrf_token %}
+    {{ page.poll.form }}
+    <input type="submit" value="Abstimmen" class="poll-vote-button">
+  </form>
+</div>
+{% endif %}
+{% endblock %}
