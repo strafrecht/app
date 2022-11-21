@@ -29,10 +29,10 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 class ExamTable(Page):
     class Meta:
         verbose_name = "Klausurdatenbank-Seite"
-        
+
     def __str__(self):
         print('exam table')
-    
+
 
 @register_snippet
 class Exams(models.Model):
@@ -48,6 +48,7 @@ class Exams(models.Model):
         ('beginner','Anfänger'),
         ('intermediate','Fortgeschrittene'),
         ('advanced','Examen'),
+        ('shortcases','Kurzfälle'),
     ]
 
     def __str__(self):
@@ -84,13 +85,13 @@ class Exams(models.Model):
             FieldPanel('loesung_link', classname="col-12"),
         ], "Klausur"),
     ]
-    
+
     def paragraphs_html(self):
         return mark_safe(self.paragraphs)
-    
+
     def problems_html(self):
         return mark_safe(self.problems)
-    
+
     class Meta:
         verbose_name = 'Klausur'
         verbose_name_plural = 'Klausuren'
