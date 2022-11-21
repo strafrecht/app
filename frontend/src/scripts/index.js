@@ -137,8 +137,7 @@ function init_poll(post_url) {
         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         action: 'post'
       },
-      success:function(json){
-        console.log(json)
+      success: function(json){
         const total = json.total_votes
 
 	$("#poll").empty();
