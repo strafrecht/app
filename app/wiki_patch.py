@@ -54,7 +54,7 @@ def patch_wiki():
         result = self.original_form_valid(form)
         if not self.request.user.is_superuser:
             messages.success(
-                self.request, _("The new revision will be reviewed and published by the moderators.")
+                self.request, _("Ihre Überarbeitung wird von unserem Team überprüft.")
             )
         return result
 
