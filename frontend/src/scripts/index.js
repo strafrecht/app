@@ -27,7 +27,7 @@ import Swiper from 'swiper';
 global.$ = require('jquery');
 global.jQuery = $;
 
-import "slick-carousel";
+//import "slick-carousel";
 import "bootstrap/dist/js/bootstrap.bundle";
 // import moment from "moment";
 import * as Chartist from 'chartist';

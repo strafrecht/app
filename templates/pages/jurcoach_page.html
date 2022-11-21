@@ -100,10 +100,11 @@
 
 			</div>
 		</div>
-	</div>
 
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/slick-1.8.1.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/slick-1.8.1.css' %}"/>
 <script>
-  document.addEventListener("DOMContentLoaded", function(event) {
     jQuery(function($){
       var $status = $('.slider-pagination');
       var $slickElement = $('.carousel');
@@ -136,6 +137,5 @@
 	$(this).parent().parent().find('.carousel').slick('slickNext');
       } );
     });
-  });
 </script>
 {% endblock %}
