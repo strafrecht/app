@@ -42,6 +42,14 @@
   			<template v-slot:top>
 					<v-toolbar flat style="padding: 10px;">
         		<v-switch
+        			v-model="filtering['shortcases']"
+          		label="Kurzfälle"
+        			color="teal"
+          		class="mt-2"
+          		@change="filterDifficulty"
+        		></v-switch>
+        		<v-spacer></v-spacer>
+        		<v-switch
         			v-model="filtering['beginner']"
         			color="teal"
           		label="Anfängerklausuren"
@@ -120,7 +128,8 @@
 						search: '',
 						filtering: {
 							beginner: true,
-							intermediate: true,
+						        intermediate: true,
+						        shortcases: true,
 							advanced: true,
 						},
         		expanded: [],
@@ -217,6 +226,9 @@
 					case 'Anfänger':
 						return 'beginner'
 						break
+					case 'Kurzfälle':
+						return 'shortcases'
+						break
 					case 'Examen':
 						return 'intermediate'
 						break
@@ -232,6 +244,9 @@
 				switch(difficulty) {
 					case 'beginner':
 						return 'Anfänger'
+						break
+					case 'shortcases':
+						return 'Kurzfälle'
 						break
 					case 'intermediate':
 						return 'Examen'
