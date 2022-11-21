@@ -92,8 +92,8 @@ def api_exams(request):
     	'difficulty': exam.difficulty,
     	'paragraphs': exam.paragraphs,
     	'problems': exam.problems,
-    	'situation': exam.sachverhalt_link,
-    	'solution': exam.loesung_link,
+    	'situation': exam.sachverhalt_dl and exam.sachverhalt_dl.url or exam.sachverhalt_link,
+    	'solution': exam.loesung_dl and exam.loesung_dl.url or exam.loesung_link,
     } for exam in exams]
 
     return JsonResponse({'data': data})

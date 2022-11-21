@@ -1,30 +1,16 @@
 from django.db import models
 from django.db.models import Q
 from django.shortcuts import render
-from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
-
-from modelcluster.fields import ParentalKey
-from modelcluster.models import ClusterableModel
-from modelcluster.contrib.taggit import ClusterTaggableManager
-from taggit.models import TaggedItemBase
 
 from wagtail.admin.edit_handlers import (
     FieldPanel,
-    FieldRowPanel,
-    InlinePanel,
     MultiFieldPanel,
-    PageChooserPanel,
-    StreamFieldPanel,
 )
-
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Page, Collection
-from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
-from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.search import index
+from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.core.fields import RichTextField
+from wagtail.core.models import Page
 from wagtail.snippets.models import register_snippet
-from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 class ExamTable(Page):
     class Meta:
@@ -71,8 +57,10 @@ class Exams(models.Model):
         max_length=255,
         blank=True
     )
-
-    #tags = ClusterTaggableManager(through=EventTags, blank=True)
+    sachverhalt_dl = models.ForeignKey('wagtaildocs.Document', blank=True, null=True, on_delete=models.SET_NULL,
+                                       related_name='+', verbose_name='Sachverhalt [PDF]')
+    loesung_dl     = models.ForeignKey('wagtaildocs.Document', blank=True, null=True, on_delete=models.SET_NULL,
+                                       related_name='+', verbose_name='Lösung [PDF]')
 
     panels = [
         MultiFieldPanel([
@@ -84,6 +72,8 @@ class Exams(models.Model):
             FieldPanel('sachverhalt_link', classname="col-12"),
             FieldPanel('loesung_link', classname="col-12"),
         ], "Klausur"),
+        DocumentChooserPanel('sachverhalt_dl'),
+        DocumentChooserPanel('loesung_dl'),
     ]
 
     def paragraphs_html(self):
