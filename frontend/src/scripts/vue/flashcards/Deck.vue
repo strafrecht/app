@@ -26,26 +26,18 @@
                 </select>
               </div>
             </div>
-            <!--
-
-              DISCLAIMER: use this code to add wiki category per deck
-              (possible future feature), vue treeselect is used to
-              show the wiki category dropdown (as it is in
-              add_question.html). wiki category field also should
-              be added in models.py in case is gonna be used
-
-
-              <div class="wiki-category">
+            <div class="wiki-category">
               <label class="label">Wiki Kategorie</label>
             </div>
             <div>
               <treeselect
-                class="treeselect"
-                v-model="selectedWikiCategory"
-                :multiple="true"
-                :options="wiki_categories"
+                 class="treeselect"
+                 v-model="selectedWikiCategory"
+                 :multiple="false"
+		 :disable-branch-nodes="true"
+                 :options="wiki_categories"
               />
-            </div> -->
+            </div>
           </form>
         </template>
         <template #footer>
@@ -236,8 +228,9 @@
 import axios from "axios";
 import Modal from "./Modal.vue";
 import Flashcard from "./Flashcard.vue";
-// import Treeselect from "@riophae/vue-treeselect";
-// import '@riophae/vue-treeselect/dist/vue-treeselect.css';
+import Treeselect from "@riophae/vue-treeselect";
+import '@riophae/vue-treeselect/dist/vue-treeselect.css';
+
 const axios_config = {
   headers: {
     'X-CSRFToken': csrf_token,
@@ -250,6 +243,7 @@ export default {
   components: {
     Modal,
     Flashcard,
+    Treeselect,
   },
   data() {
     return {
@@ -292,6 +286,7 @@ export default {
   mounted() {
     this.getDecks();
     this.getCategories();
+    this.getWikiCategories();
   },
   computed: {
     filteredDecks() {
