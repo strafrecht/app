@@ -238,6 +238,12 @@ import Modal from "./Modal.vue";
 import Flashcard from "./Flashcard.vue";
 // import Treeselect from "@riophae/vue-treeselect";
 // import '@riophae/vue-treeselect/dist/vue-treeselect.css';
+const axios_config = {
+  headers: {
+    'X-CSRFToken': csrf_token,
+  },
+  withCredentials: true,
+}
 
 export default {
   name: "Decks",
@@ -365,7 +371,7 @@ export default {
     },
     getDecks() {
       axios
-        .get("/profile/flashcards/decks")
+        .get("/flashcards/api/decks")
         .then((response) => {
           this.decks = response.data;
           // this.filteredDecks = this.decks;
@@ -373,7 +379,7 @@ export default {
     },
     getCategories() {
       axios
-        .get("/profile/flashcards/categories")
+        .get("/flashcards/api/categories")
         .then((response) => {
           this.categories = response.data
 
@@ -385,11 +391,11 @@ export default {
     },
     addDeck() {
       axios
-        .post("/profile/flashcards/decks", {
+        .post("/flashcards/api/decks", {
           name: this.name,
           category: this.selectedCategory,
           wiki_category: this.selectedWikiCategory,
-        })
+        }, axios_config)
         .then((response) => {
           let newDeck = {
             id: response.data.id,
@@ -409,9 +415,9 @@ export default {
     },
     addKategorie() {
       axios
-        .post("/profile/flashcards/categories", {
+        .post("/flashcards/api/categories", {
           name: this.category_name,
-        })
+        }, axios_config)
         .then((response) => {
           let newCategory = {
             id: response.data.id,
@@ -429,8 +435,8 @@ export default {
     deleteDecks() {
       axios
         .delete(
-          "/profile/flashcards/decks/" + this.deckToDelete
-        )
+          "/flashcards/api/decks/" + this.deckToDelete
+        , axios_config)
         .then(this.getDecks);
       this.decks = this.decks.filter((deck) => deck.id !== this.deckToDelete);
       this.deckToDelete = null;
@@ -438,9 +444,9 @@ export default {
     deleteCategory() {
       axios
         .delete(
-          "/profile/flashcards/categories/" +
+          "/flashcards/api/categories/" +
             this.categoryToDelete
-        )
+        , axios_config)
         .then(this.getCategories);
       this.categories = this.categories.filter(
         (category) => category.id !== this.categoryToDelete
@@ -450,13 +456,13 @@ export default {
     editDeck() {
       axios
         .put(
-          "/profile/flashcards/decks/" +
+          "/flashcards/api/decks/" +
             this.decks[this.deckToEdit].id,
           {
             name: this.new_name,
             category: this.newSelectedCategory,
           }
-        )
+        , axios_config)
         .then(this.getDecks);
       this.new_name = "";
       this.newSelectedCategory = null;
@@ -465,12 +471,12 @@ export default {
     editCategory() {
       axios
         .put(
-          "/profile/flashcards/categories/" +
+          "/flashcards/api/categories/" +
             this.categories[this.categoryToEdit].id,
           {
             name: this.new_category,
           }
-        )
+        , axios_config)
         .then(this.getCategories);
       this.new_category = "";
       this.categoryToEdit = null;

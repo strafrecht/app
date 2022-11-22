@@ -14,8 +14,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="author" content="Institut für Kriminologie und Wirtschaftsstrafrecht Freiburg">
 		<meta name="description" content="Website des Instituts für Kriminologie und Wirtschaftsstrafrecht Freiburg">
+		<script>var csrf_token = "{{ csrf_token }}";</script>
 		{% progressive_web_app_meta %}
-
         <title>
             {% block title %}
                 {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}

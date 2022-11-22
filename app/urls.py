@@ -27,9 +27,9 @@ urlpatterns = [
 
     path('feedback/', include('feedback.urls')),
     path('accounts/login/', login, name='login'),
-    path('profile/flashcards/', include('flashcards.urls')),
 
     path('profile/', include('profiles.urls')),
+    path('flashcards/', include('flashcards.urls')),
     path('quiz/', include('quiz.urls')),
     path('run/', include('core.urls')),
     path('lehre/', include('core.urls')),

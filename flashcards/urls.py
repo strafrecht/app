@@ -13,7 +13,5 @@ router.register(r'categories', views.CategoryViewSet) # cards categories (not wi
 
 
 urlpatterns = [
-    path('api-auth/', include('rest_framework.urls')),
-    path('', views.test, name='test'),
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 ]

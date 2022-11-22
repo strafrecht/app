@@ -232,6 +232,12 @@
 import axios from "axios";
 import Modal from "./Modal.vue";
 import Swiper from "swiper";
+const axios_config = {
+  headers: {
+    'X-CSRFToken': csrf_token,
+  },
+  withCredentials: true,
+}
 
 export default {
   name: "Flashcards",
@@ -456,16 +462,16 @@ export default {
     },
     getFlashcards() {
       axios
-        .get("/profile/flashcards/cards")
+        .get("/flashcards/api/cards")
         .then((response) => (this.flashcards = response.data));
     },
     addFlashcard() {
       axios
-        .post("/profile/flashcards/cards", {
+        .post("/flashcards/api/cards", {
           front_side: this.front_side,
           back_side: this.back_side,
           deck: this.selectedDeck,
-        })
+        }, axios_config)
         .then((response) => {
           let newFlashcard = {
             id: response.data.id,
@@ -487,14 +493,14 @@ export default {
     editFlashcard() {
       axios
         .put(
-          "/profile/flashcards/cards/" +
+          "/flashcards/api/cards/" +
             this.cardToEdit.id,
           {
             front_side: this.new_front_side,
             back_side: this.new_back_side,
             deck: this.newSelectedDeck,
           }
-        )
+        , axios_config)
         .then(this.getFlashcards);
       this.new_front_side = "";
       this.new_back_side = "";
@@ -504,8 +510,8 @@ export default {
     deleteFlashcard() {
       axios
         .delete(
-          "/profile/flashcards/cards/" + this.cardToDelete
-        )
+          "/flashcards/api/cards/" + this.cardToDelete
+        , axios_config)
         .then(this.getFlashcards);
       this.flashcards = this.flashcards.filter(
         (flashcard) => flashcard.id !== this.cardToDelete
@@ -514,7 +520,7 @@ export default {
     },
     getDecks() {
       axios
-        .get("/profile/flashcards/decks")
+        .get("/flashcards/api/decks")
         .then((response) => (this.decks = response.data));
     },
     openEditModal(cardToEditId) {
