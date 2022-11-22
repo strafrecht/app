@@ -33,7 +33,7 @@ class FlashcardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Flashcard
-        fields = ["id", "front_side", "back_side", "deck", "deck_name", "probability"]
+        fields = "__all__"
 
     def save(self, **kwargs):
         kwargs["user"] = self.fields["user"].get_default()
