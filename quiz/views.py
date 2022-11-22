@@ -102,7 +102,7 @@ def quiz(request, category_id, question_id):
             quiz.save()
             question = questions[0]
 
-        question_version = question.current()
+        question_version = question.current
         return render(request, 'quiz/show.html', {
             'banner': '/media/original_images/ohnediefrau.png',
             'category': category,
@@ -142,7 +142,6 @@ class QuestionCreateOrUpdateSet(mixins.CreateModelMixin, generics.GenericAPIView
             title=data.get("title"),
             description=data.get("description"),
             user=user,
-            approved=False,
         )
 
         for answer in data.get("answers"):
@@ -225,7 +224,7 @@ def get_questions(cat):
     ids = []
     for questions in questions_set:
         for question in questions:
-            if question.current():
+            if question.approved and question.current:
                 ids.append(question.id)
     return Question.objects.filter(id__in=ids).order_by('id')
 

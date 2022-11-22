@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wiki.models import URLPath
+
+from core.edit_handlers import ReadOnlyPanel
+
 import json
 
 # Create your models here.
@@ -13,44 +16,53 @@ class Question(ClusterableModel):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    approved = models.BooleanField(default=False)
+    current = models.ForeignKey("QuestionVersion", on_delete=models.SET_NULL, blank=True, null=True, related_name='current_version')
 
     panels = [
         FieldPanel('order'),
         FieldPanel('category'),
+        FieldPanel('approved'),
+        ReadOnlyPanel('current', heading="Current question version"),
         FieldPanel('user'),
+        InlinePanel('questions',heading='Question versions'),
     ]
-
-    # FIXME: return the first approved QuestionVersion
-    def current(self):
-        return self.questions.filter(approved=True).first()
 
 class QuestionVersion(ClusterableModel):
     question = ParentalKey(Question, on_delete=models.CASCADE, related_name='questions')
     title = models.TextField(max_length=1000)
     description = models.TextField(max_length=2000)
-    approved = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.id) + " | " + self.title + " | " + str(self.user) + " | " + str(self.created)
 
     def answers_json(self):
         return json.dumps([{ "text": o.text, "correct": o.correct } for o in self.answers.all()])
 
     def approve(self):
-        for qv in self.question.questions.all():
-            qv.approved = False
-            qv.save()
-        self.approved = True
-        self.save()
+        self.question.approved = True
+        self.question.current = self
+        self.question.save()
+
+    def is_current(self):
+        if self.question.current:
+            return self.question.approved and (self.question.current.id == self.id)
+
+        return False
 
     panels = [
-            FieldPanel('question'),
-            FieldPanel('title'),
-            FieldPanel('description'),
-            FieldPanel('approved'),
-            InlinePanel('answers'),
-        ]
-
+        ReadOnlyPanel('id', heading="Id"),
+        ReadOnlyPanel('is_current', heading="Current version"),
+        ReadOnlyPanel('user', heading="User"),
+        ReadOnlyPanel('created', heading="Created"),
+        ReadOnlyPanel('question', heading="Question"),
+        FieldPanel('title'),
+        FieldPanel('description'),
+        InlinePanel('answers',heading='Answers'),
+    ]
 
 class AnswerVersion(ClusterableModel):
     question_version = ParentalKey(QuestionVersion, on_delete=models.CASCADE, related_name='answers')
