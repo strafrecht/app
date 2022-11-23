@@ -63,7 +63,7 @@ main > .container-inner > .content {
 
 {% block wiki_contents %}
 
-{% if children_slice|length <= 0 %}
+{% if children_slice|length >= 0 %}
 <!-- ##### article view, if there are no subcategories ##### -->
 
 {% url 'wiki:get' path=urlpath.path as thisarticle %}
@@ -119,7 +119,9 @@ main > .container-inner > .content {
 
 </div>
 
-{% else %}
+{% endif %}
+{% if children_slice|length >= 0 %}
+
 <!-- ##### category view, if there are subcategories ##### -->
 
 <section class="text-center">
@@ -177,6 +179,16 @@ main > .container-inner > .content {
       {% endblock %}
    </div>
 </section>
+
+{% for deck in urlpath.article.flashcard_decks.all %}
+<hr/>
+{{ deck.id }}
+<br/>
+{{ deck.name }}
+<br/>
+{{ deck.user }}
+{% endfor %}
+<br/>
 
 {% endif %}
 {% endblock %}
