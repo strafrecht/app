@@ -4,27 +4,19 @@
   color: #2c3e50;
   height: fit-content;
 
-  .decks {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
   .deck {
-    border: 1px solid #d7d7d7;
-    border-radius: 10px;
-    margin: 10px;
-    padding: 10px;
-    width: 150px;
-    color: #2c3e50;
-    height: fit-content;
+    cursor: pointer;
+
+    &:hover {
+      background: #f7f7f7;
+    }
   }
 
-  .deck:hover {
-    box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+  .btn-link {
+    cursor: pointer;
   }
 
-  .deckarea:hover,
-  .bi:hover {
+  .bi {
     cursor: pointer;
   }
 
@@ -50,19 +42,5 @@
 
   .tooltips:hover .tooltiptexts {
     visibility: visible;
-  }
-
-  .deckwrap {
-    display: inline-flex;
-  }
-
-  .sidemenu {
-    position: relative;
-    float: right;
-    flex-direction: column;
-  }
-
-  .neu {
-    margin-left: 15px;
   }
 }

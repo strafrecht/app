@@ -1,244 +1,222 @@
 <template>
 <div v-if="dataReady" class="deckspace">
-  <div>
-    <button class="neu btn btn-success" v-show="!flashcardsOpen" @click="showModal = true">neues Deck</button>
-    <modal v-if="showModal" @close="showModal = false">
-      <template #header>Neues Deck</template>
-      <template #body>
-        <form>
-          <div class="field">
-            <label class="label">Name</label>
-            <div class="control">
-              <textarea class="input" type="text" v-model="name"></textarea>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Kategorie</label>
-            <div class="control">
-              <select class="select" v-model="selectedCategory">
-                <option
-                   v-for="category in categories"
-                   :key="category.id"
-                   :value="category.id"
-                   >
-                  {{ category.name }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Wiki Kategorie</label>
-            <div>
-              <treeselect
-		 class="treeselect"
-		 v-model="selectedWikiCategory"
-		 :multiple="false"
-		 :disable-branch-nodes="true"
-		 :options="wiki_categories"
-		 />
-            </div>
-          </div>
-        </form>
-      </template>
-      <template #footer>
-        <button class="btn btn-secondary" @click="showModal = false">Abbrechen</button>
-        <button class="btn btn-success" @click="addDeck()">Speichern</button>
-      </template>
-    </modal>
-  </div>
-  <br />
-  <div class="deckwrap">
-    <div class="decks col-10" style="padding: 0" v-show="!flashcardsOpen">
-      <div class="deck" v-for="(deck, index) in filteredDecks" :key="deck.id">
-        <div class="deckarea" @click="openDeck(deck.id)">
-          <h5>{{ deck.name }}</h5>
-	  <p class="deck-category">
-            <span v-if="categoriesById[deck.category]">{{ categoriesById[deck.category].name }}</span>
-            <span v-else>keine Kategorie</span>
-	  </p>
-	  <p class="deck-wiki-category">
-            <span v-if="wiki_category_label(deck.wiki_category)">{{ wiki_category_label(deck.wiki_category) }}</span>
-            <span v-else>keine Wiki-Kategorie</span>
-	  </p>
+
+  <!-- edit deck modal -->
+  <modal v-if="deckToEdit" @close="deckToEdit = null">
+    <template #header>Deck bearbeiten </template>
+    <template #body>
+      <form>
+        <div class="form-group">
+          <label>Name</label>
+          <input class="form-control" :class="errors['name'] && 'form-control is-invalid'" type="text" v-model="new_name" maxlength="100" />
+	  <div v-if="errors['name']" class="invalid-feedback">
+	    {{ errors['name'].join(' ') }}
+	  </div>
+
         </div>
-        <div class="buttons">
-          <i
-             class="bi bi-pencil-square tooltips"
-             v-on:click="openEditModal(index)"
-             >
-            <small class="tooltiptexts">Bearbeiten</small>
-          </i>
-          <modal v-if="deckToEdit !== null" @close="deckToEdit = null">
-            <template #header>Deck bearbeiten </template>
-            <template #body>
-              <form>
-                <div class="field">
-                  <label class="label">Name</label>
-                  <div class="control">
-                    <textarea class="input" type="text" v-model="new_name"></textarea>
-                  </div>
-                </div>
-                <div class="field">
-                  <label class="label">Kategorie</label>
-                  <div class="control">
-                    <select class="select" v-model="newSelectedCategory">
-                      <option
-                         v-for="category in categories"
-                         :key="category.id"
-                         :value="category.id"
-                         >
-                        {{ category.name }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="field">
-		  <label class="label">Wiki Kategorie</label>
-		  <div>
-		    <treeselect
-                       class="treeselect"
-                       v-model="selectedWikiCategory"
-                       :multiple="false"
-		       :disable-branch-nodes="true"
-                       :options="wiki_categories"
-		       />
-		  </div>
-		</div>
-              </form>
-            </template>
-            <template #footer>
-              <button class="btn btn-secondary" @click="deckToEdit = null">Abbrechen</button>
-              <button class="btn btn-success" @click="editDeck()">Speichern</button>
-            </template>
-          </modal>
-          &nbsp; &nbsp;
-          <i class="bi bi-trash tooltips" @click="deckToDelete = deck.id">
-            <small class="tooltiptexts">Löschen</small>
-          </i>
-          <modal v-if="deckToDelete !== null" @close="deckToDelete = null">
-            <template #header> Deck löschen </template>
-            <template #body>
-              <p>Sicher?</p>
-            </template>
-            <template #footer>
-              <button class="btn btn-secondary" @click="deckToDelete = null">Abbrechen</button>
-              <button class="btn btn-success" @click="deleteDecks">
-                Löschen
-              </button>
-            </template>
-          </modal>
+        <div class="form-group">
+          <label>Kategorie</label>
+          <select class="custom-select" v-model="newSelectedCategory">
+            <option v-for="category in categories" :key="category.id" :value="category.id">
+              {{ category.name }}
+            </option>
+          </select>
         </div>
-      </div>
-    </div>
-    <div
-       class="sidemenu col-3"
-       v-show="!flashcardsOpen"
-       >
-      <div>
-        <label>Sortieren nach</label>
-        <br />
-        <select v-model="sortFilter">
-          <option value="">Sortieren</option>
-          <option value="updated-newest">Aktualisiert (älteste)</option>
-          <option value="updated-oldest">Aktualisiert (neueste)</option>
-          <option value="created-newest">Erstellt (älteste)</option>
-          <option value="created-oldest">Erstellt (neueste)</option>
-          <option value="name-asc">Name (absteigend)</option>
-          <option value="name-desc">Name (aufsteigend)</option>
-        </select>
-      </div>
-      <br />
-      <h5>Kategorien</h5>
-      <a href="/profile/flashcards">Alle</a>
-      <div
-         class="category"
-         v-for="(category, index) in categories"
-         :key="category.id"
-         >
-        <a href="#" @click="openCategory(category.id)">{{ category.name }}</a>
-        &nbsp;
-        <i
-           class="bi bi-pencil-square tooltips"
-           v-on:click="openEditCategory(index)"
-           >
-          <small class="tooltiptexts">Bearbeiten</small>
-        </i>
-        &nbsp;
-        <modal v-if="categoryToEdit !== null" @close="categoryToEdit = null">
-          <template #header> Kategorie bearbeiten </template>
-          <template #body>
-            <form>
-              <div class="field">
-                <label class="label">Name bearbeiten</label>
-                <div class="control">
-                  <textarea class="input" type="text" v-model="new_category"></textarea>
-                </div>
-              </div>
-            </form>
-          </template>
-          <template #footer>
-            <button class="btn btn-secondary" @click="categoryToEdit = null">Abbrechen</button>
-            <button class="btn btn-success" @click="editCategory()">
-              Speichern
-            </button>
-          </template>
-        </modal>
-        <i
-           class="bi bi-trash tooltips"
-           @click="categoryToDelete = category.id"
-           >
-          <small class="tooltiptexts">Löschen</small>
-        </i>
-        <modal
-           v-if="categoryToDelete !== null"
-           @close="categoryToDelete = null"
-           >
-          <template #header> Kategorie löschen </template>
-          <template #body>
-            <p>Sicher?</p>
-          </template>
-          <template #footer>
-            <button class="btn btn-secondary" @click="categoryToDelete = null">Abbrechen</button>
-            <button class="btn btn-success" @click="deleteCategory">
-              Löschen
-            </button>
-          </template>
-        </modal>
-      </div>
-      <br />
-      <div>
-        <a href="#" @click="showCatModal = true">+ neue Kategorie</a>
-        <modal v-if="showCatModal" @close="showCatModal = false">
-          <template #header>Neue Kategorie</template>
-          <template #body>
-            <form>
-              <div class="field">
-                <label class="label">Name</label>
-                <div class="control">
-                  <textarea class="input" type="text" v-model="category_name"></textarea>
-                </div>
-              </div>
-            </form>
-          </template>
-          <template #footer>
-            <button @click="showCatModal = false">Abbrechen</button>
-            <button @click="addKategorie()" class="button is-link">
-              Speichern
-            </button>
-          </template>
-        </modal>
-      </div>
-    </div>
-  </div>
+        <div class="form-group">
+	  <label class="label">Wiki Kategorie</label>
+	  <treeselect
+             class="treeselect"
+             v-model="selectedWikiCategory"
+             :multiple="false"
+	     :disable-branch-nodes="true"
+             :options="wiki_categories"
+	     />
+	</div>
+      </form>
+    </template>
+    <template #footer>
+      <button class="btn btn-secondary" @click="deckToEdit = null">Abbrechen</button>
+      <button class="btn btn-success" @click="saveDeck()">Speichern</button>
+    </template>
+  </modal>
+
+  <!-- new deck modal -->
+  <modal v-if="showModal" @close="showModal = false">
+    <template #header>Neues Deck</template>
+    <template #body>
+      <form>
+        <div class="form-group">
+          <label>Name</label>
+          <input class="form-control" type="text" v-model="name" maxlength="100" />
+        </div>
+        <div class="form-group">
+          <label>Kategorie</label>
+          <select class="custom-select" v-model="selectedCategory">
+            <option v-for="category in categories" :key="category.id" :value="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Wiki Kategorie</label>
+          <treeselect
+	     class="treeselect"
+	     v-model="selectedWikiCategory"
+	     :multiple="false"
+	     :disable-branch-nodes="true"
+	     :options="wiki_categories"
+	     />
+        </div>
+      </form>
+    </template>
+    <template #footer>
+      <button class="btn btn-secondary" @click="showModal = false">Abbrechen</button>
+      <button class="btn btn-success" @click="createDeck()">Speichern</button>
+    </template>
+  </modal>
+
+  <!-- delete deck modal -->
+  <modal v-if="deckToDelete" @close="deckToDelete = null">
+    <template #header> Deck löschen </template>
+    <template #body>
+      <p>Sicher?</p>
+    </template>
+    <template #footer>
+      <button class="btn btn-secondary" @click="deckToDelete = null">Abbrechen</button>
+      <button class="btn btn-success" @click="deleteDeck">
+        Löschen
+      </button>
+    </template>
+  </modal>
+
+  <!-- edit category modal -->
+  <modal v-if="categoryToEdit" @close="categoryToEdit = null">
+    <template #header> Kategorie bearbeiten </template>
+    <template #body>
+      <form>
+        <div class="form-group">
+          <label>Name</label>
+          <input class="form-control" type="text" v-model="new_category" maxlength="100" />
+        </div>
+      </form>
+    </template>
+    <template #footer>
+      <button class="btn btn-secondary" @click="categoryToEdit = null">Abbrechen</button>
+      <button class="btn btn-success" @click="editCategory()">
+        Speichern
+      </button>
+    </template>
+  </modal>
+
+  <!-- delete category modal -->
+  <modal v-if="categoryToDelete" @close="categoryToDelete = null">
+    <template #header> Kategorie löschen </template>
+    <template #body>
+      <p>Sicher?</p>
+    </template>
+    <template #footer>
+      <button class="btn btn-secondary" @click="categoryToDelete = null">Abbrechen</button>
+      <button class="btn btn-success" @click="deleteCategory">
+        Löschen
+      </button>
+    </template>
+  </modal>
+
+  <!-- new category modal -->
+  <modal v-if="showCatModal" @close="showCatModal = false">
+    <template #header>Neue Kategorie</template>
+    <template #body>
+      <form>
+        <div class="form-group">
+          <label>Name</label>
+          <input class="form-control" type="text" v-model="category_name" maxlength="100" />
+        </div>
+      </form>
+    </template>
+    <template #footer>
+      <button @click="showCatModal = false">Abbrechen</button>
+      <button @click="createCategory()" class="button is-link">
+        Speichern
+      </button>
+    </template>
+  </modal>
+
+  <!-- deck -->
   <div v-if="flashcardsOpen" class="flashcards">
-    <flashcard
-       :selectedDeckId="selectedDeck"
-       @close="onCloseFlashcards"
-       ></flashcard>
+    <flashcard :selectedDeckId="selectedDeck" @close="onCloseFlashcards"></flashcard>
+  </div>
+  <div v-else>
+    <div>
+      <button class="neu btn btn-success" v-show="!flashcardsOpen" @click="showModal = true">neues Deck</button>
+    </div>
+    <h2>Alle Decks</h2>
+    <br />
+    <div class="row">
+      <div class="col-9">
+	<div class="card-columns">
+	  <div class="shadow-sm card deck" v-for="(deck, index) in filteredDecks" :key="deck.id">
+            <div class="card-body" @click="openDeck(deck.id)">
+              <h5 class="card-title">{{ deck.name }}</h5>
+	      <p class="deck-category">
+		<span v-if="categoriesById[deck.category]">{{ categoriesById[deck.category].name }}</span>
+		<span v-else>keine Kategorie</span>
+	      </p>
+	      <p class="deck-wiki-category">
+		<span v-if="wiki_category_label(deck.wiki_category)">{{ wiki_category_label(deck.wiki_category) }}</span>
+		<span v-else>keine Wiki-Kategorie</span>
+	      </p>
+            </div>
+            <div class="card-footer">
+              <i class="bi bi-pencil-square tooltips" @click="openDeckEditModal(deck.id)">
+		<small class="tooltiptexts">Bearbeiten</small>
+              </i>
+              &nbsp; &nbsp;
+              <i class="bi bi-trash tooltips" @click="deckToDelete = deck.id">
+		<small class="tooltiptexts">Löschen</small>
+              </i>
+            </div>
+	  </div>
+	</div>
+      </div>
+      <div class="col-3">
+	<div class="mb-4">
+          <label>Sortierung</label>
+          <br />
+          <select class="custom-select" v-model="sortFilter">
+            <option value="updated-newest">Aktualisiert (älteste)</option>
+            <option value="updated-oldest">Aktualisiert (neueste)</option>
+            <option value="created-newest">Erstellt (älteste)</option>
+            <option value="created-oldest">Erstellt (neueste)</option>
+            <option value="name-asc">Name (absteigend)</option>
+            <option value="name-desc">Name (aufsteigend)</option>
+          </select>
+	</div>
+
+	<div class="mb-4">
+          <label>Kategorien</label>
+	  <br/>
+	  <span class="btn-link" @click="openCategory(null)">Alle</span>
+	  <div class="category" v-for="(category, index) in categories" :key="category.id">
+            <span class="btn-link" @click="openCategory(category.id)">{{ category.name }}</span>
+
+            <i class="bi bi-trash tooltips float-right" @click="categoryToDelete = category.id">
+              <small class="tooltiptexts">Löschen</small>
+            </i>
+            <i class="bi bi-pencil-square tooltips float-right mr-2" @click="openEditCategory(index)">
+              <small class="tooltiptexts">Bearbeiten</small>
+            </i>
+	  </div>
+	  <br />
+	  <div>
+            <a href="#" class="neu btn btn-primary btn-sm" @click="showCatModal = true">neue Kategorie</a>
+	  </div>
+	</div>
+    </div>
+    </div>
   </div>
 </div>
 <div v-else class="deckspace">
-  Laden ...
+  <h2>Lade Decks…</h2>
 </div>
 </template>
 
@@ -269,7 +247,7 @@ export default {
       decks: [],
       // filteredDecks: [],
       categoryFilter: '',
-      sortFilter: '',
+      sortFilter: 'name-asc',
       categories: [],
       wiki_categories: [],
       name: "",
@@ -286,7 +264,8 @@ export default {
       categoryToDelete: null,
       flashcardsOpen: false,
       selectedDeck: null,
-      categoriesById: {}
+      categoriesById: {},
+      errors: {}
     };
   },
   created() {
@@ -337,7 +316,7 @@ export default {
             }
           }
 
-           if (this.sortFilter === 'updated-newest') {
+          if (this.sortFilter === 'updated-newest') {
             if (aUpdatedTimestamp < bUpdatedTimestamp) {
               return -1;
             }
@@ -355,7 +334,7 @@ export default {
           }
 
           if (this.sortFilter === 'name-asc') {
-             if (a.name < b.name) {
+            if (a.name < b.name) {
               return -1;
             }
             if (a.name > b.name) {
@@ -363,8 +342,8 @@ export default {
             }
           }
 
-           if (this.sortFilter === 'name-desc') {
-             if (a.name > b.name) {
+          if (this.sortFilter === 'name-desc') {
+            if (a.name > b.name) {
               return -1;
             }
             if (a.name < b.name) {
@@ -380,9 +359,6 @@ export default {
     }
   },
   methods: {
-    onChildComponentMount() {
-      console.log('CustomComponentName mounted!');
-    },
     filterByCategory(decks, category) {
       // this.decks?.filter((deck) => deck.category === id);
       return decks.filter((deck) => deck.category === category)
@@ -407,22 +383,20 @@ export default {
         .get("/flashcards/api/decks")
         .then((response) => {
           this.decks = response.data;
-          // this.filteredDecks = this.decks;
         });
     },
     async getCategories() {
       await axios
         .get("/flashcards/api/categories")
         .then((response) => {
-          this.categories = response.data
-
+          this.categories = response.data;
           this.categoriesById = response.data.reduce((acc, cat) => {
             acc[cat.id] = cat
             return acc
           }, {})
         });
     },
-    addDeck() {
+    createDeck() {
       axios
         .post("/flashcards/api/decks", {
           name: this.name,
@@ -446,7 +420,7 @@ export default {
         });
       this.showModal = false;
     },
-    addKategorie() {
+    createCategory() {
       axios
         .post("/flashcards/api/categories", {
           name: this.category_name,
@@ -465,11 +439,11 @@ export default {
         });
       this.showCatModal = false;
     },
-    deleteDecks() {
+    deleteDeck() {
       axios
         .delete(
           "/flashcards/api/decks/" + this.deckToDelete
-        , axios_config)
+          , axios_config)
         .then(this.getDecks);
       this.decks = this.decks.filter((deck) => deck.id !== this.deckToDelete);
       this.deckToDelete = null;
@@ -479,25 +453,28 @@ export default {
         .delete(
           "/flashcards/api/categories/" +
             this.categoryToDelete
-        , axios_config)
+          , axios_config)
         .then(this.getCategories);
       this.categories = this.categories.filter(
         (category) => category.id !== this.categoryToDelete
       );
       this.categoryToDelete = null;
     },
-    editDeck() {
+    saveDeck() {
       axios
         .put(
-          "/flashcards/api/decks/" +
-            this.decks[this.deckToEdit].id,
+          "/flashcards/api/decks/" + this.deckToEdit,
           {
             name: this.new_name,
             category: this.newSelectedCategory,
             wiki_category: this.selectedWikiCategory,
           }
-        , axios_config)
-        .then(this.getDecks);
+          , axios_config)
+        .then(this.getDecks)
+	.catch(error => {
+	  if (error.response.status == 400)
+	    this.errors = error.response.data;
+	})
       this.new_name = "";
       this.newSelectedCategory = null;
       this.selectedWikiCategory = null;
@@ -516,11 +493,18 @@ export default {
       this.new_category = "";
       this.categoryToEdit = null;
     },
-    openEditModal(id) {
-      this.deckToEdit = id;
-      this.new_name = this.decks[id].name;
-      this.newSelectedCategory = this.decks[id].category;
-      this.selectedWikiCategory = this.decks[id].wiki_category;
+    openDeckEditModal(id) {
+      for (let i = 0; i < this.decks.length; i++) {
+	if (this.decks[i].id == id) {
+	  this.deckToEdit = id;
+	  this.new_name = this.decks[i].name;
+	  this.newSelectedCategory = this.decks[i].category;
+	  this.selectedWikiCategory = this.decks[i].wiki_category;
+	  return true;
+	}
+      }
+      // FIXME: raise error?
+      console.log("Deck not found:", id)
     },
     openEditCategory(id) {
       this.categoryToEdit = id;
@@ -533,27 +517,14 @@ export default {
     },
     onCloseFlashcards() {
       this.flashcardsOpen = false;
-      var queryParams = new URLSearchParams(window.location.search);
-      queryParams.delete("deck");
-      history.pushState(null, null, "?" + queryParams.toString());
     },
     openDeck(deckId) {
       this.flashcardsOpen = true;
       this.selectedDeck = deckId;
-      var queryParams = new URLSearchParams(window.location.search);
-      queryParams.set("deck", deckId);
-      history.pushState(null, null, "?" + queryParams.toString());
     },
-    selectCategory(id) {
+    openCategory(id) {
+      this.selectedCategory = id;
       this.categoryFilter = id
-      // this.filteredDecks = this.decks?.filter((deck) => deck.category === id);
-    },
-    openCategory(categoryId) {
-      this.selectedCategory = categoryId;
-      this.selectCategory(categoryId);
-      var queryParams = new URLSearchParams(window.location.search);
-      queryParams.set("category", categoryId);
-      history.pushState(null, null, "?" + queryParams.toString());
     },
   },
 };

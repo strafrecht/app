@@ -1,231 +1,188 @@
 <template>
-  <div class="cards">
-    <h5 v-text="this.selectedDeckName"></h5>
-    <div>
-      <button class="btn btn-success" :class="gameFinished && 'hide'" @click="showModal = true">
-        neue Karte
+<div class="cards">
+
+  <!-- new card modal -->
+  <modal v-if="showModal" @close="showModal = false">
+    <template #header>Neue Karte</template>
+    <template #body>
+      <form>
+        <div class="form-group">
+          <label>Vorderseite</label>
+          <textarea class="form-control" type="text" v-model="front_side"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Rückseite</label>
+          <textarea class="form-control" type="text" v-model="back_side"></textarea>
+        </div>
+      </form>
+    </template>
+    <template #footer>
+      <button class="btn btn-secondary" @click="showModal = false">
+        Abbrechen
       </button>
-      <button class="btn btn-primary" :class="gameFinished && 'hide'" @click="toggleMode">Spielmodus</button>
-      <button class="btn btn-secondary" @click.prevent="$emit('close')">
-        Zurück
+      <button class="btn btn-success" @click="createFlashcard()">
+        Speichern
       </button>
-      <modal v-if="showModal" @close="showModal = false">
-        <template #header>Neue Karte</template>
-        <template #body>
-          <form>
-            <div class="field">
-              <label class="label">Vorderseite</label>
-              <div class="control">
-                <textarea
-                  class="input"
-                  type="text"
-                  v-model="front_side"
-                ></textarea>
-              </div>
-            </div>
-            <br />
-            <div class="field">
-              <label class="label">Rückseite</label>
-              <div class="control">
-                <textarea
-                  class="input"
-                  type="text"
-                  v-model="back_side"
-                ></textarea>
-              </div>
-            </div>
-            <br />
-            <div class="field">
-              <label class="label">Deck</label>
-              <div class="control">
-                <select class="select" v-model="selectedDeck">
-                  <option v-for="deck in decks" :key="deck.id" :value="deck.id">
-                    {{ deck.name }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <br />
-          </form>
-        </template>
-        <template #footer>
-          <button class="btn btn-secondary" @click="showModal = false">
-            Abbrechen
-          </button>
-          <button class="btn btn-success" @click="createFlashcard()">
-            Speichern
-          </button>
-        </template>
-      </modal>
-    </div>
-    <br />
-    <div class="cards-container">
-      <div v-if="showCards == true" class="flashcards col-10">
-        <div
-          class="card"
-          v-for="{ front_side, back_side, deck_name, id } in sortedCards"
-          :key="id"
-        >
+    </template>
+  </modal>
+
+  <!-- edit card modal -->
+  <modal v-if="cardToEdit" @close="cardToEdit = undefined">
+    <template #header> Karte bearbeiten </template>
+    <template #body>
+      <form>
+        <div class="form-group">
+          <label>Vorderseite</label>
+          <textarea class="form-control" type="text" v-model="new_front_side"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Rückseite</label>
+          <textarea class="form-control" type="text" v-model="new_back_side"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Deck</label>
+          <select class="custom-select" v-model="newSelectedDeck">
+            <option v-for="deck in decks" :key="deck.id" :value="deck.id">
+              {{ deck.name }}
+            </option>
+          </select>
+        </div>
+      </form>
+    </template>
+    <template #footer>
+      <button
+         class="btn btn-secondary"
+         @click="cardToEdit = undefined"
+         >
+        Abbrechen
+      </button>
+      <button class="btn btn-success" @click="saveFlashcard()">
+        Speichern
+      </button>
+    </template>
+  </modal>
+
+  <!-- delete card modal -->
+  <modal v-if="cardToDelete !== null" @close="cardToDelete = null">
+    <template #header>Karte löschen</template>
+    <template #body>
+      <p>Sicher?</p>
+    </template>
+    <template #footer>
+      <button class="btn btn-secondary" @click="cardToDelete = null">
+        Abbrechen
+      </button>
+      <button class="btn btn-success" @click="deleteFlashcard">
+        Löschen
+      </button>
+    </template>
+  </modal>
+
+  <!-- flashcards -->
+  <div>
+    <button v-if="!showGameMod" class="btn btn-secondary" @click.prevent="$emit('close')">
+      Zurück
+    </button>
+    <button v-if="!showGameMod" class="btn btn-success" :class="gameFinished && 'hide'" @click="showModal = true">
+      neue Karte
+    </button>
+    <button v-if="!showGameMod" class="btn btn-primary" :class="gameFinished && 'hide'" @click="toggleGameMode">
+      Spielmodus
+    </button>
+    <button v-if="showGameMod" class="btn btn-secondary" @click="toggleGameMode">
+      Beenden
+    </button>
+  </div>
+  <h2>Deck: {{ this.selectedDeckName }}</h2>
+  <br />
+  <div v-if="showCards" class="row">
+    <div class="col-9">
+      <div class="row">
+	<div class="col-md-4 col-sm-6 col-12 mb-3" v-for="{ front_side, back_side, deck_name, id } in sortedCards" :key="id">
           <div class="flip-card">
             <div class="flip-card-inner">
               <div class="flip-card-front">
-                <br />
-                <small>{{ front_side }}</small>
-                <br />
-                <small><i>{{ deck_name }}</i></small>
+		<small>{{ front_side }}</small>
               </div>
               <div class="flip-card-back">
-                <br />
-                <small>{{ back_side }}</small>
-                <br />
-                <small><i>{{ deck_name }}</i></small>
+		<small>{{ back_side }}</small>
               </div>
             </div>
           </div>
-          <div>
-            <p></p>
-            <i
-              class="bi bi-pencil-square tooltips"
-              v-on:click="openEditModal(id)"
-            >
+          <div class="flip-card-buttons mt-1">
+            <i class="bi bi-pencil-square tooltips" @click="openEditModal(id)">
               <small class="tooltiptexts">Bearbeiten</small>
             </i>
-            <modal v-if="cardToEdit" @close="cardToEdit = undefined">
-              <template #header> Karte bearbeiten </template>
-              <template #body>
-                <form>
-                  <div class="field">
-                    <label class="label">Vorderseite</label>
-                    <div class="control">
-                      <textarea
-                        class="input"
-                        type="text"
-                        v-model="new_front_side"
-                      ></textarea>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label class="label">Rückseite</label>
-                    <div class="control">
-                      <textarea
-                        class="input"
-                        type="text"
-                        v-model="new_back_side"
-                      ></textarea>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label class="label">Deck</label>
-                    <div class="control">
-                      <select class="select" v-model="newSelectedDeck">
-                        <option
-                          v-for="deck in decks"
-                          :key="deck.id"
-                          :value="deck.id"
-                        >
-                          {{ deck.name }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </form>
-              </template>
-              <template #footer>
-                <button
-                  class="btn btn-secondary"
-                  @click="cardToEdit = undefined"
-                >
-                  Abbrechen
-                </button>
-                <button class="btn btn-success" @click="saveFlashcard()">
-                  Speichern
-                </button>
-              </template>
-            </modal>
             &nbsp;
             <i class="bi bi-trash tooltips" @click="cardToDelete = id">
               <small class="tooltiptexts">Löschen</small>
             </i>
           </div>
-        </div>
-        <modal v-if="cardToDelete !== null" @close="cardToDelete = null">
-          <template #header>Karte löschen</template>
-          <template #body>
-            <p>Sicher?</p>
-          </template>
-          <template #footer>
-            <button class="btn btn-secondary" @click="cardToDelete = null">
-              Abbrechen
-            </button>
-            <button class="btn btn-success" @click="deleteFlashcard">
-              Löschen
-            </button>
-          </template>
-        </modal>
-      </div>
-      <div v-if="showCards == true" class="sidemenu col-3">
-        <label>Sortieren nach</label>
-        <br />
-        <select v-model="sortFilter">
-          <option value="">Sortieren</option>
-          <option value="updated-newest">Aktualisiert (älteste)</option>
-          <option value="updated-oldest">Aktualisiert (neueste)</option>
-          <option value="created-newest">Erstellt (älteste)</option>
-          <option value="created-oldest">Erstellt (neueste)</option>
-          <option value="name-asc">Name (absteigend)</option>
-          <option value="name-desc">Name (aufsteigend)</option>
-        </select>
+	</div>
       </div>
     </div>
-    <!-- swiper.js used for learning mode transitions -->
-    <div v-if="showGameMod === true" class="gamemode">
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
+    <div class="col-3">
+      <label>Sortierung</label>
+      <br />
+      <select class="custom-select" v-model="sortFilter">
+        <option value="updated-newest">Aktualisiert (älteste)</option>
+        <option value="updated-oldest">Aktualisiert (neueste)</option>
+        <option value="created-newest">Erstellt (älteste)</option>
+        <option value="created-oldest">Erstellt (neueste)</option>
+        <option value="name-asc">Name (absteigend)</option>
+        <option value="name-desc">Name (aufsteigend)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- swiper.js used for learning mode transitions -->
+  <div v-if="showGameMod" class="gamemode">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div
+           class="swiper-slide"
+           v-for="({ front_side, back_side, id }) in gameModeCards"
+           :key="id"
+           >
           <div
-            class="swiper-slide"
-            v-for="({ front_side, back_side, id }) in gameModeCards"
-            :key="id"
-          >
-            <div
-              :data-id="id"
-              :class="[
-                'swiper-flashcard'
-              ]"
-              :ref="`flashcard-${id}`"
-              @click="onSlideClick(id)"
-            >
-              <div class="flashcard-front">
-                <span class="card-content">{{ front_side }}</span>
-                <br />
-              </div>
-              <div class="flashcard-back">
-                <span class="card-content"> {{ back_side }}</span>
-                <br />
-              </div>
+             :data-id="id"
+             :class="[
+                     'swiper-flashcard'
+		     ]"
+             :ref="`flashcard-${id}`"
+             @click="onSlideClick(id)"
+             >
+            <div class="flashcard-front">
+              <span class="card-content">{{ front_side }}</span>
+              <br />
+            </div>
+            <div class="flashcard-back">
+              <span class="card-content"> {{ back_side }}</span>
+              <br />
             </div>
           </div>
         </div>
       </div>
-      <div class="swiper-controls">
-        <!-- <div @click="swipePrev" class="swiper-button-prev"></div> -->
-        <button @click.prevent="onCardLearned" class="btn btn-outline-success btn-sm"><small>Gelernt</small></button>
-        <button @click.prevent="onCardNotLearned" class="btn btn-outline-danger btn-sm"><small>Nicht Gelernt</small></button>
-        <!-- <div @click="swipeNext" class="swiper-button-next"></div> -->
-      </div>
     </div>
-    <!-- Results of the learning mode of flashcards -->
-    <div v-if="gameFinished === true" class="results">
-        <h5>Erfolg!</h5>
-        <h5>Dies sind die Ergebnisse Ihrer Spielsitzungen:</h5>
-        <br>
-        <div v-for="result of Object.values(gameProgress)" :key="result.card.id">
-          <div>Karte: {{result.card.front_side}}</div>
-          <div>Gelernt: {{result.learned}}</div>
-          <div>Nicht gelernt: {{result.notLearned}}</div>
-          <br>
-        </div>
+    <div class="swiper-controls">
+      <button @click.prevent="onCardLearned" class="btn btn-outline-success btn-sm"><small>Gelernt</small></button>
+      <button @click.prevent="onCardNotLearned" class="btn btn-outline-danger btn-sm"><small>Nicht Gelernt</small></button>
     </div>
   </div>
+
+  <!-- Results of the learning mode of flashcards -->
+  <div v-if="gameFinished" class="results">
+    <h5>Erfolg!</h5>
+    <h5>Dies sind die Ergebnisse Ihrer Spielsitzungen:</h5>
+    <br>
+    <div v-for="result of Object.values(gameProgress)" :key="result.card.id">
+      <div>Karte: {{result.card.front_side}}</div>
+      <div>Gelernt: {{result.learned}}</div>
+      <div>Nicht gelernt: {{result.notLearned}}</div>
+      <br>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -263,7 +220,7 @@ export default {
       cardToDelete: null,
       showGameMod: false,
       showCards: true,
-      sortFilter: "",
+      sortFilter: "name-asc",
       selectedCardIndex: 0,
       rotatedCards:[],
       // gameModeCards: [],
@@ -532,7 +489,7 @@ export default {
       this.new_back_side = this.cardToEdit.back_side;
       this.newSelectedDeck = this.cardToEdit.deck;
     },
-    toggleMode() {
+    toggleGameMode() {
       if (this.gameModeCards.length > 0) {
         this.showGameMod = !this.showGameMod;
         this.showCards = !this.showCards;
