@@ -52,7 +52,7 @@
           <button class="btn btn-secondary" @click="showModal = false">
             Abbrechen
           </button>
-          <button class="btn btn-success" @click="addFlashcard()">
+          <button class="btn btn-success" @click="createFlashcard()">
             Speichern
           </button>
         </template>
@@ -95,7 +95,7 @@
               <template #body>
                 <form>
                   <div class="field">
-                    <label class="label">Vorderseite bearbeiten</label>
+                    <label class="label">Vorderseite</label>
                     <div class="control">
                       <textarea
                         class="input"
@@ -105,7 +105,7 @@
                     </div>
                   </div>
                   <div class="field">
-                    <label class="label">Rückseite bearbeiten</label>
+                    <label class="label">Rückseite</label>
                     <div class="control">
                       <textarea
                         class="input"
@@ -115,7 +115,7 @@
                     </div>
                   </div>
                   <div class="field">
-                    <label class="label">Deck bearbeiten</label>
+                    <label class="label">Deck</label>
                     <div class="control">
                       <select class="select" v-model="newSelectedDeck">
                         <option
@@ -137,7 +137,7 @@
                 >
                   Abbrechen
                 </button>
-                <button class="btn btn-success" @click="editFlashcard()">
+                <button class="btn btn-success" @click="saveFlashcard()">
                   Speichern
                 </button>
               </template>
@@ -274,10 +274,11 @@ export default {
   mounted() {
     this.getFlashcards();
     this.getDecks();
-    window.addEventListener("keydown", this.onKeyDown);
+    this.selectedDeck = this.selectedDeckId;
+    //window.addEventListener("keydown", this.onKeyDown);
   },
   beforeDestroy() {
-    window.removeEventListener("keydown", this.onKeyDown);
+    //window.removeEventListener("keydown", this.onKeyDown);
   },
   watch: {
     async showGameMod(showGameMod) {
@@ -465,7 +466,7 @@ export default {
         .get("/flashcards/api/cards")
         .then((response) => (this.flashcards = response.data));
     },
-    addFlashcard() {
+    createFlashcard() {
       axios
         .post("/flashcards/api/cards", {
           front_side: this.front_side,
@@ -482,7 +483,6 @@ export default {
           this.flashcards.push(newFlashcard);
           this.front_side = "";
           this.back_side = "";
-          this.selectedDeck = null;
           this.getFlashcards();
           this.showModal = false;
         })
@@ -490,7 +490,7 @@ export default {
           console.log(error);
         });
     },
-    editFlashcard() {
+    saveFlashcard() {
       axios
         .put(
           "/flashcards/api/cards/" +
