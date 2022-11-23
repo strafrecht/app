@@ -32,7 +32,7 @@ class Deck(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL)
-    wiki_category = models.ForeignKey('wiki.Article', on_delete=models.SET_NULL, null=True, blank=True)
+    wiki_category = models.ForeignKey('wiki.Article', on_delete=models.SET_NULL, null=True, blank=True, related_name='flashcard_decks')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
