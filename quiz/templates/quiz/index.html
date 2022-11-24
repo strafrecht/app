@@ -64,72 +64,64 @@
 <div class="with-header">
 	{% include "layout/menu.html" %}
 </div>
-<section
-style="
-	background: transparent url('{{ header_image.file.url }}') center center no-repeat padding-box;
-	opacity: 1;
-	background-size: cover;
-	background-position: center;
-">
-	<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
-		<div class="container header-text">
-			<h2>{{ header_headline | richtext }}</h2>
-			{{ header_slogan | richtext }}
-		</div>
-	</div>
+<section id="banner" style="background-image: url({{ header_image.file.url }})">
+  <div>
+    <div class="container header-text">
+      <a href="/"><h2>STRAFRECHT-ONLINE.ORG</h2></a>
+    </div>
+  </div>
 </section>
 {% endblock %}
 
 
 {% block content %}
 <div id="jurcoach-page">
-		<section class="text-center" style="padding: 50px 0;">
-			<div class="container" style="max-width:700px !important;">
-				<div class="h2-wrapper">
-					<h2 style="margin-bottom: 50px;">Multiple-Choice-Test</h2>
-				</div>
-				<p>
-					Sich einmal einigen ganz konkreten Fragen aus dem Strafrecht auszusetzen,
-					kann einem ein gutes Feedback geben, wie es um das Wissen in diesem
-					Rechtsgebiet bestellt ist. Lorem ipsum dolor sit amet, consectetuer
-					adipiscing elit. Aenean commodo ligula eget dolor.
-				</p>
-			</div>
-		</section>
+  <section class="text-center" style="padding: 50px 0;">
+    <div class="container" style="max-width:700px !important;">
+      <div class="h2-wrapper">
+	<h2 style="margin-bottom: 50px;">Multiple-Choice-Test</h2>
+      </div>
+      <p>
+	Sich einmal einigen ganz konkreten Fragen aus dem Strafrecht auszusetzen,
+	kann einem ein gutes Feedback geben, wie es um das Wissen in diesem
+	Rechtsgebiet bestellt ist.
+      </p>
+    </div>
+  </section>
 
-	<section class="text-center">
-	<div class="container">
-	<div>
-			<div class="tabbed">
-			   <input checked="checked" id="at" type="radio" name="tabs" />
-			   <input id="bt" type="radio" name="tabs" />
+  <section class="text-center">
+    <div class="container">
+      <div>
+	<div class="tabbed">
+	  <input checked="checked" id="at" type="radio" name="tabs" />
+	  <input id="bt" type="radio" name="tabs" />
 
-			   <nav>
-			      <label for="at"><h3>Allgemeiner Teil</h3></label>
-			      <label for="bt"><h3>Besonderer Teil</h3></label>
-			   </nav>
+	  <nav>
+	    <label for="at"><h3>Allgemeiner Teil</h3></label>
+	    <label for="bt"><h3>Besonderer Teil</h3></label>
+	  </nav>
 
-			   <figure>
-			      <div class="at">
-				{% for item in categories_at %}
-					{% if item.first.id > 0 %}
-						<a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
-					{% endif %}
-				{% endfor %}
-			      </div>
-			      <div class="bt">
-				{% for item in categories_bt %}
-					{% if item.first.id > 0 %}
-						<a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
-					{% endif %}
-				{% endfor %}
-			      </div>
-			   </figure>
-			</div>
-
+	  <figure>
+	    <div class="at">
+	      {% for item in categories_at %}
+	      {% if item.first.id > 0 %}
+	      <a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+	      {% endif %}
+	      {% endfor %}
+	    </div>
+	    <div class="bt">
+	      {% for item in categories_bt %}
+	      {% if item.first.id > 0 %}
+	      <a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
+	      {% endif %}
+	      {% endfor %}
+	    </div>
+	  </figure>
 	</div>
-	</div>
-	</section>
+
+      </div>
+    </div>
+  </section>
 
 </div>
 {% endblock %}

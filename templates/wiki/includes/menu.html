@@ -1,0 +1,51 @@
+{% load i18n wiki_tags %}
+
+<div style="min-height: 200px;">
+   <div class="illustration-container">
+      <div class="contribute-small"></div>
+   </div>
+
+   <div class="contribution-area">
+
+     {% if article|can_write:user and not article.current_revision.locked %}
+     <p style="margin-bottom: 0px !important;">
+       <a href="{% url 'wiki:edit' article_id=article.id path=urlpath.path %}">
+         <span class="underlined green hover">Wiki-Seite editieren</span> <i class="bi bi-arrow-right"></i>
+       </a>
+     </p>
+     {% endif %}
+
+     {% if article|can_write:user %}
+     <p style="margin-bottom: 0px !important;">
+       <a href="{% url 'wiki:create' path=urlpath.path %}">
+	 <span class="underlined green hover">Neue Wiki-Seite in dieser Kategorie erstellen</span> <i class="bi bi-arrow-right"></i>
+       </a>
+     </p>
+     {% endif %}
+
+     {% if article|can_moderate:user %}
+     <p style="margin-bottom: 0px !important;">
+       <a href="{% url 'wiki:history' article_id=article.id path=urlpath.path %}">
+         <span class="underlined green hover">Versionsgeschichte anzeigen</span> <i class="bi bi-arrow-right"></i>
+       </a>
+     </p>
+     {% endif %}
+
+     {% for plugin in article_tabs %}
+     <p style="margin-bottom: 0px !important;">
+       <a href="{% url 'wiki:plugin' slug=plugin.slug article_id=article.id path=urlpath.path %}">
+         <span class="underlined green hover">{{ plugin.article_tab.0 }}</span> <i class="bi bi-arrow-right"></i>
+       </a>
+     </p>
+     {% endfor %}
+
+     {% if article|can_moderate:user %}
+     <p style="margin-bottom: 0px !important;">
+       <a href="{% url 'wiki:settings' article_id=article.id path=urlpath.path %}">
+         <span class="underlined green hover">Einstellungen aufrufen</span> <i class="bi bi-arrow-right"></i>
+       </a>
+     </p>
+     {% endif %}
+
+   </div>
+</div>

@@ -49,18 +49,12 @@
 			{% endif %}
 
 			{% if page|banner %}
-			<section style="
-			    background: transparent url('{{ page|banner }}') center center no-repeat padding-box;
-			    opacity: 1;
-			    background-size: cover;
-			    background-position: center;
-			">
-				<div style="background: rgba(0,0,0,0); padding: 100px 0; min-height: 270px;">
-					<div class="container header-text">
-						<h2><p style="font-family:Corporal">STRAFRECHT-ONLINE.ORG</p></h2>
-				</div>
-					{# block headertext %}{% endblock #}
-				</div>
+			<section id="banner" style="background-image: url('{{ page|banner }}');">
+			  <div>
+			    <div class="container header-text">
+			      <a href="/"><h2>STRAFRECHT-ONLINE.ORG</h2></a>
+			    </div>
+			  </div>
 			</section>
 			{% endif %}
 

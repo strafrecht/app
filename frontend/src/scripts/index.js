@@ -29,6 +29,7 @@ global.jQuery = $;
 
 //import "slick-carousel";
 import "bootstrap/dist/js/bootstrap.bundle";
+import "popper.js";
 // import moment from "moment";
 import * as Chartist from 'chartist';
 global.Chartist = Chartist;

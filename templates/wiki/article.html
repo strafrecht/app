@@ -8,53 +8,6 @@
 {% block extra_css %}
 {{ block.super }}
 
-<style>
-  .wiki-content > br {
-    display: none;
-  }
-  .wiki-article > br {
-    display: none;
-  }
-
-#jurcoach-page .tabbed .wiki-children {
-	display: block;
-	text-align: center;
-	margin-left: 0;
-	clear: both;
-	color: #3d3d3d;
-}
-#jurcoach-page .tabbed .wiki-children a > span.badge {
-	background: #fff;
-	padding: .4rem 1rem;
-	border: 3px solid #E8E7E0;
-	color: #3d3d3d;
-	font-size: 14px;
-	margin-bottom: .5rem;
-}
-#jurcoach-page .tabbed .wiki-children a > span.badge:hover {
-	background: #FFE200;
-	border: 3px solid #FFE200;
-	cursor: pointer;
-}
-#jurcoach-page .wiki-parents {
-	margin-bottom: 20px;
-	text-align: center;
-}
-#jurcoach-page .wiki-parents label {
-	margin: 0 .6rem;
-}
-#jurcoach-page .wiki-parents label h3 {
-	color: #000 !important;
-	margin-bottom: 0;
-	display: block;
-	position: relative;
-	border-bottom: 4px solid #FFE200;
-	cursor: default;
-}
-main > .container-inner > .content {
-	max-width: none;
-}
-</style>
 {% endblock %}
 
 {% block wiki_breadcrumbs %}
@@ -63,132 +16,66 @@ main > .container-inner > .content {
 
 {% block wiki_contents %}
 
-{% if children_slice|length >= 0 %}
-<!-- ##### article view, if there are no subcategories ##### -->
+  {% if urlpath.parent %}
+  {% if selected_tab == "view" %}
+  {% url 'wiki:get' path=urlpath.parent.path as parentarticle %}
+  <p>
+    <a href="{{ parentarticle }}" style="display: flex; flex-direction: row; align-items: center;">
+      <i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
+      <span style="font-size: 1rem; font-weight:600;">Zurück</span>
+    </a>
+  </p>
+  {% else %}
+  {% url 'wiki:get' path=urlpath.path as thisarticle %}
+  <p>
+    <a href="{{ thisarticle }}" style="display: flex; flex-direction: row; align-items: center;">
+      <i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
+      <span style="font-size: 1rem; font-weight:600;">Zurück zum Problemfeld-Wiki</span>
+    </a>
+  </p>
+  {% endif %}
+  {% endif %}
 
-{% url 'wiki:get' path=urlpath.path as thisarticle %}
-{% url 'wiki:get' path=urlpath.parent.path as parentarticle %}
-{% with selected_tab as selected %}
-{% if selected == "view" %}
-	<p>
-		<a href="{{ parentarticle }}" style="display: flex; flex-direction: row; align-items: center;">
-			<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
-			<span style="font-size: 1rem; font-weight:600;">Zurück zur Kategorienübersicht</span>
-		</a>
-	</p>
-{% else %}
-	<p>
-		<a href="{{ thisarticle }}" style="display: flex; flex-direction: row; align-items: center;">
-			<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
-			<span style="font-size: 1rem; font-weight:600;">Zurück zum Problemfeld</span>
-		</a>
-	</p>
-{% endif %}
-{% endwith %}
-
-<div id="article-container">
-   <div class="h2-centered">
+  <div id="article-container">
+    <div class="h2-centered">
       <h2 class="wiki-article-title">{{ article.current_revision.title }}</h2>
-      <small style="font-size: 14px;margin-left: 5px;">
-	      {% if urlpath.parent %}
-	      <!--a href="{% url 'wiki:get' path=urlpath.path %}" class="nav-link"><span class="fa fa-bookmark"></span> {{ urlpath.slug }}</a-->
-	      {% endif %}
-	      {% if article.current_revision.locked %}
-	      <span class="fa fa-lock"></span> {% trans "locked" %}
-	      {% endif %}
-      </small>
-   </div>
+    </div>
 
-   <section class="wiki-content">
+    <section class="wiki-content">
       {% block wiki_contents_tab %}
       {% endblock %}
-   </section>
+    </section>
 
-{% with selected_tab as selected %}
-{% if selected == "view" %}
-   <section>
-      {% block wiki_footer_prepend %}
-      <p style="margin-bottom: 10px;"><em>Das Problemfeld wurde zuletzt am {{ article.current_revision.modified|date:"j.n.Y" }} um {{ article.current_revision.modified|date:"G.i" }} Uhr bearbeitet.</em></p>
-      {% endblock %}
-   </section>
-   <section>
-      {% include "wiki/includes/contribute-menu-article.html" %}
-   </section>
-{% endif %}
-{% endwith %}
-
-</div>
-
-{% endif %}
-{% if children_slice|length >= 0 %}
-
-<!-- ##### category view, if there are subcategories ##### -->
-
-<section class="text-center">
-   <div class="container" style="max-width:700px !important;">
-      <div class="h2-wrapper">
-         <h2 style="margin-bottom: 50px;">Problemfeld-Wiki</h2>
-      </div>
-      <p>
-         Definitionen und Theorien zu Fragestellungen, die immer
-         wieder in den Klausuren auf der Tagesordnung sind. Lorem
-         ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-         commodo ligula eget dolor. Aenean massa. Cum parturient
-         montes, nascetur ridiculus mus.
-	 FIXME
+    {% if selected_tab == "view" and article.current_revision.content %}
+    <section>
+      <p style="margin-bottom: 10px; text-align: center;" class="small">
+	<em>Die Seite wurde zuletzt am {{ article.current_revision.modified|date:"j.n.Y" }} um {{ article.current_revision.modified|date:"G.i" }} Uhr bearbeitet.</em>
       </p>
-   </div>
-</section>
+    </section>
+    {% endif %}
+  </div>
 
-<section class="text-center">
-   <div class="container">
-      <div class="tabbed">
-         <div class="wiki-parents">
-            {% if urlpath.parent %}
-            {% url 'wiki:get' path=urlpath.parent.path as parentpath %}
-            {% for urlpath in parentpath.children_slice %}
-            <a href="{% url 'wiki:get' path=urlpath.path %}">
-               <label>
-                  <h3>
-                     {{ urlpath.article.current_revision.title }}
-                  </h3>
-               </label>
-            </a>
-            {% endfor %}
-            <!--<label><h3>{{ urlpath.parent.article.current_revision.title|truncatechars:25 }}</h3></label>-->
-            <a href="{% url 'wiki:get' path=urlpath.path %}">
-               <label>
-                  <h3>{{ urlpath.article.current_revision.title }}</h3>
-               </label>
-            </a>
-            {% else %}
-            <label>
-               <h3>Problemfelder</h3>
-            </label>
-            {% endif %}
-         </div>
-         <div class="wiki-children"> {% for urlpath in children_slice %} <a href="{% url 'wiki:get' path=urlpath.path %}"><span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span></a> {% empty%} <em>{% trans "There are no articles in this level" %}</em> {% endfor %} </div>
-      </div>
-   </div>
-</section>
+  {% if children_slice|length > 0 %}
+  <section class="text-center wiki-submenu">
+    <label><h3>Problemfelder</h3></label>
+    <div class="wiki-children">
+      {% for urlpath in children_slice %}
+      <a href="{% url 'wiki:get' path=urlpath.path %}">
+	<span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
 
-<section>
-   <div class="container">
-      {% block wiki_contribute %}
-      {% include "wiki/includes/contribute-menu-category.html" %}
-      {% endblock %}
-   </div>
-</section>
+  {% if selected_tab == "view" %}
+  <section>
+    {% include "wiki/includes/menu.html" %}
+    <div class="clearfix"></div>
+    {% include "wiki/includes/search.html" %}
+  </section>
+  {% include "wiki/includes/comments.html" %}
+  {% include "wiki/includes/flashcards.html" %}
+  {% endif %}
 
-{% for deck in urlpath.article.flashcard_decks.all %}
-<hr/>
-{{ deck.id }}
-<br/>
-{{ deck.name }}
-<br/>
-{{ deck.user }}
-{% endfor %}
-<br/>
-
-{% endif %}
 {% endblock %}

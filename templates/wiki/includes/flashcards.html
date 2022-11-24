@@ -1,0 +1,10 @@
+{% for deck in urlpath.article.flashcard_decks.all %}
+<hr/>
+{{ deck.id }}
+<br/>
+{{ deck.name }}
+<br/>
+{{ deck.user }}
+{% endfor %}
+<br/>
+<hr/>
