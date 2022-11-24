@@ -8,147 +8,128 @@
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-    <head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="author" content="Institut für Kriminologie und Wirtschaftsstrafrecht Freiburg">
-		<meta name="description" content="Website des Instituts für Kriminologie und Wirtschaftsstrafrecht Freiburg">
-		<script>var csrf_token = "{{ csrf_token }}";</script>
-		{% progressive_web_app_meta %}
-        <title>
-            {% block title %}
-                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
-            {% endblock %}
-            {% block title_suffix %}
-                {% with self.get_site.site_name as site_name %}
-                    {% if site_name %}- {{ site_name }}{% endif %}
-                {% endwith %}
-            {% endblock %}
-        </title>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Institut für Kriminologie und Wirtschaftsstrafrecht Freiburg">
+    <meta name="description" content="Website des Instituts für Kriminologie und Wirtschaftsstrafrecht Freiburg">
+    <script>var csrf_token = "{{ csrf_token }}";</script>
+    {% progressive_web_app_meta %}
+    <title>
+      {% block title %}
+      {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+      {% endblock %}
+      {% block title_suffix %}
+      {% with self.get_site.site_name as site_name %}
+      {% if site_name %}- {{ site_name }}{% endif %}
+      {% endwith %}
+      {% endblock %}
+    </title>
 
-        {# Global stylesheets #}
-	<link href="{% static 'app.css' %}" rel="stylesheet">
-
-
-        {% block extra_css %}{% endblock %}
-        {% render_block "css" %}
-    </head>
-    <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
-
-		{% block headersection %}
-			{% if page|banner or banner %}
-				<div class="with-header">
-					{% include "layout/menu.html" %}
-				</div>
-			{% else %}
-				<div class="without-header">
-					{% include "layout/menu.html" %}
-				</div>
-			{% endif %}
-
-			{% if page|banner %}
-			<section id="banner" style="background-image: url('{{ page|banner }}');">
-			  <div>
-			    <div class="container header-text">
-			      <a href="/"><h2>STRAFRECHT-ONLINE.ORG</h2></a>
-			    </div>
-			  </div>
-			</section>
-			{% endif %}
-
-			{% if banner %}
-			<section style="
-			    background: transparent url('{{ banner }}') center center no-repeat padding-box;
-				opacity: 1;
-				background-size: cover;
-				background-position: center;
-			">
-				<div style="background: rgba(0,0,0,0); padding: 100px 0; min-height: 270px;">
-					{# block headertext %}{% endblock #}
-				</div>
-			</section>
-			{% endif %}
-		{% endblock %}
-
-		{% block breadcrumbmenu %}
-			<div style="display: flex; justify-content: center;">
-			{% if self.get_ancestors|length > 1 %}
-				{% if page.header %}
-					<div class="breadcrumb-new" style="max-width: 960px; width: 100%;">
-				{% else %}
-					<div class="breadcrumb-new" style="width: 100%; max-width: 960px; margin: 50px auto 0 auto !important;">
-				{% endif %}
-					Du bist hier:
-					{% for page in self.get_ancestors %}
-						{% if page.is_root == False %}
-						<a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl page %}">{{ page.title|truncatechars:25 }}</a> >
-						{% endif %}
-					{% endfor %}
-					{{ self.title|truncatechars:25 }}
-				</div>
-			{% endif %}
-			</div>
-		{% endblock %}
+    {# Global stylesheets #}
+    <link href="{% static 'app.css' %}" rel="stylesheet">
 
 
-				{% if page.slug != "strafrecht-online" %}
-				<main role="main" class="{% if page.slug == 'jurcoach' %}'w-full'{% else %}container{% endif %}">
-					<div class="container-inner flex-column flex-md-row p-0 w-full">
-				{% endif %}
+    {% block extra_css %}{% endblock %}
+    {% render_block "css" %}
+  </head>
+  <body class="{% block body_class %}{% endblock %}">
+    {% wagtailuserbar %}
 
-				<!--div class="content d-inline-flex col-xs-12 col-sm-12 col-md-{% if page.sidebar %}8{% else %}12{% endif %} col-lg-12 p-0 pr-4"-->
-				<div class="{% if page.slug == 'jurcoach' %}w-100{% else %}content{% endif %}">
-					{% block content %}{% endblock %}
-				</div>
+    {% block headersection %}
+    {% if page|banner or banner %}
+    <div class="with-header">
+      {% include "layout/menu.html" %}
+    </div>
+    {% else %}
+    <div class="without-header">
+      {% include "layout/menu.html" %}
+    </div>
+    {% endif %}
 
-				{% if page.sidebar %}
-				<div class="sidebar d-inline-flex col-xs-12 col-sm-12 col-md-4 p-0">
-					{% block sidebar %}{% endblock %}
-				</div>
-				{% endif %}
+    {% if page|banner %}
+    <section id="banner" style="background-image: url('{{ page|banner }}');">
+      <div>
+	<div class="container header-text">
+	  <a href="/"><h2>STRAFRECHT-ONLINE.ORG</h2></a>
+	</div>
+      </div>
+    </section>
+    {% endif %}
 
-				{% if page.slug != "strafrecht-online" %}
-					</div>
-				</main>
-				{% endif %}
+    {% if banner %}
+    <section id="banner" style="background-image: url('{{ banner }}');">
+      <div>
+	<div class="container header-text">
+	  <a href="/"><h2>STRAFRECHT-ONLINE.ORG</h2></a>
+	</div>
+      </div>
+    </section>
+    {% endif %}
+    {% endblock %}
 
-				<footer class="footer">
-					<div class="container">
-						<div class="flex-item">
-							<p class="logo"></p>
-							<p class="sublogo">Institut für Kriminologie und Wirtschaftsstrafrecht</p>
-							<p class="sublogo">Rechtswissenschaftliche Fakultät der Universität Freiburg</p>
-						</div>
-						<div class="flex-item">
-							<div class="socialmediaicons">
-								<a href="https://github.com/strafrecht" class="social-media-icon fa fa-github"></a> <a href="https://www.instagram.com/jurcoach/" class="social-media-icon fa fa-instagram"></a>
-							</div>
-							<div class="shortlinks">
-								<a href="#">Datenschutz</a> | <a href="#">Impressum & Kontakt</a> | <a href="https://uni-freiburg.de/">Universität Freiburg</a>
-							</div>
-						</div>
-					</div>
-				</footer>
+    {% block breadcrumbmenu %}
+    <div style="display: flex; justify-content: center;">
+      {% if self.get_ancestors|length > 1 %}
+      {% if page.header %}
+      <div class="breadcrumb-new" style="max-width: 960px; width: 100%;">
+	{% else %}
+	<div class="breadcrumb-new" style="width: 100%; max-width: 960px; margin: 50px auto 0 auto !important;">
+	  {% endif %}
+	  Du bist hier:
+	  {% for page in self.get_ancestors %}
+	  {% if page.is_root == False %}
+	  <a style="color: #3d3d3d; text-decoration: none;" href="{% pageurl page %}">{{ page.title|truncatechars:25 }}</a> >
+	  {% endif %}
+	  {% endfor %}
+	  {{ self.title|truncatechars:25 }}
+	</div>
+	{% endif %}
+      </div>
+      {% endblock %}
 
-        {# Global javascript #}
-		<script>
-		  (function(d,t) {
-			var BASE_URL="http://chat.strafrecht-online.org";
-			var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-			g.src=BASE_URL+"/packs/js/sdk.js";
-			s.parentNode.insertBefore(g,s);
-			g.onload=function(){
-			  window.chatwootSDK.run({
-				websiteToken: 'CYuEHNWYncGMaRAQbRXD4Pb4',
-				baseUrl: BASE_URL
-			  })
-			}
-		  })(document,"script");
-		</script>
-		<!-- Mibew Code -->
-		<!--
+
+      {% if page.slug != "strafrecht-online" %}
+      <main role="main" class="{% if page.slug == 'jurcoach' %}'w-full'{% else %}container{% endif %}">
+	<div class="container-inner flex-column flex-md-row p-0 w-full">
+	  {% endif %}
+
+	  <!--div class="content d-inline-flex col-xs-12 col-sm-12 col-md-{% if page.sidebar %}8{% else %}12{% endif %} col-lg-12 p-0 pr-4"-->
+	  <div class="{% if page.slug == 'jurcoach' %}w-100{% else %}content{% endif %}">
+	    {% block content %}{% endblock %}
+	  </div>
+
+	  {% if page.sidebar %}
+	  <div class="sidebar d-inline-flex col-xs-12 col-sm-12 col-md-4 p-0">
+	    {% block sidebar %}{% endblock %}
+	  </div>
+	  {% endif %}
+
+	  {% if page.slug != "strafrecht-online" %}
+	</div>
+      </main>
+      {% endif %}
+
+      {% include "layout/footer.html" %}
+
+      {# Global javascript #}
+      <script>
+	(function(d,t) {
+	  var BASE_URL="http://chat.strafrecht-online.org";
+	  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+	  g.src=BASE_URL+"/packs/js/sdk.js";
+	  s.parentNode.insertBefore(g,s);
+	  g.onload=function(){
+	    window.chatwootSDK.run({
+	      websiteToken: 'CYuEHNWYncGMaRAQbRXD4Pb4',
+	      baseUrl: BASE_URL
+	    })
+	  }
+	})(document,"script");
+      </script>
+      <!-- Mibew Code -->
+      <!--
 		<script type="text/javascript" src="//132.230.132.63/mibew/js/compiled/chat_popup.js"></script>
 		<script type="text/javascript">Mibew.ChatPopup.init({"id":"59dddd164b016a56","url":"\/\/132.230.132.63\/mibew\/chat?locale=de&group=2","preferIFrame":true,"modSecurity":false,"width":640,"height":480,"resizable":true,"styleLoader":"\/\/132.230.132.63\/mibew\/chat\/style\/popup"});</script>
 		<script>
