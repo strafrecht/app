@@ -25,32 +25,9 @@
 		<br>
 		<p><a href="{{ page.get_parent.url }}">Read more news articles</a></p>
 
-		<div class="comments">
-			<hr>
-
-			{% get_comment_count for page as comment_count %}
-			<div class="">
-				{{ comment_count }} comment{{ comment_count|pluralize }}
-				ha{{ comment_count|pluralize:"s,ve"}} been posted.
-			</div><br>
-
-			{% if comment_count %}
-			<ul class="media-list" style="padding: 0px">
-				{% render_xtdcomment_tree for page %}
-			</ul>
-			{% endif %}
-
-			{# if page.allow_comments #}
-			{% if True %}
-			<div class="comment">
-				<h4>Your comment</h4>
-				<div class="well">
-					{% render_comment_form for page %}
-				</div>
-			</div>
-			{% endif %}
-
-		</div>
+		{% if page.allow_comments %}
+		{% include "includes/comments.html" with object=page %}
+		{% endif %}
 	</div>
 
 </div>
@@ -79,4 +56,3 @@
 	{% endfor %}
 </div>
 {% endblock %}
-

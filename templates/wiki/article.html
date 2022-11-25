@@ -77,7 +77,9 @@
     <div class="clearfix"></div>
     {% include "wiki/includes/search.html" %}
   </section>
-  {% include "wiki/includes/comments.html" %}
+
+  {% include "includes/comments.html" with object=urlpath.article %}
+
   {% if urlpath.article.flashcard_decks.count > 0 %}
     {% include "wiki/includes/flashcards.html" %}
   {% endif %}

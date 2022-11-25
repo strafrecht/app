@@ -4,7 +4,7 @@
 <div class="comments">
   <hr>
 
-  {% get_comment_count for urlpath.article as comment_count %}
+  {% get_comment_count for object as comment_count %}
   <div class="">
     {{ comment_count }} comment{{ comment_count|pluralize }}
     ha{{ comment_count|pluralize:"s,ve"}} been posted.
@@ -12,18 +12,15 @@
 
   {% if comment_count %}
   <ul class="media-list" style="padding: 0px">
-    {% render_xtdcomment_tree for urlpath.article %}
+    {% render_xtdcomment_tree for object %}
   </ul>
   {% endif %}
 
-  {# if urlpath.article.allow_comments #}
-  {% if True %}
   <div class="comment">
     <h4>Dein Kommentar</h4>
     <div class="well">
-      {% render_comment_form for urlpath.article %}
+      {% render_comment_form for object %}
     </div>
   </div>
-  {% endif %}
 
 </div>
