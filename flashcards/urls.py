@@ -11,7 +11,6 @@ router.register(r'cards', views.FlashcardViewSet, basename='card')
 router.register(r'decks', views.DeckViewSet, basename='deck')
 router.register(r'categories', views.CategoryViewSet, basename='category') # cards categories (not wiki categories)
 
-
 urlpatterns = [
     path('api/', include(router.urls)),
 ]

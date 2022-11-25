@@ -2,21 +2,8 @@
 
 {% load static %}
 
-{% block extra_css %}
-<style>
-.flashcards-container {
-	margin-top: 20px;
-}
-</style>
-{% endblock %}
-
 {% block contents %}
-<div class="flashcards-container flex">
-  <h4>Flashcards</h4>
-  <div class="flex">
-    <deck></deck>
-  </div>
-</div>
+<deck></deck>
 {% endblock %}
 
 {% block extra_js %}

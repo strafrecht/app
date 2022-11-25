@@ -42,7 +42,7 @@
         <div class="form-group">
           <label>Deck</label>
           <select class="custom-select" v-model="newSelectedDeck">
-            <option v-for="deck in decks" :key="deck.id" :value="deck.id">
+            <option v-for="deck in $parent.decks" :key="deck.id" :value="deck.id">
               {{ deck.name }}
             </option>
           </select>
@@ -50,10 +50,7 @@
       </form>
     </template>
     <template #footer>
-      <button
-         class="btn btn-secondary"
-         @click="cardToEdit = undefined"
-         >
+      <button class="btn btn-secondary" @click="cardToEdit = undefined">
         Abbrechen
       </button>
       <button class="btn btn-success" @click="saveFlashcard()">
@@ -79,26 +76,57 @@
   </modal>
 
   <!-- flashcards -->
-  <div>
-    <button v-if="!showGameMod" class="btn btn-secondary" @click.prevent="$emit('close')">
-      Zurück
-    </button>
-    <button v-if="!showGameMod" class="btn btn-success" :class="gameFinished && 'hide'" @click="showModal = true">
-      neue Karte
-    </button>
-    <button v-if="!showGameMod" class="btn btn-primary" :class="gameFinished && 'hide'" @click="toggleGameMode">
-      Spielmodus
-    </button>
-    <button v-if="showGameMod" class="btn btn-secondary" @click="toggleGameMode">
-      Beenden
-    </button>
+  <h3>Deck: {{ selectedDeck.name }}</h3>
+  <div class="my-3">
+    <div v-if="showGameMod">
+      <button v-if="showGameMod" class="btn btn-secondary" @click="stopGameMode">
+	Beenden
+      </button>
+    </div>
+    <div v-if="!showGameMod">
+      <button class="btn btn-secondary" @click.prevent="$emit('close')">
+	Zurück
+      </button>
+      <button v-if="$parent.editMode" class="btn btn-success" @click="showModal = true">
+	neue Karte
+      </button>
+      <button class="btn btn-primary" @click="startGameMode">
+	Spiel starten
+      </button>
+    </div>
   </div>
-  <h2>Deck: {{ this.selectedDeckName }}</h2>
-  <br />
-  <div v-if="showCards" class="row">
+
+  <!-- Results of the learning mode of flashcards -->
+  <div v-if="gameFinished" class="results">
+    <strong>Fertig! Dies sind die Ergebnisse Ihrer Spielsitzung:</strong>
+    <div class="row mt-2">
+      <div class="col-9">
+	<div class="row">
+	  <div class="col-md-4 col-sm-6 col-12 mb-3" v-for="result of Object.values(gameProgress)" :key="result.card.id">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+		<div class="flip-card-front">
+		  <small>{{ result.card.front_side }}</small>
+		</div>
+		<div class="flip-card-back">
+		  <small>{{ result.card.back_side }}</small>
+		</div>
+              </div>
+            </div>
+            <div class="flip-card-buttons mt-1">
+	      <div class="text-success">Gelernt: {{ result.learned }}</div>
+	      <div class="text-danger">Nicht gelernt: {{ result.notLearned }}</div>
+            </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+
+  <div v-if="!showGameMod" class="row">
     <div class="col-9">
       <div class="row">
-	<div class="col-md-4 col-sm-6 col-12 mb-3" v-for="{ front_side, back_side, deck_name, id } in sortedCards" :key="id">
+	<div class="col-md-4 col-sm-6 col-12 mb-3" v-for="{ front_side, back_side, id } in sortedCards" :key="id">
           <div class="flip-card">
             <div class="flip-card-inner">
               <div class="flip-card-front">
@@ -109,7 +137,7 @@
               </div>
             </div>
           </div>
-          <div class="flip-card-buttons mt-1">
+          <div v-if="$parent.editMode" class="flip-card-buttons mt-1">
             <i class="bi bi-pencil-square tooltips" @click="openEditModal(id)">
               <small class="tooltiptexts">Bearbeiten</small>
             </i>
@@ -121,7 +149,7 @@
 	</div>
       </div>
     </div>
-    <div class="col-3">
+    <div v-if="$parent.editMode" class="col-3">
       <label>Sortierung</label>
       <br />
       <select class="custom-select" v-model="sortFilter">
@@ -136,22 +164,11 @@
   </div>
 
   <!-- swiper.js used for learning mode transitions -->
-  <div v-if="showGameMod" class="gamemode">
+  <div v-if="showGameMod && !gameFinished" class="gamemode">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div
-           class="swiper-slide"
-           v-for="({ front_side, back_side, id }) in gameModeCards"
-           :key="id"
-           >
-          <div
-             :data-id="id"
-             :class="[
-                     'swiper-flashcard'
-		     ]"
-             :ref="`flashcard-${id}`"
-             @click="onSlideClick(id)"
-             >
+        <div class="swiper-slide" v-for="({ front_side, back_side, id }) in gameModeCards" :key="id">
+          <div :data-id="id" :class="['swiper-flashcard']" :ref="`flashcard-${id}`" @click="onSlideClick(id)" title="Klick um die andere Seite zu sehen">
             <div class="flashcard-front">
               <span class="card-content">{{ front_side }}</span>
               <br />
@@ -165,23 +182,11 @@
       </div>
     </div>
     <div class="swiper-controls">
-      <button @click.prevent="onCardLearned" class="btn btn-outline-success btn-sm"><small>Gelernt</small></button>
-      <button @click.prevent="onCardNotLearned" class="btn btn-outline-danger btn-sm"><small>Nicht Gelernt</small></button>
+      <button @click.prevent="onCardLearned" class="btn btn-success btn-sm">Gelernt</button>
+      <button @click.prevent="onCardNotLearned" class="btn btn-danger btn-sm">Nicht Gelernt</button>
     </div>
   </div>
 
-  <!-- Results of the learning mode of flashcards -->
-  <div v-if="gameFinished" class="results">
-    <h5>Erfolg!</h5>
-    <h5>Dies sind die Ergebnisse Ihrer Spielsitzungen:</h5>
-    <br>
-    <div v-for="result of Object.values(gameProgress)" :key="result.card.id">
-      <div>Karte: {{result.card.front_side}}</div>
-      <div>Gelernt: {{result.learned}}</div>
-      <div>Nicht gelernt: {{result.notLearned}}</div>
-      <br>
-    </div>
-  </div>
 </div>
 </template>
 
@@ -200,8 +205,8 @@ export default {
   name: "Flashcards",
   components: { Modal },
   props: {
-    selectedDeckId: {
-      type: Number,
+    selectedDeck: {
+      type: Object,
       default: null,
     },
   },
@@ -210,28 +215,28 @@ export default {
       flashcards: [],
       front_side: "",
       back_side: "",
-      selectedDeck: 0,
-      newSelectedDeck: -1,
-      decks: [],
+      newSelectedDeck: null,
       cardToEdit: undefined,
       new_back_side: "",
       new_front_side: "",
       showModal: false,
       cardToDelete: null,
       showGameMod: false,
-      showCards: true,
       sortFilter: "name-asc",
       selectedCardIndex: 0,
       rotatedCards:[],
-      // gameModeCards: [],
       gameFinished: false,
-      gameProgress: {}
+      gameProgress: {},
     };
   },
-  mounted() {
-    this.getFlashcards();
-    this.getDecks();
-    this.selectedDeck = this.selectedDeckId;
+  async mounted() {
+    console.log(this.selectedDeck);
+    if (this.$parent.gameMode) {
+      await this.getFlashcards();
+    } else {
+      await this.getFlashcards();
+    }
+    console.log(this.flashcards);
     //window.addEventListener("keydown", this.onKeyDown);
   },
   beforeDestroy() {
@@ -248,25 +253,13 @@ export default {
     },
   },
   computed: {
-    selectedFlashcards() {
-      if (!this.selectedDeckId) return [];
-      return this.flashcards?.filter(
-        (flashcard) => flashcard.deck === this.selectedDeckId
-      );
-    },
-    selectedDeckName() {
-      return (
-        this.decks.find((deck) => deck.id === this.selectedDeckId)?.name || ""
-      );
-    },
     gameModeCards() {
-      const sessionCards = [...this.selectedFlashcards].filter(card => !this.gameProgress[card.id]?.learned).sort((a, b) => {
+      return this.flashcards.filter(card => !this.gameProgress[card.id]?.learned).sort((a, b) => {
         return b.probability - a.probability
       })
-      return sessionCards
     },
     sortedCards() {
-      let cards = [...this.selectedFlashcards];
+      let cards = this.flashcards;
 
       if (this.sortFilter) {
         cards.sort((a, b) => {
@@ -361,7 +354,6 @@ export default {
       }
       this.$set(this.gameProgress[card.id], 'learned', 1)
       if (this.gameModeCards.length == 0) {
-        this.showGameMod = false
         this.gameFinished = true
       }
     },
@@ -418,9 +410,9 @@ export default {
         },
       });
     },
-    getFlashcards() {
-      axios
-        .get("/flashcards/api/cards")
+    async getFlashcards() {
+      await axios
+        .get("/flashcards/api/cards?deck_id=" + this.selectedDeck.id)
         .then((response) => (this.flashcards = response.data));
     },
     createFlashcard() {
@@ -428,19 +420,18 @@ export default {
         .post("/flashcards/api/cards", {
           front_side: this.front_side,
           back_side: this.back_side,
-          deck: this.selectedDeck,
+          deck: this.selectedDeck.id, // FIXME: check that deck belongs to user
         }, axios_config)
         .then((response) => {
           let newFlashcard = {
             id: response.data.id,
             front_side: this.front_side,
             back_side: this.back_side,
-            deck: this.selectedDeck,
+            deck: this.selectedDeck.id,
           };
           this.flashcards.push(newFlashcard);
           this.front_side = "";
           this.back_side = "";
-          this.getFlashcards();
           this.showModal = false;
         })
         .catch((error) => {
@@ -450,8 +441,7 @@ export default {
     saveFlashcard() {
       axios
         .put(
-          "/flashcards/api/cards/" +
-            this.cardToEdit.id,
+          "/flashcards/api/cards/" + this.cardToEdit.id,
           {
             front_side: this.new_front_side,
             back_side: this.new_back_side,
@@ -470,35 +460,27 @@ export default {
           "/flashcards/api/cards/" + this.cardToDelete
         , axios_config)
         .then(this.getFlashcards);
-      this.flashcards = this.flashcards.filter(
-        (flashcard) => flashcard.id !== this.cardToDelete
-      );
       this.cardToDelete = null;
-    },
-    getDecks() {
-      axios
-        .get("/flashcards/api/decks")
-        .then((response) => (this.decks = response.data));
     },
     openEditModal(cardToEditId) {
       this.cardToEdit = this.flashcards.find(({ id }) => id === cardToEditId);
-      if (!this.cardToEdit) {
-        return;
-      }
       this.new_front_side = this.cardToEdit.front_side;
       this.new_back_side = this.cardToEdit.back_side;
       this.newSelectedDeck = this.cardToEdit.deck;
     },
-    toggleGameMode() {
-      if (this.gameModeCards.length > 0) {
-        this.showGameMod = !this.showGameMod;
-        this.showCards = !this.showCards;
-      }
-      else {
+    startGameMode() {
+      if (this.flashcards.length > 0) {
+        this.showGameMod = true;
+	this.gameFinished = false;
+	this.gameProgress = {};
+      } else {
         alert("Zuerst eine Karte erstellen");
       }
-
     },
+    stopGameMode() {
+      this.showGameMod = false;
+      this.gameFinished = false;
+    }
   },
 };
 </script>

@@ -17,13 +17,14 @@
         <div class="form-group">
           <label>Kategorie</label>
           <select class="custom-select" v-model="newSelectedCategory">
+	    <option value="">keine Kategorie</option>
             <option v-for="category in categories" :key="category.id" :value="category.id">
               {{ category.name }}
             </option>
           </select>
         </div>
         <div class="form-group">
-	  <label class="label">Wiki Kategorie</label>
+	  <label class="label">Veröffentlichen in Wiki Kategorie</label>
 	  <treeselect
              class="treeselect"
              v-model="selectedWikiCategory"
@@ -76,7 +77,7 @@
   </modal>
 
   <!-- delete deck modal -->
-  <modal v-if="deckToDelete" @close="deckToDelete = null">
+  <modal v-if="deckToDelete">
     <template #header> Deck löschen </template>
     <template #body>
       <p>Sicher?</p>
@@ -90,7 +91,7 @@
   </modal>
 
   <!-- edit category modal -->
-  <modal v-if="categoryToEdit" @close="categoryToEdit = null">
+  <modal v-if="categoryToEdit">
     <template #header> Kategorie bearbeiten </template>
     <template #body>
       <form>
@@ -102,14 +103,14 @@
     </template>
     <template #footer>
       <button class="btn btn-secondary" @click="categoryToEdit = null">Abbrechen</button>
-      <button class="btn btn-success" @click="editCategory()">
+      <button class="btn btn-success" @click="saveCategory()">
         Speichern
       </button>
     </template>
   </modal>
 
   <!-- delete category modal -->
-  <modal v-if="categoryToDelete" @close="categoryToDelete = null">
+  <modal v-if="categoryToDelete">
     <template #header> Kategorie löschen </template>
     <template #body>
       <p>Sicher?</p>
@@ -123,7 +124,7 @@
   </modal>
 
   <!-- new category modal -->
-  <modal v-if="showCatModal" @close="showCatModal = false">
+  <modal v-if="showCatModal">
     <template #header>Neue Kategorie</template>
     <template #body>
       <form>
@@ -134,8 +135,8 @@
       </form>
     </template>
     <template #footer>
-      <button @click="showCatModal = false">Abbrechen</button>
-      <button @click="createCategory()" class="button is-link">
+      <button class="btn btn-secondary" @click="showCatModal = false">Abbrechen</button>
+      <button class="btn btn-success" @click="createCategory()">
         Speichern
       </button>
     </template>
@@ -143,42 +144,48 @@
 
   <!-- deck -->
   <div v-if="flashcardsOpen" class="flashcards">
-    <flashcard :selectedDeckId="selectedDeck" @close="onCloseFlashcards"></flashcard>
+    <flashcard :selectedDeck="selectedDeck" @close="closeDeck"></flashcard>
   </div>
   <div v-else>
-    <div>
-      <button class="neu btn btn-success" v-show="!flashcardsOpen" @click="showModal = true">neues Deck</button>
+    <h3 v-if="editMode">Alle Flashcard-Decks</h3>
+    <h3 v-if="gameMode">Flashcard-Decks zu dieser Wiki-Seite</h3>
+    <div class="my-3">
+      <button v-if="editMode" class="neu btn btn-success" @click="showModal = true">neues Deck</button>
     </div>
-    <h2>Alle Decks</h2>
-    <br />
     <div class="row">
       <div class="col-9">
 	<div class="card-columns">
-	  <div class="shadow-sm card deck" v-for="(deck, index) in filteredDecks" :key="deck.id">
-            <div class="card-body" @click="openDeck(deck.id)">
+	  <div class="shadow-sm card deck" v-for="(deck, index) in filteredDecks" :key="deck.id" @click="openDeck(deck.id)">
+            <div class="card-body">
               <h5 class="card-title">{{ deck.name }}</h5>
-	      <p class="deck-category">
-		<span v-if="categoriesById[deck.category]">{{ categoriesById[deck.category].name }}</span>
-		<span v-else>keine Kategorie</span>
-	      </p>
-	      <p class="deck-wiki-category">
-		<span v-if="wiki_category_label(deck.wiki_category)">{{ wiki_category_label(deck.wiki_category) }}</span>
-		<span v-else>keine Wiki-Kategorie</span>
-	      </p>
+	      <div v-if="editMode">
+		<p class="deck-wiki-category">
+		  <span v-if="wiki_category_label(deck.wiki_category)">Veröffentlicht in <i>{{ wiki_category_label(deck.wiki_category) }}</i></span>
+		  <span v-else>nicht Veröffentlicht</span>
+		</p>
+		<div class="deck-category">
+		  <span v-if="categoriesById[deck.category]" class="badge badge-pill badge-primary">{{ categoriesById[deck.category].name }}</span>
+		</div>
+              </div>
             </div>
             <div class="card-footer">
-              <i class="bi bi-pencil-square tooltips" @click="openDeckEditModal(deck.id)">
-		<small class="tooltiptexts">Bearbeiten</small>
-              </i>
-              &nbsp; &nbsp;
-              <i class="bi bi-trash tooltips" @click="deckToDelete = deck.id">
-		<small class="tooltiptexts">Löschen</small>
-              </i>
+	      <div v-if="gameMode">
+		<small>von <em>{{ deck.user_name }}</em></small>
+	      </div>
+	      <div v-if="editMode">
+		<i class="bi bi-pencil-square tooltips" @click="openDeckEditModal(deck.id)">
+		  <small class="tooltiptexts">Bearbeiten</small>
+		</i>
+		&nbsp; &nbsp;
+		<i class="bi bi-trash tooltips" @click="deckToDelete = deck.id">
+		  <small class="tooltiptexts">Löschen</small>
+		</i>
+              </div>
             </div>
 	  </div>
 	</div>
       </div>
-      <div class="col-3">
+      <div v-if="editMode" class="col-3">
 	<div class="mb-4">
           <label>Sortierung</label>
           <br />
@@ -208,7 +215,7 @@
 	  </div>
 	  <br />
 	  <div>
-            <a href="#" class="neu btn btn-primary btn-sm" @click="showCatModal = true">neue Kategorie</a>
+            <a href="#" class="btn btn-primary btn-sm" @click.prevent="showCatModal = true">neue Kategorie</a>
 	  </div>
 	</div>
     </div>
@@ -216,7 +223,7 @@
   </div>
 </div>
 <div v-else class="deckspace">
-  <h2>Lade Decks…</h2>
+  <h3>Lade Flashcard-Decks…</h3>
 </div>
 </template>
 
@@ -241,11 +248,20 @@ export default {
     Flashcard,
     Treeselect,
   },
+  props: {
+    gameMode: {
+      type: Boolean,
+      default: false,
+    },
+    wikiCategory: {
+      type: Number,
+      default: null,
+    },
+  },
   data() {
     return {
       dataReady: false,
       decks: [],
-      // filteredDecks: [],
       categoryFilter: '',
       sortFilter: 'name-asc',
       categories: [],
@@ -274,7 +290,7 @@ export default {
     const deckId = queryParams.get("deck");
     const categoryId = queryParams.get("category");
     if (deckId) {
-      this.selectedDeck = parseInt(deckId);
+      this.selectedDeck = this.deckById(parseInt(deckId));
       this.flashcardsOpen = true;
     }
     if (categoryId) {
@@ -282,14 +298,21 @@ export default {
     }
   },
   async mounted() {
-    await this.getWikiCategories();
-    await this.getCategories();
-    await this.getDecks();
+    if (this.gameMode) {
+      await this.getDecksForWikiCategory(this.wikiCategory);
+    } else {
+      await this.getWikiCategories();
+      await this.getCategories();
+      await this.getDecks();
+    }
     this.dataReady = true;
   },
   computed: {
+    editMode() {
+      return !this.gameMode;
+    },
     filteredDecks() {
-      let decks = this.categoryFilter ? this.filterByCategory(this.decks, this.categoryFilter) : [...this.decks]
+      let decks = this.categoryFilter ? this.decksByCategory(this.categoryFilter) : this.decks
 
       if (this.sortFilter) {
         decks.sort((a, b) => {
@@ -359,9 +382,11 @@ export default {
     }
   },
   methods: {
-    filterByCategory(decks, category) {
-      // this.decks?.filter((deck) => deck.category === id);
-      return decks.filter((deck) => deck.category === category)
+    deckById(id) {
+      return this.decks.find((deck) => deck.id === id)
+    },
+    decksByCategory(category) {
+      return this.decks.filter((deck) => deck.category === category)
     },
     wiki_category_label(id) {
       if (!this.wiki_categories[0])
@@ -381,9 +406,12 @@ export default {
     async getDecks() {
       await axios
         .get("/flashcards/api/decks")
-        .then((response) => {
-          this.decks = response.data;
-        });
+        .then((response) => (this.decks = response.data));
+    },
+    async getDecksForWikiCategory(id) {
+      await axios
+        .get("/flashcards/api/decks/for_wiki?article_id=" + id)
+        .then((response) => (this.decks = response.data));
     },
     async getCategories() {
       await axios
@@ -461,13 +489,18 @@ export default {
       this.categoryToDelete = null;
     },
     saveDeck() {
+      // treeselect returns undefined for deselected wiki category
+      // set it to null in this case, otherwise it won't be transmitted
+      if (typeof this.selectedWikiCategory === 'undefined') {
+	this.selectedWikiCategory = null;
+      }
       axios
         .put(
           "/flashcards/api/decks/" + this.deckToEdit,
           {
             name: this.new_name,
             category: this.newSelectedCategory,
-            wiki_category: this.selectedWikiCategory,
+            wiki_category: this.selectedWikiCategory
           }
           , axios_config)
         .then(this.getDecks)
@@ -480,11 +513,10 @@ export default {
       this.selectedWikiCategory = null;
       this.deckToEdit = null;
     },
-    editCategory() {
+    saveCategory() {
       axios
         .put(
-          "/flashcards/api/categories/" +
-            this.categories[this.categoryToEdit].id,
+          "/flashcards/api/categories/" + this.categoryToEdit,
           {
             name: this.new_category,
           }
@@ -507,7 +539,7 @@ export default {
       console.log("Deck not found:", id)
     },
     openEditCategory(id) {
-      this.categoryToEdit = id;
+      this.categoryToEdit = this.categories[id].id;
       this.new_category = this.categories[id].name;
     },
     async getWikiCategories() {
@@ -515,12 +547,13 @@ export default {
         .get("/quiz/api/category_tree/")
         .then((response) => this.wiki_categories.push(response.data));
     },
-    onCloseFlashcards() {
+    closeDeck() {
       this.flashcardsOpen = false;
+      this.selectedDeck = null;
     },
     openDeck(deckId) {
       this.flashcardsOpen = true;
-      this.selectedDeck = deckId;
+      this.selectedDeck = this.deckById(deckId);
     },
     openCategory(id) {
       this.selectedCategory = id;

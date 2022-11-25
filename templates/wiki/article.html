@@ -7,7 +7,10 @@
 
 {% block extra_css %}
 {{ block.super }}
+{% endblock %}
 
+{% block extra_js %}
+{{ block.super }}
 {% endblock %}
 
 {% block wiki_breadcrumbs %}
@@ -75,7 +78,9 @@
     {% include "wiki/includes/search.html" %}
   </section>
   {% include "wiki/includes/comments.html" %}
-  {% include "wiki/includes/flashcards.html" %}
+  {% if urlpath.article.flashcard_decks.count > 0 %}
+    {% include "wiki/includes/flashcards.html" %}
+  {% endif %}
   {% endif %}
 
 {% endblock %}
