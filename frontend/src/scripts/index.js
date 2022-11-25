@@ -9,7 +9,6 @@ import "@fontsource/crimson-text";
 import "@fontsource/roboto";
 import "@fontsource/roboto-slab";
 import "@fontsource/source-serif-pro";
-
 // import Vue from "vue";
 // import full Vue build
 import LVue from 'vue/dist/vue.js';
