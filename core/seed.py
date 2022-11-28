@@ -70,7 +70,7 @@ def start(request):
         raise "only for superusers"
 
     # OK
-    # scrape_redirects(request)
+    scrape_redirects(request)
     scrape_wiki(request)
 
     # TO TEST
