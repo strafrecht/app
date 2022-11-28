@@ -1,0 +1,26 @@
+{% load comments %}
+{% load comments_xtd %}
+
+<div class="comments">
+  <hr>
+
+  {% get_comment_count for object as comment_count %}
+  <div class="">
+    {{ comment_count }} comment{{ comment_count|pluralize }}
+    ha{{ comment_count|pluralize:"s,ve"}} been posted.
+  </div><br>
+
+  {% if comment_count %}
+  <ul class="media-list" style="padding: 0px">
+    {% render_xtdcomment_tree for object %}
+  </ul>
+  {% endif %}
+
+  <div class="comment">
+    <h4>Dein Kommentar</h4>
+    <div class="well">
+      {% render_comment_form for object %}
+    </div>
+  </div>
+
+</div>

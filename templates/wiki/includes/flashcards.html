@@ -1,0 +1,16 @@
+<hr/>
+<deck></deck>
+<hr/>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    new LVue({
+      render: (h) => h(DeckApp, {
+	props: {
+	  gameMode: true,
+	  wikiCategory: {{ urlpath.article.id }}
+	}
+      })
+    }).$mount("deck");
+  });
+</script>

@@ -136,11 +136,12 @@ class ArticlePage(Page):
         verbose_name="News-Artikel"
         verbose_name_plural="News-Artikel"
 
+    allow_comments = models.BooleanField(default=False, verbose_name="Kommentare erlaubt")
     author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True, verbose_name="Autor*in")
     date = models.DateField('Datum')
-    body = RichTextField(blank=True, verbose_name="News-Artikel-Text")
+    body = RichTextField(blank=True, verbose_name="Inhalt")
     tags = ClusterTaggableManager(through=PageTag, blank=True)
-    is_evaluation = models.BooleanField(default=False, verbose_name="Handelt es sich um eine Abstimmungsauswertung?")
+    is_evaluation = models.BooleanField(default=False, verbose_name="Abstimmungsauswertung")
 
     search_fields = Page.search_fields + [
         index.SearchField('body'),
@@ -156,22 +157,16 @@ class ArticlePage(Page):
     sidebar = StreamField(ArticleSidebarBlocks(required=False), blank=True, verbose_name="Seitenleiste")
 
     content_panels = [
+        FieldPanel('allow_comments'),
+        FieldPanel('author'),
+        FieldPanel('date'),
+        FieldPanel('is_evaluation'),
+        FieldPanel('tags'),
+        FieldPanel('title'),
         FieldRowPanel([
-            FieldRowPanel([
-                #AutocompletePanel('author'),
-                FieldPanel('author', classname='full'),
-                FieldPanel('title', classname='full'),
-                FieldPanel('body', classname='full'),
-                MultiFieldPanel([
-                    FieldPanel('date', classname='col6'),
-                    FieldPanel('is_evaluation', classname='col12'),
-                    FieldPanel('tags', classname='col6')
-                ]),
-            ], classname='d-flex flex-column col8'),
-            FieldRowPanel([
-                FieldPanel('sidebar', classname='full'),
-            ], classname='d-flex flex-column col4')
-        ], classname='article-edit-form full'),
+            FieldPanel('body', classname='col8'),
+            FieldPanel('sidebar', classname='col4'),
+        ], classname='full'),
     ]
 
     edit_handler = TabbedInterface([

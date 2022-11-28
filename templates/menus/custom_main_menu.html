@@ -2,7 +2,7 @@
 
 <nav id="nav" class="navbar navbar-expand-lg {% if page.slug == "strafrecht-online" %}navbar-trans{% endif %}" style="flex-direction: column; justify-content: flex-start; padding: 5px 0; position: absolute; top: 0; width: 100%; background: transparent; border: none;">
 	<div class="container" style="margin: 8px 0px; padding: 0px;">
-		
+
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon">
 				<span class="navbar-toggler-bar"></span>
@@ -64,32 +64,3 @@
 		</div>
 	</div>
 </nav>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
-<script>
-jQuery(function($) {	
-	function sizing() {
-		var win = $(this).width();
-		console.log(win);
-		if (win > 973) {
-		    $('.navbar-nav > .nav-item .dropdown-menu').hide();
-		    $('.navbar-nav > .nav-item').hover(function() {
-			$(this).find('.dropdown-menu').first().stop(true, true).delay(230).show(0);
-		    }, function() {
-			$(this).find('.dropdown-menu').first().stop(true, true).delay(500).hide(0);
-		    });
-		    $('.navbar-nav:nth-child(1) > .nav-item > a').click(function() {
-			location.href = this.href;
-		    });
-		} else {
-		    $('.navbar-nav > .nav-item').off('hover');
-		    $('.navbar-nav > .nav-item .dropdown-menu').show();
-		    $('.navbar-nav:nth-child(1) > .nav-item > a').click(function() {
-			location.href = this.href;
-		    });
-		}
-	};
-	$(document).ready(sizing);
-	$(window).resize(sizing);
-});
-</script>

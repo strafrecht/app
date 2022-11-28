@@ -8,59 +8,44 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static "wiki/js/jquery-3.6.0.min.js" %}"></script>
-    <script src="{% static "wiki/js/core.js" %}"></script>
-    <script src="{% static "wiki/js/popper.js" %}"></script>
-    <script src="{% static "wiki/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
-
-    <script src="{% static "wiki/js/respond.min.js" %}"></script>
+{{ block.super }}
 {% endblock %}
 
 {% block headersection %}
 <div class="with-header">
-	{% include "layout/menu.html" %}
+  {% include "layout/menu.html" %}
 </div>
-<section
-style="
-	background: transparent url('/media/original_images/ohnediefrau.png') center center no-repeat padding-box;
-	opacity: 1;
-	background-size: cover;
-	background-position: center;
-">
-	<div style="background: rgba(0,0,0,0.5); padding: 100px 0; min-height: 402px;">
-		<div class="container header-text">
-			<h2><p data-block-key="s8435">Mach dich fit<br>für dein Jurastudium!</p></h2>
-			<p data-block-key="5rfls">Trainiere deine Fähigkeiten lorem ipsum dolor sit amet,</p><p data-block-key="18jhq">consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
-		</div>
-	</div>
+<section id="banner" style="background-image: url('/media/original_images/ohnediefrau.png')">
+  <div>
+    <div class="container header-text">
+      <a href="/"><h2>STRAFRECHT-ONLINE.ORG</h2></a>
+    </div>
+  </div>
 </section>
 {% endblock %}
 
 {% block body_class %}template-wikipage{% endblock %}
 
 {% block content %}
-	<div id="jurcoach-page">
-		<section>
-			<div class="container">
-			    {% block wiki_body %}
+<div id="jurcoach-page">
+  <section>
+    <div class="container">
+      {% block wiki_body %}
 
-				<div class="wiki-content">
-				  {% wiki_messages %}
+      <div class="wiki-content">
+	{% wiki_messages %}
 
-				  <!-- Reserved for breadcrumbs -->
-				  {% block wiki_breadcrumbs %}{% endblock %}
+	<!-- Reserved for breadcrumbs -->
+	{% block wiki_breadcrumbs %}{% endblock %}
 
-				  <!-- Main page contents go here -->
-				  {% block wiki_contents %}{% endblock %}
+	<!-- Main page contents go here -->
+	{% block wiki_contents %}{% endblock %}
 
-				</div>
-			    {% endblock %}
-			</div>
+      </div>
+      {% endblock %}
+    </div>
 
-		</section>
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  </section>
+</div>
 
 {% endblock %}

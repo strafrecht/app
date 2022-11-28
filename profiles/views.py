@@ -4,8 +4,12 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from core.models import Quiz, Question, QuestionVersion, UserAnswer, AnswerVersion, Submission
+from django.contrib.contenttypes.models import ContentType
+
 from wiki.models import ArticleRevision
+
+from core.models import Submission
+from quiz.models import Quiz, UserAnswer
 from .forms import SignupForm
 
 @login_required
@@ -71,7 +75,10 @@ def quizzes(request):
 
 @login_required
 def wiki(request):
-    revisions = Submission.objects.filter(submitted_by_id=request.user.id).order_by('-created')
+    revisions = Submission.objects.filter(
+        submitted_by_id=request.user.id,
+        content_type=ContentType.objects.get_for_model(ArticleRevision).id
+    ).order_by('-created')
     return render(request, "profiles/wiki.html", {
         "banner": "/media/images/login.original.jpg",
         "revisions": revisions

@@ -13,9 +13,7 @@ frontend/node_modules/
 /static/*
 
 # scrape base dirs and generated content
-core/scrape/@redirects
 core/scrape/redirects.csv
-core/scrape/problemfelder
 
 .idea/
 

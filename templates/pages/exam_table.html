@@ -12,12 +12,6 @@
 {% block content %}
 <div id="exam-table-page" class="container">
 	<h1 style="font-size: 1.7em; font-weight: 900;">Klausurdatenbank</h1>
-	
-	<script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/vuetify@2.3.14/dist/vuetify.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.14/dist/vuetify.min.js"></script>
 
 	<div id="app">
   	<v-app id="inspire">
@@ -47,6 +41,14 @@
   		>
   			<template v-slot:top>
 					<v-toolbar flat style="padding: 10px;">
+        		<v-switch
+        			v-model="filtering['shortcases']"
+          		label="Kurzfälle"
+        			color="teal"
+          		class="mt-2"
+          		@change="filterDifficulty"
+        		></v-switch>
+        		<v-spacer></v-spacer>
         		<v-switch
         			v-model="filtering['beginner']"
         			color="teal"
@@ -109,7 +111,14 @@
   		</v-data-table>
   		</v-card>
   	</v-app>
+	</div>
 
+
+	<script src="{% static 'vue/polyfill.min.js' %}"></script>
+	<link href="{% static 'vue/materialdesignicons.min.css' %}" rel="stylesheet">
+	<link href="{% static 'vue/vuetify.min.css' %}" rel="stylesheet">
+	<script src="{% static 'vue/vue.js' %}"></script>
+	<script src="{% static 'vue/vuetify.js' %}"></script>
 		<script>
 			new Vue({
 				el: '#app',
@@ -119,7 +128,8 @@
 						search: '',
 						filtering: {
 							beginner: true,
-							intermediate: true,
+						        intermediate: true,
+						        shortcases: true,
 							advanced: true,
 						},
         		expanded: [],
@@ -184,7 +194,7 @@
         		console.log(err)
       		})
       		.finally(() => (this.loading = false))
-				
+
 				},
 				watch: {
 				},
@@ -204,7 +214,7 @@
 
 						return value != null &&
 							search != null &&
-							typeof value === "string" && 
+							typeof value === "string" &&
 							this.filtering[difficulty] &&
 							value.indexOf(search) !== -1
 					}
@@ -215,6 +225,9 @@
 				switch(difficulty) {
 					case 'Anfänger':
 						return 'beginner'
+						break
+					case 'Kurzfälle':
+						return 'shortcases'
 						break
 					case 'Examen':
 						return 'intermediate'
@@ -231,6 +244,9 @@
 				switch(difficulty) {
 					case 'beginner':
 						return 'Anfänger'
+						break
+					case 'shortcases':
+						return 'Kurzfälle'
 						break
 					case 'intermediate':
 						return 'Examen'
@@ -265,7 +281,5 @@
   			}
   		}
 		</script>
-	</div>
-
 </div>
 {% endblock %}

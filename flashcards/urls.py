@@ -7,13 +7,10 @@ from flashcards import views
 app_name = 'flashcards'
 
 router = DefaultRouter(trailing_slash=False)
-router.register(r'cards', views.FlashcardViewSet)
-router.register(r'decks', views.DeckViewSet)
-router.register(r'categories', views.CategoryViewSet) # cards categories (not wiki categories)
-
+router.register(r'cards', views.FlashcardViewSet, basename='card')
+router.register(r'decks', views.DeckViewSet, basename='deck')
+router.register(r'categories', views.CategoryViewSet, basename='category') # cards categories (not wiki categories)
 
 urlpatterns = [
-    path('api-auth/', include('rest_framework.urls')),
-    path('', views.test, name='test'),
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 ]

@@ -67,65 +67,16 @@
 			window.location = `?filter_by=${filter_by}&order_by=${e.value}`
 		}
 	</script>
-	<script src="https://cdn.jsdelivr.net/npm/chartist@0.11.4/dist/chartist.min.js"></script>
-	<script src="{% static 'js/chartist-plugin-fill-donut.js' %}"></script>
-
 		{% if quizzes %}
 			{% for quiz in quizzes %}
 				<div class="d-flex flex-col bg-white rounded-lg p-3 my-2">
 					<div class="">
-						<div class="ct-chart ct-chart-{{forloop.counter}}"></div>
+						<div id="ct-chart-{{forloop.counter}}" class="ct-chart"></div>
 						<script>
-							var score = parseInt({{  quiz.calculate_score }})
-							var total = parseInt({{  quiz.total_questions }})
+						  document.addEventListener("DOMContentLoaded", function(event) {
+						    quizz_chart("#ct-chart-{{forloop.counter}}", {{  quiz.calculate_score }}, {{  quiz.total_questions }});
+						  });
 
-							var chart = Chartist.Pie('.ct-chart-{{forloop.counter}}', {
-								series: [score, total-score],
-								labels: ['', '']
-							}, {
-								donut: true,
-								donutWidth: 15,
-								startAngle: 210,
-								total: total,
-								showLabel: false,
-								plugins: [
-									Chartist.plugins.fillDonut({
-										items: [{ //Item 1
-											content: '<i class="fa fa-tachometer text-muted"></i>',
-											position: 'bottom',
-											offsetY : 10,
-											offsetX: -2
-										}, { //Item 2
-											content: `<h3 class='donut-inner-text'>${score}/${total}<span class="small"></span></h3>`
-										}]
-									})
-								],
-							});
-						//Animation for the first series
-						chart.on('draw', function(data) {
-							if(data.type === 'slice' && data.index == 0) {
-								var pathLength = data.element._node.getTotalLength();
-
-								data.element.attr({
-										'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
-								});
-
-								var animationDefinition = {
-										'stroke-dashoffset': {
-												id: 'anim' + data.index,
-												dur: 1200,
-												from: -pathLength + 'px',
-												to:  '0px',
-												easing: Chartist.Svg.Easing.easeOutQuint,
-												fill: 'freeze'
-										}
-								};
-								data.element.attr({
-									'stroke-dashoffset': -pathLength + 'px'
-								});
-									data.element.animate(animationDefinition, true);
-								}
-						});
 						</script>
 					</div>
 					<div class="">
@@ -134,7 +85,7 @@
 						</h5>
 						<div>Date: {{ quiz.updated }}</div>
 						<div>
-							<a href="{% url 'quiz:category' quiz.category.id %}" class="btn btn-success" style="border-width: 2px; font-weight: bold;">Retake Quiz</a>
+							<a href="{% url 'quiz:for_category' quiz.category.id %}" class="btn btn-success" style="border-width: 2px; font-weight: bold;">Retake Quiz</a>
 							<a href="{% url 'profile:quiz_summary' quiz.id %}" class="btn btn-outline-light" style="font-weight: bold; border: 2px solid #ddd; color: #444;">View Summary</a>
 						</div>
 					</div>

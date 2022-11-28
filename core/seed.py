@@ -34,15 +34,14 @@ from wagtail.core.models import Page
 from wiki.models import Article, ArticleRevision, URLPath
 from wiki.plugins.notifications.models import ArticleSubscription
 
-from .models import Question, QuestionVersion, AnswerVersion, Quiz, UserAnswer, Choice
+from core.models import Submission
+from quiz.models import Question, QuestionVersion, AnswerVersion, Quiz, UserAnswer, Choice
 from pages.models.exams import Exams
 from pages.models.news import ArticlesPage, ArticlePage
 from pages.models.sessions import SessionsPage, SessionPage
 from pages.models.events import EventsPage, EventPage
 
 from rest_framework import viewsets, permissions, mixins, generics, response
-from .serializers import QuestionSerializer, ChoiceSerializer, UserAnswerSerializer, QuizSerializer, AnswerSerializer, \
-    QuestionVersionSerializer, QuestionOnlySerializer
 from .scrape.news import get_json as get_news_json
 from .scrape.abstimmungen import get_json as get_abstimmungen_json
 from .scrape.lehre import get_json as get_lehre_json
@@ -71,7 +70,7 @@ def start(request):
         raise "only for superusers"
 
     # OK
-    # scrape_redirects(request)
+    scrape_redirects(request)
     scrape_wiki(request)
 
     # TO TEST
@@ -96,6 +95,7 @@ def scrape_wiki(request):
     # os.chdir('/home/dev/Workspace/app/core')
     #os.chdir('C://Users//sfvso//Documents//serg1o//straf//app//core')
 
+    Submission.objects.all().delete()
     # delete all wiki/categories
     ArticleSubscription.objects.all().delete()
     URLPath.objects.all().delete()
@@ -108,7 +108,7 @@ def scrape_wiki(request):
     Question.objects.all().delete()
 
     # Create root article
-    root_url = URLPath.create_root(title="StGB")
+    root_url = URLPath.create_root(title="StGB", request=request, user=request.user)
     root_url.save()
 
     # prepare module
@@ -139,11 +139,11 @@ def scrape_wiki(request):
             html = open(path).read()
             soup = BeautifulSoup(html, "html.parser")
 
-            print()
+            # print()
             print()
             print(path)
-            print()
-            print(get_type(soup))
+            # print()
+            # print(get_type(soup))
 
             parent_dir = wiki_root_dir + "/" + "/".join(root.split("/")[2:])
 
@@ -156,7 +156,7 @@ def scrape_wiki(request):
                     #"long_name": extract("long_name", soup),
                 }
 
-                create_category(cat)
+                create_category(cat, request.user)
 
             # create wikis
             if "problem" in get_type(soup):
@@ -168,7 +168,7 @@ def scrape_wiki(request):
                     "tags": extract("tags", soup),
                     "content": extract("content", soup),
                 }
-                create_wiki(wiki)
+                create_wiki(wiki, request.user)
 
             # create mct
             if "frage" in get_type(soup):
@@ -1170,9 +1170,9 @@ def traverse_ancestors(parent, slug_list):
 
     #print("  EXIT: traverse_ancestors()")
 
-def create_category(wiki):
+def create_category(wiki, user):
     print("ENTER: create_category()")
-    print(wiki)
+    print(wiki['slug'])
     root = Article.objects.first().urlpath_set.first()
     slug_list = deque(wiki["root"].split("/")[1:])
     parent = traverse_ancestors(root, slug_list)
@@ -1186,18 +1186,20 @@ def create_category(wiki):
         slug=wiki['slug'],
         site=None,
         title=wiki['name'],
-        article_kwargs={},
+        article_kwargs={ "other_read": True },
         request=None,
         article_w_permissions=None,
         content="",
+        user=user,
     )
 
     urlpath.save()
     #print("EXIT: create_category()")
 
-def create_wiki(wiki):
+def create_wiki(wiki, user):
     print("ENTER: create_wiki()")
-    print(wiki)
+    print(wiki['slug'])
+
     root = Article.objects.first().urlpath_set.first()
     slug_list = deque(wiki["root"].split("/")[1:])
     parent = traverse_ancestors(root, slug_list)
@@ -1211,10 +1213,11 @@ def create_wiki(wiki):
         slug=wiki['slug'],
         site=None,
         title=wiki['name'],
-        article_kwargs={},
+        article_kwargs={ "other_read": True },
         request=None,
         article_w_permissions=None,
         content=wiki['content'],
+        user=user,
     )
 
     #print(wiki['content'])

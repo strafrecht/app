@@ -1,41 +1,12 @@
 {% load i18n sekizai_tags static %}
 
 {% if urlpath %}
-<div class="breadcrumb-new" style="top: 0 !important; margin-bottom: 20px !important;">Du bist hier: <a style="color: #3d3d3d; text-decoration: none;" href="/">Home</a> &gt; 
-<a style="color: #3d3d3d; text-decoration: none;" href="/jurcoach">Jurcoach</a> &gt; 
-<a style="color: #3d3d3d; text-decoration: none;" href="/wiki">Problemfeld-Wiki</a> &gt; 
-{% for ancestor in urlpath.cached_ancestors %}
-<a style="color: #3d3d3d; text-decoration: none;" href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a> &gt; 
-{% endfor %}
-{{ article.current_revision.title|truncatechars:25 }}
+<div class="breadcrumb-new" style="top: 0 !important; margin-bottom: 20px !important;">Du bist hier: <a style="color: #3d3d3d; text-decoration: none;" href="/">Home</a> &gt;
+  <a style="color: #3d3d3d; text-decoration: none;" href="/jurcoach">Jurcoach</a> &gt;
+  {% for ancestor in urlpath.cached_ancestors %}
+  <a style="color: #3d3d3d; text-decoration: none;" href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a> &gt;
+  {% endfor %}
+  {{ article.current_revision.title|truncatechars:25 }}
 </div>
-
-<!--
-    <div class="btn-group" style="margin-left: 10px;">
-    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 7px;" type="button"
-            title="{% trans "Sub-articles for" %} {{ article.current_revision.title }}"
-            aria-haspopup="true" aria-expanded="false">
-      <span class="fa fa-sitemap"></span>
-      <span class="caret"></span>
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      {% for child in children_slice %}
-          <a class="dropdown-item" href="{% url 'wiki:get' path=child.path %}">
-            {{ child.article.current_revision.title }}
-          </a>
-        {% empty %}
-        <a class="dropdown-item" href="#"><em>{% trans "No sub-articles" %}</em></a>
-      {% endfor %}
-      {% if children_slice_more %}
-      <a class="dropdown-item" href="#"><em>{% trans "...and more" %}</em></a>
-      {% endif %}
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="{% url 'wiki:dir' path=urlpath.path %}">{% trans "Browse articles in this level" %} &raquo;</a>
-    </div>
-  </div
--->
-  	  
-  <div class="clearfix"></div>
-</div>
-
+<div class="clearfix"></div>
 {% endif %}

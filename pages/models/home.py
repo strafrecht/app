@@ -42,7 +42,7 @@ class HomeNewsBlock(blocks.StructBlock):
 class HomeJurcoachBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/widgets/home_jurcoach.html'
-        
+
 
 class CollapseBlock(blocks.StructBlock):
     heading = blocks.CharBlock(required=True)
@@ -51,7 +51,7 @@ class CollapseBlock(blocks.StructBlock):
         icon = 'fa-compress'
         template = 'blocks/sidebar/collapsible.html'
         label = 'Ausklappbares Element'
-        
+
 class FlipcardBlock(blocks.StructBlock):
     front = blocks.RichTextBlock(label="Vorderseite")
     back = blocks.RichTextBlock(label="Rückseite")
@@ -111,14 +111,14 @@ class BasePage(Page):
         related_name='+',
         verbose_name="Graffito-Bild im Header"
     )
+    allow_comments = models.BooleanField(default=False, verbose_name="Kommentare erlaubt")
 
     class Meta:
         abstract = True
 
-    #def get_context(self, request):
-    #    context = super().get_context(request)
-    #    context['request'] = request
-    #    return contex
+    def get_absolute_url(self):
+        print(self.get_url())
+        return self.get_url()
 
     content = StreamField([
         ('content', ContentBlocks(label="Hauptspalte")),
@@ -134,6 +134,7 @@ class BasePage(Page):
 
     content_panels = [
         FieldPanel('title'),
+        FieldPanel('allow_comments'),
         ImageChooserPanel('header'),
         FieldRowPanel([
             FieldPanel('content', classname='col8'),
@@ -146,7 +147,7 @@ class BasePage(Page):
 class GenericPage(BasePage):
     class Meta:
         verbose_name = "Generische Seite"
-        
+
     def get_context(self, request):
         context = super().get_context(request)
         context['request'] = request

@@ -1,0 +1,78 @@
+{% load i18n sekizai_tags static %}
+
+<div class="clearfix"></div>
+
+<br>
+<div id="app">
+  <v-app id="inspire">
+    <v-toolbar
+    >
+      <v-autocomplete
+        v-model="select"
+        :loading="loading"
+        :items="items"
+        :search-input.sync="search"
+		item-text="title"
+		item-value="title"
+        flat
+        hide-no-data
+        hide-details
+        label="Problemfeldsuche"
+      >
+        <template v-slot:item="data">
+          <template v-if="typeof data.item !== 'object'">
+            <v-list-item-content v-text="data.item"></v-list-item-content>
+          </template>
+          <template v-else>
+            <v-list-item-content @click="redirect(data.item.url)" @keydown.down="redirect(data.item.url)">
+              <v-list-item-title v-html="data.item.title"></v-list-item-title>
+              <v-list-item-subtitle v-html="data.item.breadcrumb"></v-list-item-subtitle>
+            </v-list-item-content>
+          </template>
+        </template>
+      </v-autocomplete>
+    </v-toolbar>
+  </v-app>
+</div>
+<script src="{% static 'vue/polyfill.min.js' %}"></script>
+<link href="{% static 'vue/materialdesignicons.min.css' %}" rel="stylesheet">
+<link href="{% static 'vue/vuetify.min.css' %}" rel="stylesheet">
+<script src="{% static 'vue/vue.js' %}"></script>
+<script src="{% static 'vue/vuetify.js' %}"></script>
+<script>
+	new Vue({
+  	  el: '#app',
+  	  vuetify: new Vuetify(),
+  	  data () {
+    	return {
+      	  loading: false,
+      	  items: [],
+      	  search: null,
+      	  select: null,
+    	}
+  	  },
+  	  watch: {
+    	search (val) {
+      	  val && val !== this.select && this.querySelections(val)
+    	},
+  	  },
+  	  methods: {
+  		redirect(url) {
+  			window.location.href = url
+  		},
+    	querySelections (query) {
+  		this.loading = true
+
+		fetch(`/run/search/wiki/${query}`)
+      	  .then(res => res.json())
+      	  .then(res => {
+        	this.items = res.data
+      	  })
+      	  .catch(err => {
+        	console.log(err)
+      	  })
+      	  .finally(() => (this.loading = false))
+    	},
+  	  },
+	})
+</script>

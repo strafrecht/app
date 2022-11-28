@@ -1,82 +1,54 @@
 {% extends "base.html" %}
-
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load wagtailroutablepage_tags %}
 {% load website_tags %}
 {% load comments %}
 {% load comments_xtd %}
 
-{% block body_class %}template-websitepage{% endblock %}
-
 {% block content %}
 <div class="container">
-	<div class="col-md-12">
-		<p class="meta badge" style="background:#FFE200;color:#3d3d3d;">{{ page.date|date:"d.m.Y" }}</p>
-		<h2 class="font-weight-bold">{{ page.title }}</h2>
+  <div class="col-md-12">
+    <p class="meta badge" style="background:#FFE200;color:#3d3d3d;">{{ page.date|date:"d.m.Y" }}</p>
+    <h2 class="font-weight-bold">{{ page.title }}</h2>
 
-		{% if page.author %}
-		<p>Von <a href="/personen/{{ page.author.id }}">{{ page.author.first_name }} {{ page.author.last_name }}</a></p>
-			{% else %}
-		<p>Von <a href="/personen/{{ page.owner.id }}">{{ page.owner.first_name }} {{ page.owner.last_name }}</a></p>
-		{% endif %}
+    {% if page.author %}
+    <p>Von <a href="/personen/{{ page.author.id }}">{{ page.author.first_name }} {{ page.author.last_name }}</a></p>
+    {% else %}
+    <p>Von <a href="/personen/{{ page.owner.id }}">{{ page.owner.first_name }} {{ page.owner.last_name }}</a></p>
+    {% endif %}
 
-		<div class="richtext">{{ page.body|richtext }}</div>
+    <div class="richtext">{{ page.body|richtext }}</div>
 
-		<br>
-		<p><a href="{{ page.get_parent.url }}">Read more news articles</a></p>
+    <br>
+    <p><a href="{{ page.get_parent.url }}">Read more news articles</a></p>
 
-		<div class="comments">
-			<hr>
-
-			{% get_comment_count for page as comment_count %}
-			<div class="">
-				{{ comment_count }} comment{{ comment_count|pluralize }}
-				ha{{ comment_count|pluralize:"s,ve"}} been posted.
-			</div><br>
-
-			{% if comment_count %}
-			<ul class="media-list" style="padding: 0px">
-				{% render_xtdcomment_tree for page %}
-			</ul>
-			{% endif %}
-
-			{# if page.allow_comments #}
-			{% if True %}
-			<div class="comment">
-				<h4>Your comment</h4>
-				<div class="well">
-					{% render_comment_form for page %}
-				</div>
-			</div>
-			{% endif %}
-
-		</div>
-	</div>
-
+    {% if page.allow_comments %}
+    {% include "includes/comments.html" with object=page %}
+    {% endif %}
+  </div>
 </div>
 {% endblock %}
 
 {% block sidebar %}
-	<div class="col-md-4 sidebar">
+<div class="col-md-4 sidebar">
 
-	{{ page.sidebar }}
+  {{ page.sidebar }}
 
-	{% for sidebar_placement in page.sidebar_placements.all %}
-		<div class="row sidebar-item">
-			{% if sidebar_placement.sidebar.image %}
-			<div class="col-md-4 left">
-				{% image sidebar_placement.sidebar.image fill-100x100 %}
-			</div>
-			<div class="col-md-8 right">
-				<p>{{ sidebar_placement.sidebar.text|richtext }}</p>
-			</div>
-			{% else %}
-			<div class="col-md-12 right">
-				<p>{{ sidebar_placement.sidebar.text|richtext }}</p>
-			</div>
-			{% endif %}
-		</div>
-	{% endfor %}
+  {% for sidebar_placement in page.sidebar_placements.all %}
+  <div class="row sidebar-item">
+    {% if sidebar_placement.sidebar.image %}
+    <div class="col-md-4 left">
+      {% image sidebar_placement.sidebar.image fill-100x100 %}
+    </div>
+    <div class="col-md-8 right">
+      <p>{{ sidebar_placement.sidebar.text|richtext }}</p>
+    </div>
+    {% else %}
+    <div class="col-md-12 right">
+      <p>{{ sidebar_placement.sidebar.text|richtext }}</p>
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}
-

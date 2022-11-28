@@ -1,0 +1,5 @@
+--ignore-dir=static
+--ignore-dir=media
+--ignore-dir=htmlcov
+--ignore-dir=frontend/build
+--ignore-file=is:lehrescrape.json

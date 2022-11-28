@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+
+{% block content %}
+<section id="question-form">
+  <form @submit.prevent="addQuestion">
+    <h2>Frage bearbeiten</h2>
+
+    <div><label class="label">Frage</label></div>
+    <div>
+      <textarea id="add-title" name="add-title" rows="2" cols="50" v-model="title"
+		placeholder="Bitte geben Sie hier Ihre Frage ein" required>
+      </textarea>
+    </div>
+    <br />
+
+    <div><label class="label">Beschreibung</label></div>
+    <div>
+      <textarea id="add-description" name="add-description" rows="4" cols="50" v-model="description"
+		placeholder="Dieser Text wird nach der Auflösung angezeigt" required>
+      </textarea>
+    </div>
+    <br />
+
+    <div><label class="label">Antworten</label></div>
+    <div>
+      <div v-for="(answer, index) in answers">
+        <span class="trashcan" title="Antwort löschen" @click="deleteAnswer(index)">&#128465;</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <textarea id="answer-option" v-model="answer.text" :key="index" rows="2" cols="50"
+		  placeholder="Antwortmöglichkeit" required></textarea>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <label class="switch">
+          <input type="checkbox" @click="handleCheckboxClick(index)" v-model="answer.correct" />
+          <div class="slider round"></div>
+        </label>
+      </div>
+    </div>
+    <br />
+    <div>
+      <button class="btn btn-primary" @click="generateAnswer">Antwort hinzufügen</button>
+    </div>
+    <br />
+
+    <div><label class="label">Kommentar</label></div>
+    <div>
+      <textarea id="add-comment" name="add-comment" rows="2" cols="50" v-model="comment"
+		placeholder="Bitte geben Sie hier eine kurze Beschreibung ihrer Änderung ein" required>
+      </textarea>
+    </div>
+    <br />
+
+    <button type="submit" class="btn btn-success">Speichern</button>
+  </form>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  new LVue({
+    el: "#question-form",
+
+    data() {
+      return {
+	question_id: {{ question.id }},
+        title: "{{ question.current.title | escapejs }}",
+        description: "{{ question.current.description | escapejs }}",
+	comment: "",
+	answers: JSON.parse("{{ question.current.answers_json | escapejs }}"),
+      };
+    },
+    mounted() {
+      // nothing
+    },
+    methods: {
+      generateAnswer() {
+        this.answers.push({ text: "", correct: false });
+      },
+
+      deleteAnswer(i) {
+        this.answers.splice(i, 1);
+      },
+
+      handleCheckboxClick(i) {
+        this.answers[i].correct = !this.answers[i].correct;
+      },
+
+      async addQuestion() {
+        try {
+          const newQuestion = {
+            comment:     this.comment,
+            title:       this.title,
+            description: this.description,
+            answers:     this.answers,
+	    question_id: this.question_id,
+          };
+
+          const config = {
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}',
+            },
+            withCredentials: true,
+          }
+
+          await axios.post("{% url 'quiz:post_question' %}", newQuestion, config)
+	  // FIXME: redirect user ...
+          alert("Quiz-Frage gespeichert! Die Änderung wird von uns geprüft und freigegeben.");
+	  window.location = "{% url 'quiz:show' question.category.id question.id %}";
+        } catch (error) {
+	  alert("Fehler beim Speichern. Bitte versuchen Sie es noch einmal!");
+        }
+      },
+    },
+  });
+</script>
+{% endblock %}

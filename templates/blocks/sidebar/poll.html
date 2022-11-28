@@ -4,75 +4,19 @@
 {% load wagtailpolls_tags %}
 
 {% block widget %}
-	{% if page.poll %}
-	<div class="sidebar sidebar-poll poll">
-		<h2>{{ page.poll.title }}</h2>
-		<form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
-			{% csrf_token %}
-			{{ page.poll.form }}
-    		<input type="submit" value="Abstimmen" class="poll-vote-button">
-    	</form>
-	</div>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script>
-		$("#poll > label").empty()
-		$("#poll").submit(function(e) {
-			e.preventDefault()
-
-    		$.ajax({
-        		type:'POST',
-        		url:'{% url "wagtailpolls_vote" page.poll.id %}',
-        		data:{
-					question: parseInt($('input[name="question"]:checked').val()),
-            		csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            		action: 'post'
-        		},
-        		success:function(json){
-        			console.log(json)
-        			const total = json.total_votes
-
-					$("#poll").empty();
-						let elements = Object.entries(json.votes).map((vote) => {
-							let question = vote[0]
-							let votes = vote[1]
-							let ratio = Math.round((votes / total) * 100)
-
-							return `
-								<div class="answer">
-									<div class="bar">
-										<div style="width: ${ratio}%;"></div><span>${votes} (${ratio}%)</span>
-									</div>
-									<div>${question}</div>
-								</div>
-						`
-						})
-
-						$("#poll").append(`
-							<div class="answers">
-							${elements.join('')}
-							</div>
-						`)
-        			},
-        			error : function(xhr,errmsg,err) {
-        				console.log(xhr.status + ": " + xhr.responseText);
-    				}
-    			});
-			});	
-		</script>
-		{% endif %}
-	{% endblock %}
-
-{# block widget %}
-	{% if page.poll %}
-	<div class="sidebar sidebar-poll poll">
-		<h3><b>{{ page.poll.title }}</b></h3>
-		<form class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
-			{% csrf_token %}
-			{{ page.poll.form }}
-    		<input type="submit" value="Abstimmen" class="poll-vote-button">
-    	</form>
-	</div>
-	{% endif %}
-{% endblock #}
-
+{% if page.poll %}
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
+  });
+</script>
+<div class="sidebar sidebar-poll poll">
+  <h2>{{ page.poll.title }}</h2>
+  <form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
+    {% csrf_token %}
+    {{ page.poll.form }}
+    <input type="submit" value="Abstimmen" class="poll-vote-button">
+  </form>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,5 +1,53 @@
 #jurcoach-page {
   width: 100%;
+
+  /* fix wiki newline formating */
+  .wiki-content > br {
+    display: none;
+  }
+  .wiki-article > br {
+    display: none;
+  }
+  /* wiki styles */
+  .wiki-content {
+    .wiki-submenu {
+      label {
+	margin: 0.6em;
+	margin-bottom: 20px;
+      }
+      h3 {
+	color: #000 !important;
+	margin: 0;
+	margin-bottom: 20px;
+	display: block;
+	position: relative;
+	border-bottom: 4px solid #FFE200;
+	cursor: default;
+      }
+      .wiki-children {
+	display: block;
+	text-align: center;
+	margin-left: 0;
+	clear: both;
+	color: #3d3d3d;
+
+	a > span.badge {
+	  background: #fff;
+	  padding: .4rem 1rem;
+	  border: 3px solid #E8E7E0;
+	  color: #3d3d3d;
+	  font-size: 14px;
+	  margin-bottom: .5rem;
+
+	  &:hover {
+	    background: #FFE200;
+	    border: 3px solid #FFE200;
+	    cursor: pointer;
+	  }
+	}
+      }
+    }
+  }
 }
 
 #jurcoach-page ::selection {
