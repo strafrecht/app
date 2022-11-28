@@ -7,7 +7,6 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0005_alter_urlpath_slug'),
         ('flashcards', '0002_auto_20221122_1505'),
     ]
 
