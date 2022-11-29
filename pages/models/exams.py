@@ -17,7 +17,7 @@ class ExamTable(Page):
         verbose_name = "Klausurdatenbank-Seite"
 
     def __str__(self):
-        print('exam table')
+        return 'exam table'
 
 
 @register_snippet
