@@ -12,6 +12,8 @@ class Casetraining(models.Model):
     name = models.CharField(max_length=100)
     difficulty = models.CharField(choices=DIFFICULTY_CHOICES, max_length=100, blank=False, null=False)
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+    # Sachverhalt
+    facts = models.TextField(default='')
 
     def __str__(self):
         return "{} ({})".format(self.name, self.difficulty)

@@ -10,7 +10,12 @@ from .models import Casetraining
 class CasetrainingTestCase(TestCase):
     def setUp(self):
         user = User.objects.create(username='testuser', password='12345')
-        self.obj = Casetraining.objects.create(name="Test case 1", difficulty="advanced", user=user)
+        self.obj = Casetraining.objects.create(
+            name="Test case 1",
+            difficulty="advanced",
+            user=user,
+            facts="Case facts"
+        )
 
     def test_has_difficulty(self):
         self.assertEqual(self.obj.difficulty, "advanced")
@@ -18,7 +23,7 @@ class CasetrainingTestCase(TestCase):
     def test_to_string(self):
         self.assertEqual(str(self.obj), "Test case 1 (advanced)")
 
-class IndexViewTestCase(TestCase):
+class ViewTestCase(TestCase):
 
     def setUp(self):
         user = User.objects.create(username='testuser', password='12345')
@@ -30,7 +35,7 @@ class IndexViewTestCase(TestCase):
             poll=poll,
             path="/"
         )
-        Casetraining.objects.create(name="Advanced 1", difficulty="advanced", user=user)
+        self.case = Casetraining.objects.create(name="Advanced 1", difficulty="advanced", user=user, facts="Case facts")
         Casetraining.objects.create(name="Beginner 1", difficulty="beginner", user=user)
         Casetraining.objects.create(name="Shortcase 1", difficulty="shortcase", user=user)
 
@@ -38,5 +43,10 @@ class IndexViewTestCase(TestCase):
         response = self.client.get("/falltraining/")
         self.assertContains(response, "<h2>Falltraining</h2>", status_code=200)
         self.assertContains(response, "Advanced 1")
-        self.assertContains(response, "Beginner 1", status_code=200)
-        self.assertContains(response, "Shortcase 1", status_code=200)
+        self.assertContains(response, "Beginner 1")
+        self.assertContains(response, "Shortcase 1")
+
+    def test_show_response(self):
+        response = self.client.get("/falltraining/show/{}".format(self.case.id))
+        self.assertContains(response, "<h2>Advanced 1 (Niveau: advanced)</h2>", status_code=200)
+        self.assertContains(response, "Case facts")
