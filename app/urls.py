@@ -22,6 +22,7 @@ urlpatterns = [
     path('search/', include('pages.urls')),
 
     path('jurcoach/klausurendatenbank/', exams, name='exams'),
+    path('falltraining/', include('casetraining.urls')),
 
     path('notifications/', include('django_nyt.urls')),
 

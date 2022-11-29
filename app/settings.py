@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'app',
     'core',
     'quiz',
+    'casetraining',
     'pages',
     #'news',
     'emails',
