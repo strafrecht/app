@@ -1,6 +1,9 @@
 from django.urls import path, include
-from . import views
 from rest_framework import routers
+
+from . import views
+
+app_name = "quiz"
 
 router = routers.DefaultRouter()
 router.register(r'question-versions', views.QuestionVersionViewSet)
@@ -8,8 +11,6 @@ router.register(r'answers', views.AnswerViewSet)
 router.register(r'quizzes', views.QuizViewSet)
 router.register(r'user-answers', views.UserAnswerViewSet)
 router.register(r'choices', views.ChoiceViewSet)
-
-app_name = "quiz"
 
 urlpatterns = [
     # show quiz index

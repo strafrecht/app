@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from rest_framework import viewsets, serializers
 
 from pages.models.jurcoach import JurcoachPage
 
@@ -18,3 +19,16 @@ def show(request, case_id):
         'banner': '/media/original_images/ohnediefrau.png',
         "case": case,
     })
+
+class CasetrainingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Casetraining
+        fields = "__all__"
+
+# FIXME: security
+class CasetrainingViewSet(viewsets.ModelViewSet):
+    serializer_class = CasetrainingSerializer
+
+    def get_queryset(self):
+        return Casetraining.objects.all()

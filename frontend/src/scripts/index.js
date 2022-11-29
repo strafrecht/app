@@ -37,8 +37,11 @@ require("chartist-plugin-fill-donut");
 import { initEditor } from  './editor/index.js';
 initEditor();
 
-import deck from "./vue/flashcards/Deck.vue";
-global.DeckApp = deck;
+import DeckApp from "./vue/flashcards/Deck.vue";
+global.DeckApp = DeckApp;
+
+import CaseApp from "./vue/casetraining/Case.vue";
+global.CaseApp = CaseApp;
 
 // menu resize
 //

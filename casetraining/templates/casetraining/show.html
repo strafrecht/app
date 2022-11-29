@@ -3,17 +3,17 @@
 {% load wagtailcore_tags wagtailimages_tags website_tags %}
 
 {% block content %}
-<h2>{{ case.name }} (Niveau: {{ case.difficulty }})</h2>
-<div class="row">
-  <div class="col-sm-6">
-    <h4>Sachverhalt</h4>
-    {{ case.facts }}
-  </div>
-  <div class="col-sm-6 border">
-    <h4>Step 1</h4>
-    <p>
-      Lesen Sie den Sachverhalt.
-    </p>
-  </div>
-</div>
+<case></case>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  new LVue({
+    render: (h) => h(CaseApp, {
+      props: {
+	caseId: {{ case.id }}
+      }
+    })
+  }).$mount("case");
+</script>
 {% endblock %}
