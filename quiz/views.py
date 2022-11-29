@@ -13,7 +13,8 @@ from .serializers import *
 
 
 def index(request):
-    header_image = JurcoachPage.objects.all().last().header
+    header_image = JurcoachPage.objects.last().header
+    # FIXME: remove not used headline + slogan
     header_headline = JurcoachPage.objects.all().last().header_headline
     header_slogan = JurcoachPage.objects.all().last().header_slogan
     return render(request, "quiz/index.html", {
