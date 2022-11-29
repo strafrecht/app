@@ -217,7 +217,7 @@ def get_category_tree(request):
 def _tree_entry(category):
     return {
         "id": category["category"].article.id,
-        "label": category["category"].article.articlerevision_set.first().title,
+        "label": category["category"].article.current_revision.title,
     }
 
 def get_questions(cat):

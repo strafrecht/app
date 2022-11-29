@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import viewsets, serializers
+from django.http import JsonResponse
 
-from pages.models.jurcoach import JurcoachPage
+from wiki.models import Article, URLPath
 
 from .models import Casetraining
 
@@ -20,15 +20,16 @@ def show(request, case_id):
         "case": case,
     })
 
-class CasetrainingSerializer(serializers.ModelSerializer):
+def wiki_categories(request):
+    return JsonResponse(_wiki_articles(request, URLPath.root()))
 
-    class Meta:
-        model = Casetraining
-        fields = "__all__"
+def _wiki_articles(request, node):
+    if not node.article.other_read:
+        return None
 
-# FIXME: security
-class CasetrainingViewSet(viewsets.ModelViewSet):
-    serializer_class = CasetrainingSerializer
-
-    def get_queryset(self):
-        return Casetraining.objects.all()
+    return {
+        "id": node.article.id,
+        "title": node.article.current_revision.title,
+        "url": "/wiki/" + node.path,
+        "children": [_wiki_articles(request, child) for child in node.article.get_children(user_can_read=request.user, articles__article__current_revision__deleted=False)]
+    }
