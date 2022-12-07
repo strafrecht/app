@@ -5,6 +5,10 @@ def patch_wiki():
     """
     Monkey patch django-wiki
     """
+    # bugfix: SHOW_MAX_CHILDREN is ignored in django-wiki
+    from wiki.views.mixins import ArticleMixin
+    ArticleMixin.get_context_data = get_context_data
+
     # don't publish pages edited/added by users
     from wiki.models.article import Article
     Article.add_revision = add_revision
@@ -79,6 +83,17 @@ def patch_wiki():
         return "%s (%d)" % (self.title, self.id)
 
     ArticleRevision.__str__ = ar_str
+
+def get_context_data(self, **kwargs):
+    from wiki.core.plugins import registry
+
+    kwargs["urlpath"] = self.urlpath
+    kwargs["article"] = self.article
+    kwargs["article_tabs"] = registry.get_article_tabs()
+    kwargs["children_slice"] = self.children_slice
+    kwargs["children_slice_more"] = len(self.children_slice) > 20
+    kwargs["plugins"] = registry.get_plugins()
+    return kwargs
 
 def add_revision(self, new_revision, save=True):
     """
