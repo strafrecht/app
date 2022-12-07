@@ -332,6 +332,8 @@ WIKI_ANONYMOUS_CREATE = True
 WIKI_ANONYMOUS_WRITE = True
 WIKI_EDITOR = 'editors.modern.Modern'
 WIKI_CHECK_SLUG_URL_AVAILABLE = False
+# we hopefully don't get over this
+WIKI_SHOW_MAX_CHILDREN = 500
 
 from .wiki_patch import wiki_can_moderate
 WIKI_CAN_MODERATE = wiki_can_moderate
