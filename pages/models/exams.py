@@ -32,8 +32,8 @@ class Exams(models.Model):
     ]
     EXAM_DIFFICULTY_CHOICES = [
         ('beginner','Anfänger'),
-        ('intermediate','Fortgeschrittene'),
-        ('advanced','Examen'),
+        ('intermediate','Examen'),
+        ('advanced','Fortgeschrittene'),
         ('shortcases','Kurzfälle'),
     ]
 
