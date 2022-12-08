@@ -23,13 +23,13 @@
 					<h2>{{ event.title }}</h2>
 					{% if event.showmap %}
 					{% endif %}
-					
+
 					{% if event.speaker_description %}
 					<h3>Referent</h3>
 					<p class="bold font-sm"><span class="meta font-sm">{{ event.speaker_description | richtext }}</span></p>
 					{% endif %}
 
-					<h3>Veranstaltungsbeschreibung</h3>					
+					<h3>Veranstaltungsbeschreibung</h3>
 					<p class="richtext">{{ event.description|richtext }}</p>
 				</div>
 			</div>
@@ -49,6 +49,10 @@
 			}).addTo(map);
 		}
 	</script>
+	{% if event.allow_comments %}
+	{% include "includes/comments.html" with object=event %}
+	{% endif %}
+
 {% endblock %}
 
 {% block sidebar %}
@@ -115,7 +119,7 @@
 						Im <a href="{{ event.newsletter.url }}">Lehrstuhlnewsletter</a> erschien ein Event-Bericht zu der Veranstaltung.
 					</p>
 				</div>
-			</div> 
+			</div>
 		</div>
 	</div>
 	</div>
@@ -130,14 +134,14 @@
 					<h3>Videoaufzeichnung</h3>
 				</div>
 				<div>
-					<p>Eine <a href="{{ event.youtube_link }}">Videoaufzeichnung der Veranstaltung</a> 
+					<p>Eine <a href="{{ event.youtube_link }}">Videoaufzeichnung der Veranstaltung</a>
 						ist auf YouTube verfügbar.
 					</p>
 					<p>
 						<iframe width="100%" src="https://www.youtube.com/embed/{{ event.youtube_link|youtube_id }}" frameborder="0" allowfullscreen=""></iframe>
 					</p>
 				</div>
-			</div> 
+			</div>
 		</div>
 	</div>
 	</div>
