@@ -36,19 +36,6 @@
 		</div>
 	</div>
 
-	<script>
-		function map_init_basic(map, options) {
-			var accessToken = "pk.eyJ1Ijoic3RyYWZyZWNodCIsImEiOiJjazN5bDc5YjgwMXltM29xbXA5aXdrd3NoIn0.LF_egdLW4ROv-FZv8XMLJA"
-
-			map.setView([47.9939, 7.8460], 13)
-			L.marker([47.9939, 7.8460]).addTo(map);
-			L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + accessToken, {
-				maxZoom: 18,
-				id: 'mapbox/streets-v11',
-				accessToken: accessToken
-			}).addTo(map);
-		}
-	</script>
 	{% if event.allow_comments %}
 	{% include "includes/comments.html" with object=event %}
 	{% endif %}
