@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.urls import reverse
 
 from wiki.models import Article, URLPath
 
@@ -30,6 +31,6 @@ def _wiki_articles(request, node):
     return {
         "id": node.article.id,
         "title": node.article.current_revision.title,
-        "url": "/wiki/" + node.path,
+        "url": reverse('wiki:root') + node.path,
         "children": [_wiki_articles(request, child) for child in node.article.get_children(user_can_read=request.user, articles__article__current_revision__deleted=False)]
     }

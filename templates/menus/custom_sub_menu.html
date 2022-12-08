@@ -2,9 +2,9 @@
 
 <div class="dropdown-menu" aria-labelledby="navbar-dropdown-{{ parent_page.pk }}">
   {% if item.href == "/jurcoach/" %}
-    <a class="dropdown-item" href="/wiki">Problemfeldwiki</a>
-    <a class="dropdown-item" href="/quiz">MCT</a>
-    <a class="dropdown-item" href="/jurcoach/falltraining">Falltraining</a>
+    <a class="dropdown-item" href="{% url 'wiki:root' %}">Problemfeldwiki</a>
+    <a class="dropdown-item" href="{% url 'quiz:index' %}">MCT</a>
+    <a class="dropdown-item" href="{% url 'casetraining:index' %}">Falltraining</a>
   {% endif %}
   {% for sub_item in menu_items %}
     <a class="dropdown-item" href="{{ sub_item.href }}">{{ sub_item.text }}</a>

@@ -53,7 +53,7 @@ urlpatterns = [
 
     re_path(r'^vote/(?P<poll_pk>.*)/$', vote, name='wagtailpolls_vote'),
 
-    path('wiki/', include('wiki.urls')),
+    path('problemfelder/', include('wiki.urls')),
     path('', include(wagtail_urls)),
     path('avatar/', include('avatar.urls')),
 
