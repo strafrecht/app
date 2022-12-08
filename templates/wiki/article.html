@@ -58,6 +58,7 @@
     {% endif %}
   </div>
 
+  {% if selected_tab == "view" %}
   {% if children_slice|length > 0 %}
   <section class="text-center wiki-submenu">
     <label><h3>Problemfelder</h3></label>
@@ -71,7 +72,6 @@
   </section>
   {% endif %}
 
-  {% if selected_tab == "view" %}
   <section>
     {% include "wiki/includes/menu.html" %}
     <div class="clearfix"></div>
