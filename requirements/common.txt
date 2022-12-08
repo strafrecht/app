@@ -30,6 +30,7 @@ django-colorfield==0.4.1
 django-comments-xtd==2.9.1
 django-contrib-comments==2.1.0
 django-cors-headers==3.7.0
+django-crispy-forms==1.14.0
 django-csp==3.7
 django-debug-toolbar==3.2.1
 django-filter==2.4.0
