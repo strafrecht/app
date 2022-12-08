@@ -8,7 +8,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.core import urls as wagtail_urls
 
-from core.views import exams
+from core.views import exams, api_exams
 
 from wagtailpolls.views.vote import vote
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls
@@ -33,6 +33,7 @@ urlpatterns = [
 
     path('profile/', include('profiles.urls')),
     path('jurcoach/klausurendatenbank/', exams, name='exams'),
+    path('jurcoach/klausurendatenbank/api', api_exams, name='exams'),
     path('falltraining/', include('casetraining.urls')),
 
     path('notifications/', include('django_nyt.urls')),
