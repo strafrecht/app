@@ -9,7 +9,7 @@
 {% if not user.is_authenticated %}
 <p class="alert alert-warning">
 {% trans "<strong>Warning:</strong> You are not logged in. Your IP address will be logged." %}
-<a href="{% url 'wiki:login' %}?next={% url 'wiki:edit' article_id=article.id path=urlpath.path %}">{% trans "Click here to log in" %} &raquo;</a>
+<a href="{% url 'profile:login' %}?next={% url 'wiki:edit' article_id=article.id path=urlpath.path %}">{% trans "Click here to log in" %} &raquo;</a>
 </p>
 {% endif %}
 

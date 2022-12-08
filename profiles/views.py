@@ -148,10 +148,9 @@ def login(request):
             if user is not None:
                 auth_login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
+                if request.GET.get("next", None):
+                    return redirect(request.GET["next"])
                 return redirect("profile:index")
-            else:
-                messages.error(request,"Invalid username or password.")
-        else:
             messages.error(request,"Invalid username or password.")
     else:
         form = AuthenticationForm()
