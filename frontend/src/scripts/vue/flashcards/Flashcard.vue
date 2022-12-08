@@ -114,8 +114,8 @@
               </div>
             </div>
             <div class="flip-card-buttons mt-1">
-	      <div class="text-success">Gelernt: {{ result.learned }}</div>
-	      <div class="text-danger">Nicht gelernt: {{ result.notLearned }}</div>
+	      <div v-if="result.notLearned == 0" class="text-success">Gelernt!</div>
+	      <div v-if="result.notLearned > 0" class="text-danger">Nicht gelernt: {{ result.notLearned }}</div>
             </div>
 	  </div>
 	</div>
@@ -223,10 +223,9 @@ export default {
       cardToDelete: null,
       showGameMod: false,
       sortFilter: "name-asc",
-      selectedCardIndex: 0,
-      rotatedCards:[],
       gameFinished: false,
       gameProgress: {},
+      gameModeCards: [],
     };
   },
   async mounted() {
@@ -243,136 +242,77 @@ export default {
     },
   },
   computed: {
-    gameModeCards() {
-      return this.flashcards.filter(card => !this.gameProgress[card.id]?.learned).sort((a, b) => {
-        return b.probability - a.probability
-      })
-    },
     sortedCards() {
       let cards = this.flashcards;
 
-      if (this.sortFilter) {
-        cards.sort((a, b) => {
-          let aCreatedTimestamp = new Date(a.created).getTime();
-          let bCreatedTimestamp = new Date(b.created).getTime();
-          let aUpdatedTimestamp = new Date(a.updated).getTime();
-          let bUpdatedTimestamp = new Date(b.updated).getTime();
-          if (this.sortFilter === "created-newest") {
-            if (aCreatedTimestamp < bCreatedTimestamp) {
-              return -1;
-            }
-            if (aCreatedTimestamp > bCreatedTimestamp) {
-              return 1;
-            }
-          }
-          if (this.sortFilter === "created-oldest") {
-            if (aCreatedTimestamp > bCreatedTimestamp) {
-              return -1;
-            }
-            if (aCreatedTimestamp < bCreatedTimestamp) {
-              return 1;
-            }
-          }
-
-          if (this.sortFilter === "updated-newest") {
-            if (aUpdatedTimestamp < bUpdatedTimestamp) {
-              return -1;
-            }
-            if (aUpdatedTimestamp > bUpdatedTimestamp) {
-              return 1;
-            }
-          }
-
-          if (this.sortFilter === "updated-oldest") {
-            if (aUpdatedTimestamp > bUpdatedTimestamp) {
-              return -1;
-            }
-            if (aUpdatedTimestamp < bUpdatedTimestamp) {
-              return 1;
-            }
-          }
-
-          if (this.sortFilter === "name-asc") {
-            if (a.front_side < b.front_side) {
-              return -1;
-            }
-            if (a.front_side > b.front_side) {
-              return 1;
-            }
-          }
-
-          if (this.sortFilter === "name-desc") {
-            if (a.front_side > b.front_side) {
-              return -1;
-            }
-            if (a.front_side < b.front_side) {
-              return 1;
-            }
-          }
-          return 0;
-        });
-      }
+      cards.sort((a, b) => {
+        let aCreatedTimestamp = new Date(a.created).getTime();
+        let bCreatedTimestamp = new Date(b.created).getTime();
+        let aUpdatedTimestamp = new Date(a.updated).getTime();
+        let bUpdatedTimestamp = new Date(b.updated).getTime();
+        if (this.sortFilter === "created-newest") {
+          if (aCreatedTimestamp < bCreatedTimestamp) return -1;
+          if (aCreatedTimestamp > bCreatedTimestamp) return 1;
+        }
+        if (this.sortFilter === "created-oldest") {
+          if (aCreatedTimestamp > bCreatedTimestamp) return -1;
+          if (aCreatedTimestamp < bCreatedTimestamp) return 1;
+        }
+        if (this.sortFilter === "updated-newest") {
+          if (aUpdatedTimestamp < bUpdatedTimestamp) return -1;
+          if (aUpdatedTimestamp > bUpdatedTimestamp) return 1;
+        }
+        if (this.sortFilter === "updated-oldest") {
+          if (aUpdatedTimestamp > bUpdatedTimestamp) return -1;
+          if (aUpdatedTimestamp < bUpdatedTimestamp) return 1;
+        }
+        if (this.sortFilter === "name-asc") {
+          if (a.front_side < b.front_side) return -1;
+          if (a.front_side > b.front_side) return 1;
+        }
+        if (this.sortFilter === "name-desc") {
+          if (a.front_side > b.front_side) return -1;
+          if (a.front_side < b.front_side) return 1;
+        }
+        return 0;
+      });
       return cards;
     },
   },
   methods: {
-    // in learning mode: if a card is learned it gets removed from the slider
-    // if is not learned (click in not learned). it reduces its probabilty of
-    // showing up again in the learnin' mode slider.
-    // when you finally clicked 'learned' in all cards, the results of how
-    // many times you did not remember a card content is shown!
-    updateCardProbability(modifier = 0) {
-      const selectedCardId = this.gameModeCards[this.selectedCardIndex]?.id
-      const flashcardIndex = this.flashcards.findIndex(card => card.id === selectedCardId)
-      const flashcard = this.flashcards[flashcardIndex];
-      const range = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
-      const probability = range(0, 100) + modifier
-      const updatedCard = {
-        ...flashcard,
-        probability: probability < 0 ? 0 : probability
-      }
-      this.$set(this.flashcards, flashcardIndex, updatedCard)
-    },
     onCardLearned() {
-      const card = this.gameModeCards[this.selectedCardIndex]
-      if (!(card.id in this.gameProgress)) {
-        this.$set(this.gameProgress, card.id, {
-          card,
-          learned: 0,
-          notLearned: 0
-        })
-      }
-      this.$set(this.gameProgress[card.id], 'learned', 1)
-      if (this.gameModeCards.length == 0) {
-        this.gameFinished = true
-      }
+      const card = this.gameModeCards[0]
+      if (!this.gameProgress[card.id])
+        this.gameProgress[card.id] = { card, learned: 0, notLearned: 0 };
+      this.gameProgress[card.id].learned++;
+
+      // remove card from game
+      this.gameModeCards.shift();
+
+      if (this.gameModeCards.length == 0)
+        this.gameFinished = true;
     },
     onCardNotLearned() {
-      const card = this.gameModeCards[this.selectedCardIndex]
-      if (!(card.id in this.gameProgress)) {
-        this.$set(this.gameProgress, card.id, {
-          card,
-          learned: 0,
-          notLearned: 0
-        })
-      }
-      // this.gameProgress[card.id].notLearned++
-      this.$set(this.gameProgress[card.id], 'notLearned', this.gameProgress[card.id].notLearned + 1)
-      this.updateCardProbability(-33)
-      this.flashcardsSwiper.slideNext();
+      const card = this.gameModeCards[0]
+
+      // unrotate card if it was rotated
+      const $flashcard = this.$refs[`flashcard-${card.id}`]?.[0]
+      $flashcard.classList.remove('swiper-slide-rotate');
+
+      if (!this.gameProgress[card.id])
+        this.gameProgress[card.id] = { card, learned: 0, notLearned: 0 };
+      this.gameProgress[card.id].notLearned++
+
+      // move card to end of game
+      this.gameModeCards.push(this.gameModeCards.shift());
+
+      // finish the game if the last card was not learned
+      if (this.gameModeCards.length == 1)
+        this.gameFinished = true;
     },
     onSlideClick(id) {
       const $flashcard = this.$refs[`flashcard-${id}`]?.[0]
-      if (!$flashcard) return;
-
-      const rotatedCardIndex = this.rotatedCards.findIndex((el) => el === id);
-      if (rotatedCardIndex < 0){
-        $flashcard.classList.add('swiper-slide-rotate')
-        this.rotatedCards.push(id)
-      } else {
-        $flashcard.classList.remove('swiper-slide-rotate')
-        this.rotatedCards.splice(rotatedCardIndex,1);
-      }
+      $flashcard.classList.toggle('swiper-slide-rotate');
     },
     initSwiper() {
       this.flashcardsSwiper = new Swiper(".swiper-container", {
@@ -448,6 +388,9 @@ export default {
         this.showGameMod = true;
 	this.gameFinished = false;
 	this.gameProgress = {};
+	this.gameModeCards = [...this.flashcards];
+	// shufle cards before playing?
+	// this.gameModeCards = this.flashcards.sort((a, b) => 0.5 - Math.random());
       } else {
         alert("Zuerst eine Karte erstellen");
       }
