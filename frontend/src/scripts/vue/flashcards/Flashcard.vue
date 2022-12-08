@@ -230,17 +230,7 @@ export default {
     };
   },
   async mounted() {
-    console.log(this.selectedDeck);
-    if (this.$parent.gameMode) {
-      await this.getFlashcards();
-    } else {
-      await this.getFlashcards();
-    }
-    console.log(this.flashcards);
-    //window.addEventListener("keydown", this.onKeyDown);
-  },
-  beforeDestroy() {
-    //window.removeEventListener("keydown", this.onKeyDown);
+    await this.getFlashcards();
   },
   watch: {
     async showGameMod(showGameMod) {
@@ -369,25 +359,11 @@ export default {
       // this.gameProgress[card.id].notLearned++
       this.$set(this.gameProgress[card.id], 'notLearned', this.gameProgress[card.id].notLearned + 1)
       this.updateCardProbability(-33)
-    },
-    // onKeyDown(e) {
-    //   if (!this.flashcardsSwiper) return;
-    //   if (e.key === "ArrowRight") this.swipeNext();
-    //   else if (e.key === "ArrowLeft") this.swipePrev();
-    // },
-    swipeNext() {
-      this.selectedCardIndex += 1;
-      if (!this.flashcardsSwiper) return;
       this.flashcardsSwiper.slideNext();
-    },
-    swipePrev() {
-      this.selectedCardIndex -= 1;
-      if (!this.flashcardsSwiper) return;
-      this.flashcardsSwiper.slidePrev();
     },
     onSlideClick(id) {
       const $flashcard = this.$refs[`flashcard-${id}`]?.[0]
-      if (!$flashcard) return
+      if (!$flashcard) return;
 
       const rotatedCardIndex = this.rotatedCards.findIndex((el) => el === id);
       if (rotatedCardIndex < 0){
@@ -400,13 +376,12 @@ export default {
     },
     initSwiper() {
       this.flashcardsSwiper = new Swiper(".swiper-container", {
+	allowSlideNext: false,
+	allowSlidePrev: false,
+	allowTouchMove: false,
         keyboard: {
-          enabled: true,
+          enabled: false,
           onlyInViewport: false,
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
         },
       });
     },
