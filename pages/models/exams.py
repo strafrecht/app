@@ -17,7 +17,7 @@ class ExamTable(Page):
         verbose_name = "Klausurdatenbank-Seite"
 
     def __str__(self):
-        print('exam table')
+        return 'exam table'
 
 
 @register_snippet
@@ -32,8 +32,8 @@ class Exams(models.Model):
     ]
     EXAM_DIFFICULTY_CHOICES = [
         ('beginner','Anfänger'),
-        ('intermediate','Fortgeschrittene'),
-        ('advanced','Examen'),
+        ('intermediate','Examen'),
+        ('advanced','Fortgeschrittene'),
         ('shortcases','Kurzfälle'),
     ]
 

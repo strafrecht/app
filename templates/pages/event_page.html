@@ -3,144 +3,125 @@
 {% load youtube_id %}
 {% load wagtailcore_tags wagtailimages_tags website_tags %}
 
-{% block extra_css %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/event_page.css' %}">
-{% endblock %}
-
-{% block extra_js %}
-{% endblock %}
-
-{% block body_class %}template-websitepage{% endblock %}
-
 {% block content %}
-	<div class="event-page">
-		<div class="content">
-			<div class="row">
-				<div class="column col-12">
-					{% if event.type == "tacheles" %}
-					<p class="roofline">Vortragsreihe TACHELES</p>
-					{% endif %}
-					<h2>{{ event.title }}</h2>
-					{% if event.showmap %}
-					{% endif %}
-					
-					{% if event.speaker_description %}
-					<h3>Referent</h3>
-					<p class="bold font-sm"><span class="meta font-sm">{{ event.speaker_description | richtext }}</span></p>
-					{% endif %}
+<div class="event-page">
+  <div class="content">
+    <div class="row">
+      <div class="column col-12">
+	{% if event.type == "tacheles" %}
+	<p class="roofline">Vortragsreihe TACHELES</p>
+	{% endif %}
+	<h2>{{ event.title }}</h2>
+	{% if event.showmap %}
+	{% endif %}
 
-					<h3>Veranstaltungsbeschreibung</h3>					
-					<p class="richtext">{{ event.description|richtext }}</p>
-				</div>
-			</div>
-		</div>
-	</div>
+	{% if event.speaker_description %}
+	<h3>Referent</h3>
+	<p class="bold font-sm"><span class="meta font-sm">{{ event.speaker_description | richtext }}</span></p>
+	{% endif %}
 
-	<script>
-		function map_init_basic(map, options) {
-			var accessToken = "pk.eyJ1Ijoic3RyYWZyZWNodCIsImEiOiJjazN5bDc5YjgwMXltM29xbXA5aXdrd3NoIn0.LF_egdLW4ROv-FZv8XMLJA"
+	<h3>Veranstaltungsbeschreibung</h3>
+	<p class="richtext">{{ event.description|richtext }}</p>
+      </div>
+    </div>
+  </div>
 
-			map.setView([47.9939, 7.8460], 13)
-			L.marker([47.9939, 7.8460]).addTo(map);
-			L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + accessToken, {
-				maxZoom: 18,
-				id: 'mapbox/streets-v11',
-				accessToken: accessToken
-			}).addTo(map);
-		}
-	</script>
+  {% if event.allow_comments %}
+  {% include "includes/comments.html" with object=event %}
+  {% endif %}
+</div>
 {% endblock %}
 
 {% block sidebar %}
 <div class="column">
-	<div class="sidebar sidebar-title">
-		<div class="text">
-			<span class="brand">
-				<p>Infos</p>
-			</span>
-		</div>
+  <div class="sidebar sidebar-title">
+    <div class="text">
+      <span class="brand">
+	<p>Infos</p>
+      </span>
+    </div>
+  </div>
+  <div id="calendar-widget">
+    <div class="sidebar sidebar-calendar-text">
+      <div id="calendar" style="margin-top: 10px;">
+	<time class="icon">
+	  {% now "Y-m-d" as todays_date %}
+	  {% if todays_date < event.date|date:"Y-m-d" %}
+			      <em>{{ event.date|date:"l" }}</em>
+			      <strong>{{ event.date|date:"F" }}</strong>
+			      <span>{{ event.date|date:"j" }}</span>
+			      {% else %}
+			      <em>{{ event.date|date:"F" }}</em>
+			      <strong>{{ event.date|date:"Y" }}</strong>
+			      <span>{{ event.date|date:"j" }}</span>
+			      {% endif %}
+	</time>
+      </div>
+      <div class="text">
+	<h3>Tacheles</h3>
+	<p>{{ event.title }}</p>
+      </div>
+    </div>
+  </div>
+  {% if event.poster_image or event.poster_pdf %}
+  <hr/>
+  <div class="block-sidebar_image_text">
+    <div class="sidebar sidebar-image-text">
+      {% if event.poster_image %}
+      <div class="image">
+	{% image event.poster_image width-320 %}
+      </div>
+      {% endif %}
+      {% if event.poster_pdf %}
+      <div class="text">
+	<h3>
+	  Veranstaltungsplakat
+	</h3>
+	<p>
+	  <a href="{{ event.poster_pdf.url }}">Als PDF downloaden</a>
+	</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% if event.newsletter %}
+  <hr/>
+  <div class="block-sidebar_border">
+    <div class="sidebar sidebar-border">
+      <div class="text">
+	<div class="infokasten kasten">
+	  <div>
+	    <p>
+	      Im <a href="{{ event.newsletter.url }}">Lehrstuhlnewsletter</a> erschien ein Event-Bericht zu der Veranstaltung.
+	    </p>
+	  </div>
 	</div>
-	<div id="calendar-widget">
-		<div class="sidebar sidebar-calendar-text">
-			<div id="calendar" style="margin-top: 10px;">
-				  <time class="icon">
-				  {% now "Y-m-d" as todays_date %}
-				  {% if todays_date < event.date|date:"Y-m-d" %}
-				    <em>{{ event.date|date:"l" }}</em>
-				    <strong>{{ event.date|date:"F" }}</strong>
-				    <span>{{ event.date|date:"j" }}</span>
-				  {% else %}
-				    <em>{{ event.date|date:"F" }}</em>
-				    <strong>{{ event.date|date:"Y" }}</strong>
-				    <span>{{ event.date|date:"j" }}</span>
-				  {% endif %}
-				  </time>
-			</div>
-			<div class="text">
-				<h3>Tacheles</h3>
-				<p>{{ event.title }}</p>
-			</div>
-		</div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% if event.youtube_link %}
+  <hr/>
+  <div class="block-sidebar_border">
+    <div class="sidebar sidebar-border">
+      <div class="text">
+	<div class="infokasten kasten">
+	  <div>
+	    <h3>Videoaufzeichnung</h3>
+	  </div>
+	  <div>
+	    <p>Eine <a href="{{ event.youtube_link }}">Videoaufzeichnung der Veranstaltung</a>
+	      ist auf YouTube verfügbar.
+	    </p>
+	    <p>
+	      <iframe width="100%" src="https://www.youtube.com/embed/{{ event.youtube_link|youtube_id }}" frameborder="0" allowfullscreen=""></iframe>
+	    </p>
+	  </div>
 	</div>
-	{% if event.poster_image or event.poster_pdf %}
-	<hr/>
-	<div class="block-sidebar_image_text">
-		<div class="sidebar sidebar-image-text">
-			{% if event.poster_image %}
-			<div class="image">
-				{% image event.poster_image width-320 %}
-			</div>
-			{% endif %}
-			{% if event.poster_pdf %}
-			<div class="text">
-				<h3>
-					Veranstaltungsplakat
-				</h3>
-				<p>
-					<a href="{{ event.poster_pdf.url }}">Als PDF downloaden</a>
-				</p>
-			</div>
-			{% endif %}
-		</div>
-	</div>
-	{% endif %}
-	{% if event.newsletter %}
-	<hr/>
-	<div class="block-sidebar_border">
-	<div class="sidebar sidebar-border">
-		<div class="text">
-			<div class="infokasten kasten">
-				<div>
-					<p>
-						Im <a href="{{ event.newsletter.url }}">Lehrstuhlnewsletter</a> erschien ein Event-Bericht zu der Veranstaltung.
-					</p>
-				</div>
-			</div> 
-		</div>
-	</div>
-	</div>
-	{% endif %}
-	{% if event.youtube_link %}
-	<hr/>
-	<div class="block-sidebar_border">
-	<div class="sidebar sidebar-border">
-		<div class="text">
-			<div class="infokasten kasten">
-				<div>
-					<h3>Videoaufzeichnung</h3>
-				</div>
-				<div>
-					<p>Eine <a href="{{ event.youtube_link }}">Videoaufzeichnung der Veranstaltung</a> 
-						ist auf YouTube verfügbar.
-					</p>
-					<p>
-						<iframe width="100%" src="https://www.youtube.com/embed/{{ event.youtube_link|youtube_id }}" frameborder="0" allowfullscreen=""></iframe>
-					</p>
-				</div>
-			</div> 
-		</div>
-	</div>
-	</div>
-	{% endif %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+
+{% block content %}
+<h2>Falltraining</h2>
+<p>
+  Im Falltraining tasten Sie sich Schritt für Schritt an die ideale Klausurlösung heran. Die sieben Steps des Trainings umfassen alle wichtigen Aspekte der Erarbeitung einer Lösung.
+</p>
+<p>
+  Das Falltraining unterstützt Sie dabei, ein strukturiertes Vorgehen zu erlernen, was für eine gute Klausur essentiell ist. Dabei gilt: je häufiger diese Schritte durchlaufen und verinnerlicht werden, desto leichter wird Ihnen die tatsächliche Klausursituation fallen.
+</p>
+<p>
+  Und das beste daran: für Sie besteht sogar die Möglichkeit, auf von Ihnen ausformulierte Ausschnitte des Gutachtens, individuelles Feedback einer Lehrperson zu erhalten!
+</p>
+<p>
+  Hinweis: Echte Altklausuren finden Sie in der FIXME Klausurendatenbank.
+</p>
+<div class="row mb-4">
+  <div class="col-sm-4">
+    <h3>Kurzfälle</h3>
+    {% for case in shortcase %}
+    <a href="{% url 'casetraining:show' case.id %}">{{ case.name }}</a>
+    <br />
+    {% endfor %}
+  </div>
+  <div class="col-sm-4">
+    <h3>Anfänger*innen</h3>
+    {% for case in beginner %}
+    <a href="{% url 'casetraining:show' case.id %}">{{ case.name }}</a>
+    <br />
+    {% endfor %}
+  </div>
+  <div class="col-sm-4">
+    <h3>Fortgeschrittene</h3>
+    {% for case in advanced %}
+    <a href="{% url 'casetraining:show' case.id %}">{{ case.name }}</a>
+    <br />
+    {% endfor %}
+  </div>
+</div>
+<p>
+  <strong>Kurzfälle:</strong> Diese Fälle eignen sich insbesondere für Erstsemestler. Auch wenn Sie gerade noch inmitten Ihrer Strafrecht AT Vorlesung stecken, so können Sie die Kurzfälle doch schon nutzen, um sich weiter mit den Grundstrukturen des Verbrechensaufbaus vertraut zu machen.
+</p>
+<p>
+  <strong>Anfänger*innen:</strong> Diese Fälle eignen sich insbesondere zur Vorbereitung auf Ihre erste Strafrechtsklausur. In erster Linie werden hier Kenntnisse im Strafrecht AT abgeprüft.
+</p>
+<p>
+  <strong>Fortgeschrittene:</strong> Diese Fälle eignen sich gleichermaßen zur Vorbereitung auf die Fortgeschrittenenklausur wie auch zur Vorbereitung auf das Staatsexamen. Kenntnisse sowohl im Strafrecht AT als auch im Strafrecht BT werden hier abgeprüft. Die erhöhte Komplexität eines Examensfalls im Vergleich zum Fortgeschrittenenfall besteht darin, dass er umfangreicher ist, mehrere Personen involviert sind und atypischere Delikte abgeprüft werden. Um einen solchen Fall meistern zu können, kommt es in erster Linie darauf an, die Zeit richtig zu managen und den Überblick fürs „große Ganze“ zu behalten. Eben diese Fähigkeiten können Sie hier bestens einüben.
+</p>
+<p>
+  FIXME Neuen Sachverhalt erstellen
+</p>
+{% endblock %}

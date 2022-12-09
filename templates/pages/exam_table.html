@@ -2,8 +2,6 @@
 
 {% load static wagtailuserbar wagtailcore_tags wagtailimages_tags website_tags %}
 
-{% include "layout/navbar.html" %}
-
 {% block extra_css %}
 {% endblock %}
 
@@ -170,7 +168,7 @@
     			}
     		},
 				mounted() {
-        	fetch("/run/api/exams")
+        	fetch("/jurcoach/klausurendatenbank/api")
         	.then(result => result.json())
         	.then((data) => {
 							const records = data.data

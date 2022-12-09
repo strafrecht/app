@@ -89,7 +89,6 @@
       </div>
       {% endblock %}
 
-
       {% if page.slug != "strafrecht-online" %}
       <main role="main" class="{% if page.slug == 'jurcoach' %}'w-full'{% else %}container{% endif %}">
 	<div class="container-inner flex-column flex-md-row p-0 w-full">
@@ -97,6 +96,8 @@
 
 	  <!--div class="content d-inline-flex col-xs-12 col-sm-12 col-md-{% if page.sidebar %}8{% else %}12{% endif %} col-lg-12 p-0 pr-4"-->
 	  <div class="{% if page.slug == 'jurcoach' %}w-100{% else %}content{% endif %}">
+	    {% include 'includes/messages.html' %}
+
 	    {% block content %}{% endblock %}
 	  </div>
 

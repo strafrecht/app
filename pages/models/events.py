@@ -143,6 +143,7 @@ class EventPage(Page):
         ('sos-2010', 'Sommersemester 2010'),
     ]
 
+    allow_comments = models.BooleanField(default=False, verbose_name="Kommentare erlaubt")
     subtitle = models.CharField("Untertitel", max_length=255, null=True, blank=True)
     date = models.DateTimeField(verbose_name="Datum (die hier eingetragene Uhrzeit muss nicht stimmen)")
     semester = models.CharField("Semester",
@@ -194,6 +195,7 @@ class EventPage(Page):
         MultiFieldPanel([
             FieldPanel('title', classname="col-12"),
             FieldPanel('subtitle', classname="col-12"),
+            FieldPanel('allow_comments', classname="col-12"),
         ], "Event"),
         MultiFieldPanel([
             FieldPanel('semester', classname="col-12"),

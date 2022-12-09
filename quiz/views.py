@@ -13,7 +13,8 @@ from .serializers import *
 
 
 def index(request):
-    header_image = JurcoachPage.objects.all().last().header
+    header_image = JurcoachPage.objects.last().header
+    # FIXME: remove not used headline + slogan
     header_headline = JurcoachPage.objects.all().last().header_headline
     header_slogan = JurcoachPage.objects.all().last().header_slogan
     return render(request, "quiz/index.html", {
@@ -216,7 +217,7 @@ def get_category_tree(request):
 def _tree_entry(category):
     return {
         "id": category["category"].article.id,
-        "label": category["category"].article.articlerevision_set.first().title,
+        "label": category["category"].article.current_revision.title,
     }
 
 def get_questions(cat):

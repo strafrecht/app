@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
+from django.contrib import messages
 
 from wiki.models import ArticleRevision
 
@@ -124,39 +125,38 @@ def quiz_summary(request, id):
         "quiz_summary": quiz_summary
     })
 
-def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password =  request.POST['password']
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            auth_login(request, user)
-            request.session['username'] = username
-            return redirect("profile:index")
-    return render(request, 'profiles/login.html', {})
-
 def register(request):
-    form = SignupForm()
-
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-
-        for item in request.POST.items(): print(item)
-
+        form = SignupForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
+            user = form.save()
             auth_login(request, user)
-            return redirect('/')
-        else:
-            print(form.errors)
+            messages.success(request, "Registration successful.")
+            return redirect("/")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    else:
+        form = SignupForm()
     return render(request, 'profiles/register.html', {'form': form})
 
+def login(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                if request.GET.get("next", None):
+                    return redirect(request.GET["next"])
+                return redirect("profile:index")
+            messages.error(request,"Invalid username or password.")
+    else:
+        form = AuthenticationForm()
+    return render(request=request, template_name="profiles/login.html", context={"login_form":form})
 
 def logout(request):
     auth_logout(request)
-    return render(request, 'profiles/login.html', {})
+    messages.success(request, "Logout successful.")
+    return redirect("/")

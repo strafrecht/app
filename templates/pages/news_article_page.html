@@ -7,25 +7,18 @@
 
 {% block content %}
 <div class="container">
-  <div class="col-md-12">
-    <p class="meta badge" style="background:#FFE200;color:#3d3d3d;">{{ page.date|date:"d.m.Y" }}</p>
-    <h2 class="font-weight-bold">{{ page.title }}</h2>
+  <p class="meta badge" style="background:#FFE200;color:#3d3d3d;">{{ page.date|date:"d.m.Y" }}</p>
+  <h2 class="font-weight-bold">{{ page.title }}</h2>
 
-    {% if page.author %}
-    <p>Von <a href="/personen/{{ page.author.id }}">{{ page.author.first_name }} {{ page.author.last_name }}</a></p>
-    {% else %}
-    <p>Von <a href="/personen/{{ page.owner.id }}">{{ page.owner.first_name }} {{ page.owner.last_name }}</a></p>
-    {% endif %}
+  {% if page.author %}
+  <p>Von <a href="/institut/personen/{{ page.author.id }}">{{ page.author_name }}</a></p>
+  {% endif %}
 
-    <div class="richtext">{{ page.body|richtext }}</div>
+  <div class="richtext mb-4">{{ page.body|richtext }}</div>
 
-    <br>
-    <p><a href="{{ page.get_parent.url }}">Read more news articles</a></p>
-
-    {% if page.allow_comments %}
-    {% include "includes/comments.html" with object=page %}
-    {% endif %}
-  </div>
+  {% if page.allow_comments %}
+  {% include "includes/comments.html" with object=page %}
+  {% endif %}
 </div>
 {% endblock %}
 

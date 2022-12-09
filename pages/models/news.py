@@ -137,7 +137,7 @@ class ArticlePage(Page):
         verbose_name_plural="News-Artikel"
 
     allow_comments = models.BooleanField(default=False, verbose_name="Kommentare erlaubt")
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='+', null=True, blank=True, verbose_name="Autor*in")
+    author = models.ForeignKey("People", on_delete=models.SET_NULL, related_name='+', null=True, blank=True, verbose_name="Autor*in")
     date = models.DateField('Datum')
     body = RichTextField(blank=True, verbose_name="Inhalt")
     tags = ClusterTaggableManager(through=PageTag, blank=True)
@@ -249,6 +249,7 @@ class EvaluationsPage(Page):
             FieldPanel('sidebar', classname='col4'),
         ], classname='full')
     ]
+
 class NewslettersPage(Page):
     class Meta:
         verbose_name="Newsletter-Seite"

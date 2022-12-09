@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 from . import vars # container environment specific vars
 import os
-
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'crispy_forms',
     # Admin Interface
     #'admin_interface',
     'colorfield',
@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'app',
     'core',
     'quiz',
+    'casetraining',
     'pages',
     #'news',
     'emails',
@@ -240,23 +241,22 @@ else:
 
 DATABASES = vars.vars["DATABASES"]
 
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
-    #{
-    #    'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    #},
-    #{
-    #    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    #},
-    #{
-    #    'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    #},
-    #{
-    #    'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    #},
+    {
+       'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+       'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+       'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+       'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CHANNEL_LAYERS = {
   'default': {
@@ -324,13 +324,14 @@ PIPELINE = {
 
 X_FRAME_OPTIONS='SAMEORIGIN'
 
-WIKI_ACCOUNT_HANDLING = True
-WIKI_ACCOUNT_SIGNUP_ALLOWED = True
+WIKI_ACCOUNT_HANDLING = False
 WIKI_ANONYMOUS = True
 WIKI_ANONYMOUS_CREATE = True
 WIKI_ANONYMOUS_WRITE = True
 WIKI_EDITOR = 'editors.modern.Modern'
 WIKI_CHECK_SLUG_URL_AVAILABLE = False
+# we hopefully don't get over this
+WIKI_SHOW_MAX_CHILDREN = 500
 
 from .wiki_patch import wiki_can_moderate
 WIKI_CAN_MODERATE = wiki_can_moderate
@@ -415,6 +416,14 @@ AVATAR_MAX_AVATARS_PER_USER = '1'
 COMMENTS_APP = 'django_comments_xtd'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 LOGGING = {
     'version': 1,

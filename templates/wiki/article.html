@@ -1,5 +1,5 @@
 {% extends "wiki/base.html" %}
-{% load wiki_tags i18n sekizai_tags %}
+{% load wiki_tags i18n sekizai_tags sorted_wiki %}
 
 {% block wiki_pagetitle %}
 {{ article.current_revision.title }}
@@ -58,11 +58,12 @@
     {% endif %}
   </div>
 
+  {% if selected_tab == "view" %}
   {% if children_slice|length > 0 %}
   <section class="text-center wiki-submenu">
     <label><h3>Problemfelder</h3></label>
     <div class="wiki-children">
-      {% for urlpath in children_slice %}
+      {% for urlpath in children_slice|sorted_wiki:urlpath %}
       <a href="{% url 'wiki:get' path=urlpath.path %}">
 	<span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span>
       </a>
@@ -71,7 +72,6 @@
   </section>
   {% endif %}
 
-  {% if selected_tab == "view" %}
   <section>
     {% include "wiki/includes/menu.html" %}
     <div class="clearfix"></div>
