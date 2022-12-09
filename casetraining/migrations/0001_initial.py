@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('wiki', '0005_alter_urlpath_slug'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
