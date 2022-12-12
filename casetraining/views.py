@@ -25,8 +25,8 @@ def wiki_categories(request):
     return JsonResponse(_wiki_articles(request, URLPath.root()))
 
 def _wiki_articles(request, node):
-    if not node.article.other_read:
-        return None
+    # if not node.article.other_read:
+    #     return None
 
     return {
         "id": node.article.id,

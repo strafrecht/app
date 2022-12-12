@@ -9,10 +9,10 @@
   </div>
 
   <h1>Step: {{ currentStepNo }} / {{ steps() }}</h1>
-  <p>{{ currentStep() }}</p>
+  <p>{{ currentStep }}</p>
   <h2>{{ currentCase.name }} (Niveau: {{ currentCase.difficulty }})</h2>
 
-  <div v-if="currentStep().step_type == 'read'">
+  <div v-if="currentStep.step_type == 'read'">
     <div class="row">
       <div class="col-sm-6">
 	<div v-html="currentCase.facts"></div>
@@ -28,10 +28,10 @@
     <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
   </div>
 
-  <div v-if="currentStep().step_type == 'mark_sections'">
+  <div v-if="currentStep.step_type == 'mark_sections'">
     <div class="row">
       <div class="col-sm-6" :class="markColorStyle">
-	<div id="mark-area-content" v-html="currentStep().config[0].answer" @mouseup="markUp()"></div>
+	<div id="mark-area-content" v-html="currentStep.answers[0]" @mouseup="markUp()"></div>
       </div>
       <div class="col-sm-6 border">
 	<h4>Step {{ currentStepNo }}</h4>
@@ -50,23 +50,23 @@
     <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
   </div>
 
-  <div v-if="currentStep().step_type == 'penalties'">
+  <div v-if="currentStep.step_type == 'penalties'">
     <div class="row">
       <div class="col-sm-6">
-	{{ currentCase.facts }}
+	<div v-html="currentCase.facts"></div>
       </div>
       <div class="col-sm-6 border">
 	<h4>Step {{ currentStepNo }}</h4>
 	<p>
 	  Ermitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.
 	</p>
-	<div v-for="(penalty, index) in currentStep().config">
+	<div v-for="(penalty, qindex) in currentStep.config">
 	  <h4>{{ penalty.text }}</h4>
-	  <div v-for="(answer, index) in penalty.answers">
-	    <input v-model="penalty.answers[index]">
-	    <button v-if="penalty.answers.length > 1" class="btn btn-success" @click="penaltyDelAnswer(penalty, index)">-</button>
+	  <div v-for="(answer, index) in currentStep.answers[qindex]">
+	    <input v-model="currentStep.answers[qindex][index]">
+	    <button class="btn btn-success" @click="penaltyDelAnswer(qindex, index)">-</button>
 	  </div>
-	  <button class="btn btn-success" @click="penaltyAddAnswer(penalty)">+</button>
+	  <button class="btn btn-success" @click="penaltyAddAnswer(qindex)">+</button>
 	</div>
       </div>
     </div>
@@ -74,21 +74,27 @@
     <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
   </div>
 
-  <div v-if="currentStep().step_type == 'problem_areas'">
+  <div v-if="currentStep.step_type == 'problem_areas'">
     <div class="row">
-      <div class="col-sm-6">
-	{{ currentCase.facts }}
+      <div class="col-sm-6 show-parts">
+	<div v-html="currentCase.facts"></div>
       </div>
       <div class="col-sm-6 border">
 	<h4>Step {{ currentStepNo }}</h4>
 	<p>
-	  Ermitteln Sie die Problemfelder des 1. Sachverhaltsabschnitts.
+	  Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.
 	</p>
+	<div v-for="(answer, index) in currentStep.answers">
+	  <div>{{ answer.title }}</div>
+	  <div><button class="btn btn-danger" @click="delProblemAreaArticle(index)">-</button></div>
+	</div>
 	<input v-model="wikiSearch">
 	<div v-for="(article, index) in wikiSearchArticles()">
 	  <div><small><i>{{ article.path.join(' &gt; ') }}</i></small></div>
 	  <div>{{ article.title }}</div>
+	  <div>{{ article }}</div>
 	  <div><a :href="article.url" target="_blank">zum Wiki</a></div>
+	  <div><button class="btn btn-success" @click="addProblemAreaArticle(article)">hinzufügen</button></div>
 	  <hr/>
 	</div>
       </div>
@@ -97,7 +103,7 @@
     <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
   </div>
 
-  <div v-if="currentStep().step_type == 'gap_text'">
+  <div v-if="currentStep.step_type == 'gap_text'">
     <div class="row">
       <div class="col-sm-6">
       </div>
@@ -109,23 +115,23 @@
       </div>
     </div>
 
-    <div v-for="(question, index) in currentStep().config">
+    <div v-for="(question, qindex) in currentStep.config">
       <div class="row">
 	<div class="col-sm-6">
-	  <h4>Frage {{ index + 1 }}</h4>
+	  <h4>Frage {{ qindex + 1 }}</h4>
 	  <div>
 	    <span v-for="(word, index) in words(question.question)">
 	      <span>{{ word }}</span>
 	      <span v-if="index !== words(question.question).length - 1">
-		<span class="gap-drop" @drop="onDrop($event, question, index)" @dragover.prevent @dragenter.prevent>
-		  {{ wordAt(question, index) }}
+		<span class="gap-drop" @drop="onGapDrop($event, question, qindex, index)" @dragover.prevent @dragenter.prevent>
+		  {{ gapWordAt(question, qindex, index) }}
 		</span>
 	      </span>
 	    </span>
 	  </div>
 	</div>
 	<div class="col-sm-6">
-	  <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, answer)">
+	  <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startGapDrag($event, qindex, answer)">
 	    <div class="gap-drag">{{ answer }}</div>
 	  </div>
 	</div>
@@ -137,7 +143,7 @@
     <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
   </div>
 
-  <div v-if="currentStep().step_type == 'free_text'">
+  <div v-if="currentStep.step_type == 'free_text'">
     <div class="row">
       <div class="col-sm-6">
 	<div v-html="currentCase.facts"></div>
@@ -147,9 +153,9 @@
 	<p>
 	  Bearbeiten Sie die folgenden Aufgaben.
 	</p>
-	<div v-for="discussion in currentStep().config">
+	<div v-for="(discussion, index) in currentStep.config">
 	  <div v-html="discussion.text"></div>
-	  <textarea v-model="discussion.answer" ></textarea>
+	  <textarea v-model="currentStep.answers[index]" ></textarea>
 	</div>
       </div>
     </div>
@@ -199,16 +205,16 @@ export default {
     await this.getWikiTree();
     await this.getCurrentCase();
     this.currentCase.steps.forEach(element => {
-      if (!element.config)
-	element.config = [{}];
+      element.answers = [];
+      // if (!element.config)
+      // 	element.config = [{}];
 
-      element.config.forEach(element => {
-	element.answer = "";
-	element.answers = [""];
-      });
+      // element.config.forEach(element => {
+      // 	element.answer = "";
+      // });
 
       if (element.step_type == "mark_sections")
-	element.config[0].answer = this.currentCase.facts;
+       	element.answers[0] = this.currentCase.facts;
     });
     this.dataReady = true;
     this.timerStart = Date.now();
@@ -221,6 +227,9 @@ export default {
   computed: {
     markColorStyle() {
       return "mark-area mark-" + this.markColor;
+    },
+    currentStep() {
+      return this.currentCase.steps[this.currentStepNo - 1];
     },
   },
   methods: {
@@ -241,6 +250,7 @@ export default {
     makeWikiEntry(articles, path) {
       articles.forEach(article => {
 	this.wikiArticles.push({
+	  id: article.id,
 	  title: article.title,
 	  url: article.url,
 	  path: path,
@@ -279,9 +289,6 @@ export default {
     steps() {
       return this.currentCase.steps.length;
     },
-    currentStep() {
-      return this.currentCase.steps[this.currentStepNo - 1];
-    },
     wikiSearchArticles() {
       if (this.wikiSearch.length < 3)
 	return []
@@ -293,14 +300,13 @@ export default {
 	  (article.title.search(re) >= 0)
       );
     },
-    penaltyDelAnswer(penalty, index) {
-      penalty.answers.splice(index, 1);
-      console.log(index)
-      console.log(penalty.answers)
+    penaltyDelAnswer(qindex, index) {
+      this.currentStep.answers[qindex].splice(index, 1);
     },
-    penaltyAddAnswer(penalty) {
-      penalty.answers = penalty.answers.concat([""])
-      console.log(penalty.answers)
+    penaltyAddAnswer(qindex) {
+      if (typeof this.currentStep.answers[qindex] === 'undefined')
+	this.currentStep.answers[qindex] = [];
+      this.currentStep.answers[qindex].push("")
     },
     gapTexts(question) {
       return question.correct.concat(question.other)
@@ -308,29 +314,40 @@ export default {
     words(text) {
       return text.split("_");
     },
-    wordAt(question, index) {
-      if (typeof question.solution === 'undefined' ||
-	  !question.solution[index])
+    gapWordAt(question, qindex, index) {
+      if (typeof this.currentStep.answers[qindex] === 'undefined' ||
+	  typeof this.currentStep.answers[qindex][index] === 'undefined' ||
+	  !this.currentStep.answers[qindex][index])
 	return "__________"
 
-      return question.solution[index];
+      return this.currentStep.answers[qindex][index];
     },
-    onDrop(evt, question, index) {
+    onGapDrop(evt, question, qindex, index) {
+      if (qindex != evt.dataTransfer.getData('qindex'))
+	  return false;
       const item = evt.dataTransfer.getData('item');
-      if (typeof question.solution === 'undefined')
-	question.solution = Array(this.words(question.question).length - 1);
-      question.solution[index] = item;
+      if (typeof this.currentStep.answers[qindex] === 'undefined')
+	this.currentStep.answers[qindex] = Array(this.words(question.question).length - 1);
+      this.currentStep.answers[qindex][index] = item;
     },
-    startDrag(evt, item) {
+    startGapDrag(evt, qindex, item) {
       evt.dataTransfer.dropEffect = 'move'
       evt.dataTransfer.effectAllowed = 'move'
       evt.dataTransfer.setData('item', item)
+      evt.dataTransfer.setData('qindex', qindex)
+    },
+    addProblemAreaArticle(article) {
+      this.currentStep.answers.push(article);
+      this.wikiSearch = "";
+    },
+    delProblemAreaArticle(index) {
+      this.currentStep.answers.splice(index, 1);
     },
     setMarkColor(name) {
       this.markColor = name;
     },
     markReset() {
-      this.currentStep().config[0].answer = this.currentCase.facts;
+      this.currentStep.answers[0] = this.currentCase.facts;
     },
     markUp() {
       var sel = window.getSelection();
@@ -344,7 +361,7 @@ export default {
 	document.execCommand("BackColor", false, this.markColor);
 	document.designMode = "off";
 	sel.removeAllRanges();
-	this.currentStep().config[0].answer = document.getElementById("mark-area-content").innerHTML;
+	this.currentStep.answers[0] = document.getElementById("mark-area-content").innerHTML;
 	//var span = document.createElement("span");
         //span.style.cssText = "background: " + this.markColor;
         //range.surroundContents(span);
@@ -359,6 +376,6 @@ export default {
 // https://stackoverflow.com/questions/17288964/how-to-change-color-of-the-selected-text-dynamically-on-click-of-button
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import './styles.scss';
 </style>

@@ -1,4 +1,20 @@
 .casetraining {
+
+  .show-parts {
+    .part1 {
+      background: red;
+    }
+    .part2 {
+      background: blue;
+    }
+    .part3 {
+      background: yellow;
+    }
+    .part4 {
+      background: orange;
+    }
+  }
+
   .mark-area {
     cursor: text;
   }
