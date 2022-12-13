@@ -6,15 +6,20 @@
     </div>
   </template>
   <template #right>
-    <p>
-      Markieren Sie die Sachverhaltsabschnitte in unterschiedlichen Farben.
-    </p>
-    <div style="background: red" @click="setColor('red')">xxx</div>
-    <div style="background: blue" @click="setColor('blue')">xxx</div>
-    <div style="background: yellow" @click="setColor('yellow')">xxx</div>
-    <div style="background: green" @click="setColor('green')">xxx</div>
-    <div style="background: pink" @click="setColor('pink')">xxx</div>
-    <button class="btn btn-success" @click="markReset()">Reset</button>
+    <div v-if="myStep == 1">
+      <p>
+	Markieren Sie die Sachverhaltsabschnitte in unterschiedlichen Farben.
+      </p>
+      <div style="background: red" @click="setColor('red')">xxx</div>
+      <div style="background: blue" @click="setColor('blue')">xxx</div>
+      <div style="background: yellow" @click="setColor('yellow')">xxx</div>
+      <div style="background: green" @click="setColor('green')">xxx</div>
+      <div style="background: pink" @click="setColor('pink')">xxx</div>
+      <button class="btn btn-success" @click="markReset()">Reset</button>
+    </div>
+    <div v-if="myStep == 2">
+      <div class="show-parts" v-html="currentCase.facts"></div>
+    </div>
   </template>
   <template #buttons>
     <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
@@ -45,6 +50,7 @@ export default {
   data() {
     return {
       componentKey: 0,
+      myStep: 1,
       markColor: null,
     }
   },
@@ -58,7 +64,10 @@ export default {
       this.$parent.prevStep();
     },
     nextStep() {
-      this.$parent.nextStep();
+      if (this.myStep == 2)
+	return this.$parent.nextStep();
+
+      this.myStep += 1;
     },
     setColor(name) {
       this.markColor = name;

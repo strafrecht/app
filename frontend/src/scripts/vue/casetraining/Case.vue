@@ -88,13 +88,6 @@ export default {
     await this.getCurrentCase();
     this.currentCase.steps.forEach(element => {
       element.answers = [];
-      // if (!element.config)
-      // 	element.config = [{}];
-
-      // element.config.forEach(element => {
-      // 	element.answer = "";
-      // });
-
       if (element.step_type == "mark_sections")
        	element.answers[0] = this.currentCase.facts;
     });
