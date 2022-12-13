@@ -1,0 +1,11 @@
+.mark-area {
+  cursor: text;
+}
+
+.mark-red ::selection {
+  background: red;
+}
+
+.mark-blue ::selection {
+  background: blue;
+}
