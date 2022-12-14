@@ -10,7 +10,7 @@
     </p>
     <div v-for="(discussion, index) in currentStep.config">
       <div v-html="discussion.text"></div>
-      <textarea v-model="currentStep.answers[index]" ></textarea>
+      <vue-editor v-model="currentStep.answers[index]" :editorToolbar="customToolbar"></vue-editor>
     </div>
   </template>
   <template #buttons>
@@ -22,11 +22,13 @@
 
 <script>
 import StepTemplate from "./StepTemplate.vue";
+import { VueEditor } from "vue2-editor";
 
 export default {
   name: "StepRead",
   components: {
     StepTemplate,
+    VueEditor,
   },
   props: {
     currentCase: {
@@ -42,12 +44,21 @@ export default {
   data() {
     return {
       componentKey: 0,
+      customToolbar: [
+        ["bold", "italic"],
+        [{ list: "ordered" }, { list: "bullet" }],
+      ],
     }
   },
   methods: {
+    prevStep() {
+      this.$parent.prevStep();
+    },
     nextStep() {
       this.$parent.nextStep();
     },
   },
 }
 </script>
+<style lang="scss">
+</style>
