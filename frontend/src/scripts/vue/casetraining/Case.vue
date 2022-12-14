@@ -93,11 +93,6 @@ export default {
   },
   async mounted() {
     await this.getCurrentCase();
-    this.currentCase.steps.forEach(element => {
-      element.answers = [];
-      if (element.step_type == "mark_sections")
-       	element.answers[0] = this.currentCase.facts;
-    });
     this.dataReady = true;
     this.timerStart = Date.now();
     setInterval(() => {

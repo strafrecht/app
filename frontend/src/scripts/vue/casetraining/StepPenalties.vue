@@ -1,7 +1,7 @@
 <template>
 <step-template type="penalties" :key="componentKey">
   <template #left>
-    <div v-html="currentCase.facts"></div>
+    <div class="show-parts" v-html="currentCase.facts"></div>
   </template>
   <template #right>
     <p>
@@ -9,12 +9,15 @@
     </p>
     <div v-for="(penalty, qindex) in currentStep.config">
       <h4>{{ penalty.text }}</h4>
-      <div v-for="(answer, index) in currentStep.answers[qindex]">
-	<input v-model="currentStep.answers[qindex][index]">
-	<button class="btn btn-success" @click="delAnswer(qindex, index)">-</button>
-      </div>
-      <button class="btn btn-success" @click="addAnswer(qindex)">+</button>
-	</div>
+      <SlickList axis="y" v-model="currentStep.answers[qindex]" @sort-end="reRender()">
+    	<SlickItem v-for="(answer, index) in currentStep.answers[qindex]" :key="answer" :index="index">
+    	  <div class="border">
+    	    <input v-model="currentStep.answers[qindex][index]" @change="handleBlur(qindex, index)" :ref="'input_' + qindex + '_' + index" :class="'input_' + qindex + '_' + index">
+    	    <button v-if="currentStep.answers[qindex].length != 1" class="btn btn-success" @click="delAnswer(qindex, index)">-</button>
+    	  </div>
+    	</SlickItem>
+      </SlickList>
+    </div>
   </template>
   <template #buttons>
     <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
@@ -25,11 +28,15 @@
 
 <script>
 import StepTemplate from "./StepTemplate.vue";
+import { nextTick } from "vue";
+import { SlickList, SlickItem } from 'vue-slicksort';
 
 export default {
   name: "StepPenalties",
   components: {
     StepTemplate,
+    SlickList,
+    SlickItem,
   },
   props: {
     currentCase: {
@@ -45,12 +52,19 @@ export default {
   data() {
     return {
       componentKey: 0,
+      myStep: 1,
     }
   },
   computed: {
-    markColorStyle() {
-      return "mark-area mark-" + this.markColor;
-    },
+  },
+  beforeMount() {
+    if (typeof this.currentStep.answers !== "undefined")
+      return;
+
+    this.currentStep.answers = new Array(this.currentStep.config.length).fill([""]);
+  },
+  mounted() {
+    this.$refs.input_0_0[0].focus();
   },
   methods: {
     prevStep() {
@@ -59,14 +73,23 @@ export default {
     nextStep() {
       this.$parent.nextStep();
     },
+    async handleBlur(qindex, index) {
+      this.currentStep.answers[qindex] = this.currentStep.answers[qindex].filter(n => n);
+      this.currentStep.answers[qindex].push("");
+      this.componentKey += 1;
+      await nextTick()
+      var next_index = index + 1;
+      if (next_index >= this.currentStep.answers[qindex].length)
+	next_index = this.currentStep.answers[qindex].length - 1;
+
+      console.log(next_index)
+      this.$refs["input_" + qindex + "_" + next_index][0].focus();
+    },
     delAnswer(qindex, index) {
       this.currentStep.answers[qindex].splice(index, 1);
       this.componentKey += 1;
     },
-    addAnswer(qindex) {
-      if (typeof this.currentStep.answers[qindex] === 'undefined')
-	this.currentStep.answers[qindex] = [];
-      this.currentStep.answers[qindex].push("")
+    reRender() {
       this.componentKey += 1;
     },
   },

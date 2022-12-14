@@ -50,6 +50,12 @@ export default {
       ],
     }
   },
+  beforeMount() {
+    if (typeof this.currentStep.answers !== "undefined")
+      return;
+
+    this.currentStep.answers = [];
+  },
   methods: {
     prevStep() {
       this.$parent.prevStep();

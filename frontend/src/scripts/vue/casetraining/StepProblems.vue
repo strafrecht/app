@@ -56,6 +56,12 @@ export default {
       wikiArticles: [],
     }
   },
+  beforeMount() {
+    if (typeof this.currentStep.answers !== "undefined")
+      return;
+
+    this.currentStep.answers = [];
+  },
   async mounted() {
     await this.getWikiTree();
   },

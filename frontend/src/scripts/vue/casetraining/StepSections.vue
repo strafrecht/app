@@ -59,6 +59,12 @@ export default {
       return "mark-area mark-" + this.markColor;
     },
   },
+  beforeMount() {
+    if (typeof this.currentStep.answers !== "undefined")
+      return;
+
+    this.currentStep.answers = [this.currentCase.facts];
+  },
   methods: {
     prevStep() {
       this.$parent.prevStep();
