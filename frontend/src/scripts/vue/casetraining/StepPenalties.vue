@@ -7,17 +7,28 @@
     <p>
       Ermitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.
     </p>
-    <div v-for="(penalty, qindex) in currentStep.config">
-      <h4>{{ penalty.text }}</h4>
-      <SlickList axis="y" v-model="currentStep.answers[qindex]" @sort-end="reRender()">
-    	<SlickItem v-for="(answer, index) in currentStep.answers[qindex]" :key="answer" :index="index">
-    	  <div class="border">
-	    {{ currentStep.answers[qindex][index] }}
-    	    <input v-model="currentStep.answers[qindex][index]" @change="handleBlur(qindex, index)" :ref="'input_' + qindex + '_' + index" :class="'input_' + qindex + '_' + index">
-    	    <button v-if="currentStep.answers[qindex].length != 1" class="btn btn-success" @click="delAnswer(qindex, index)">-</button>
-    	  </div>
-    	</SlickItem>
-      </SlickList>
+    <div v-if="myStep == 1">
+      <div v-for="(penalty, qindex) in currentStep.config">
+	<h4>{{ penalty.text }}</h4>
+	<SlickList axis="y" v-model="currentStep.answers[qindex]" @sort-end="reRender()">
+    	  <SlickItem v-for="(answer, index) in currentStep.answers[qindex]" :key="answer" :index="index">
+    	    <div class="border">
+    	      <input v-model="currentStep.answers[qindex][index]" @change="handleBlur(qindex, index)" :ref="'input_' + qindex + '_' + index" :class="'input_' + qindex + '_' + index">
+    	      <button v-if="currentStep.answers[qindex].length != 1" class="btn btn-success" @click="delAnswer(qindex, index)">-</button>
+    	    </div>
+    	  </SlickItem>
+	</SlickList>
+      </div>
+    </div>
+    <div v-if="myStep == 2">
+      <div v-for="(penalty, qindex) in currentStep.config">
+	<h4>{{ penalty.text }}</h4>
+	<div v-for="(solution, index) in solutions(qindex)">
+	  {{ solution[0] }}
+	  --
+	  {{ solution[1] }}
+	</div>
+      </div>
     </div>
   </template>
   <template #buttons>
@@ -81,6 +92,21 @@ export default {
 
       this.myStep += 1;
     },
+    solutions(qindex) {
+      this.currentStep.answers[qindex] = this.currentStep.answers[qindex].filter(n => n);
+      var count = this.currentStep.answers[qindex].length;
+      if (count < this.currentStep.config[qindex].correct.length)
+	count = this.currentStep.config[qindex].correct.length;
+
+      var solution = []
+      for (let i = 0; i < count; i++) {
+	solution.push([
+	  this.currentStep.answers[qindex][i],
+	  this.currentStep.config[qindex].correct[i]
+	]);
+      }
+      return solution;
+    },
     async handleBlur(qindex, index) {
       this.currentStep.answers[qindex] = this.currentStep.answers[qindex].filter(n => n);
       this.currentStep.answers[qindex].push("");
@@ -93,6 +119,7 @@ export default {
       console.log(next_index)
       this.$refs["input_" + qindex + "_" + next_index][0].focus();
     },
+
     delAnswer(qindex, index) {
       this.currentStep.answers[qindex].splice(index, 1);
       this.componentKey += 1;
