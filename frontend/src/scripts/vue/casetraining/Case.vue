@@ -1,16 +1,21 @@
 <template>
 <div v-if="dataReady" class="casetraining">
 
-  <div class="case-timer">
-    {{ timerMinSec() }}
-    <button class="btn btn-success" @click="timerPause()" v-if="timerRun">Pause</button>
-    <button class="btn btn-success" @click="timerPause()" v-if="!timerRun">Resume</button>
-    <button class="btn btn-success" @click="timerReset()">Reset</button>
+  <div class="case-timer bg-light border float-right p-1 rounded-pill" style="margin-top: 20px;">
+    <strong>{{ timerMinSec() }}</strong>
+    <button class="btn btn-success btn-sm rounded-circle" @click="timerPause()">
+      <i v-if="timerRun" class="fa fa-pause" />
+      <i v-else class="fa fa-play" />
+    </button>
+    <button class="btn btn-success btn-sm rounded-circle" @click="timerReset()">
+      <i class="fa fa-undo" />
+    </button>
   </div>
 
-  <h1>Step: {{ currentStepNo }} / {{ steps() }}</h1>
-  <p>{{ currentStep }}</p>
   <h2>{{ currentCase.name }} (Niveau: {{ currentCase.difficulty }})</h2>
+
+
+  <h4>Step: {{ currentStepNo }} / {{ steps() }}</h4>
 
   <div v-if="currentStep.step_type == 'read'">
     <StepRead :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
@@ -35,6 +40,8 @@
   <div v-if="currentStep.step_type == 'free_text'">
     <StepFreeText :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
   </div>
+
+  <p>{{ currentStep }}</p>
 
 </div>
 <div v-else>

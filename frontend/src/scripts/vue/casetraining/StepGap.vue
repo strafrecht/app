@@ -6,28 +6,64 @@
     </p>
   </template>
   <template #bottom>
-    <div v-for="(question, qindex) in currentStep.config">
-      <div class="row">
-	<div class="col-sm-6">
-	  <h4>Frage {{ qindex + 1 }}</h4>
-	  <div>
+    <div v-if="myStep == 1">
+      <div v-for="(question, qindex) in currentStep.config">
+	<div class="row">
+	  <div class="col-sm-6">
+	    <h4>Frage {{ qindex + 1 }}</h4>
+	  </div>
+	</div>
+	<div class="row">
+	  <div class="col-sm-6">
 	    <span v-for="(word, index) in words(question.question)">
 	      <span>{{ word }}</span>
 	      <span v-if="index !== words(question.question).length - 1">
-		<span class="gap-drop" @drop="onDrop($event, question, qindex, index)" @dragover.prevent @dragenter.prevent>
+		<span class="gap-drop gap-open" @drop="onDrop($event, question, qindex, index)" @dragover.prevent @dragenter.prevent>
 		  {{ gapWordAt(question, qindex, index) }}
 		</span>
 	      </span>
 	    </span>
 	  </div>
-	</div>
-	<div class="col-sm-6">
-	  <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, qindex, answer)">
-	    <div class="gap-drag">{{ answer }}</div>
+	  <div class="col-sm-6">
+	    <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, qindex, answer)">
+	      <div class="gap-drag gap-open">{{ answer }}</div>
+	    </div>
 	  </div>
 	</div>
+	<hr/>
       </div>
-      <hr/>
+    </div>
+    <div v-if="myStep == 2">
+      <div v-for="(question, qindex) in currentStep.config">
+	<div class="row">
+	  <div class="col-sm-6">
+	    <h4>Frage {{ qindex + 1 }}</h4>
+	  </div>
+	</div>
+	<div class="row">
+	  <div class="col-sm-6">
+	    <span v-for="(word, index) in words(question.question)">
+	      <span>{{ word }}</span>
+	      <span v-if="index !== words(question.question).length - 1">
+		<span class="gap-drop" :class="gapWordClass(question, qindex, index)">
+		  {{ gapWordAt(question, qindex, index) }}
+		</span>
+	      </span>
+	    </span>
+	  </div>
+	  <div class="col-sm-6">
+	    <span v-for="(word, index) in words(question.question)">
+	      <span>{{ word }}</span>
+	      <span v-if="index !== words(question.question).length - 1">
+		<span class="gap-drop gap-correct">
+		  {{ gapCorrectWordAt(question, qindex, index) }}
+		</span>
+	      </span>
+	    </span>
+	  </div>
+	</div>
+	<hr/>
+      </div>
     </div>
   </template>
   <template #buttons>
@@ -59,6 +95,7 @@ export default {
   data() {
     return {
       componentKey: 0,
+      myStep: 1,
     }
   },
   methods: {
@@ -66,13 +103,32 @@ export default {
       this.$parent.prevStep();
     },
     nextStep() {
-      this.$parent.nextStep();
+      if (this.myStep == 2) {
+	this.myStep = 1;
+	return this.$parent.nextStep();
+      }
+
+      this.myStep += 1;
     },
     gapTexts(question) {
       return question.correct.concat(question.other)
     },
     words(text) {
       return text.split("_");
+    },
+    gapWordClass(question, qindex, index) {
+      if (typeof this.currentStep.answers[qindex] === 'undefined' ||
+	  typeof this.currentStep.answers[qindex][index] === 'undefined')
+	return "gap-incorrect";
+
+      if (this.currentStep.config[qindex].correct[index] ==
+	  this.currentStep.answers[qindex][index])
+	return "gap-correct";
+
+      return "gap-incorrect";
+    },
+    gapCorrectWordAt(question, qindex, index) {
+      return this.currentStep.config[qindex].correct[index];
     },
     gapWordAt(question, qindex, index) {
       if (typeof this.currentStep.answers[qindex] === 'undefined' ||
@@ -101,4 +157,5 @@ export default {
 }
 </script>
 <style lang="scss">
+  @import './styles/step-gap.scss';
 </style>

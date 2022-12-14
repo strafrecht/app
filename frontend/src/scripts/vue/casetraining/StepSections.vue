@@ -64,8 +64,10 @@ export default {
       this.$parent.prevStep();
     },
     nextStep() {
-      if (this.myStep == 2)
+      if (this.myStep == 2) {
+	this.myStep = 1;
 	return this.$parent.nextStep();
+      }
 
       this.myStep += 1;
     },
