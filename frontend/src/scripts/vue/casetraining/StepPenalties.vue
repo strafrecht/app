@@ -12,6 +12,7 @@
       <SlickList axis="y" v-model="currentStep.answers[qindex]" @sort-end="reRender()">
     	<SlickItem v-for="(answer, index) in currentStep.answers[qindex]" :key="answer" :index="index">
     	  <div class="border">
+	    {{ currentStep.answers[qindex][index] }}
     	    <input v-model="currentStep.answers[qindex][index]" @change="handleBlur(qindex, index)" :ref="'input_' + qindex + '_' + index" :class="'input_' + qindex + '_' + index">
     	    <button v-if="currentStep.answers[qindex].length != 1" class="btn btn-success" @click="delAnswer(qindex, index)">-</button>
     	  </div>
@@ -61,7 +62,9 @@ export default {
     if (typeof this.currentStep.answers !== "undefined")
       return;
 
-    this.currentStep.answers = new Array(this.currentStep.config.length).fill([""]);
+    this.currentStep.answers = [];
+    for (let i = 0; i < this.currentStep.config.length; i++)
+      this.currentStep.answers.push([""])
   },
   mounted() {
     this.$refs.input_0_0[0].focus();
@@ -71,7 +74,12 @@ export default {
       this.$parent.prevStep();
     },
     nextStep() {
-      this.$parent.nextStep();
+      if (this.myStep == 2) {
+	this.myStep = 1;
+	return this.$parent.nextStep();
+      }
+
+      this.myStep += 1;
     },
     async handleBlur(qindex, index) {
       this.currentStep.answers[qindex] = this.currentStep.answers[qindex].filter(n => n);
