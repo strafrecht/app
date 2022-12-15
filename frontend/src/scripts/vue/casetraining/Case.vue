@@ -1,6 +1,16 @@
 <template>
 <div v-if="dataReady" class="casetraining">
 
+  <div class="bg-dark px-2 text-uppercase">
+    <span
+       class="text-white btn"
+       v-for="(step, index) in currentCase.steps"
+       :class="(index + 1) == currentStepNo ? 'text-success' : 'text-light'"
+       @click="setStep(index + 1)">
+      <small>{{ stepName(step.step_type) }}</small>
+    </span>
+  </div>
+
   <div class="case-timer bg-light border float-right p-1 rounded-pill" style="margin-top: 20px;">
     <strong>{{ timerMinSec() }}</strong>
     <button class="btn btn-success btn-sm rounded-circle" @click="timerPause()">
@@ -113,6 +123,21 @@ export default {
 	.then((response) => {
 	  this.currentCase = response.data;
 	});
+    },
+    setStep(num) {
+      this.currentStepNo = num;
+    },
+    stepName(id) {
+      let name = {
+	read: "Lesen",
+	mark_sections: "Einteilen",
+	gap_text: "Lückentext",
+	free_text: "Freitext",
+	penalties: "Strafbarkeit",
+	problem_areas: "Probleme",
+      };
+
+      return name[id];
     },
     timerPause() {
       if (this.timerRun)

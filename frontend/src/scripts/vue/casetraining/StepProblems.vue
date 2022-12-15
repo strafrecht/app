@@ -95,6 +95,7 @@ export default {
   },
   async mounted() {
     await this.getWikiTree();
+    this.dataReady = true;
   },
   methods: {
     prevStep() {
@@ -114,7 +115,6 @@ export default {
         .then((response) => this.wikiTree = response.data);
 
       await this.makeWikiEntry(this.wikiTree.children, []);
-      this.dataReady = true;
     },
     async makeWikiEntry(articles, path) {
       articles.forEach(article => {
