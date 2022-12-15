@@ -1,25 +1,54 @@
 <template>
 <step-template type="problems" :key="componentKey">
   <template #left>
-    <div v-html="currentCase.facts"></div>
+    <div class="show-parts" v-html="currentCase.facts"></div>
   </template>
   <template #right>
-    <p>
-      Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.
-    </p>
-    <div v-for="(answer, index) in currentStep.answers">
-      <div>{{ answer.title }}</div>
-      <div><button class="btn btn-danger" @click="delArticle(index)">-</button></div>
+    {{ dataReady }}
+    <div v-if="myStep == 1">
+      <p>
+	Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.
+      </p>
+      <div v-for="(answer, index) in currentStep.answers">
+	<div>{{ answer.title }}</div>
+	<div><button class="btn btn-danger" @click="delArticle(index)">-</button></div>
+      </div>
+      <input v-model="wikiSearch">
+      <div v-for="(article, index) in wikiSearchArticles()">
+	<div><small><i>{{ article.path.join(' &gt; ') }}</i></small></div>
+	<div>{{ article.title }}</div>
+	<div>{{ article }}</div>
+	<div><a :href="article.url" target="_blank">zum Wiki</a></div>
+	<div><button class="btn btn-success" @click="addArticle(article)">hinzufügen</button></div>
+	<hr/>
+      </div>
     </div>
-    <input v-model="wikiSearch">
-    <div v-for="(article, index) in wikiSearchArticles()">
-      <div><small><i>{{ article.path.join(' &gt; ') }}</i></small></div>
-      <div>{{ article.title }}</div>
-      <div>{{ article }}</div>
-      <div><a :href="article.url" target="_blank">zum Wiki</a></div>
-      <div><button class="btn btn-success" @click="addArticle(article)">hinzufügen</button></div>
-	  <hr/>
-	</div>
+    <div v-if="myStep == 2">
+      <p>
+	Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.
+      </p>
+      <div v-for="(answer, index) in currentStep.answers">
+	<div :class="correctAnswer(answer.id) ? 'text-success' : 'text-danger'">{{ answer.title }}</div>
+      </div>
+    </div>
+    <div v-if="myStep == 3">
+      <p>
+	Ermitteln Sie die Gewichtung.
+      </p>
+      <div v-for="(article, index) in currentArticles()">
+	{{ article.title }}
+	<hr/>
+      </div>
+    </div>
+    <div v-if="myStep == 4">
+      <p>
+	Ermitteln Sie die Gewichtung.
+      </p>
+      <div v-for="(article, index) in currentArticles()">
+	{{ article.title }}: {{ article.weight }}
+	<hr/>
+      </div>
+    </div>
   </template>
   <template #buttons>
     <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
@@ -50,6 +79,8 @@ export default {
   },
   data() {
     return {
+      dataReady: false,
+      myStep: 1,
       componentKey: 0,
       wikiSearch: "",
       wikiTree: null,
@@ -70,16 +101,22 @@ export default {
       this.$parent.prevStep();
     },
     nextStep() {
-      this.$parent.nextStep();
+      if (this.myStep == 4) {
+	this.myStep = 1;
+	return this.$parent.nextStep();
+      }
+
+      this.myStep += 1;
     },
     async getWikiTree() {
       await axios
         .get("/falltraining/api/wiki_categories")
         .then((response) => this.wikiTree = response.data);
 
-      this.makeWikiEntry(this.wikiTree.children, []);
+      await this.makeWikiEntry(this.wikiTree.children, []);
+      this.dataReady = true;
     },
-    makeWikiEntry(articles, path) {
+    async makeWikiEntry(articles, path) {
       articles.forEach(article => {
 	this.wikiArticles.push({
 	  id: article.id,
@@ -89,6 +126,20 @@ export default {
 	});
 	this.makeWikiEntry(article.children, path.concat([article.title]))
       });
+    },
+    currentArticles() {
+      console.log("x");
+      console.log(this.currentStep.config.map(x => x.article));
+      console.log(this.wikiArticles[0]);
+      let x = this.wikiArticles.filter(
+	article =>
+	  this.currentStep.config.map(x => x.article).includes(article.id)
+      );
+      console.log(x);
+      return x;
+    },
+    correctAnswer(id) {
+      return this.currentStep.config.map(x => x.article).includes(id);
     },
     addArticle(article) {
       this.currentStep.answers.push(article);
