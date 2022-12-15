@@ -44,6 +44,7 @@ class CaseStep(ClusterableModel):
         ('mark_sections', 'Mark sections'),
         ('penalties',     'Penalties'),
         ('problem_areas', 'Problem areas'),
+        ('weights',       'Weights'),
         ('gap_text',      'Gap text'),
         ('free_text',     'Free text'),
     ]

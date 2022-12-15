@@ -1,7 +1,7 @@
 <template>
 <step-template type="free-text" :key="componentKey">
   <template #left>
-    <div v-html="currentCase.facts"></div>
+    <div class="show-parts" v-html="currentCase.userFacts"></div>
   </template>
   <template #right>
     <h4>Step {{ currentStepNo }}</h4>

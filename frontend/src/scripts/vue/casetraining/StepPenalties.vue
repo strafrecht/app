@@ -1,7 +1,7 @@
 <template>
 <step-template type="penalties" :key="componentKey">
   <template #left>
-    <div class="show-parts" v-html="currentCase.facts"></div>
+    <div class="show-parts" v-html="currentCase.userFacts"></div>
   </template>
   <template #right>
     <p>

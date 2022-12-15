@@ -22,7 +22,6 @@
     </div>
   </template>
   <template #buttons>
-    <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
     <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
   </template>
 </step-template>
@@ -63,7 +62,7 @@ export default {
     if (typeof this.currentStep.answers !== "undefined")
       return;
 
-    this.currentStep.answers = [this.currentCase.facts];
+    this.currentStep.answers = [this.currentCase.userFacts];
   },
   methods: {
     prevStep() {

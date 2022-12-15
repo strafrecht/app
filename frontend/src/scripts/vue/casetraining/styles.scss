@@ -1,5 +1,23 @@
 .casetraining {
 
+  .user-mark-area {
+    cursor: text;
+  }
+
+  $usercolors: #f00, #0f0, #00f, #ff0, #0ff, #f0f;
+
+  @for $i from 1 through length($usercolors) {
+    .user-marker-#{$i} {
+      border-bottom: 2px solid nth($usercolors, $i);
+    }
+    .mark-user-marker-#{$i} ::selection {
+      background-color: nth($usercolors, $i);
+    }
+    .btn-user-marker-#{$i} {
+      color: nth($usercolors, $i);
+    }
+  }
+
   .show-parts {
     .part1 {
       background: red;

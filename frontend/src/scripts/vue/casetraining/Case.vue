@@ -43,6 +43,10 @@
     <StepProblems :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
   </div>
 
+  <div v-if="currentStep.step_type == 'weights'">
+    <StepWeights :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
+  </div>
+
   <div v-if="currentStep.step_type == 'gap_text'">
     <StepGap :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
   </div>
@@ -52,6 +56,8 @@
   </div>
 
   <p>{{ currentStep }}</p>
+  <hr/>
+  <p>{{ currentCase }}</p>
 
 </div>
 <div v-else>
@@ -65,6 +71,7 @@ import StepRead from "./StepRead.vue";
 import StepSections from "./StepSections.vue";
 import StepPenalties from "./StepPenalties.vue";
 import StepProblems from "./StepProblems.vue";
+import StepWeights from "./StepWeights.vue";
 import StepGap from "./StepGap.vue";
 import StepFreeText from "./StepFreeText.vue";
 
@@ -82,6 +89,7 @@ export default {
     StepSections,
     StepPenalties,
     StepProblems,
+    StepWeights,
     StepGap,
     StepFreeText,
   },
@@ -103,6 +111,7 @@ export default {
   },
   async mounted() {
     await this.getCurrentCase();
+    this.currentCase.userFacts = this.currentCase.facts
     this.dataReady = true;
     this.timerStart = Date.now();
     setInterval(() => {
@@ -135,6 +144,7 @@ export default {
 	free_text: "Freitext",
 	penalties: "Strafbarkeit",
 	problem_areas: "Probleme",
+	weights: "Gewichtung",
       };
 
       return name[id];

@@ -7,28 +7,20 @@
     {{ dataReady }}
     <div v-if="myStep == 1">
       <p>
-	Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.
+	Ermitteln Sie die Gewichtung.
       </p>
-      <div v-for="(answer, index) in currentStep.answers">
-	<div>{{ answer.title }}</div>
-	<div><button class="btn btn-danger" @click="delArticle(index)">-</button></div>
-      </div>
-      <input v-model="wikiSearch">
-      <div v-for="(article, index) in wikiSearchArticles()">
-	<div><small><i>{{ article.path.join(' &gt; ') }}</i></small></div>
-	<div>{{ article.title }}</div>
-	<div>{{ article }}</div>
-	<div><a :href="article.url" target="_blank">zum Wiki</a></div>
-	<div><button class="btn btn-success" @click="addArticle(article)">hinzufügen</button></div>
+      <div v-for="(article, index) in currentArticles()">
+	{{ article.title }}
 	<hr/>
       </div>
     </div>
     <div v-if="myStep == 2">
       <p>
-	Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.
+	Ermitteln Sie die Gewichtung.
       </p>
-      <div v-for="(answer, index) in currentStep.answers">
-	<div :class="correctAnswer(answer.id) ? 'text-success' : 'text-danger'">{{ answer.title }}</div>
+      <div v-for="(article, index) in currentArticles()">
+	{{ article.title }}: {{ article.weight }}
+	<hr/>
       </div>
     </div>
   </template>
@@ -44,7 +36,7 @@ import axios from "axios";
 import StepTemplate from "./StepTemplate.vue";
 
 export default {
-  name: "StepProblems",
+  name: "StepWeights",
   components: {
     StepTemplate,
   },
