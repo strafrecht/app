@@ -64,6 +64,7 @@
     "chartist": "0.11.4",
     "chartist-plugin-fill-donut": "0.1.4",
     "core-js": "^3.11.1",
+    "diff": "5.1.0",
     "highlight.js": "11.6.0",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",

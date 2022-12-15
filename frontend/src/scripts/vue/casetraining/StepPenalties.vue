@@ -23,11 +23,15 @@
     <div v-if="myStep == 2">
       <div v-for="(penalty, qindex) in currentStep.config">
 	<h4>{{ penalty.text }}</h4>
-	<div v-for="(solution, index) in solutions(qindex)">
-	  {{ solution[0] }}
-	  --
-	  {{ solution[1] }}
+	<div class="row" v-for="(solution, index) in solutions(qindex)">
+	  <div class="col-sm-6" :class="solution[2] ? 'text-success' : 'text-danger'">
+	    <strong>{{ solution[0] }}</strong>
+	  </div>
+	  <div class="col-sm-6" :class="solution[3] ? 'text-danger' : ''">
+	    {{ solution[1] }}
+	  </div>
 	</div>
+	<hr/>
       </div>
     </div>
   </template>
@@ -42,6 +46,7 @@
 import StepTemplate from "./StepTemplate.vue";
 import { nextTick } from "vue";
 import { SlickList, SlickItem } from 'vue-slicksort';
+import { diffArrays } from "diff";
 
 export default {
   name: "StepPenalties",
@@ -93,19 +98,35 @@ export default {
       this.myStep += 1;
     },
     solutions(qindex) {
+      // filter non empty lines
       this.currentStep.answers[qindex] = this.currentStep.answers[qindex].filter(n => n);
       var count = this.currentStep.answers[qindex].length;
       if (count < this.currentStep.config[qindex].correct.length)
 	count = this.currentStep.config[qindex].correct.length;
 
+      let diff = this.xdiff(qindex);
+      let correct = diff.filter(x => !x["removed"]).filter(x => !x["added"]).map(x => x["value"]).flat();
+      let removed = diff.filter(x => x["removed"]).map(x => x["value"]).flat();
       var solution = []
       for (let i = 0; i < count; i++) {
 	solution.push([
 	  this.currentStep.answers[qindex][i],
-	  this.currentStep.config[qindex].correct[i]
+	  this.currentStep.config[qindex].correct[i],
+	  correct.includes(this.currentStep.answers[qindex][i]),
+	  removed.includes(this.currentStep.config[qindex].correct[i])
 	]);
       }
       return solution;
+    },
+    diffCmp(left, right) {
+      var l = left.replace(/\s/g, "").replace("§", "").toLowerCase()
+      var r = right.replace(/\s/g, "").replace("§", "").toLowerCase()
+      return l == r;
+    },
+    xdiff(qindex) {
+      return diffArrays(this.currentStep.config[qindex].correct,
+			this.currentStep.answers[qindex],
+			{ comparator: this.diffCmp });
     },
     async handleBlur(qindex, index) {
       this.currentStep.answers[qindex] = this.currentStep.answers[qindex].filter(n => n);
@@ -119,7 +140,6 @@ export default {
       console.log(next_index)
       this.$refs["input_" + qindex + "_" + next_index][0].focus();
     },
-
     delAnswer(qindex, index) {
       this.currentStep.answers[qindex].splice(index, 1);
       this.componentKey += 1;
