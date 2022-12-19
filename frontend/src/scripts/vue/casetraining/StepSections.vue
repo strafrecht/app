@@ -1,8 +1,13 @@
 <template>
 <step-template type="sections" :key="componentKey">
   <template #left>
-    <div :class="markColorStyle">
-      <div id="mark-area-content" v-html="currentStep.answers[0]" @mouseup="markUp()"></div>
+    <div class="hide-sections mark-area" :class="markColorStyle">
+      <div style="position: relative">
+	<div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
+	  <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
+	</div>
+	<div id="mark-area-content" v-html="currentStep.answers[0]" @mouseup="markUp()"></div>
+      </div>
     </div>
   </template>
   <template #right>
@@ -10,12 +15,24 @@
       <p>
 	Markieren Sie die Sachverhaltsabschnitte in unterschiedlichen Farben.
       </p>
-      <div style="background: red" @click="setColor('red')">xxx</div>
-      <div style="background: blue" @click="setColor('blue')">xxx</div>
-      <div style="background: yellow" @click="setColor('yellow')">xxx</div>
-      <div style="background: green" @click="setColor('green')">xxx</div>
-      <div style="background: pink" @click="setColor('pink')">xxx</div>
-      <button class="btn btn-success" @click="markReset()">Reset</button>
+      <span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
+	<img src="/assets/images/marker/textmarker-1.png">
+      </span>
+      <span class="btn-marker btn-marker-2" :class="markColor == 'marker-2' ?  'border' : ''" @click="setColor('marker-2')">
+	<img src="/assets/images/marker/textmarker-2.png">
+      </span>
+      <span class="btn-marker btn-marker-3" :class="markColor == 'marker-3' ?  'border' : ''" @click="setColor('marker-3')">
+	<img src="/assets/images/marker/textmarker-3.png">
+      </span>
+      <span class="btn-marker btn-marker-4" :class="markColor == 'marker-4' ?  'border' : ''" @click="setColor('marker-4')">
+	<img src="/assets/images/marker/textmarker-4.png">
+      </span>
+      <span class="btn-marker btn-marker-5" :class="markColor == 'marker-5' ?  'border' : ''" @click="setColor('marker-5')">
+	<img src="/assets/images/marker/textmarker-5.png">
+      </span>
+      <span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
+	<img src="/assets/images/marker/eraser.png">
+      </span>
     </div>
     <div v-if="myStep == 2">
       <div class="show-parts" v-html="currentCase.facts"></div>
@@ -55,14 +72,15 @@ export default {
   },
   computed: {
     markColorStyle() {
-      return "mark-area mark-" + this.markColor;
+      return "mark-" + this.markColor;
     },
   },
   beforeMount() {
     if (typeof this.currentStep.answers !== "undefined")
       return;
 
-    this.currentStep.answers = [this.currentCase.userFacts];
+    let html = this.currentCase.facts;
+    this.currentStep.answers = [html];
   },
   methods: {
     prevStep() {
@@ -94,10 +112,15 @@ export default {
 	document.designMode = "on";
 	sel.removeAllRanges();
 	sel.addRange(range);
-	document.execCommand("BackColor", false, this.markColor);
+	if (this.markColor == "marker-erase")
+	  document.execCommand("removeFormat");
+	else
+	  document.execCommand("BackColor", false, "black");
 	document.designMode = "off";
 	sel.removeAllRanges();
-	this.currentStep.answers[0] = document.getElementById("mark-area-content").innerHTML;
+	let html = document.getElementById("mark-area-content").innerHTML;
+	html = html.replace(/style="background-color: black;"/g, "class=\"user-section-" + this.markColor + "\"")
+	this.currentStep.answers[0] = html;
 	this.componentKey += 1;
       }
     },

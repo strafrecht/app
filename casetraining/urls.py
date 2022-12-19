@@ -55,6 +55,7 @@ router.register(r'case', CasetrainingViewSet, basename='case')
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("new/", views.new, name="new"),
     path("show/<int:case_id>/", views.show, name="show"),
     path('api/wiki_categories', views.wiki_categories, name='wiki_categories'),
     path("api/", include(router.urls)),

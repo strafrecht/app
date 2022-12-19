@@ -1,7 +1,14 @@
 <template>
 <step-template type="problems" :key="componentKey">
   <template #left>
-    <div class="show-parts" v-html="currentCase.userFacts"></div>
+    <div>
+      <div style="position: relative">
+	<div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
+	  <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
+	</div>
+	<div id="mark-area-content" v-html="currentCase.facts" @mouseup="markUp()"></div>
+      </div>
+    </div>
   </template>
   <template #right>
     {{ dataReady }}

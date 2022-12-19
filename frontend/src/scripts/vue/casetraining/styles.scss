@@ -1,36 +1,63 @@
 .casetraining {
-
   .user-mark-area {
     cursor: text;
   }
 
-  $usercolors: #f00, #0f0, #00f, #ff0, #0ff, #f0f;
+  .btn-marker {
+    display: inline-block;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+  }
+
+  .mark-marker-erase {
+    cursor: url("../../../../../casetraining/static/images/marker/eraser_lo.cur") 3 35, default;
+
+    & ::selection {
+      background-color: #ddd;
+    }
+  }
+
+  $usercolors: #29e7fc, #95fd06, #c0b1fe, #ff92f3, #fff451;
 
   @for $i from 1 through length($usercolors) {
     .user-marker-#{$i} {
-      border-bottom: 2px solid nth($usercolors, $i);
+      display: inline;
+      border-bottom: 4px solid nth($usercolors, $i);
     }
-    .mark-user-marker-#{$i} ::selection {
-      background-color: nth($usercolors, $i);
+
+    .user-section-marker-#{$i},
+    .section-marker-#{$i} {
+      display: inline;
+      border-image-source: url(../../../../../casetraining/static/images/marker/marker-#{$i}.png);
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      border-image-slice: 0 50 fill;
+      border-image-outset: 0 0.25ch;
+      border-image-width: 0 1.5ch;
+      border-image-repeat: round stretch;
+      position: relative;
+      border-top: transparent none 1px;
+      background-color: transparent !important;
     }
-    .btn-user-marker-#{$i} {
+
+    .hide-sections .section-marker-#{$i} {
+      border-image: none;
+    }
+
+    .mark-marker-#{$i} {
+      cursor: url(../../../../../casetraining/static/images/marker/textmarker-#{$i}.cur) 3 35, default;
+
+      & ::selection {
+        background-color: nth($usercolors, $i);
+      }
+    }
+
+    .btn-marker-#{$i} {
       color: nth($usercolors, $i);
     }
   }
 
-  .show-parts {
-    .part1 {
-      background: red;
-    }
-    .part2 {
-      background: blue;
-    }
-    .part3 {
-      background: yellow;
-    }
-    .part4 {
-      background: orange;
-    }
+  .show-sections {
   }
-
 }

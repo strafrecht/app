@@ -1,7 +1,10 @@
 <template>
-<step-template type="read" :key="componentKey">
+<div v-if="editMode" type="read" :key="componentKey">
+  Dieser Schritt muss nicht konfiguriert werden.
+</div>
+<step-template v-else type="read" :key="componentKey">
   <template #left>
-    <div :class="markColorStyle">
+    <div class="hide-sections mark-area" :class="markColorStyle">
       <div id="mark-area-content" v-html="currentCase.userFacts" @mouseup="markUp()"></div>
     </div>
   </template>
@@ -12,12 +15,24 @@
     <p>
       Markieren Sie Wörter in unterschiedlichen Farben.
     </p>
-    <span class="btn btn-sm btn-user-marker-1 rounded-circle" :class="markColor == 'user-marker-1' ?  'border' : ''" @click="setColor('user-marker-1')"><i class="fas fa-pencil-alt"></i></span>
-    <span class="btn btn-sm btn-user-marker-2 rounded-circle" :class="markColor == 'user-marker-2' ?  'border' : ''" @click="setColor('user-marker-2')"><i class="fas fa-pencil-alt"></i></span>
-    <span class="btn btn-sm btn-user-marker-3 rounded-circle" :class="markColor == 'user-marker-3' ?  'border' : ''" @click="setColor('user-marker-3')"><i class="fas fa-pencil-alt"></i></span>
-    <span class="btn btn-sm btn-user-marker-4 rounded-circle" :class="markColor == 'user-marker-4' ?  'border' : ''" @click="setColor('user-marker-4')"><i class="fas fa-pencil-alt"></i></span>
-    <span class="btn btn-sm btn-user-marker-5 rounded-circle" :class="markColor == 'user-marker-5' ?  'border' : ''" @click="setColor('user-marker-5')"><i class="fas fa-pencil-alt"></i></span>
-    <button class="btn btn-sm btn-danger" @click="markReset()">Reset</button>
+    <span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
+      <img src="/assets/images/marker/textmarker-1.png">
+    </span>
+    <span class="btn-marker btn-marker-2" :class="markColor == 'marker-2' ?  'border' : ''" @click="setColor('marker-2')">
+      <img src="/assets/images/marker/textmarker-2.png">
+    </span>
+    <span class="btn-marker btn-marker-3" :class="markColor == 'marker-3' ?  'border' : ''" @click="setColor('marker-3')">
+      <img src="/assets/images/marker/textmarker-3.png">
+    </span>
+    <span class="btn-marker btn-marker-4" :class="markColor == 'marker-4' ?  'border' : ''" @click="setColor('marker-4')">
+      <img src="/assets/images/marker/textmarker-4.png">
+    </span>
+    <span class="btn-marker btn-marker-5" :class="markColor == 'marker-5' ?  'border' : ''" @click="setColor('marker-5')">
+      <img src="/assets/images/marker/textmarker-5.png">
+    </span>
+    <span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
+      <img src="/assets/images/marker/eraser.png">
+    </span>
   </template>
   <template #buttons>
     <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
@@ -52,7 +67,10 @@ export default {
   },
   computed: {
     markColorStyle() {
-      return "user-mark-area mark-" + this.markColor;
+      return "mark-" + this.markColor;
+    },
+    editMode() {
+      return this.$parent.editMode;
     },
   },
   methods: {
@@ -77,11 +95,14 @@ export default {
 	document.designMode = "on";
 	sel.removeAllRanges();
 	sel.addRange(range);
-	document.execCommand("BackColor", false, "black");
+	if (this.markColor == "marker-erase")
+	  document.execCommand("removeFormat");
+	else
+	  document.execCommand("BackColor", false, "black");
 	document.designMode = "off";
 	sel.removeAllRanges();
 	let html = document.getElementById("mark-area-content").innerHTML;
-	html = html.replace(/style="background-color: black;"/g, "class=\"" + this.markColor + "\"")
+	html = html.replace(/style="background-color: black;"/g, "class=\"user-" + this.markColor + "\"")
 	this.currentCase.userFacts = html;
 	this.componentKey += 1;
       }

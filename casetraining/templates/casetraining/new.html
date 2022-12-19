@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags website_tags %}
+
+{% block content %}
+<case></case>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  new LVue({
+    render: (h) => h(CaseApp, {
+      props: {
+	caseId: null,
+	editMode: true,
+      }
+    })
+  }).$mount("case");
+</script>
+{% endblock %}

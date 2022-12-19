@@ -14,6 +14,11 @@ def index(request):
         "shortcase": Casetraining.objects.filter(difficulty="shortcase"),
     })
 
+def new(request):
+    return render(request, "casetraining/new.html", {
+        'banner': '/media/original_images/ohnediefrau.png',
+    })
+
 def show(request, case_id):
     case = get_object_or_404(Casetraining, pk=case_id)
     return render(request, "casetraining/show.html", {

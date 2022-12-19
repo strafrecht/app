@@ -2,12 +2,12 @@
   <div class="case-step" :class="stepClass" >
     <div class="row">
       <div class="col-sm-6">
-	<div class="col-sm-12 bg-light shadow">
+	<div class="col-sm-12 bg-light shadow py-3">
 	  <slot name="left"> </slot>
 	</div>
       </div>
       <div class="col-sm-6">
-	<div class="col-sm-12 border">
+	<div class="col-sm-12 border py-3">
 	  <slot name="right"> </slot>
 	</div>
       </div>
