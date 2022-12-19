@@ -17,7 +17,6 @@
     <span class="btn btn-sm btn-user-marker-3 rounded-circle" :class="markColor == 'user-marker-3' ?  'border' : ''" @click="setColor('user-marker-3')"><i class="fas fa-pencil-alt"></i></span>
     <span class="btn btn-sm btn-user-marker-4 rounded-circle" :class="markColor == 'user-marker-4' ?  'border' : ''" @click="setColor('user-marker-4')"><i class="fas fa-pencil-alt"></i></span>
     <span class="btn btn-sm btn-user-marker-5 rounded-circle" :class="markColor == 'user-marker-5' ?  'border' : ''" @click="setColor('user-marker-5')"><i class="fas fa-pencil-alt"></i></span>
-    <span class="btn btn-sm btn-user-marker-6 rounded-circle" :class="markColor == 'user-marker-6' ?  'border' : ''" @click="setColor('user-marker-6')"><i class="fas fa-pencil-alt"></i></span>
     <button class="btn btn-sm btn-danger" @click="markReset()">Reset</button>
   </template>
   <template #buttons>
