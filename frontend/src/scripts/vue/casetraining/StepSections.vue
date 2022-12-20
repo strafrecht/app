@@ -38,8 +38,9 @@
       <div class="show-parts" v-html="currentCase.facts"></div>
     </div>
   </template>
-  <template #buttons>
-    <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
+  <template #buttons-right>
+    <button v-if="myStep == 1" class="btn btn-primary" @click="nextStep()">zur Auswertung »</button>
+    <button v-if="myStep == 2" class="btn btn-primary" @click="nextStep()">nächster Schritt »</button>
   </template>
 </step-template>
 </template>

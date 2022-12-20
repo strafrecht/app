@@ -34,8 +34,8 @@
       <img src="/assets/images/marker/eraser.png">
     </span>
   </template>
-  <template #buttons>
-    <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
+  <template #buttons-right>
+    <button class="btn btn-primary" @click="nextStep()">nächster Schritt »</button>
   </template>
 </step-template>
 </template>

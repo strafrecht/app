@@ -1,8 +1,6 @@
 <template>
 <div v-if="dataReady" class="casetraining">
 
-  <h4>Step: {{ currentStepNo }} / {{ steps() }}</h4>
-
   <div class="bg-dark px-2 text-uppercase">
     <span
        class="text-white btn"

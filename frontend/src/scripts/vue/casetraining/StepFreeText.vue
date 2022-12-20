@@ -11,7 +11,6 @@
     </div>
   </template>
   <template #right>
-    <h4>Step {{ currentStepNo }}</h4>
     <p>
       Bearbeiten Sie die folgenden Aufgaben.
     </p>
@@ -20,9 +19,8 @@
       <vue-editor v-model="currentStep.answers[index]" :editorToolbar="customToolbar"></vue-editor>
     </div>
   </template>
-  <template #buttons>
-    <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
-    <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
+  <template #buttons-right>
+    <button class="btn btn-primary" @click="nextStep()">nächster Schritt</button>
   </template>
 </step-template>
 </template>
