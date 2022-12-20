@@ -1,5 +1,29 @@
 <template>
-<step-template type="penalties" :key="componentKey">
+<div v-if="editMode">
+  <div class="row" v-for="(penalty, qindex) in currentStep.config">
+    <div class="col-sm-12">
+      <h5>Person {{ qindex + 1 }}</h5>
+      <div class="form-group">
+	<input class="form-control" v-model="penalty.text">
+      </div>
+      <div class="form-group">
+	<div class="row" v-for="(answer, index) in currentStep.config[qindex].correct">
+	  <div class="col-6">
+	    <label>Antwort {{ index + 1 }}</label>
+	    <input class="form-control" v-model="currentStep.config[qindex].correct[index]">
+	  </div>
+	  <div class="col-6">
+	    <label>Alernative Schreibweisen (eine pro Zeile)</label>
+	    <textarea class="form-control" v-model="currentStep.config[qindex].alternatives[index]" />
+	  </div>
+	</div>
+	<button class="btn btn-primary" @click="addPenaltyAnswer(qindex)">neue Strafbarkeit</button>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" @click="addPenalty">neue Person</button>
+</div>
+<step-template v-else type="penalties" :key="componentKey">
   <template #left>
     <div>
       <div style="position: relative">
@@ -12,7 +36,7 @@
   </template>
   <template #right>
     <p>
-      Ermitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.
+      xErmitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.
     </p>
     <div v-if="myStep == 1">
       <div v-for="(penalty, qindex) in currentStep.config">
@@ -85,6 +109,9 @@ export default {
     }
   },
   computed: {
+    editMode() {
+      return this.$parent.editMode;
+    },
   },
   beforeMount() {
     if (typeof this.currentStep.answers !== "undefined")
@@ -109,6 +136,17 @@ export default {
 
       this.myStep += 1;
     },
+    addPenalty() {
+      this.currentStep.config.push({
+	text: "Strafbarkeit von X",
+	correct: ["§ ..."],
+	alternatives: [""],
+      })
+    },
+    addPenaltyAnswer(index) {
+      this.currentStep.config[index].correct.push("§ ...")
+      this.currentStep.config[index].alternatives.push("")
+    },
     solutions(qindex) {
       // filter non empty lines
       this.currentStep.answers[qindex] = this.currentStep.answers[qindex].filter(n => n);
@@ -131,12 +169,17 @@ export default {
       return solution;
     },
     diffCmp(left, right) {
-      var l = left.replace(/\s/g, "").replace("§", "").toLowerCase()
-      var r = right.replace(/\s/g, "").replace("§", "").toLowerCase()
-      return l == r;
+      let l = left.replace(/\s/g, "").replace("§", "").toLowerCase()
+      let answers = right.split("\n").map(
+	answer => answer.replace(/\s/g, "").replace("§", "").toLowerCase()
+      );
+      return answers.includes(l);
     },
     xdiff(qindex) {
-      return diffArrays(this.currentStep.config[qindex].correct,
+      let combined = this.currentStep.config[qindex].correct.map(
+	(answer, index) => [answer, this.currentStep.config[qindex].alternatives[index]].join("\n")
+      );
+      return diffArrays(combined,
 			this.currentStep.answers[qindex],
 			{ comparator: this.diffCmp });
     },
