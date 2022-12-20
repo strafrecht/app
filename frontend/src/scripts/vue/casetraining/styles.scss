@@ -5,6 +5,11 @@
     margin-bottom: 1rem;
   }
 
+  .mark-area-content {
+    position: relative;
+    z-index: 10;
+  }
+
   .user-mark-area {
     cursor: text;
   }

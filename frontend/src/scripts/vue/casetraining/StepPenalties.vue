@@ -114,12 +114,14 @@ export default {
     },
   },
   beforeMount() {
-    if (typeof this.currentStep.answers !== "undefined")
-      return;
+    if (typeof this.currentStep.answers === "undefined")
+      this.currentStep.answers = [];
 
-    this.currentStep.answers = [];
-    for (let i = 0; i < this.currentStep.config.length; i++)
-      this.currentStep.answers.push([""])
+    for (let i = 0; i < this.currentStep.config.length; i++) {
+      if (typeof this.currentStep.answers[i] === "undefined")
+	this.currentStep.answers[i] = [];
+      this.currentStep.answers[i].push("")
+    }
   },
   mounted() {
     this.$refs.input_0_0[0].focus();
