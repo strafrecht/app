@@ -1,5 +1,16 @@
 <template>
-<step-template type="free-text" :key="componentKey">
+<div v-if="editMode">
+  <div class="row" v-for="(question, qindex) in currentStep.config">
+    <div class="col-sm-12">
+      <h5>Frage {{ qindex + 1 }}</h5>
+      <div class="form-group">
+	<input class="form-control" v-model="question.text">
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" @click="addFreeText">neue Frage</button>
+</div>
+<step-template v-else type="free-text" :key="componentKey">
   <template #left>
     <div>
       <div style="position: relative">
@@ -15,7 +26,7 @@
       Bearbeiten Sie die folgenden Aufgaben.
     </p>
     <div v-for="(discussion, index) in currentStep.config">
-      <div v-html="discussion.text"></div>
+      <h5 v-html="discussion.text"></h5>
       <vue-editor v-model="currentStep.answers[index]" :editorToolbar="customToolbar"></vue-editor>
     </div>
   </template>
@@ -61,7 +72,17 @@ export default {
 
     this.currentStep.answers = [];
   },
+  computed: {
+    editMode() {
+      return this.$parent.editMode;
+    },
+  },
   methods: {
+    addFreeText() {
+      this.currentStep.config.push({
+	text: "Neue Frage?",
+      })
+    },
     prevStep() {
       this.$parent.prevStep();
     },

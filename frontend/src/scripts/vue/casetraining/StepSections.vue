@@ -1,7 +1,12 @@
 <template>
 <step-template type="sections" :key="componentKey">
   <template #left>
-    <div class="hide-sections mark-area" :class="markColorStyle">
+    <div v-if="editMode" class="mark-area" :class="markColorStyle">
+      <div style="position: relative">
+	<div id="mark-area-content" v-html="currentCase.facts" @mouseup="markUp()"></div>
+      </div>
+    </div>
+    <div v-else class="hide-sections mark-area" :class="markColorStyle">
       <div style="position: relative">
 	<div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
 	  <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
@@ -39,8 +44,10 @@
     </div>
   </template>
   <template #buttons-right>
-    <button v-if="myStep == 1" class="btn btn-primary" @click="nextStep()">zur Auswertung »</button>
-    <button v-if="myStep == 2" class="btn btn-primary" @click="nextStep()">nächster Schritt »</button>
+    <div v-if="!editMode">
+      <button v-if="myStep == 1" class="btn btn-primary" @click="nextStep()">zur Auswertung »</button>
+      <button v-if="myStep == 2" class="btn btn-primary" @click="nextStep()">nächster Schritt »</button>
+    </div>
   </template>
 </step-template>
 </template>
@@ -74,6 +81,9 @@ export default {
   computed: {
     markColorStyle() {
       return "mark-" + this.markColor;
+    },
+    editMode() {
+      return this.$parent.editMode;
     },
   },
   beforeMount() {
@@ -120,8 +130,13 @@ export default {
 	document.designMode = "off";
 	sel.removeAllRanges();
 	let html = document.getElementById("mark-area-content").innerHTML;
-	html = html.replace(/style="background-color: black;"/g, "class=\"user-section-" + this.markColor + "\"")
-	this.currentStep.answers[0] = html;
+	if (this.editMode) {
+	  html = html.replace(/style="background-color: black;"/g, "class=\"section-" + this.markColor + "\"")
+	  this.currentCase.facts = html;
+	} else {
+	  html = html.replace(/style="background-color: black;"/g, "class=\"user-section-" + this.markColor + "\"")
+	  this.currentStep.answers[0] = html;
+	}
 	this.componentKey += 1;
       }
     },

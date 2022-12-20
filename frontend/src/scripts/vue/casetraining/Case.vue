@@ -1,6 +1,9 @@
 <template>
 <div v-if="dataReady" class="casetraining">
 
+  <span v-if="editMode" @click="editModeOff">Bearbeitung beenden</span>
+  <span v-else @click="editModeOn">bearbeiten</span>
+
   <div class="bg-dark px-2 text-uppercase">
     <span
        class="text-white btn"
@@ -32,28 +35,38 @@
 	</option>
       </select>
     </div>
-    <div class="form-group">
-      <label>Sachverhalt</label>
-      <vue-editor v-model="currentCase.facts" :editorToolbar="factsToolbar"></vue-editor>
-    </div>
-    <div class="form-group">
-      <label>Falltrainigsschritte</label>
-      <SlickList axis="y" v-model="currentCase.steps">
-	<SlickItem v-for="(step, index) in currentCase.steps" :key="step.step_type" :index="index">
-	  {{ stepName(step.step_type) }}
-	  {{ step }}
-	  <button class="btn btn-sm btn-danger" @click="delStep(index)">del</button>
-	</SlickItem>
-      </SlickList>
-    </div>
-    <div class="form-group">
-      <label>Neuen Schritt hinzufügen</label>
-      <select class="form-control" v-model="newStepType" @change="addStep()">
-	<option disabled value="">Bitte wählen</option>
-	<option v-for="(value) in availableStepTypes" :value="value">
-	  {{ stepName(value) }}
-	</option>
-      </select>
+    <div class="row">
+      <div class="col-sm-6">
+	<div class="form-group">
+	  <label>Sachverhalt</label>
+	  <vue-editor v-model="currentCase.facts" :editorToolbar="factsToolbar"></vue-editor>
+	</div>
+      </div>
+      <div class="col-sm-6">
+	<div class="form-group">
+	  <label>Falltrainigsschritte</label>
+	  <SlickList axis="y" v-model="currentCase.steps">
+	    <SlickItem v-for="(step, index) in currentCase.steps" :key="step.step_type" :index="index">
+	      <div class="border my-1 px-2 py-1 bg-white">
+		<span style="pointer-events: none; user-select: none;">
+		  <i class="mr-2 fa fa-bars"></i>
+		  {{ stepName(step.step_type) }}
+		</span>
+		<button @click="delStep(index)" class="btn btn-sm text-danger float-right"><i style="pointer-events: none;" class="fa fa-trash"></i></button>
+	      </div>
+	    </SlickItem>
+	  </SlickList>
+	</div>
+	<div v-if="availableStepTypes.length > 0" class="form-group">
+	  <label>Neuen Schritt hinzufügen</label>
+	  <select class="form-control" v-model="newStepType" @change="addStep()">
+	    <option disabled value="">Bitte wählen</option>
+	    <option v-for="(value) in availableStepTypes" :value="value">
+	      {{ stepName(value) }}
+	    </option>
+	  </select>
+	</div>
+      </div>
     </div>
   </div>
 
@@ -100,7 +113,7 @@
 
     <div v-if="currentStep.step_type == 'free_text'">
       <StepFreeText :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
-  </div>
+    </div>
   </div>
 
   <hr/>
@@ -168,6 +181,7 @@ export default {
       factsToolbar: [
         ["bold", "italic"],
         [{ list: "ordered" }, { list: "bullet" }],
+	[{ color: [] }, { background: [] }],
       ],
       stepTypes: {
 	read: "Lesen",
@@ -193,7 +207,7 @@ export default {
     } else {
       this.setEditConfig();
       this.currentCase = {
-	facts: "Sachverhalt",
+	facts: "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>",
 	name: "Neues Falltraining",
 	difficulty: "beginner",
 	steps: [{ step_type: "read", config: null }]
@@ -266,6 +280,12 @@ export default {
     },
     setEditConfig() {
       this.editConfig = true;
+    },
+    editModeOn() {
+      this.editMode = true;
+    },
+    editModeOff() {
+      this.editMode = false;
     },
     addStep() {
       if (typeof this.newStepType == "undefined")

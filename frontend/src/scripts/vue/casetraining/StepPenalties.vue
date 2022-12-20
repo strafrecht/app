@@ -6,7 +6,7 @@
 	<div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
 	  <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
 	</div>
-	<div id="mark-area-content" v-html="currentCase.facts" @mouseup="markUp()"></div>
+	<div id="mark-area-content" v-html="currentCase.facts"></div>
       </div>
     </div>
   </template>
@@ -16,12 +16,18 @@
     </p>
     <div v-if="myStep == 1">
       <div v-for="(penalty, qindex) in currentStep.config">
-	<h4>{{ penalty.text }}</h4>
+	<h5>{{ penalty.text }}</h5>
 	<SlickList axis="y" v-model="currentStep.answers[qindex]" @sort-end="reRender()">
     	  <SlickItem v-for="(answer, index) in currentStep.answers[qindex]" :key="answer" :index="index">
-    	    <div class="border">
-    	      <input v-model="currentStep.answers[qindex][index]" @change="handleBlur(qindex, index)" :ref="'input_' + qindex + '_' + index" :class="'input_' + qindex + '_' + index">
-    	      <button v-if="currentStep.answers[qindex].length != 1" class="btn btn-success" @click="delAnswer(qindex, index)">-</button>
+    	    <div class="mb-1">
+	      <div class="input-group">
+    		<input class="form-control border-top-0 border-right-0 border-left-0 rounded-0" v-model="currentStep.answers[qindex][index]" @change="handleChange(qindex, index)" :ref="'input_' + qindex + '_' + index" :class="'input_' + qindex + '_' + index" placeholder="§ ...">
+		<div v-if="currentStep.answers[qindex].length != index + 1" class="input-group-append">
+		  <button class="btn" @click="delAnswer(qindex, index)"><i style="pointer-events: none; user-select: none;" class="fa fa-trash"></i></button>
+		  <span class="input-group-text border-0 bg-white"><i class="fa fa-bars"></i></span>
+		</div>
+	      </div>
+
     	    </div>
     	  </SlickItem>
 	</SlickList>
@@ -29,16 +35,15 @@
     </div>
     <div v-if="myStep == 2">
       <div v-for="(penalty, qindex) in currentStep.config">
-	<h4>{{ penalty.text }}</h4>
+	<h5>{{ penalty.text }}</h5>
 	<div class="row" v-for="(solution, index) in solutions(qindex)">
-	  <div class="col-sm-6" :class="solution[2] ? 'text-success' : 'text-danger'">
+	  <div class="col-sm-6 border-bottom py-2" :class="solution[2] ? 'text-success' : 'text-danger'">
 	    <strong>{{ solution[0] }}</strong>
 	  </div>
-	  <div class="col-sm-6" :class="solution[3] ? 'text-danger' : ''">
+	  <div class="col-sm-6 border-bottom py-2" :class="solution[3] ? 'text-danger' : ''">
 	    {{ solution[1] }}
 	  </div>
 	</div>
-	<hr/>
       </div>
     </div>
   </template>
@@ -135,11 +140,12 @@ export default {
 			this.currentStep.answers[qindex],
 			{ comparator: this.diffCmp });
     },
-    async handleBlur(qindex, index) {
+    async handleChange(qindex, index) {
+      console.log("change");
       this.currentStep.answers[qindex] = this.currentStep.answers[qindex].filter(n => n);
       this.currentStep.answers[qindex].push("");
       this.componentKey += 1;
-      await nextTick()
+      await nextTick();
       var next_index = index + 1;
       if (next_index >= this.currentStep.answers[qindex].length)
 	next_index = this.currentStep.answers[qindex].length - 1;

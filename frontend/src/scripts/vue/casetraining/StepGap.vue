@@ -1,69 +1,80 @@
 <template>
-<step-template type="gap" :key="componentKey">
+<div v-if="editMode">
+  <div class="row" v-for="(question, qindex) in currentStep.config">
+    <div class="col-sm-12">
+      <h5>Frage {{ qindex + 1 }}</h5>
+      <div class="form-group">
+	<input class="form-control" v-model="question.question">
+	<small class="form-text text-muted">
+	  Lückentexte in eckige Klammern "[Text]" einschließen
+	</small>
+      </div>
+      <div class="form-group">
+	<input class="form-control" v-model="question.other">
+	<small class="form-text text-muted">
+	  Liste von falschen Antworten mit Komma getrennt
+	</small>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" @click="addGapText()">neuer Lückentext</button>
+</div>
+<step-template v-else type="gap" :key="componentKey">
   <template #right>
     <p>
       Füllen Sie die Lücken auf der linken Seite mit den rechts vorgegebenen Satzbausteinen.
     </p>
   </template>
   <template #bottom>
-    <div v-if="myStep == 1">
-      <div v-for="(question, qindex) in currentStep.config">
-	<div class="row">
-	  <div class="col-sm-6">
-	    <h4>Frage {{ qindex + 1 }}</h4>
-	  </div>
+    <div v-for="(question, qindex) in currentStep.config">
+      <div class="row">
+	<div class="col-sm-6">
+	  <h5>Frage {{ qindex + 1 }}</h5>
 	</div>
-	<div class="row">
-	  <div class="col-sm-6">
-	    <span v-for="(word, index) in words(question.question)">
-	      <span>{{ word }}</span>
-	      <span v-if="index !== words(question.question).length - 1">
-		<span class="gap-drop gap-open" @drop="onDrop($event, question, qindex, index)" @dragover.prevent @dragenter.prevent>
-		  {{ gapWordAt(question, qindex, index) }}
-		</span>
-	      </span>
-	    </span>
-	  </div>
-	  <div class="col-sm-6">
-	    <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, qindex, answer)">
-	      <div class="gap-drag gap-open">{{ answer }}</div>
-	    </div>
-	  </div>
-	</div>
-	<hr/>
       </div>
-    </div>
-    <div v-if="myStep == 2">
-      <div v-for="(question, qindex) in currentStep.config">
-	<div class="row">
-	  <div class="col-sm-6">
-	    <h4>Frage {{ qindex + 1 }}</h4>
-	  </div>
-	</div>
-	<div class="row">
-	  <div class="col-sm-6">
-	    <span v-for="(word, index) in words(question.question)">
-	      <span>{{ word }}</span>
-	      <span v-if="index !== words(question.question).length - 1">
-		<span class="gap-drop" :class="gapWordClass(question, qindex, index)">
-		  {{ gapWordAt(question, qindex, index) }}
-		</span>
+
+      <div v-if="myStep == 1" class="row">
+	<div class="col-sm-6">
+	  <span v-for="(word, index) in words(question.question)">
+	    <span>{{ word }}</span>
+	    <span v-if="index !== words(question.question).length - 1">
+	      <span class="gap-drop section-marker-5" @drop="onDrop($event, question, qindex, index)" @dragover.prevent @dragenter.prevent>
+		{{ gapWordAt(question, qindex, index) }}
 	      </span>
 	    </span>
-	  </div>
-	  <div class="col-sm-6">
-	    <span v-for="(word, index) in words(question.question)">
-	      <span>{{ word }}</span>
-	      <span v-if="index !== words(question.question).length - 1">
-		<span class="gap-drop gap-correct">
-		  {{ gapCorrectWordAt(question, qindex, index) }}
-		</span>
-	      </span>
-	    </span>
+	  </span>
+	</div>
+	<div class="col-sm-6">
+	  <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, qindex, answer)">
+	    <div class="gap-drag section-marker-5">{{ answer }}</div>
 	  </div>
 	</div>
-	<hr/>
       </div>
+
+      <div v-if="myStep == 2" class="row">
+	<div class="col-sm-6">
+	  <span v-for="(word, index) in words(question.question)">
+	    <span>{{ word }}</span>
+	    <span v-if="index !== words(question.question).length - 1">
+	      <span class="gap-drop" :class="gapWordClass(question, qindex, index)">
+		{{ gapWordAt(question, qindex, index) }}
+	      </span>
+	    </span>
+	  </span>
+	</div>
+	<div class="col-sm-6">
+	  <span v-for="(word, index) in words(question.question)">
+	    <span>{{ word }}</span>
+	    <span v-if="index !== words(question.question).length - 1">
+	      <span class="gap-drop section-marker-2">
+		{{ gapCorrectWordAt(question, qindex, index) }}
+	      </span>
+	    </span>
+	  </span>
+	</div>
+      </div>
+
+      <hr/>
     </div>
   </template>
   <template #buttons>
@@ -102,7 +113,15 @@ export default {
     if (typeof this.currentStep.answers !== "undefined")
       return;
 
+    if (!this.currentStep.config)
+      this.currentStep.config = [];
+
     this.currentStep.answers = [];
+  },
+  computed: {
+    editMode() {
+      return this.$parent.editMode;
+    },
   },
   methods: {
     prevStep() {
@@ -116,25 +135,36 @@ export default {
 
       this.myStep += 1;
     },
+    addGapText() {
+      this.currentStep.config.push({
+	question: "Das ist [ein] [neuer] Lückentext.",
+	other: "kein,Apfel",
+      })
+    },
+    correctAnswers(question) {
+      const regex = /\[.*?\]/g;
+      return question.question.match(regex).map(w => w.substr(1, w.length - 2));
+    },
     gapTexts(question) {
-      return question.correct.concat(question.other)
+      return this.correctAnswers(question).concat(question.other.split(","))
     },
     words(text) {
-      return text.split("_");
+      const regex = /\[.*?\]/g;
+      return text.split(regex);
     },
     gapWordClass(question, qindex, index) {
       if (typeof this.currentStep.answers[qindex] === 'undefined' ||
 	  typeof this.currentStep.answers[qindex][index] === 'undefined')
-	return "gap-incorrect";
+	return "section-marker-4";
 
-      if (this.currentStep.config[qindex].correct[index] ==
+      if (this.correctAnswers(this.currentStep.config[qindex])[index] ==
 	  this.currentStep.answers[qindex][index])
-	return "gap-correct";
+	return "section-marker-2";
 
-      return "gap-incorrect";
+      return "section-marker-4";
     },
     gapCorrectWordAt(question, qindex, index) {
-      return this.currentStep.config[qindex].correct[index];
+      return this.correctAnswers(this.currentStep.config[qindex])[index];
     },
     gapWordAt(question, qindex, index) {
       if (typeof this.currentStep.answers[qindex] === 'undefined' ||
