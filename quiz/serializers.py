@@ -35,7 +35,7 @@ class QuestionSerializer(serializers.Serializer):
 class QuizSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quiz
-        fields = ['id', 'user', 'categories', 'completed', 'created', 'updated']
+        fields = ['id', 'user', 'category', 'completed', 'created', 'updated']
 
 
 class UserAnswerSerializer(serializers.ModelSerializer):

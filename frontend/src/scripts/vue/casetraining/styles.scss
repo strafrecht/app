@@ -1,29 +1,86 @@
 .casetraining {
-  .mark-area {
+  .ql-editor p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  #facts-editor {
+    height: 500px;
+  }
+
+  .mark-area-content {
+    position: relative;
+    z-index: 10;
+  }
+
+  .user-mark-area {
     cursor: text;
   }
 
-  .mark-red ::selection {
-    background: red;
-  }
-
-  .mark-blue ::selection {
-    background: blue;
-  }
-
-  .gap-drop {
-    background: yellow;
+  .btn-marker {
     display: inline-block;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  .gap-drag {
-    background: yellow;
-    display: inline-block;
-    padding-left: 5px;
-    padding-right: 5px;
-    margin: 5px 0;
     cursor: pointer;
+    height: 40px;
+    width: 40px;
+  }
+
+  .mark-marker-erase {
+    cursor: url("../../../../../casetraining/static/images/marker/eraser_lo.cur") 3 35, default;
+
+    & ::selection {
+      background-color: #ddd;
+    }
+  }
+
+  $usercolors: #29e7fc, #95fd06, #c0b1fe, #ff92f3, #fff451;
+
+  @for $i from 1 through length($usercolors) {
+    .user-marker-#{$i} {
+      display: inline;
+      border-bottom: 4px solid nth($usercolors, $i);
+    }
+
+    .user-section-marker-#{$i},
+    .section-marker-#{$i} {
+      display: inline;
+      border-image-source: url(../../../../../casetraining/static/images/marker/marker-#{$i}.png);
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      border-image-slice: 0 50 fill;
+      border-image-outset: 0 0.25ch;
+      border-image-width: 0 1.5ch;
+      border-image-repeat: round stretch;
+      position: relative;
+      border-top: transparent none 1px;
+      background-color: transparent !important;
+    }
+
+    .hide-sections .section-marker-#{$i} {
+      border-image: none;
+    }
+
+    .mark-marker-#{$i} {
+      cursor: url(../../../../../casetraining/static/images/marker/textmarker-#{$i}.cur) 3 35, default;
+
+      & ::selection {
+        background-color: nth($usercolors, $i);
+      }
+    }
+
+    .ql-toolbar {
+      button.ql-section-marker-#{$i} {
+        background: url(../../../../../casetraining/static/images/marker/textmarker-#{$i}.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	border: 1px #fff solid;
+      }
+      button.ql-section-marker-#{$i}.ql-active {
+	border: 1px #ddd solid;
+      }
+    }
+
+    .btn-marker-#{$i} {
+      color: nth($usercolors, $i);
+    }
   }
 }

@@ -165,6 +165,8 @@ class QuestionCreateOrUpdateSet(mixins.CreateModelMixin, generics.GenericAPIView
 #     serializer_class = QuestionOnlySerializer
 #     permission_classes = [AllowAny]
 
+# FIXME: anyone can do everything!!!
+
 class QuestionVersionViewSet(viewsets.ModelViewSet):
     queryset = QuestionVersion.objects.all()
     serializer_class = QuestionVersionSerializer

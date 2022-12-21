@@ -1,161 +1,132 @@
 <template>
 <div v-if="dataReady" class="casetraining">
 
-  <div class="case-timer">
-    {{ timerMinSec() }}
-    <button class="btn btn-success" @click="timerPause()" v-if="timerRun">Pause</button>
-    <button class="btn btn-success" @click="timerPause()" v-if="!timerRun">Resume</button>
-    <button class="btn btn-success" @click="timerReset()">Reset</button>
+  <button v-if="editMode" @click="editModeOff" class="btn btn-success">Bearbeitung beenden</button>
+  <button v-else @click="editModeOn" class="btn btn-success">bearbeiten</button>
+  <button v-if="editMode && !caseId" class="btn btn-success" @click="createCase()">Erstellen</button>
+  <button v-if="editMode && caseId" class="btn btn-success" @click="saveCase()">Speichern</button>
+  <div class="bg-dark px-2 text-uppercase">
+    <span
+       class="text-white btn"
+       :class="editConfig ? 'text-success' : 'text-light'"
+       v-if="editMode"
+       @click="setEditConfig">
+      <small>Konfiguration</small>
+    </span>
+    <span
+       class="text-white btn"
+       v-for="(step, index) in currentCase.steps"
+       :class="(index + 1) == currentStepNo && !editConfig ? 'text-success' : 'text-light'"
+       @click="setStep(index + 1)">
+      <small>{{ stepName(step.step_type) }}</small>
+    </span>
   </div>
 
-  <h1>Step: {{ currentStepNo }} / {{ steps() }}</h1>
-  <p>{{ currentStep() }}</p>
-  <h2>{{ currentCase.name }} (Niveau: {{ currentCase.difficulty }})</h2>
-
-  <div v-if="currentStep().step_type == 'read'">
+  <div v-if="editConfig">
     <div class="row">
       <div class="col-sm-6">
-	<div v-html="currentCase.facts"></div>
+	<div class="form-group">
+	  <label>Titel</label>
+	  <input class="form-control" v-model="currentCase.name" placeholder="Titel des Falltrainings">
+	</div>
       </div>
-      <div class="col-sm-6 border">
-	<h4>Step {{ currentStepNo }}</h4>
-	<p>
-	  Lesen Sie den Sachverhalt.
-	</p>
-      </div>
-    </div>
-    <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
-    <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
-  </div>
-
-  <div v-if="currentStep().step_type == 'mark_sections'">
-    <div class="row">
-      <div class="col-sm-6" :class="markColorStyle">
-	<div id="mark-area-content" v-html="currentStep().config[0].answer" @mouseup="markUp()"></div>
-      </div>
-      <div class="col-sm-6 border">
-	<h4>Step {{ currentStepNo }}</h4>
-	<p>
-	  Markieren Sie die Sachverhaltsabschnitte in unterschiedlichen Farben.
-	</p>
-	<div style="background: red" @click="setMarkColor('red')">xxx</div>
-	<div style="background: blue" @click="setMarkColor('blue')">xxx</div>
-	<div style="background: yellow" @click="setMarkColor('yellow')">xxx</div>
-	<div style="background: green" @click="setMarkColor('green')">xxx</div>
-	<div style="background: pink" @click="setMarkColor('pink')">xxx</div>
-	<div @click="markReset()">Reset</div>
-      </div>
-    </div>
-    <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
-    <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
-  </div>
-
-  <div v-if="currentStep().step_type == 'penalties'">
-    <div class="row">
       <div class="col-sm-6">
-	{{ currentCase.facts }}
-      </div>
-      <div class="col-sm-6 border">
-	<h4>Step {{ currentStepNo }}</h4>
-	<p>
-	  Ermitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.
-	</p>
-	<div v-for="(penalty, index) in currentStep().config">
-	  <h4>{{ penalty.text }}</h4>
-	  <div v-for="(answer, index) in penalty.answers">
-	    <input v-model="penalty.answers[index]">
-	    <button v-if="penalty.answers.length > 1" class="btn btn-success" @click="penaltyDelAnswer(penalty, index)">-</button>
-	  </div>
-	  <button class="btn btn-success" @click="penaltyAddAnswer(penalty)">+</button>
+	<div class="form-group">
+	  <label>Niveau</label>
+	  <select class="form-control" v-model="currentCase.difficulty">
+	    <option disabled value="">Bitte wählen</option>
+	    <option v-for="(name, value) in difficulties" :value="value">
+	      {{ name }}
+	    </option>
+	  </select>
 	</div>
       </div>
     </div>
-    <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
-    <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
-  </div>
-
-  <div v-if="currentStep().step_type == 'problem_areas'">
     <div class="row">
       <div class="col-sm-6">
-	{{ currentCase.facts }}
-      </div>
-      <div class="col-sm-6 border">
-	<h4>Step {{ currentStepNo }}</h4>
-	<p>
-	  Ermitteln Sie die Problemfelder des 1. Sachverhaltsabschnitts.
-	</p>
-	<input v-model="wikiSearch">
-	<div v-for="(article, index) in wikiSearchArticles()">
-	  <div><small><i>{{ article.path.join(' &gt; ') }}</i></small></div>
-	  <div>{{ article.title }}</div>
-	  <div><a :href="article.url" target="_blank">zum Wiki</a></div>
-	  <hr/>
+	<div class="form-group">
+	  <label>Sachverhalt</label>
+	  <vue-editor id="facts-editor" v-model="currentCase.facts" :editorToolbar="factsToolbar"></vue-editor>
 	</div>
       </div>
-    </div>
-    <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
-    <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
-  </div>
-
-  <div v-if="currentStep().step_type == 'gap_text'">
-    <div class="row">
       <div class="col-sm-6">
-      </div>
-      <div class="col-sm-6 border">
-	<h4>Step {{ currentStepNo }}</h4>
-	<p>
-	  Füllen Sie die Lücken auf der linken Seite mit den rechts vorgegebenen Satzbausteinen.
-	</p>
-      </div>
-    </div>
-
-    <div v-for="(question, index) in currentStep().config">
-      <div class="row">
-	<div class="col-sm-6">
-	  <h4>Frage {{ index + 1 }}</h4>
-	  <div>
-	    <span v-for="(word, index) in words(question.question)">
-	      <span>{{ word }}</span>
-	      <span v-if="index !== words(question.question).length - 1">
-		<span class="gap-drop" @drop="onDrop($event, question, index)" @dragover.prevent @dragenter.prevent>
-		  {{ wordAt(question, index) }}
+	<div class="form-group">
+	  <label>Falltrainigsschritte</label>
+	  <SlickList axis="y" v-model="currentCase.steps">
+	    <SlickItem v-for="(step, index) in currentCase.steps" :key="step.step_type" :index="index">
+	      <div class="border my-1 px-2 py-1 bg-white">
+		<span style="pointer-events: none; user-select: none;">
+		  <i class="mr-2 fa fa-bars"></i>
+		  {{ stepName(step.step_type) }}
 		</span>
-	      </span>
-	    </span>
-	  </div>
+		<button @click="delStep(index)" class="btn btn-sm text-danger float-right"><i style="pointer-events: none;" class="fa fa-trash"></i></button>
+	      </div>
+	    </SlickItem>
+	  </SlickList>
 	</div>
-	<div class="col-sm-6">
-	  <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, answer)">
-	    <div class="gap-drag">{{ answer }}</div>
-	  </div>
-	</div>
-      </div>
-      <hr/>
-    </div>
-
-    <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
-    <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
-  </div>
-
-  <div v-if="currentStep().step_type == 'free_text'">
-    <div class="row">
-      <div class="col-sm-6">
-	<div v-html="currentCase.facts"></div>
-      </div>
-      <div class="col-sm-6 border">
-	<h4>Step {{ currentStepNo }}</h4>
-	<p>
-	  Bearbeiten Sie die folgenden Aufgaben.
-	</p>
-	<div v-for="discussion in currentStep().config">
-	  <div v-html="discussion.text"></div>
-	  <textarea v-model="discussion.answer" ></textarea>
+	<div v-if="availableStepTypes.length > 0" class="form-group">
+	  <label>Neuen Schritt hinzufügen</label>
+	  <select class="form-control" v-model="newStepType" @change="addStep()">
+	    <option disabled value="">Bitte wählen</option>
+	    <option v-for="(value) in availableStepTypes" :value="value">
+	      {{ stepName(value) }}
+	    </option>
+	  </select>
 	</div>
       </div>
     </div>
-    <button class="btn btn-success" @click="prevStep()">Voriger Schritt</button>
-    <button class="btn btn-success" @click="nextStep()">Nächster Schritt</button>
   </div>
+
+  <div v-if="!editConfig">
+
+    <div v-if="!editMode" class="case-timer bg-light border float-right p-1 rounded-pill" style="margin-top: 20px;">
+      <strong>{{ timerMinSec() }}</strong>
+      <button class="btn btn-success btn-sm rounded-circle" @click="timerPause()">
+	<i v-if="timerRun" class="fa fa-pause" />
+	<i v-else class="fa fa-play" />
+      </button>
+      <button class="btn btn-success btn-sm rounded-circle" @click="timerReset()">
+	<i class="fa fa-undo" />
+      </button>
+    </div>
+
+    <h2>{{ currentCase.name }} (Niveau: {{ difficulties[currentCase.difficulty] }})</h2>
+
+    <div class="clearfix mb-4"></div>
+
+    <div v-if="currentStep.step_type == 'read'">
+      <StepRead :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
+    </div>
+
+    <div v-if="currentStep.step_type == 'mark_sections'">
+      <StepSections :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
+    </div>
+
+    <div v-if="currentStep.step_type == 'penalties'">
+      <StepPenalties :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
+    </div>
+
+    <div v-if="currentStep.step_type == 'problem_areas'">
+      <StepProblems :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
+    </div>
+
+    <div v-if="currentStep.step_type == 'weights'">
+      <StepWeights :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
+    </div>
+
+    <div v-if="currentStep.step_type == 'gap_text'">
+      <StepGap :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
+    </div>
+
+    <div v-if="currentStep.step_type == 'free_text'">
+      <StepFreeText :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
+    </div>
+  </div>
+
+  <hr/>
+  <p>{{ currentStep }}</p>
+  <hr/>
+  <p>{{ currentCase }}</p>
 
 </div>
 <div v-else>
@@ -165,6 +136,78 @@
 
 <script>
 import axios from "axios";
+import { VueEditor, Quill } from "vue2-editor";
+import { SlickList, SlickItem } from 'vue-slicksort';
+
+import StepRead from "./StepRead.vue";
+import StepSections from "./StepSections.vue";
+import StepPenalties from "./StepPenalties.vue";
+import StepProblems from "./StepProblems.vue";
+import StepWeights from "./StepWeights.vue";
+import StepGap from "./StepGap.vue";
+import StepFreeText from "./StepFreeText.vue";
+
+let Inline = Quill.import('blots/inline');
+
+class MarkerBlock1 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-1');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock1.blotName = 'section-marker-1';
+MarkerBlock1.tagName = 'span';
+Quill.register(MarkerBlock1);
+
+class MarkerBlock2 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-2');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock2.blotName = 'section-marker-2';
+MarkerBlock2.tagName = 'span';
+Quill.register(MarkerBlock2);
+
+class MarkerBlock3 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-3');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock3.blotName = 'section-marker-3';
+MarkerBlock3.tagName = 'span';
+Quill.register(MarkerBlock3);
+
+class MarkerBlock4 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-4');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock4.blotName = 'section-marker-4';
+MarkerBlock4.tagName = 'span';
+Quill.register(MarkerBlock4);
+
+class MarkerBlock5 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-5');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock5.blotName = 'section-marker-5';
+MarkerBlock5.tagName = 'span';
+Quill.register(MarkerBlock5);
 
 const axios_config = {
   headers: {
@@ -175,9 +218,24 @@ const axios_config = {
 
 export default {
   name: "CurrentCase",
+  components: {
+    SlickList,
+    SlickItem,
+    VueEditor,
+    StepRead,
+    StepSections,
+    StepPenalties,
+    StepProblems,
+    StepWeights,
+    StepGap,
+    StepFreeText,
+  },
   props: {
     caseId: {
       type: Number,
+    },
+    editMode: {
+      type: Boolean,
     },
   },
   data() {
@@ -189,28 +247,45 @@ export default {
       timerRun: true,
       timerCurrent: null,
       timerPauseStart: null,
-      markColor: null,
-      wikiTree: null,
-      wikiArticles: [],
-      wikiSearch: "",
+      factsToolbar: [
+        ["bold", "italic"],
+        [{ list: "ordered" }, { list: "bullet" }],
+	["section-marker-1", "section-marker-2", "section-marker-3", "section-marker-4", "section-marker-5"],
+	['clean'],
+      ],
+      stepTypes: {
+	read: "Lesen",
+	mark_sections: "Einteilen",
+	gap_text: "Lückentext",
+	free_text: "Freitext",
+	penalties: "Strafbarkeit",
+	problem_areas: "Probleme",
+	weights: "Gewichtung",
+      },
+      difficulties: {
+	shortcase: "Kurzfälle",
+	beginner: "Anfänger*innen",
+	advanced: "Fortgeschrittene",
+      },
+      newStepType: "",
+      editConfig: false,
     }
   },
   async mounted() {
-    await this.getWikiTree();
-    await this.getCurrentCase();
-    this.currentCase.steps.forEach(element => {
-      if (!element.config)
-	element.config = [{}];
-
-      element.config.forEach(element => {
-	element.answer = "";
-	element.answers = [""];
-      });
-
-      if (element.step_type == "mark_sections")
-	element.config[0].answer = this.currentCase.facts;
-    });
+    if (this.caseId) {
+      await this.getCase();
+    } else {
+      this.setEditConfig();
+      this.currentCase = {
+	facts: "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>",
+	name: "Neues Falltraining",
+	difficulty: "beginner",
+	steps: [{ step_type: "read", config: null }]
+      };
+    }
+    this.currentCase.userFacts = this.currentCase.facts
     this.dataReady = true;
+
     this.timerStart = Date.now();
     setInterval(() => {
       if (this.timerRun) {
@@ -219,34 +294,30 @@ export default {
     }, 250);
   },
   computed: {
-    markColorStyle() {
-      return "mark-area mark-" + this.markColor;
+    currentStep() {
+      return this.currentCase.steps[this.currentStepNo - 1];
+    },
+    availableStepTypes() {
+      let selected = this.currentCase.steps.map(x => x.step_type);
+      console.log(this.stepTypes);
+      return Object.keys(this.stepTypes).filter(x => !selected.includes(x));
     },
   },
   methods: {
-    async getCurrentCase() {
+    async getCase() {
       await axios
-	.get("/falltraining/api/case/" + this.caseId + "/")
+	.get("/falltraining/api/case/" + this.caseId)
 	.then((response) => {
 	  this.currentCase = response.data;
+	  this.currentCase.steps = JSON.parse(this.currentCase.steps);
 	});
     },
-    async getWikiTree() {
-      await axios
-        .get("/falltraining/api/wiki_categories")
-        .then((response) => this.wikiTree = response.data);
-
-      this.makeWikiEntry(this.wikiTree.children, []);
+    setStep(num) {
+      this.editConfig = false;
+      this.currentStepNo = num;
     },
-    makeWikiEntry(articles, path) {
-      articles.forEach(article => {
-	this.wikiArticles.push({
-	  title: article.title,
-	  url: article.url,
-	  path: path,
-	});
-	this.makeWikiEntry(article.children, path.concat([article.title]))
-      });
+    stepName(id) {
+      return this.stepTypes[id];
     },
     timerPause() {
       if (this.timerRun)
@@ -279,78 +350,67 @@ export default {
     steps() {
       return this.currentCase.steps.length;
     },
-    currentStep() {
-      return this.currentCase.steps[this.currentStepNo - 1];
+    setEditConfig() {
+      this.editConfig = true;
     },
-    wikiSearchArticles() {
-      if (this.wikiSearch.length < 3)
-	return []
+    editModeOn() {
+      this.editMode = true;
+    },
+    editModeOff() {
+      this.currentCase.userFacts = this.currentCase.facts
+      this.editMode = false;
+      this.editConfig = false;
+    },
+    addStep() {
+      if (typeof this.newStepType == "undefined")
+	return;
 
-      var re = RegExp(this.wikiSearch, "i");
-
-      return this.wikiArticles.filter(
-	article =>
-	  (article.title.search(re) >= 0)
-      );
+      this.currentCase.steps.push({ step_type: this.newStepType, config: null })
     },
-    penaltyDelAnswer(penalty, index) {
-      penalty.answers.splice(index, 1);
-      console.log(index)
-      console.log(penalty.answers)
+    delStep(index) {
+      this.currentCase.steps.splice(index, 1);
     },
-    penaltyAddAnswer(penalty) {
-      penalty.answers = penalty.answers.concat([""])
-      console.log(penalty.answers)
+    createCase() {
+      axios
+	.post(
+	  "/falltraining/api/case",
+	  {
+	    steps: JSON.stringify(this.currentCase.steps),
+	    facts: this.currentCase.facts,
+	    name:  this.currentCase.name,
+	    user:  1, // FIXME
+	    difficulty: this.currentCase.difficulty,
+	  }
+	  , axios_config)
+	.then(response => {
+	  var newId = response.data.id;
+	  //window.location = "/falltraining/show/" + newId + "/";
+	})
+	.catch(error => {
+	  console.log(error);
+	  if (error.response.status == 400)
+	    this.errors = error.response.data;
+	})
     },
-    gapTexts(question) {
-      return question.correct.concat(question.other)
-    },
-    words(text) {
-      return text.split("_");
-    },
-    wordAt(question, index) {
-      if (typeof question.solution === 'undefined' ||
-	  !question.solution[index])
-	return "__________"
-
-      return question.solution[index];
-    },
-    onDrop(evt, question, index) {
-      const item = evt.dataTransfer.getData('item');
-      if (typeof question.solution === 'undefined')
-	question.solution = Array(this.words(question.question).length - 1);
-      question.solution[index] = item;
-    },
-    startDrag(evt, item) {
-      evt.dataTransfer.dropEffect = 'move'
-      evt.dataTransfer.effectAllowed = 'move'
-      evt.dataTransfer.setData('item', item)
-    },
-    setMarkColor(name) {
-      this.markColor = name;
-    },
-    markReset() {
-      this.currentStep().config[0].answer = this.currentCase.facts;
-    },
-    markUp() {
-      var sel = window.getSelection();
-
-      if (sel.type == "Range" && sel.getRangeAt) {
-	var range = sel.getRangeAt(0);
-	console.log(range);
-	document.designMode = "on";
-	sel.removeAllRanges();
-	sel.addRange(range);
-	document.execCommand("BackColor", false, this.markColor);
-	document.designMode = "off";
-	sel.removeAllRanges();
-	this.currentStep().config[0].answer = document.getElementById("mark-area-content").innerHTML;
-	//var span = document.createElement("span");
-        //span.style.cssText = "background: " + this.markColor;
-        //range.surroundContents(span);
-      }
-    },
-  }
+    saveCase() {
+      axios
+	.put(
+	  "/falltraining/api/case/" + this.currentCase.id,
+	  {
+	    steps: JSON.stringify(this.currentCase.steps),
+	    facts: this.currentCase.facts,
+	    name:  this.currentCase.name,
+	    user:  this.currentCase.user, // FIXME
+	    difficulty: this.currentCase.difficulty,
+	  }
+	  , axios_config)
+	.catch(error => {
+	  console.log(error);
+	  if (error.response.status == 400)
+	    this.errors = error.response.data;
+	})
+    }
+  },
 };
 // https://learnvue.co/tutorials/vue-drag-and-drop
 // https://learnvue.co/tutorials/computed-properties-guide
@@ -359,6 +419,6 @@ export default {
 // https://stackoverflow.com/questions/17288964/how-to-change-color-of-the-selected-text-dynamically-on-click-of-button
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import './styles.scss';
 </style>
