@@ -36,7 +36,7 @@
   </template>
   <template #right>
     <p>
-      xErmitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.
+      Ermitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.
     </p>
     <div v-if="myStep == 1">
       <div v-for="(penalty, qindex) in currentStep.config">
@@ -120,7 +120,9 @@ export default {
     for (let i = 0; i < this.currentStep.config.length; i++) {
       if (typeof this.currentStep.answers[i] === "undefined")
 	this.currentStep.answers[i] = [];
-      this.currentStep.answers[i].push("")
+
+      if (this.currentStep.answers[i].slice(-1)[0] != "")
+	this.currentStep.answers[i].push("")
     }
   },
   mounted() {

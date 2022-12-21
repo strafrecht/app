@@ -27,15 +27,14 @@ def show(request, case_id):
     })
 
 def wiki_categories(request):
-    return JsonResponse(_wiki_articles(request, URLPath.root()))
 
-def _wiki_articles(request, node):
-    # if not node.article.other_read:
-    #     return None
+    articles = filter(lambda x: x.other_read, Article.objects.all())
 
+    return JsonResponse(list(map(_wiki_article, articles)), safe=False)
+
+def _wiki_article(article):
     return {
-        "id": node.article.id,
-        "title": node.article.current_revision.title,
-        "url": reverse('wiki:root') + node.path,
-        "children": [_wiki_articles(request, child) for child in node.article.get_children(user_can_read=request.user, articles__article__current_revision__deleted=False)]
+        "id": article.id,
+        "title": article.current_revision.title,
+        "url": article.get_absolute_url(),
     }
