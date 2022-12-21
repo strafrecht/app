@@ -117,6 +117,9 @@ export default {
     if (typeof this.currentStep.answers === "undefined")
       this.currentStep.answers = [];
 
+    if (!this.currentStep.config)
+      this.currentStep.config = [];
+
     for (let i = 0; i < this.currentStep.config.length; i++) {
       if (typeof this.currentStep.answers[i] === "undefined")
 	this.currentStep.answers[i] = [];
