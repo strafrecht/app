@@ -1,9 +1,10 @@
 <template>
 <div v-if="dataReady" class="casetraining">
 
-  <span v-if="editMode" @click="editModeOff">Bearbeitung beenden</span>
-  <span v-else @click="editModeOn">bearbeiten</span>
-
+  <button v-if="editMode" @click="editModeOff" class="btn btn-success">Bearbeitung beenden</button>
+  <button v-else @click="editModeOn" class="btn btn-success">bearbeiten</button>
+  <button v-if="editMode && !caseId" class="btn btn-success" @click="createCase()">Erstellen</button>
+  <button v-if="editMode && caseId" class="btn btn-success" @click="saveCase()">Speichern</button>
   <div class="bg-dark px-2 text-uppercase">
     <span
        class="text-white btn"
@@ -272,7 +273,7 @@ export default {
   },
   async mounted() {
     if (this.caseId) {
-      await this.getCurrentCase();
+      await this.getCase();
     } else {
       this.setEditConfig();
       this.currentCase = {
@@ -284,6 +285,7 @@ export default {
     }
     this.currentCase.userFacts = this.currentCase.facts
     this.dataReady = true;
+
     this.timerStart = Date.now();
     setInterval(() => {
       if (this.timerRun) {
@@ -302,11 +304,12 @@ export default {
     },
   },
   methods: {
-    async getCurrentCase() {
+    async getCase() {
       await axios
-	.get("/falltraining/api/case/" + this.caseId + "/")
+	.get("/falltraining/api/case/" + this.caseId)
 	.then((response) => {
 	  this.currentCase = response.data;
+	  this.currentCase.steps = JSON.parse(this.currentCase.steps);
 	});
     },
     setStep(num) {
@@ -354,6 +357,7 @@ export default {
       this.editMode = true;
     },
     editModeOff() {
+      this.currentCase.userFacts = this.currentCase.facts
       this.editMode = false;
       this.editConfig = false;
     },
@@ -361,15 +365,51 @@ export default {
       if (typeof this.newStepType == "undefined")
 	return;
 
-      console.log(this.newStepType);
-      console.log(this.currentCase.steps);
       this.currentCase.steps.push({ step_type: this.newStepType, config: null })
     },
     delStep(index) {
-      console.log("xxxxx")
-      console.log(index)
       this.currentCase.steps.splice(index, 1);
     },
+    createCase() {
+      axios
+	.post(
+	  "/falltraining/api/case",
+	  {
+	    steps: JSON.stringify(this.currentCase.steps),
+	    facts: this.currentCase.facts,
+	    name:  this.currentCase.name,
+	    user:  1, // FIXME
+	    difficulty: this.currentCase.difficulty,
+	  }
+	  , axios_config)
+	.then(response => {
+	  var newId = response.data.id;
+	  //window.location = "/falltraining/show/" + newId + "/";
+	})
+	.catch(error => {
+	  console.log(error);
+	  if (error.response.status == 400)
+	    this.errors = error.response.data;
+	})
+    },
+    saveCase() {
+      axios
+	.put(
+	  "/falltraining/api/case/" + this.currentCase.id,
+	  {
+	    steps: JSON.stringify(this.currentCase.steps),
+	    facts: this.currentCase.facts,
+	    name:  this.currentCase.name,
+	    user:  this.currentCase.user, // FIXME
+	    difficulty: this.currentCase.difficulty,
+	  }
+	  , axios_config)
+	.catch(error => {
+	  console.log(error);
+	  if (error.response.status == 400)
+	    this.errors = error.response.data;
+	})
+    }
   },
 };
 // https://learnvue.co/tutorials/vue-drag-and-drop

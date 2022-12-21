@@ -9,11 +9,11 @@ app_name = "casetraining"
 
 class CasetrainingSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField(read_only=True)
-    steps = serializers.SerializerMethodField(read_only=True)
+    #steps = serializers.SerializerMethodField(read_only=False)
 
     def get_steps(self, obj):
 
-        if obj.steps == "":
+        if not obj.steps or obj.steps == "":
             return None
 
         return json.loads(obj.steps)
@@ -32,7 +32,7 @@ class CasetrainingViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Casetraining.objects.all()
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'case', CasetrainingViewSet, basename='case')
 
 urlpatterns = [

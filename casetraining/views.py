@@ -27,9 +27,7 @@ def show(request, case_id):
     })
 
 def wiki_categories(request):
-
     articles = filter(lambda x: x.other_read, Article.objects.all())
-
     return JsonResponse(list(map(_wiki_article, articles)), safe=False)
 
 def _wiki_article(article):
