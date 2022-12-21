@@ -23,6 +23,10 @@ class Casetraining(ClusterableModel):
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     # Sachverhalt
     facts = models.TextField(default='')
+    # our json config for the steps
+    steps = models.TextField(null=True, blank=True)
+    approved = models.BooleanField(default=False)
+    parent = models.ForeignKey("Casetraining", null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -32,41 +36,8 @@ class Casetraining(ClusterableModel):
     panels = [
         FieldPanel('name'),
         FieldPanel('difficulty'),
+        FieldPanel('approved'),
         FieldPanel('user'),
         FieldPanel('facts'),
-        InlinePanel('steps', heading='Steps'),
+        FieldPanel('steps'),
     ]
-
-class CaseStep(ClusterableModel):
-
-    STEP_TYPE_CHOICES = [
-        ('read',          'Read'),
-        ('mark_sections', 'Mark sections'),
-        ('penalties',     'Penalties'),
-        ('problem_areas', 'Problem areas'),
-        ('weights',       'Weights'),
-        ('gap_text',      'Gap text'),
-        ('free_text',     'Free text'),
-    ]
-
-    case = ParentalKey(Casetraining, null=False, on_delete=models.CASCADE, related_name='steps')
-    position = models.IntegerField()
-    step_type = models.CharField(choices=STEP_TYPE_CHOICES, max_length=100, blank=False, null=False)
-    config = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return "{} ({}) {}".format(self.case, self.position, self.step_type)
-
-    class Meta:
-        unique_together = ('case', 'position',)
-
-class CaseStepProblemArea(ClusterableModel):
-    """ Ermitteln Sie die Problemfelder des 1. Sachverhaltsabschnitts. """
-    case_step = ParentalKey(CaseStep, null=False, on_delete=models.CASCADE, related_name='problem_areas')
-    article = models.ForeignKey(Article, on_delete=models.SET_NULL, null=True, blank=True)
-    weight = models.IntegerField()
-
-    def __str__(self):
-        return "{} ({}) {}".format(self.case_step, self.article, self.weight)
