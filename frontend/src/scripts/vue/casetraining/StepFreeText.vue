@@ -70,6 +70,9 @@ export default {
     if (typeof this.currentStep.answers !== "undefined")
       return;
 
+    if (!this.currentStep.config)
+      this.currentStep.config = [];
+
     this.currentStep.answers = [];
   },
   computed: {

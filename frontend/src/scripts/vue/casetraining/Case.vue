@@ -3,8 +3,8 @@
 
   <button v-if="editMode" @click="editModeOff" class="btn btn-success">Bearbeitung beenden</button>
   <button v-else @click="editModeOn" class="btn btn-success">bearbeiten</button>
-  <button v-if="editMode && !caseId" class="btn btn-success" @click="createCase()">Erstellen</button>
-  <button v-if="editMode && caseId" class="btn btn-success" @click="saveCase()">Speichern</button>
+  <button v-if="editMode && !currentCase.id" class="btn btn-success" @click="createCase()">Speichern</button>
+  <button v-if="editMode && currentCase.id" class="btn btn-success" @click="saveCase()">Speichern</button>
   <div class="bg-dark px-2 text-uppercase">
     <span
        class="text-white btn"
@@ -371,6 +371,9 @@ export default {
       this.currentCase.steps.splice(index, 1);
     },
     createCase() {
+      if (this.currentCase.id)
+	return this.saveCase();
+
       axios
 	.post(
 	  "/falltraining/api/case",
@@ -383,8 +386,8 @@ export default {
 	  }
 	  , axios_config)
 	.then(response => {
-	  var newId = response.data.id;
-	  //window.location = "/falltraining/show/" + newId + "/";
+	  this.currentCase.id = response.data.id;
+	  this.currentCase.user = response.data.user;
 	})
 	.catch(error => {
 	  console.log(error);
