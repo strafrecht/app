@@ -1,8 +1,11 @@
 .casetraining {
-
   .ql-editor p {
     margin-top: 0;
     margin-bottom: 1rem;
+  }
+
+  #facts-editor {
+    height: 500px;
   }
 
   .mark-area-content {
@@ -61,6 +64,18 @@
 
       & ::selection {
         background-color: nth($usercolors, $i);
+      }
+    }
+
+    .ql-toolbar {
+      button.ql-section-marker-#{$i} {
+        background: url(../../../../../casetraining/static/images/marker/textmarker-#{$i}.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	border: 1px #fff solid;
+      }
+      button.ql-section-marker-#{$i}.ql-active {
+	border: 1px #ddd solid;
       }
     }
 

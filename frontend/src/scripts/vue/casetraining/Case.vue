@@ -22,24 +22,30 @@
   </div>
 
   <div v-if="editConfig">
-    <div class="form-group">
-      <label>Titel</label>
-      <input class="form-control" v-model="currentCase.name" placeholder="Titel des Falltrainings">
-    </div>
-    <div class="form-group">
-      <label>Niveau</label>
-      <select class="form-control" v-model="currentCase.difficulty">
-	<option disabled value="">Bitte wählen</option>
-	<option v-for="(name, value) in difficulties" :value="value">
-	  {{ name }}
-	</option>
-      </select>
+    <div class="row">
+      <div class="col-sm-6">
+	<div class="form-group">
+	  <label>Titel</label>
+	  <input class="form-control" v-model="currentCase.name" placeholder="Titel des Falltrainings">
+	</div>
+      </div>
+      <div class="col-sm-6">
+	<div class="form-group">
+	  <label>Niveau</label>
+	  <select class="form-control" v-model="currentCase.difficulty">
+	    <option disabled value="">Bitte wählen</option>
+	    <option v-for="(name, value) in difficulties" :value="value">
+	      {{ name }}
+	    </option>
+	  </select>
+	</div>
+      </div>
     </div>
     <div class="row">
       <div class="col-sm-6">
 	<div class="form-group">
 	  <label>Sachverhalt</label>
-	  <vue-editor v-model="currentCase.facts" :editorToolbar="factsToolbar"></vue-editor>
+	  <vue-editor id="facts-editor" v-model="currentCase.facts" :editorToolbar="factsToolbar"></vue-editor>
 	</div>
       </div>
       <div class="col-sm-6">
@@ -129,7 +135,7 @@
 
 <script>
 import axios from "axios";
-import { VueEditor } from "vue2-editor";
+import { VueEditor, Quill } from "vue2-editor";
 import { SlickList, SlickItem } from 'vue-slicksort';
 
 import StepRead from "./StepRead.vue";
@@ -139,6 +145,68 @@ import StepProblems from "./StepProblems.vue";
 import StepWeights from "./StepWeights.vue";
 import StepGap from "./StepGap.vue";
 import StepFreeText from "./StepFreeText.vue";
+
+let Inline = Quill.import('blots/inline');
+
+class MarkerBlock1 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-1');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock1.blotName = 'section-marker-1';
+MarkerBlock1.tagName = 'span';
+Quill.register(MarkerBlock1);
+
+class MarkerBlock2 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-2');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock2.blotName = 'section-marker-2';
+MarkerBlock2.tagName = 'span';
+Quill.register(MarkerBlock2);
+
+class MarkerBlock3 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-3');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock3.blotName = 'section-marker-3';
+MarkerBlock3.tagName = 'span';
+Quill.register(MarkerBlock3);
+
+class MarkerBlock4 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-4');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock4.blotName = 'section-marker-4';
+MarkerBlock4.tagName = 'span';
+Quill.register(MarkerBlock4);
+
+class MarkerBlock5 extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'section-marker-5');
+    return node;
+  }
+  static formats(node) { return true; }
+}
+MarkerBlock5.blotName = 'section-marker-5';
+MarkerBlock5.tagName = 'span';
+Quill.register(MarkerBlock5);
 
 const axios_config = {
   headers: {
@@ -181,7 +249,8 @@ export default {
       factsToolbar: [
         ["bold", "italic"],
         [{ list: "ordered" }, { list: "bullet" }],
-	[{ color: [] }, { background: [] }],
+	["section-marker-1", "section-marker-2", "section-marker-3", "section-marker-4", "section-marker-5"],
+	['clean'],
       ],
       stepTypes: {
 	read: "Lesen",
@@ -286,6 +355,7 @@ export default {
     },
     editModeOff() {
       this.editMode = false;
+      this.editConfig = false;
     },
     addStep() {
       if (typeof this.newStepType == "undefined")
