@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='people',
             name='role',
-            field=models.CharField(blank=True, choices=[('chairholder', 'Lehrstuhlinhaber'), ('office-management', 'Office Management'), ('academic-staff-male', 'Wiss. Mitarbeiter'), ('academic-staff-female', 'Wiss. Mitarbeiterin'), ('academic-assistant', 'Wiss. Hilfskraft'), ('student-assistant', 'Stud. Hilfskraft'), ('jurcoach-law-team', 'Jurcoach Jura-Team'), ('jurcoach-evaluation-team', 'Jurcoach Evaluations-Team'), ('jurcoach-web-team', 'Jurcoach Informatik-Team'), ('webmaster', 'Webmaster'), ('associate-professor', 'Privatdozent'), ('deputy-director-claims-settlement-M-Z', 'Stellvertretender Leiter Schadensregulierung M-Z')], max_length=255, verbose_name='Rolle'),
+            field=models.CharField(blank=True, choices=[('chairholder', 'Lehrstuhlinhaber'), ('office-management', 'Office Management'), ('academic-staff-male', 'Wiss. Mitarbeiter'), ('academic-staff-female', 'Wiss. Mitarbeiterin'), ('academic-assistant', 'Wiss. Hilfskraft'), ('student-assistant', 'Stud. Hilfskraft'), ('jurcoach-law-team', 'Jurcoach Jura-Team'), ('jurcoach-evaluation-team', 'Jurcoach Evaluations-Team'), ('jurcoach-web-team', 'Jurcoach Informatik-Team'), ('webmaster', 'Webmaster'), ('associate-professor', 'Privatdozent')], max_length=255, verbose_name='Rolle'),
         ),
     ]
