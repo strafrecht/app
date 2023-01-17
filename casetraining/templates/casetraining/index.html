@@ -16,26 +16,31 @@
 <p>
   Hinweis: Echte Altklausuren finden Sie in der FIXME Klausurendatenbank.
 </p>
+<p>
+  Legende:
+  <span class="text-info">Freigegeben</span>
+  /
+  <span class="text-success">Eingereicht</span>
+  /
+  <span class="text-danger">nicht Öffentlich</span>
+</p>
 <div class="row mb-4">
   <div class="col-sm-4">
     <h3>Kurzfälle</h3>
     {% for case in shortcase %}
-    <a href="{% url 'casetraining:show' case.id %}">{{ case.name }}</a>
-    <br />
+    {% include "casetraining/case-listing.html" with case=case %}
     {% endfor %}
   </div>
   <div class="col-sm-4">
     <h3>Anfänger*innen</h3>
     {% for case in beginner %}
-    <a href="{% url 'casetraining:show' case.id %}">{{ case.name }}</a>
-    <br />
+    {% include "casetraining/case-listing.html" with case=case %}
     {% endfor %}
   </div>
   <div class="col-sm-4">
     <h3>Fortgeschrittene</h3>
     {% for case in advanced %}
-    <a href="{% url 'casetraining:show' case.id %}">{{ case.name }}</a>
-    <br />
+    {% include "casetraining/case-listing.html" with case=case %}
     {% endfor %}
   </div>
 </div>
@@ -50,7 +55,7 @@
 </p>
 <div style="min-height: 200px;">
   <div class="illustration-container">
-    <div class="contribute-small"></div>
+    <div class="contribute-small" style="margin-top: -30px"></div>
   </div>
   <div class="contribution-area">
     <p style="margin-bottom: 0px !important;">

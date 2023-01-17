@@ -1,5 +1,5 @@
 <template>
-<step-template type="problems" :key="componentKey">
+<step-template type="weights" :key="componentKey">
   <template #left>
     <div>
       <div style="position: relative">
@@ -11,27 +11,39 @@
     </div>
   </template>
   <template #right>
-    {{ dataReady }}
-    <div v-if="myStep == 1">
-      <p>
-	Ermitteln Sie die Gewichtung.
-      </p>
-      <div v-for="(article, index) in currentArticles()">
-	{{ article.title }}
-	<hr/>
+    <div v-if="editMode">
+      <div class="mb-3">
+	<label>Einleitungstext</label>
+	<textarea class="form-control" v-model="currentStep.intro" />
+      </div>
+      <div v-if="editMode">
+	<p>Weisen Sie für alle Problemfelder zwischen einem und drei Gewichten zu.</p>
       </div>
     </div>
-    <div v-if="myStep == 2">
-      <p>
-	Ermitteln Sie die Gewichtung.
-      </p>
-      <div v-for="(article, index) in currentArticles()">
-	{{ article.title }}: {{ article.weight }}
-	<hr/>
+    <div v-else>
+      <p>{{ currentStep.intro }}</p>
+    </div>
+
+    <div>
+      <div v-for="(marker, cindex) in sectionMarkers" class="mb-3">
+	<h5 class="section" :class="marker">Abschnitt {{ cindex + 1 }}</h5>
+	<div v-for="(article, index) in problemsConfig(cindex)" class="border-bottom my-2 pb-2">
+	  <div class="clearfix">
+	    <div class="float-right weights-area">
+	      <span @click="setWeight(cindex, index, 1)" class="weight" :class="weightOn(cindex, index, 1)"></span>
+	      <span @click="setWeight(cindex, index, 2)" class="weight" :class="weightOn(cindex, index, 2)"></span>
+	      <span @click="setWeight(cindex, index, 3)" class="weight" :class="weightOn(cindex, index, 3)"></span>
+	    </div>
+	    <i class="small">{{ urlToText(article.url) }}</i>
+	    <div>
+	      <a :href="article.url" target="_blank">{{ article.title }}</a>
+	    </div>
+	  </div>
+	</div>
       </div>
     </div>
   </template>
-  <template #buttons-right>
+  <template #buttons-right v-if="!editMode">
     <button v-if="myStep == 1" class="btn btn-primary" @click="nextStep()">zur Auswertung</button>
     <button v-if="myStep == 2" class="btn btn-primary" @click="nextStep()">nächster Schritt</button>
   </template>
@@ -60,23 +72,43 @@ export default {
   },
   data() {
     return {
-      dataReady: false,
       myStep: 1,
       componentKey: 0,
-      wikiSearch: "",
-      wikiTree: null,
-      wikiArticles: [],
     }
   },
-  beforeMount() {
-    if (typeof this.currentStep.answers !== "undefined")
-      return;
-
-    this.currentStep.answers = [];
+  computed: {
+    wikiReady() {
+      return this.$parent.wikiReady;
+    },
+    wikiArticles() {
+      return this.$parent.wikiArticles;
+    },
+    problemsStep() {
+      return this.$parent.currentCase.steps.filter(step => step.step_type == "problem_areas")[0];
+    },
+    editMode() {
+      return this.$parent.editMode;
+    },
+    sectionMarkers() {
+      var parts = this.currentCase.facts.split(/class=\"/);
+      var classes = [];
+      for (var i = 0; i < parts.length-1; i++) {
+	classes[i] = parts[i+1].split(/\"/)[0].trim();
+      }
+      // return unique classes
+      return classes.filter((v, i, a) => a.indexOf(v) === i);
+    },
   },
-  async mounted() {
-    await this.getWikiTree();
-    this.dataReady = true;
+  beforeMount() {
+    if (!this.currentStep.answers)
+      this.currentStep.answers = this.problemsStep.config.map(a => a.map(b => 1));
+
+    if (!this.currentStep.config)
+      this.currentStep.config = this.problemsStep.config.map(a => a.map(b => 1));
+
+    if (!this.currentStep.intro)
+      this.currentStep.intro = "Gewichten Sie die Problemfelder. Insgesamt sind X Gewichte zu vergeben.";
+    console.log(this.currentStep);
   },
   methods: {
     prevStep() {
@@ -90,60 +122,63 @@ export default {
 
       this.myStep += 1;
     },
-    async getWikiTree() {
-      await axios
-        .get("/falltraining/api/wiki_categories")
-        .then((response) => this.wikiTree = response.data);
+    setWeight(cindex, index, weight) {
+      if (this.myStep == 2)
+	return false;
 
-      await this.makeWikiEntry(this.wikiTree.children, []);
-    },
-    async makeWikiEntry(articles, path) {
-      articles.forEach(article => {
-	this.wikiArticles.push({
-	  id: article.id,
-	  title: article.title,
-	  url: article.url,
-	  path: path,
-	});
-	this.makeWikiEntry(article.children, path.concat([article.title]))
-      });
-    },
-    currentArticles() {
-      console.log("x");
-      console.log(this.currentStep.config.map(x => x.article));
-      console.log(this.wikiArticles[0]);
-      let x = this.wikiArticles.filter(
-	article =>
-	  this.currentStep.config.map(x => x.article).includes(article.id)
-      );
-      console.log(x);
-      return x;
-    },
-    correctAnswer(id) {
-      return this.currentStep.config.map(x => x.article).includes(id);
-    },
-    addArticle(article) {
-      this.currentStep.answers.push(article);
-      this.wikiSearch = "";
+      var target = this.editMode ? this.currentStep.config : this.currentStep.answers
+      if (!target[cindex])
+	target[cindex] = [];
+
+      target[cindex][index] = weight;
       this.componentKey += 1;
     },
-    delArticle(index) {
-      this.currentStep.answers.splice(index, 1);
-      this.componentKey += 1;
+    problemsConfig(index) {
+      return this.problemsStep.config[index];
     },
-    wikiSearchArticles() {
-      if (this.wikiSearch.length < 3)
-	return []
+    weightOn(cindex, index, weight) {
+      if (this.myStep == 2)
+	return this.weightResult(cindex, index, weight);
 
-      var re = RegExp(this.wikiSearch, "i");
+      var target = this.editMode ? this.currentStep.config : this.currentStep.answers
+      if (target[cindex][index] >= weight)
+	return "on";
 
-      return this.wikiArticles.filter(
-	article =>
-	  (article.title.search(re) >= 0)
-      );
+      return "";
+    },
+    weightResult(cindex, index, weight) {
+      var config = this.currentStep.config[cindex][index];
+      var answer = this.currentStep.answers[cindex][index];
+
+      if (answer == config) {
+	if (weight <= config)
+	  return "on";
+	else
+	  return "";
+      }
+
+      if (answer > config) {
+	if (weight <= config)
+	  return "on";
+	if (weight <= answer)
+	  return "result-minus";
+	return "";
+      }
+
+      if (answer < config) {
+	if (weight <= answer)
+	  return "on";
+	if (weight <= config)
+	  return "result-plus";
+	return "";
+      }
+    },
+    urlToText(url) {
+      return this.$parent.wikiUrlToText(url);
     },
   },
 }
 </script>
 <style lang="scss">
+  @import './styles/step-weights.scss';
 </style>

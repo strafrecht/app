@@ -7,11 +7,15 @@ from wiki.models import Article, URLPath
 from .models import Casetraining
 
 def index(request):
+    casetrainings = Casetraining.objects.order_by('name')
+    if not request.user.is_staff:
+        casetrainings = casetrainings.filter(approved=True)
+
     return render(request, "casetraining/index.html", {
         'banner': '/media/original_images/ohnediefrau.png',
-        "advanced": Casetraining.objects.filter(difficulty="advanced"),
-        "beginner": Casetraining.objects.filter(difficulty="beginner"),
-        "shortcase": Casetraining.objects.filter(difficulty="shortcase"),
+        "advanced":  casetrainings.filter(difficulty="advanced"),
+        "beginner":  casetrainings.filter(difficulty="beginner"),
+        "shortcase": casetrainings.filter(difficulty="shortcase"),
     })
 
 def new(request):

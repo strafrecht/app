@@ -13,7 +13,7 @@
       Lesen Sie den Sachverhalt.
     </p>
     <p>
-      Markieren Sie Wörter in unterschiedlichen Farben.
+      Sie können Wörter im Sachverhalt in unterschiedlichen Farben markieren. Diese werden in den nachfolgenden Schritten angezeigt.
     </p>
     <span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
       <img src="/assets/images/marker/textmarker-1.png">

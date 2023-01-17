@@ -17,9 +17,18 @@
   </template>
   <template #right>
     <div v-if="myStep == 1">
-      <p>
-	Markieren Sie die Sachverhaltsabschnitte in unterschiedlichen Farben.
-      </p>
+      <div v-if="editMode">
+	<div class="mb-3">
+	  <label>Einleitungstext</label>
+	  <textarea class="form-control" v-model="currentStep.intro" />
+	</div>
+	<p>
+	  Markieren Sie die unterschiedlichen Sachverhaltsabschnitte:
+	</p>
+      </div>
+      <div v-else>
+	<p>{{ currentStep.intro }}</p>
+      </div>
       <span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
 	<img src="/assets/images/marker/textmarker-1.png">
       </span>
@@ -87,11 +96,14 @@ export default {
     },
   },
   beforeMount() {
-    if (typeof this.currentStep.answers !== "undefined")
-      return;
+    if (typeof this.currentStep.answers === "undefined")
+      this.currentStep.answers = [this.currentCase.facts];
 
-    let html = this.currentCase.facts;
-    this.currentStep.answers = [html];
+    if (!this.currentStep.config)
+      this.currentStep.config = [];
+
+    if (!this.currentStep.intro)
+      this.currentStep.intro = "Markieren Sie die Sachverhaltsabschnitte in unterschiedlichen Farben.";
   },
   methods: {
     prevStep() {

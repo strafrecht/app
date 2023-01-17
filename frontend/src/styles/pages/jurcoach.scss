@@ -1,59 +1,211 @@
-#jurcoach-page {
-  width: 100%;
+.jurcoach-poll {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 22px;
+  background: #fff;
+  box-shadow: 3px 3px 0 #000;
+  padding: 30px;
+  min-width: 220px;
+  max-width: 300px;
 
-  /* fix wiki newline formating */
-  .wiki-content > br {
-    display: none;
+  &::before {
+    color: #fff;
+    font-family: $serif-font;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    content: 'Umfrage';
+    position: relative;
+    top: -40px;
+    background: #000;
+    width: 80px;
   }
-  .wiki-article > br {
-    display: none;
+
+  h3 {
+    margin-top: -25px;
   }
-  /* wiki styles */
-  .wiki-content {
-    .wiki-submenu {
-      label {
-	margin: 0.6em;
-	margin-bottom: 20px;
-      }
-      h3 {
-	color: #000 !important;
-	margin: 0;
-	margin-bottom: 20px;
-	display: block;
-	position: relative;
-	border-bottom: 4px solid #FFE200;
-	cursor: default;
-      }
-      .wiki-children {
-	display: block;
-	text-align: center;
-	margin-left: 0;
-	clear: both;
-	color: #3d3d3d;
 
-	a > span.badge {
-	  background: #fff;
-	  padding: .4rem 1rem;
-	  border: 3px solid #E8E7E0;
-	  color: #3d3d3d;
-	  font-size: 14px;
-	  margin-bottom: .5rem;
+  form {
+    text-align: center;
 
-	  &:hover {
-	    background: #FFE200;
-	    border: 3px solid #FFE200;
-	    cursor: pointer;
-	  }
-	}
+    > label {
+      display: none;
+    }
+
+    ul {
+      text-align: left;
+      list-style: none;
+      padding: 0;
+
+      li label {
+        display: inline-flex;
+        align-items: center;
+        padding-left: 0.8em;
+        cursor: pointer;
+
+        input[type="radio"] {
+          appearance: none;
+          background: #fff;
+          border-radius: 100%;
+          border: 2px solid #000;
+          width: 12px;
+          height: 12px;
+          position: relative;
+          left: -10px;
+          cursor: pointer;
+
+          &:checked {
+            border-color: #000;
+            box-shadow: inset 0 0 0 2px #fff;
+            background-color: #000;
+          }
+        }
+      }
+    }
+
+    [type="submit"]:not(:disabled) {
+      cursor: pointer;
+      background: $yellow;
+      border: 0;
+      padding: 7px 10px;
+      width: 100%;
+      font-weight: bold;
+
+      &:hover {
+        background: #ffd800;
+      }
+    }
+  }
+
+  .answers {
+    margin-top: 10px;
+    text-align: left;
+
+    .answer:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    .answer .bar {
+      width: 100%;
+      display: flex;
+      margin-bottom: 8px;
+    }
+
+    .answer .bar > div {
+      background: $yellow;
+      max-height: 22px;
+      margin-right: 5px;
+    }
+
+    .answer .bar > span {
+      float: right;
+      font-weight: bold;
+      min-width: 70px;
+      white-space: nowrap;
+    }
+  }
+}
+
+/* fix wiki newline formating */
+.wiki-content > br {
+  display: none;
+}
+
+.wiki-article > br {
+  display: none;
+}
+
+/* wiki styles */
+#wiki-container {
+  .wiki-article-title {
+    margin-bottom: 30px;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #e8e7df 20px, #e8e7df 40px);
+    line-height: 40px !important;
+    display: inline !important;
+  }
+
+  .wiki-article-title::after {
+    background: transparent !important;
+    content: none !important;
+  }
+
+  .wiki-article > h2 {
+    font-size: 1.3rem !important;
+    margin-top: 15px;
+  }
+
+  .wiki-article h2::after {
+    background: transparent !important;
+    content: none;
+  }
+
+  .wiki-article .article-edit-title-link {
+    margin-left: 10px;
+  }
+
+  .wiki-submenu {
+    label {
+      margin: 0.6em;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      color: #000 !important;
+      margin: 0;
+      margin-bottom: 20px;
+      display: block;
+      position: relative;
+      border-bottom: 4px solid #ffe200;
+      cursor: default;
+      background: none !important;
+    }
+
+    .wiki-children {
+      display: block;
+      text-align: center;
+      margin-left: 0;
+      clear: both;
+      color: #3d3d3d;
+
+      a {
+	color: #333 !important;
+	font-weight: 700;
+	font-size: 14px;
+      }
+
+      a > span.badge {
+        background: #fff;
+        padding: 0.4rem 1rem;
+        border: 3px solid #e8e7e0;
+        color: #3d3d3d;
+        font-size: 14px;
+        margin-bottom: 0.5rem;
+
+        &:hover {
+          background: #ffe200;
+          border: 3px solid #ffe200;
+          cursor: pointer;
+        }
       }
     }
   }
 }
 
-#jurcoach-page ::selection {
-  background: $yellow;
+#jurcoach-page {
+  width: 100%;
+
+  h3 {
+    display: inline-block;
+    color: #333 !important;
+    font-family: $serif-font;
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+    background: none !important;
+  }
 }
 
+#jurcoach-page ::selection,
 #jurcoach-page ::-moz-selection {
   background: $yellow;
 }
@@ -90,7 +242,7 @@
   font-family: $serif-font;
 }
 
-#jurcoach-page div.h2-centered {
+div.h2-centered {
   text-align: center;
   margin-bottom: 20px;
 }
@@ -193,117 +345,6 @@
   font-size: 14px;
 }
 
-.jurcoach-poll {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  line-height: 22px;
-  background: #fff;
-  box-shadow: 3px 3px 0 #000;
-  padding: 30px;
-  min-width: 220px;
-  max-width: 300px;
-}
-
-.jurcoach-poll h3 {
-  margin-top: -25px;
-}
-
-.jurcoach-poll form {
-  text-align: center;
-}
-
-.jurcoach-poll form > label {
-  display: none;
-}
-
-.jurcoach-poll form ul {
-  text-align: left;
-  list-style: none;
-  padding: 0;
-}
-
-.jurcoach-poll form ul li label {
-  display: inline-flex;
-  align-items: center;
-  padding-left: 0.8em;
-  cursor: pointer;
-}
-
-.jurcoach-poll form ul li label input[type="radio"] {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  background: #fff;
-  border-radius: 100%;
-  border: 2px solid #000;
-  width: 12px;
-  height: 12px;
-  position: relative;
-  left: -10px;
-  cursor: pointer;
-}
-
-.jurcoach-poll form ul li label input[type="radio"]:checked {
-  border-color: #000;
-  box-shadow: inset 0 0 0 2px #fff;
-  background-color: #000;
-}
-
-.jurcoach-poll form [type="submit"]:not(:disabled) {
-  cursor: pointer;
-  background: $yellow;
-  border: 0;
-  padding: 7px 10px;
-  width: 100%;
-  font-weight: bold;
-
-  &:hover {
-    background: #ffd800;
-  }
-}
-
-.jurcoach-poll::before {
-  color: #fff;
-  font-family: $serif-font;
-  font-weight: 600;
-  text-align: center;
-  text-transform: uppercase;
-  content: 'Umfrage';
-  position: relative;
-  top: -40px;
-  background: #000;
-  width: 80px;
-}
-
-.jurcoach-poll .answers {
-  margin-top: 10px;
-  text-align: left;
-}
-
-.jurcoach-poll .answers .answer:not(:last-child) {
-  margin-bottom: 10px;
-}
-
-.jurcoach-poll .answers .answer .bar {
-  width: 100%;
-  display: flex;
-  margin-bottom: 8px;
-}
-
-.jurcoach-poll .answers .answer .bar > div {
-  background: $yellow;
-  max-height: 22px;
-  margin-right: 5px;
-}
-
-.jurcoach-poll .answers .answer .bar > span {
-  float: right;
-  font-weight: bold;
-  min-width: 70px;
-  white-space: nowrap;
-}
-
 .illustration-container {
   position: absolute;
   height: 0;
@@ -370,32 +411,6 @@ div.contribution-area {
   margin-bottom: 20px;
 }
 
-#jurcoach-page .wiki-article-title {
-  margin-bottom: 30px;
-  background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #e8e7df 20px, #e8e7df 40px);
-  line-height: 40px !important;
-  display: inline !important;
-}
-
-#jurcoach-page .wiki-article-title::after {
-  background: transparent !important;
-  content: none !important;
-}
-
-#jurcoach-page .wiki-article > h2 {
-  font-size: 1.3rem !important;
-  margin-top: 15px;
-}
-
-#jurcoach-page .wiki-article h2::after {
-  background: transparent !important;
-  content: none;
-}
-
-#jurcoach-page .wiki-article .article-edit-title-link {
-  margin-left: 10px;
-}
-
 #jurcoach-page .line {
   height: 20px;
   border-bottom: 3px solid;
@@ -430,12 +445,6 @@ div.contribution-area {
   .carousel-inner .active + .carousel-item,
   .carousel-inner .active + .carousel-item + .carousel-item {
     display: block;
-  }
-
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
-    transition: none;
   }
 
   .carousel-inner .carousel-item-next,
@@ -483,15 +492,12 @@ div.contribution-area {
     display: block;
     visibility: visible;
   }
-}
 
-#jurcoach-page h3 {
-  display: inline-block;
-  color: #333 !important;
-  font-family: $serif-font;
-  font-size: 1.2rem !important;
-  font-weight: 800 !important;
-  background: none !important;
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
+    transition: none;
+  }
 }
 
 #jurcoach-page h3.highlighted {

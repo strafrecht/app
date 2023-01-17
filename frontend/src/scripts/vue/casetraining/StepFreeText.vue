@@ -1,16 +1,5 @@
 <template>
-<div v-if="editMode">
-  <div class="row" v-for="(question, qindex) in currentStep.config">
-    <div class="col-sm-12">
-      <h5>Frage {{ qindex + 1 }}</h5>
-      <div class="form-group">
-	<input class="form-control" v-model="question.text">
-      </div>
-    </div>
-  </div>
-  <button class="btn btn-primary" @click="addFreeText">neue Frage</button>
-</div>
-<step-template v-else type="free-text" :key="componentKey">
+<step-template type="free-text" :key="componentKey">
   <template #left>
     <div>
       <div style="position: relative">
@@ -22,12 +11,30 @@
     </div>
   </template>
   <template #right>
-    <p>
-      Bearbeiten Sie die folgenden Aufgaben.
-    </p>
-    <div v-for="(discussion, index) in currentStep.config">
-      <h5 v-html="discussion.text"></h5>
-      <vue-editor v-model="currentStep.answers[index]" :editorToolbar="customToolbar"></vue-editor>
+    <div v-if="editMode">
+      <div class="mb-3">
+	<label>Einleitungstext</label>
+	<textarea class="form-control" v-model="currentStep.intro" />
+      </div>
+      <div class="row" v-for="(question, qindex) in currentStep.config">
+	<div class="col-sm-12">
+	  <h5>
+	    <i @click="delFreeText(qindex)" class="fa fa-trash text-danger" role="button" title="Aufgabe löschen"></i>
+	    Aufgabe {{ qindex + 1 }}
+	  </h5>
+	  <div class="form-group">
+	    <input class="form-control" v-model="question.text" placeholder="Neue Aufgabe …">
+	  </div>
+	</div>
+      </div>
+      <button class="btn btn-primary" @click="addFreeText">neue Aufgabe</button>
+    </div>
+    <div v-else>
+      <p>{{ currentStep.intro }}</p>
+      <div v-for="(discussion, index) in currentStep.config">
+	<h5 v-html="discussion.text" class="mt-3"></h5>
+	<vue-editor v-model="currentStep.answers[index]" :editorToolbar="customToolbar"></vue-editor>
+      </div>
     </div>
   </template>
   <template #buttons-right>
@@ -67,13 +74,14 @@ export default {
     }
   },
   beforeMount() {
-    if (typeof this.currentStep.answers !== "undefined")
-      return;
+    if (typeof this.currentStep.answers === "undefined")
+      this.currentStep.answers = [];
 
     if (!this.currentStep.config)
       this.currentStep.config = [];
 
-    this.currentStep.answers = [];
+    if (!this.currentStep.intro)
+      this.currentStep.intro = "Bearbeiten Sie die folgenden Aufgaben.";
   },
   computed: {
     editMode() {
@@ -83,8 +91,11 @@ export default {
   methods: {
     addFreeText() {
       this.currentStep.config.push({
-	text: "Neue Frage?",
+	text: "",
       })
+    },
+    delFreeText(index) {
+      this.currentStep.config.splice(index, 1);
     },
     prevStep() {
       this.$parent.prevStep();
