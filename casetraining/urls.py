@@ -12,13 +12,6 @@ app_name = "casetraining"
 
 class AdminCasetrainingSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField(read_only=True)
-    #steps = serializers.SerializerMethodField(read_only=False)
-
-    def get_steps(self, obj):
-        if not obj.steps or obj.steps == "":
-            return None
-
-        return json.loads(obj.steps)
 
     def get_user_name(self, obj):
         return str(obj.user)
@@ -31,12 +24,6 @@ class UserCasetrainingSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField(read_only=True)
     user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
 
-    def get_steps(self, obj):
-        if not obj.steps or obj.steps == "":
-            return None
-
-        return json.loads(obj.steps)
-
     def get_user_name(self, obj):
         return str(obj.user)
 
@@ -44,12 +31,6 @@ class UserCasetrainingSerializer(serializers.ModelSerializer):
         return self.fields["user"].get_default()
 
     def save(self, **kwargs):
-        print(self)
-        print(kwargs)
-        print("self.validated_data")
-        print(self.validated_data)
-        print("self.instance")
-        print(self.instance)
         # users can't update approved cases
         if self.instance and self.instance.approved:
             raise Exception("not allowed (case is approved)")
@@ -60,9 +41,8 @@ class UserCasetrainingSerializer(serializers.ModelSerializer):
 
         if not self.get_user().is_anonymous:
             kwargs["user"] = self.get_user()
-        #
+
         result = super().save(**kwargs)
-        print(result.name)
         return result
 
     class Meta:

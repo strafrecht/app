@@ -1,3 +1,4 @@
+import bleach
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -31,6 +32,15 @@ class Casetraining(ClusterableModel):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     submission = models.ForeignKey(Submission, null=True, on_delete=models.SET_NULL)
+
+    def save(self):
+        self.facts      = bleach.clean(self.facts,
+                                       tags=["p", "span"],
+                                       attributes=["class"])
+        self.difficulty = bleach.clean(self.difficulty)
+        self.steps      = bleach.clean(self.steps)
+        self.name       = bleach.clean(self.name)
+        super(Casetraining, self).save()
 
     def __str__(self):
         return "{} ({})".format(self.name, self.difficulty)
