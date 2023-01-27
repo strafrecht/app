@@ -1,83 +1,99 @@
 <template>
-<div v-if="editMode">
-  <div class="row" v-for="(question, qindex) in currentStep.config">
-    <div class="col-sm-12">
-      <h5>Frage {{ qindex + 1 }}</h5>
-      <div class="form-group">
-	<input class="form-control" v-model="question.question">
-	<small class="form-text text-muted">
-	  Lückentexte in eckige Klammern "[Text]" einschließen
-	</small>
-      </div>
-      <div class="form-group">
-	<input class="form-control" v-model="question.other">
-	<small class="form-text text-muted">
-	  Liste von falschen Antworten mit Komma getrennt
-	</small>
+<step-template v-else type="gap" :key="componentKey">
+  <template #left>
+    <div>
+      <div style="position: relative">
+	<div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
+	  <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
+	</div>
+	<div id="mark-area-content" v-html="currentCase.facts"></div>
       </div>
     </div>
-  </div>
-  <button class="btn btn-primary" @click="addGapText()">neuer Lückentext</button>
-</div>
-<step-template v-else type="gap" :key="componentKey">
-  <template #right>
-    <p>
-      Füllen Sie die Lücken auf der linken Seite mit den rechts vorgegebenen Satzbausteinen.
-    </p>
   </template>
-  <template #bottom>
-    <div v-for="(question, qindex) in currentStep.config">
-      <div class="row">
-	<div class="col-sm-6">
-	  <h5>Frage {{ qindex + 1 }}</h5>
-	</div>
+  <template #right>
+    <div v-if="editMode">
+      <div class="mb-3">
+	<label>Einleitungstext</label>
+	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
-
-      <div v-if="myStep == 1" class="row">
-	<div class="col-sm-6">
-	  <span v-for="(word, index) in words(question.question)">
-	    <span>{{ word }}</span>
-	    <span v-if="index !== words(question.question).length - 1">
-	      <span class="gap-drop section-marker-5" @drop="onDrop($event, question, qindex, index)" @dragover.prevent @dragenter.prevent>
-		{{ gapWordAt(question, qindex, index) }}
-	      </span>
-	    </span>
-	  </span>
-	</div>
-	<div class="col-sm-6">
-	  <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, qindex, answer)">
-	    <div class="gap-drag section-marker-5">{{ answer }}</div>
+      <div class="row" v-for="(question, qindex) in currentStep.config">
+	<div class="col-sm-12">
+	  <h5>
+	    <i @click="delGapText(qindex)" class="fa fa-trash text-danger" role="button" title="Lückentext löschen"></i>
+	    Lückentext {{ qindex + 1 }}
+	  </h5>
+	  <div class="form-group">
+	    <input class="form-control form-control-sm" v-model="question.question" placeholder="Das [ist] ein [neuer] Lückentext.">
+	    <small class="form-text text-muted">
+	      Lückentexte in eckige Klammern "[Text]" einschließen.
+	    </small>
+	  </div>
+	  <div class="form-group">
+	    <textarea class="form-control form-control-sm" v-model="question.other"></textarea>
+	    <small class="form-text text-muted">
+	      Liste von falschen Antworten, jeweils eine pro Zeile.
+	    </small>
 	  </div>
 	</div>
       </div>
+      <button class="btn btn-primary" @click="addGapText()">neuer Lückentext</button>
+    </div>
+    <div v-else>
+      <p>{{ currentStep.intro }}</p>
+      <div v-for="(question, qindex) in currentStep.config">
+	<div class="row">
+	  <div class="col-sm-6">
+	    <h5>Lückentext {{ qindex + 1 }}</h5>
+	  </div>
+	</div>
 
-      <div v-if="myStep == 2" class="row">
-	<div class="col-sm-6">
-	  <span v-for="(word, index) in words(question.question)">
-	    <span>{{ word }}</span>
-	    <span v-if="index !== words(question.question).length - 1">
-	      <span class="gap-drop" :class="gapWordClass(question, qindex, index)">
-		{{ gapWordAt(question, qindex, index) }}
+	<div v-if="myStep == 1" class="row">
+	  <div class="col-sm-12">
+	    <span v-for="(word, index) in words(question.question)">
+	      <span>{{ word }}</span>
+	      <span v-if="index !== words(question.question).length - 1">
+		<span class="gap-drop section-marker-5" @drop="onDrop($event, question, qindex, index)" @dragover.prevent @dragenter.prevent>
+		  {{ gapWordAt(question, qindex, index) }}
+		</span>
 	      </span>
 	    </span>
-	  </span>
+	  </div>
+	  <div class="col-sm-12 draggables">
+	    <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, qindex, answer)">
+	      <div class="gap-drag"><div class="section-marker-5">{{ answer }}</div></div>
+	    </div>
+	  </div>
 	</div>
-	<div class="col-sm-6">
-	  <span v-for="(word, index) in words(question.question)">
-	    <span>{{ word }}</span>
-	    <span v-if="index !== words(question.question).length - 1">
-	      <span class="gap-drop section-marker-2">
-		{{ gapCorrectWordAt(question, qindex, index) }}
+
+	<div v-if="myStep == 2" class="row">
+	  <div class="col-sm-12">
+	    <span v-for="(word, index) in words(question.question)">
+	      <span>{{ word }}</span>
+	      <span v-if="index !== words(question.question).length - 1">
+		<span class="gap-drop" :class="gapWordClass(question, qindex, index)">
+		  {{ gapWordAt(question, qindex, index) }}
+		</span>
 	      </span>
 	    </span>
-	  </span>
+	  </div>
+	  <div class="col-sm-12">
+	    <span v-for="(word, index) in words(question.question)">
+	      <span>{{ word }}</span>
+	      <span v-if="index !== words(question.question).length - 1">
+		<span class="gap-drop section-marker-2">
+		  {{ gapCorrectWordAt(question, qindex, index) }}
+		</span>
+	      </span>
+	    </span>
+	  </div>
 	</div>
+
+	<hr/>
       </div>
 
-      <hr/>
     </div>
   </template>
-  <template #buttons>
+  <template #buttons-right v-if="!editMode">
     <button v-if="myStep == 1" class="btn btn-primary" @click="nextStep()">zur Auswertung</button>
     <button v-if="myStep == 2" class="btn btn-primary" @click="nextStep()">nächster Schritt</button>
   </template>
@@ -110,13 +126,14 @@ export default {
     }
   },
   beforeMount() {
-    if (typeof this.currentStep.answers !== "undefined")
-      return;
+    if (typeof this.currentStep.answers === "undefined")
+      this.currentStep.answers = [];
 
     if (!this.currentStep.config)
       this.currentStep.config = [];
 
-    this.currentStep.answers = [];
+    if (!this.currentStep.intro)
+      this.currentStep.intro = "Füllen Sie die Lücken in den Texten mit den korrekten vorgegebenen Satzbausteinen.";
   },
   computed: {
     editMode() {
@@ -137,16 +154,29 @@ export default {
     },
     addGapText() {
       this.currentStep.config.push({
-	question: "Das ist [ein] [neuer] Lückentext.",
-	other: "kein,Apfel",
+	question: "",
+	other: "",
       })
+    },
+    delGapText(index) {
+      this.currentStep.config.splice(index, 1);
     },
     correctAnswers(question) {
       const regex = /\[.*?\]/g;
+      if (question.question.match(regex) === null)
+	return [""];
+
       return question.question.match(regex).map(w => w.substr(1, w.length - 2));
     },
     gapTexts(question) {
-      return this.correctAnswers(question).concat(question.other.split(","))
+      return this.shuffle(this.correctAnswers(question).concat(question.other.split("\n")));
+    },
+    shuffle(a) {
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
     },
     words(text) {
       const regex = /\[.*?\]/g;

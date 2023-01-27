@@ -1,0 +1,10 @@
+<div>
+  <a class="{{ case.listing_class }}" href="{% url 'casetraining:show' case.id %}">
+    {{ case.name }}
+  </a>
+  {% if user.is_staff %}
+  <span class="small">
+    [{% if case.user %}{{ case.user }}{% else %}Anonym{% endif %}]
+  </span>
+  {% endif %}
+</div>

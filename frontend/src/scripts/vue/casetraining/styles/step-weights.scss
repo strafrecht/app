@@ -1,0 +1,29 @@
+.weights-area {
+  white-space: nowrap;
+
+  .weight {
+    display: inline-block;
+    width: 32px;
+    height: 30px;
+    cursor: pointer;
+    background-image: url(../../../../../casetraining/static/images/marker/gewicht-weiss.png);
+    background-size: contain;
+
+    &.on {
+      background-image: url(../../../../../casetraining/static/images/marker/gewicht-gruen.png);
+    }
+
+    &.result-minus {
+      background-image: url(../../../../../casetraining/static/images/marker/gewicht-deleted.png);
+    }
+
+    &.result-plus {
+      background-image: url(../../../../../casetraining/static/images/marker/gewicht-gruen.png);
+      opacity: 0.5;
+    }
+
+    &:hover {
+      background-image: url(../../../../../casetraining/static/images/marker/gewicht-gruen.png);
+    }
+  }
+}

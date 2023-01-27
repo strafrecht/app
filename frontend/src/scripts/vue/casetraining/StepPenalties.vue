@@ -1,29 +1,5 @@
 <template>
-<div v-if="editMode">
-  <div class="row" v-for="(penalty, qindex) in currentStep.config">
-    <div class="col-sm-12">
-      <h5>Person {{ qindex + 1 }}</h5>
-      <div class="form-group">
-	<input class="form-control" v-model="penalty.text">
-      </div>
-      <div class="form-group">
-	<div class="row" v-for="(answer, index) in currentStep.config[qindex].correct">
-	  <div class="col-6">
-	    <label>Antwort {{ index + 1 }}</label>
-	    <input class="form-control" v-model="currentStep.config[qindex].correct[index]">
-	  </div>
-	  <div class="col-6">
-	    <label>Alernative Schreibweisen (eine pro Zeile)</label>
-	    <textarea class="form-control" v-model="currentStep.config[qindex].alternatives[index]" />
-	  </div>
-	</div>
-	<button class="btn btn-primary" @click="addPenaltyAnswer(qindex)">neue Strafbarkeit</button>
-      </div>
-    </div>
-  </div>
-  <button class="btn btn-primary" @click="addPenalty">neue Person</button>
-</div>
-<step-template v-else type="penalties" :key="componentKey">
+<step-template type="penalties" :key="componentKey">
   <template #left>
     <div>
       <div style="position: relative">
@@ -35,10 +11,51 @@
     </div>
   </template>
   <template #right>
-    <p>
-      Ermitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.
-    </p>
-    <div v-if="myStep == 1">
+    <div v-if="editMode">
+      <div class="mb-3">
+	<label>Einleitungstext</label>
+	<textarea class="form-control" v-model="currentStep.intro" />
+      </div>
+    </div>
+    <div v-else>
+      <p>{{ currentStep.intro }}</p>
+    </div>
+
+    <div v-if="editMode">
+      <div class="row" v-for="(penalty, qindex) in currentStep.config">
+	<div class="col-sm-12">
+	  <h5>
+	    <i @click="delPerson(qindex)" class="fa fa-trash text-danger" role="button" title="Person löschen"></i>
+	    Person {{ qindex + 1 }}
+	  </h5>
+	  <div class="form-group">
+	    <input class="form-control" v-model="penalty.text">
+	  </div>
+	  <div class="form-group">
+	    <div class="row mb-2" v-for="(answer, index) in currentStep.config[qindex].correct">
+	      <div class="col-6">
+		<label class="small">
+		  <i @click="delPersonAnswer(qindex, index)" class="fa fa-trash text-danger" role="button" title="Antwort löschen"></i>
+		  Antwort {{ index + 1 }}
+		</label>
+		<input class="form-control form-control-sm" v-model="currentStep.config[qindex].correct[index]" placeholder="§ ...">
+	      </div>
+	      <div class="col-6">
+		<label class="small">Alternative Schreibweisen</label>
+		<textarea class="form-control form-control-sm" v-model="currentStep.config[qindex].alternatives[index]" />
+		<small class="form-text text-muted">
+		   Eine pro Zeile
+		</small>
+	      </div>
+	    </div>
+	    <button class="btn btn-secondary btn-sm" @click="addPersonAnswer(qindex)">neue Strafbarkeit</button>
+	  </div>
+	</div>
+      </div>
+      <button class="btn btn-primary" @click="addPerson">neue Person</button>
+    </div>
+
+    <div v-if="!editMode && myStep == 1">
       <div v-for="(penalty, qindex) in currentStep.config">
 	<h5>{{ penalty.text }}</h5>
 	<SlickList axis="y" v-model="currentStep.answers[qindex]" @sort-end="reRender()">
@@ -57,7 +74,7 @@
 	</SlickList>
       </div>
     </div>
-    <div v-if="myStep == 2">
+    <div v-if="!editMode && myStep == 2">
       <div v-for="(penalty, qindex) in currentStep.config">
 	<h5>{{ penalty.text }}</h5>
 	<div class="row" v-for="(solution, index) in solutions(qindex)">
@@ -71,7 +88,7 @@
       </div>
     </div>
   </template>
-  <template #buttons-right>
+  <template #buttons-right v-if="!editMode">
     <button v-if="myStep == 1" class="btn btn-primary" @click="nextStep()">zur Auswertung</button>
     <button v-if="myStep == 2" class="btn btn-primary" @click="nextStep()">nächster Schritt</button>
   </template>
@@ -120,6 +137,9 @@ export default {
     if (!this.currentStep.config)
       this.currentStep.config = [];
 
+    if (!this.currentStep.intro)
+      this.currentStep.intro = "Ermitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.";
+
     for (let i = 0; i < this.currentStep.config.length; i++) {
       if (typeof this.currentStep.answers[i] === "undefined")
 	this.currentStep.answers[i] = [];
@@ -129,7 +149,12 @@ export default {
     }
   },
   mounted() {
-    this.$refs.input_0_0[0].focus();
+    // FIXME: error in edit mode
+    try {
+      this.$refs.input_0_0[0].focus();
+    } catch {
+      console.log("not found");
+    }
   },
   methods: {
     prevStep() {
@@ -143,15 +168,22 @@ export default {
 
       this.myStep += 1;
     },
-    addPenalty() {
+    delPerson(index) {
+      this.currentStep.config.splice(index, 1);
+    },
+    delPersonAnswer(qindex, index) {
+      this.currentStep.config[qindex].correct.splice(index, 1);
+      this.currentStep.config[qindex].alternatives.splice(index, 1);
+    },
+    addPerson() {
       this.currentStep.config.push({
 	text: "Strafbarkeit von X",
-	correct: ["§ ..."],
+	correct: [""],
 	alternatives: [""],
       })
     },
-    addPenaltyAnswer(index) {
-      this.currentStep.config[index].correct.push("§ ...")
+    addPersonAnswer(index) {
+      this.currentStep.config[index].correct.push("")
       this.currentStep.config[index].alternatives.push("")
     },
     solutions(qindex) {

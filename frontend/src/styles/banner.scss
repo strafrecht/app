@@ -3,21 +3,24 @@
   opacity: 1;
   background-size: cover;
   background-position: center;
+
   > div {
-    background: rgba(0,0,0,0);
+    background: rgba(0, 0, 0, 0);
     padding: 100px 0;
     min-height: 270px;
+
     .header-text {
       text-align: center;
+
       h2 {
-	color: #fff;
-	font-family: Corporal !important;
-	font-size: 2.5rem !important;
-	font-weight: 300 !important;
-	text-shadow: 0 3px 10px #000 !important;
-	background: none !important;
-	display: inline !important;
-	line-height: 3rem;
+        color: #fff;
+        font-family: Corporal, sans-serif !important;
+        font-size: 2.5rem !important;
+        font-weight: 300 !important;
+        text-shadow: 0 3px 10px #000 !important;
+        background: none !important;
+        display: inline !important;
+        line-height: 3rem;
       }
     }
   }

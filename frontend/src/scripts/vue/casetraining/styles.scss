@@ -32,6 +32,15 @@
     }
   }
 
+  span.text-link {
+    color: #4c9ebb;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   $usercolors: #29e7fc, #95fd06, #c0b1fe, #ff92f3, #fff451;
 
   @for $i from 1 through length($usercolors) {
@@ -70,12 +79,12 @@
     .ql-toolbar {
       button.ql-section-marker-#{$i} {
         background: url(../../../../../casetraining/static/images/marker/textmarker-#{$i}.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	border: 1px #fff solid;
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: 1px #fff solid;
       }
       button.ql-section-marker-#{$i}.ql-active {
-	border: 1px #ddd solid;
+        border: 1px #ddd solid;
       }
     }
 

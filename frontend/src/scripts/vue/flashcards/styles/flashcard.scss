@@ -40,10 +40,6 @@
     cursor: pointer;
   }
 
-  .flashcard-back {
-    transform: rotateY(180deg);
-  }
-
   .swiper-slide-rotate {
     transform: rotateY(180deg);
   }
@@ -67,6 +63,7 @@
   }
 
   .flashcard-back {
+    transform: rotateY(180deg);
     background: #cfe6d4;
   }
 
@@ -157,8 +154,8 @@
     visibility: visible;
   }
 
-  .swiper-button-next:after,
-  .swiper-button-prev:after {
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
     color: #6c757d;
     font-size: 28px;
   }

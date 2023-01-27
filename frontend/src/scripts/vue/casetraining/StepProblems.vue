@@ -1,6 +1,22 @@
 <template>
 <step-template type="problems" :key="componentKey">
   <template #left>
+    <!-- wiki browser modal -->
+    <modal v-if="showModal" @close="showModal = false">
+      <template #header>Problemfeldwiki</template>
+      <template #body>
+	<div v-html="modalBody"></div>
+      </template>
+      <template #footer>
+	<button class="btn btn-secondary" @click="showModal = false">
+          Schließen
+	</button>
+	<button v-if="myStep != 2" class="btn btn-success" @click="addSelectedWikiUrl">
+          Hinzufügen
+	</button>
+      </template>
+    </modal>
+
     <div>
       <div style="position: relative">
 	<div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
@@ -11,35 +27,79 @@
     </div>
   </template>
   <template #right>
-    {{ dataReady }}
-    <div v-if="myStep == 1">
-      <p>
-	Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.
-      </p>
-      <div v-for="(answer, index) in currentStep.answers">
-	<div>{{ answer.title }}</div>
-	<div><button class="btn btn-danger" @click="delArticle(index)">-</button></div>
+    <div v-if="editMode">
+      <div class="mb-3">
+	<label>Einleitungstext</label>
+	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
-      <input v-model="wikiSearch">
-      <div v-for="(article, index) in wikiSearchArticles()">
-	<div><small><i>{{ article.path.join(' &gt; ') }}</i></small></div>
-	<div>{{ article.title }}</div>
-	<div>{{ article }}</div>
-	<div><a :href="article.url" target="_blank">zum Wiki</a></div>
-	<div><button class="btn btn-success" @click="addArticle(article)">hinzufügen</button></div>
-	<hr/>
+      <div v-if="editMode">
+	<p>Weisen Sie Problemfelder den einzelnen Sachverhaltsabschnitten zu.</p>
       </div>
     </div>
-    <div v-if="myStep == 2">
-      <p>
-	Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.
-      </p>
-      <div v-for="(answer, index) in currentStep.answers">
-	<div :class="correctAnswer(answer.id) ? 'text-success' : 'text-danger'">{{ answer.title }}</div>
+    <div v-else>
+      <p>{{ currentStep.intro }}</p>
+    </div>
+
+    <div class="mb-3" v-for="(marker, cindex) in sectionMarkers">
+      <h5 class="section" :class="marker">Abschnitt {{ cindex + 1 }}</h5>
+      <div v-if="myStep == 1">
+
+	<div v-for="(article, index) in stepTarget[cindex]" class="border-bottom my-1 px-2 py-1">
+	  <div class="mb-2">
+	    <small>
+	      <i @click="delArticle(cindex, index)" class="ml-2 float-right fa fa-trash text-danger" role="button" title="Artikel löschen"></i>
+	      <span class="ml-2 float-right text-link" @click.stop="openWikiBrowser(cindex, article.url)">zum Wiki</span>
+	      <i class="text-muted">{{ urlToText(article.url) }}</i>
+	    </small>
+	    <div>{{ article.title }}</div>
+	  </div>
+	</div>
+	<div class="search-form form-group mt-2">
+	  <input v-if="problemIndex == cindex" class="form-control" v-model="wikiSearch" placeholder="Problemfeldwiki durchsuchen">
+	  <input v-else class="form-control" @focus="setProblemIndex(cindex)" placeholder="Problemfeldwiki durchsuchen">
+	  <span class="small float-right text-link" @click="openWikiBrowser(cindex)">Systematische Suche</span>
+	  <div v-if="wikiSearch.length > 0 && problemIndex == cindex" class="search-results shadow">
+	    <div v-if="!wikiReady" class="mb-2">
+	      <i class="fa fa-sync fa-spin text-info mr-2"></i>
+	      Einen Augenblick bitte – Lade Daten …
+	    </div>
+	    <div class="mb-2" v-for="(article, index) in wikiSearchArticles(cindex)" @click="addArticle(cindex, article)">
+	      <small>
+		<span class="float-right text-link" @click.stop="openWikiBrowser(cindex, article.url)">zum Wiki</span>
+		<i class="text-muted">{{ urlToText(article.url) }}</i>
+	      </small>
+	      <div>{{ article.title }}</div>
+	    </div>
+	  </div>
+	</div>
+
+      </div>
+      <div v-else>
+
+	<div v-for="(article, index) in currentStep.answers[cindex]" class="border-bottom my-1 px-2 py-1">
+	  <div class="mb-2" :class="correctAnswerClass(cindex, article)">
+	    <small>
+	      <span class="ml-2 small float-right text-link" @click="openWikiBrowser(cindex, article.url)">zum Wiki</span>
+	      <i class="text-muted">{{ urlToText(article.url) }}</i>
+	    </small>
+	    <div>{{ article.title }}</div>
+	  </div>
+	</div>
+
+	<div v-for="(article, index) in otherArticles(cindex)" class="border-bottom my-1 px-2 py-1">
+	  <div class="mb-2 text-muted">
+	    <small>
+	      <span class="ml-2 small float-right text-link" href="" @click.stop="openWikiBrowser(cindex, article.url)">zum Wiki</span>
+	      <i class="text-black-50">{{ urlToText(article.url) }}</i>
+	    </small>
+	    <div>{{ article.title }}</div>
+	  </div>
+	</div>
+
       </div>
     </div>
   </template>
-  <template #buttons-right>
+  <template #buttons-right v-if="!editMode">
     <button v-if="myStep == 1" class="btn btn-primary" @click="nextStep()">zur Auswertung</button>
     <button v-if="myStep == 2" class="btn btn-primary" @click="nextStep()">nächster Schritt</button>
   </template>
@@ -48,11 +108,15 @@
 
 <script>
 import axios from "axios";
+import { nextTick } from "vue";
+
+import Modal from "./Modal.vue";
 import StepTemplate from "./StepTemplate.vue";
 
 export default {
   name: "StepProblems",
   components: {
+    Modal,
     StepTemplate,
   },
   props: {
@@ -68,25 +132,54 @@ export default {
   },
   data() {
     return {
-      dataReady: false,
       myStep: 1,
       componentKey: 0,
       wikiSearch: "",
-      wikiTree: null,
-      wikiArticles: [],
+      problemIndex: null,
+      showModal: false,
+      selectedWikiUrl: null,
+      modalBody: "Lade Problemfeldwiki…",
     }
   },
-  beforeMount() {
-    if (typeof this.currentStep.answers !== "undefined")
-      return;
-
-    this.currentStep.answers = [];
+  computed: {
+    wikiReady() {
+      return this.$parent.wikiReady;
+    },
+    wikiArticles() {
+      return this.$parent.wikiArticles;
+    },
+    editMode() {
+      return this.$parent.editMode;
+    },
+    sectionMarkers() {
+      var parts = this.currentCase.facts.split(/class=\"/);
+      var classes = [];
+      for (var i = 0; i < parts.length-1; i++) {
+	classes[i] = parts[i+1].split(/\"/)[0].trim();
+      }
+      // return unique classes
+      return classes.filter((v, i, a) => a.indexOf(v) === i);
+    },
+    stepTarget() {
+      return this.editMode ? this.currentStep.config : this.currentStep.answers;
+    },
   },
-  async mounted() {
-    await this.getWikiTree();
-    this.dataReady = true;
+  beforeMount() {
+    if (typeof this.currentStep.answers === "undefined")
+      this.currentStep.answers = [];
+
+    if (!this.currentStep.config)
+      this.currentStep.config = [];
+
+    if (!this.currentStep.intro)
+      this.currentStep.intro = "Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.";
   },
   methods: {
+    setProblemIndex(index) {
+      if (this.problemIndex != index)
+	this.wikiSearch = "";
+      this.problemIndex = index;
+    },
     prevStep() {
       this.$parent.prevStep();
     },
@@ -98,60 +191,98 @@ export default {
 
       this.myStep += 1;
     },
-    async getWikiTree() {
-      await axios
-        .get("/falltraining/api/wiki_categories")
-        .then((response) => this.wikiTree = response.data);
+    otherArticles(index) {
+      if (!this.currentStep.config[index])
+	return false;
 
-      await this.makeWikiEntry(this.wikiTree.children, []);
+      if (!this.currentStep.answers[index])
+	return this.currentStep.config[index];
+
+      var answer_ids = this.currentStep.answers[index].map(x => x.id);
+      return this.currentStep.config[index].filter(a => !answer_ids.includes(a.id));
     },
-    async makeWikiEntry(articles, path) {
-      articles.forEach(article => {
-	this.wikiArticles.push({
-	  id: article.id,
-	  title: article.title,
-	  url: article.url,
-	  path: path,
-	});
-	this.makeWikiEntry(article.children, path.concat([article.title]))
-      });
+    correctAnswerClass(index, article) {
+      if (!this.currentStep.config[index])
+	return false;
+
+      if (this.currentStep.config[index].map(x => x.id).includes(article.id))
+	return "text-success";
+      else
+	return "text-danger"
     },
-    currentArticles() {
-      console.log("x");
-      console.log(this.currentStep.config.map(x => x.article));
-      console.log(this.wikiArticles[0]);
-      let x = this.wikiArticles.filter(
-	article =>
-	  this.currentStep.config.map(x => x.article).includes(article.id)
-      );
-      console.log(x);
-      return x;
-    },
-    correctAnswer(id) {
-      return this.currentStep.config.map(x => x.article).includes(id);
-    },
-    addArticle(article) {
-      this.currentStep.answers.push(article);
+    addArticle(index, article) {
+      var target = this.stepTarget;
+      if (!target[index])
+	target[index] = [];
+      target[index].push(article);
       this.wikiSearch = "";
       this.componentKey += 1;
     },
-    delArticle(index) {
-      this.currentStep.answers.splice(index, 1);
+    delArticle(cindex, index) {
+      var target = this.stepTarget;
+      target[cindex].splice(index, 1);
       this.componentKey += 1;
     },
-    wikiSearchArticles() {
-      if (this.wikiSearch.length < 3)
+    urlToText(url) {
+      return this.$parent.wikiUrlToText(url);
+    },
+    addSelectedWikiUrl() {
+      var url = this.selectedWikiUrl;
+      var index = this.problemIndex;
+
+      if (url.indexOf('http://') === 0 || url.indexOf('https://') === 0)
+	url = (new URL(this.selectedWikiUrl)).pathname;
+
+      var target = this.editMode ? this.currentStep.config : this.currentStep.answers;
+      if (!target[index])
+	target[index] = [];
+
+      var article = this.wikiArticles.filter(a => (a.url == url))[0]
+      target[index].push(article);
+
+      this.showModal = false;
+      this.selectedWikiUrl = null;
+    },
+    async openWikiBrowser(index, url) {
+      this.showModal = true;
+      this.problemIndex = index;
+      await nextTick();
+      this.loadWikiContent(url ? url : "/problemfelder/");
+    },
+    loadWikiContent(url) {
+      var that = this;
+      this.selectedWikiUrl = url;
+      $(".modal-body").load(url + " #wiki-container", function() {
+	$(".modal-body a[href^=\"/problemfelder/\"]").on('click', function() {
+	  that.loadWikiContent(this.href)
+	  return false;
+	});
+	$(".modal-body a:not([href^=\"/problemfelder/\"])").on('click', function() {
+	  window.open(this.href, "_blank");
+	  return false;
+	});
+      });
+    },
+    wikiSearchArticles(index) {
+      if (this.problemIndex != index)
+	return [];
+
+      if (this.wikiSearch.length < 2)
 	return []
 
-      var re = RegExp(this.wikiSearch, "i");
+      var results = this.wikiArticles;
+      var searchTerms = this.wikiSearch.split(" ").map(str => str.trim());
 
-      return this.wikiArticles.filter(
-	article =>
-	  (article.title.search(re) >= 0)
-      );
+      searchTerms.forEach(term => {
+	var re = RegExp(term, "i");
+	results = results.filter(article =>  (article.title.search(re) >= 0));
+      });
+
+      return results;
     },
   },
 }
 </script>
 <style lang="scss">
+  @import './styles/step-problems.scss';
 </style>
