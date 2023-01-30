@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.urls import reverse
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+import hashlib
 
-from wiki.models import Article, URLPath
+from wiki.models import Article, ArticleRevision, URLPath
 
 from .models import Casetraining
 
@@ -31,8 +34,14 @@ def show(request, case_id):
     })
 
 def wiki_categories(request):
+    modified = Article.objects.order_by('-modified').first().modified
+    hash = hashlib.md5(str(modified).encode('utf-8')).hexdigest()
+    result = cache.get_or_set("wiki_categories", _wiki_categories_list, timeout=(60 * 60), version=hash)
+    return JsonResponse(result, safe=False)
+
+def _wiki_categories_list():
     articles = filter(lambda x: x.other_read, Article.objects.all())
-    return JsonResponse(list(map(_wiki_article, articles)), safe=False)
+    return list(map(_wiki_article, articles))
 
 def _wiki_article(article):
     return {

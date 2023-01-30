@@ -117,7 +117,7 @@
                   <i class="mr-2 fa fa-bars"></i>
                   {{ stepName(step.step_type) }}
 		</span>
-		<button v-if="index > 0" @click="delStep(index)" class="btn btn-sm text-danger float-right"><i style="pointer-events: none;" class="fa fa-trash"></i></button>
+		<button v-if="stepOptional(step.step_type)" @click="delStep(index)" class="btn btn-sm text-danger float-right"><i style="pointer-events: none;" class="fa fa-trash"></i></button>
               </div>
             </SlickItem>
           </SlickList>
@@ -170,6 +170,8 @@
     <div v-if="currentStep.step_type == 'read'">
       <StepRead :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
     </div>
+
+    <StepSolution v-if="currentStep.step_type == 'solution'" />
 
     <div v-if="currentStep.step_type == 'mark_sections'">
       <StepSections :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
@@ -232,6 +234,7 @@ import StepProblems from "./StepProblems.vue";
 import StepWeights from "./StepWeights.vue";
 import StepGap from "./StepGap.vue";
 import StepFreeText from "./StepFreeText.vue";
+import StepSolution from "./StepSolution.vue";
 
 let Inline = Quill.import('blots/inline');
 
@@ -315,6 +318,7 @@ export default {
     StepWeights,
     StepGap,
     StepFreeText,
+    StepSolution,
   },
   props: {
     newCase: {
@@ -339,6 +343,7 @@ export default {
       dataReady: false,
       wikiReady: false,
       wikiArticles: [],
+      wikiSolutions: [],
       currentStepNo: 1,
       currentCase: null,
       parentCase: null,
@@ -361,6 +366,7 @@ export default {
 	penalties: "Strafbarkeit",
 	problem_areas: "Probleme",
 	weights: "Gewichtung",
+	solution: "Lösungsskizze",
       },
       difficulties: {
 	shortcase: "Kurzfälle",
@@ -480,7 +486,7 @@ export default {
     async getParentCase() {
       await axios
 	.get("/falltraining/api/case/" + this.currentCase.parent)
-	.then((response) => {
+	.then(response => {
 	  this.parentCase = response.data;
 	  this.parentCase.steps = JSON.parse(this.parentCase.steps);
 	});
@@ -488,7 +494,20 @@ export default {
     async getWikiArticles() {
       await axios
         .get("/falltraining/api/wiki_categories")
-        .then((response) => this.wikiArticles = response.data);
+        .then(response => {
+	      this.wikiArticles = response.data.filter(x => !x.url.startsWith("/problemfelder/loesungsskizzen/"));
+	      this.wikiSolutions = response.data.filter(x => x.url.startsWith("/problemfelder/loesungsskizzen/"));
+	});
+    },
+    async getSolutionArticles() {
+      await axios
+        .get("/falltraining/api/wiki_solutions")
+        .then((response) => this.wikiSolutions = response.data);
+    },
+    stepOptional(name) {
+      if (name == "read") return false;
+      if (name == "solution") return false;
+      return true;
     },
     setStep(num) {
       this.editConfig = false;
