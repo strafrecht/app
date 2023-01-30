@@ -14,6 +14,10 @@
     <div v-if="editMode">
       <div class="mb-3">
 	<label>Einleitungstext</label>
+	<div class="small text-danger" v-if="$parent.showDiff && $parent.diffIntroToParent()">
+	  <strong>Vorherige Version</strong>
+	  <div>{{ $parent.diffIntroToParent() }}</div>
+	</div>
 	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
     </div>
@@ -22,13 +26,24 @@
     </div>
 
     <div v-if="editMode">
+
+      <div v-if="$parent.showDiff && $parent.diffConfigToParentDeleted()" class="text-danger mb-3">
+	<strong>{{ $parent.diffConfigToParentDeleted() }} Person(en) gelöscht!</strong>
+      </div>
+
       <div class="row" v-for="(penalty, qindex) in currentStep.config">
 	<div class="col-sm-12">
-	  <h5>
+	  <h6>
 	    <i @click="delPerson(qindex)" class="fa fa-trash text-danger" role="button" title="Person löschen"></i>
+	    <strong v-if="$parent.showDiff && $parent.diffConfigToParentNew(qindex)" class="small text-danger">Neu!</strong>
 	    Person {{ qindex + 1 }}
-	  </h5>
+	  </h6>
 	  <div class="form-group">
+	    <div v-if="$parent.showDiff && $parent.diffConfigToParent(qindex, 'text')" class="small text-danger">
+	      <strong>Vorherige Version:</strong>
+	      <div>{{ $parent.diffConfigToParent(qindex, "text") }}</div>
+	    </div>
+
 	    <input class="form-control" v-model="penalty.text">
 	  </div>
 	  <div class="form-group">
@@ -38,10 +53,21 @@
 		  <i @click="delPersonAnswer(qindex, index)" class="fa fa-trash text-danger" role="button" title="Antwort löschen"></i>
 		  Antwort {{ index + 1 }}
 		</label>
+
+		<div v-if="$parent.showDiff && $parent.diffConfigToParent(qindex, 'correct', index)" class="small text-danger">
+		  <strong>Vorherige Version:</strong>
+		  <div>{{ $parent.diffConfigToParent(qindex, "correct", index) }}</div>
+		</div>
+
 		<input class="form-control form-control-sm" v-model="currentStep.config[qindex].correct[index]" placeholder="§ ...">
 	      </div>
 	      <div class="col-6">
 		<label class="small">Alternative Schreibweisen</label>
+		<div v-if="$parent.showDiff && $parent.diffConfigToParent(qindex, 'alternatives', index)" class="small text-danger">
+		  <strong>Vorherige Version:</strong>
+		  <div style="white-space: pre-wrap">{{ $parent.diffConfigToParent(qindex, "alternatives", index) }}</div>
+		</div>
+
 		<textarea class="form-control form-control-sm" v-model="currentStep.config[qindex].alternatives[index]" />
 		<small class="form-text text-muted">
 		   Eine pro Zeile
@@ -57,7 +83,7 @@
 
     <div v-if="!editMode && myStep == 1">
       <div v-for="(penalty, qindex) in currentStep.config">
-	<h5>{{ penalty.text }}</h5>
+	<h6>{{ penalty.text }}</h6>
 	<SlickList axis="y" v-model="currentStep.answers[qindex]" @sort-end="reRender()">
     	  <SlickItem v-for="(answer, index) in currentStep.answers[qindex]" :key="answer" :index="index">
     	    <div class="mb-1">
@@ -76,7 +102,7 @@
     </div>
     <div v-if="!editMode && myStep == 2">
       <div v-for="(penalty, qindex) in currentStep.config">
-	<h5>{{ penalty.text }}</h5>
+	<h6>{{ penalty.text }}</h6>
 	<div class="row" v-for="(solution, index) in solutions(qindex)">
 	  <div class="col-sm-6 border-bottom py-2" :class="solution[2] ? 'text-success' : 'text-danger'">
 	    <strong>{{ solution[0] }}</strong>
@@ -153,7 +179,7 @@ export default {
     try {
       this.$refs.input_0_0[0].focus();
     } catch {
-      console.log("not found");
+      //console.log("not found");
     }
   },
   methods: {
@@ -223,7 +249,6 @@ export default {
 			{ comparator: this.diffCmp });
     },
     async handleChange(qindex, index) {
-      console.log("change");
       this.currentStep.answers[qindex] = this.currentStep.answers[qindex].filter(n => n);
       this.currentStep.answers[qindex].push("");
       this.componentKey += 1;
@@ -232,7 +257,6 @@ export default {
       if (next_index >= this.currentStep.answers[qindex].length)
 	next_index = this.currentStep.answers[qindex].length - 1;
 
-      console.log(next_index)
       this.$refs["input_" + qindex + "_" + next_index][0].focus();
     },
     delAnswer(qindex, index) {

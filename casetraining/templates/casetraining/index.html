@@ -16,6 +16,7 @@
 <p>
   Hinweis: Echte Altklausuren finden Sie in der FIXME Klausurendatenbank.
 </p>
+{% if user.is_staff %}
 <p>
   Legende:
   <span class="text-info">Freigegeben</span>
@@ -24,6 +25,7 @@
   /
   <span class="text-danger">nicht Öffentlich</span>
 </p>
+{% endif %}
 <div class="row mb-4">
   <div class="col-sm-4">
     <h3>Kurzfälle</h3>

@@ -1,9 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.core.cache import cache
+from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
-from django.core.cache import cache
 import hashlib
+import json
 
 from wiki.models import Article, ArticleRevision, URLPath
 
@@ -32,6 +35,34 @@ def show(request, case_id):
         'banner': '/media/original_images/ohnediefrau.png',
         "case": case,
     })
+
+def free_text_mail(request, id):
+    case = get_object_or_404(Casetraining, pk=id)
+    data = json.loads(request.body)
+    email = data.get('email')
+    config = data.get('config')
+    answers = data.get('answers')
+
+    subject = "Korrektur-Anfrage: " + str(case)
+    text = ""
+    text += "Falltraining: " + str(case.id) + "\n\n"
+    text += "https://strafrecht-online.org/falltraining/show/" + str(case.id) + "\n\n"
+    text += "Absender: " + email + "\n\n"
+    for index, question in enumerate(config, start=0):
+        text += question.get("text")
+        text += "\n"
+        if len(answers) > index:
+            text += str(answers[index])
+        text += "\n\n"
+    text += ""
+    send_mail(
+        subject=subject,
+        message=text,
+        from_email='jukol@strafrecht-online.de',
+        recipient_list=['jukol@strafrecht-online.de'], # to
+        fail_silently=False,
+    )
+    return HttpResponse(201)
 
 def wiki_categories(request):
     modified = Article.objects.order_by('-modified').first().modified

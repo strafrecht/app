@@ -30,6 +30,10 @@
     <div v-if="editMode">
       <div class="mb-3">
 	<label>Einleitungstext</label>
+	<div class="small text-danger" v-if="$parent.showDiff && $parent.diffIntroToParent()">
+	  <strong>Vorherige Version</strong>
+	  <div>{{ $parent.diffIntroToParent() }}</div>
+	</div>
 	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
       <div v-if="editMode">
@@ -42,6 +46,11 @@
 
     <div class="mb-3" v-for="(marker, cindex) in sectionMarkers">
       <h5 class="section" :class="marker">Abschnitt {{ cindex + 1 }}</h5>
+
+      <div v-if="$parent.showDiff && $parent.diffConfigToParentDeleted(cindex)" class="text-danger mb-3">
+	<strong>{{ $parent.diffConfigToParentDeleted(cindex) }} Problemfeld(er) gelöscht!</strong>
+      </div>
+
       <div v-if="myStep == 1">
 
 	<div v-for="(article, index) in stepTarget[cindex]" class="border-bottom my-1 px-2 py-1">
@@ -52,6 +61,10 @@
 	      <i class="text-muted">{{ urlToText(article.url) }}</i>
 	    </small>
 	    <div>{{ article.title }}</div>
+	    <div v-if="$parent.showDiff && $parent.diffConfigToParent(cindex, index, 'title')" class="small text-danger">
+	      <strong>Vorherige Version:</strong>
+	      <div style="white-space: pre-wrap">{{ $parent.diffConfigToParent(cindex, index, 'title') }}</div>
+	    </div>
 	  </div>
 	</div>
 	<div class="search-form form-group mt-2">

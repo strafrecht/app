@@ -14,21 +14,43 @@
     <div v-if="editMode">
       <div class="mb-3">
 	<label>Einleitungstext</label>
+	<div class="small text-danger" v-if="$parent.showDiff && $parent.diffIntroToParent()">
+	  <strong>Vorherige Version</strong>
+	  <div>{{ $parent.diffIntroToParent() }}</div>
+	</div>
 	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
+
+      <div v-if="$parent.showDiff && $parent.diffConfigToParentDeleted()" class="text-danger mb-3">
+	<strong>{{ $parent.diffConfigToParentDeleted() }} Lückentext(e) gelöscht!</strong>
+      </div>
+
       <div class="row" v-for="(question, qindex) in currentStep.config">
 	<div class="col-sm-12">
-	  <h5>
+	  <h6>
 	    <i @click="delGapText(qindex)" class="fa fa-trash text-danger" role="button" title="Lückentext löschen"></i>
+	    <strong v-if="$parent.showDiff && $parent.diffConfigToParentNew(qindex)" class="small text-danger">Neu!</strong>
 	    Lückentext {{ qindex + 1 }}
-	  </h5>
+	  </h6>
+
 	  <div class="form-group">
+	    <div v-if="$parent.showDiff && $parent.diffConfigToParent(qindex, 'question')" class="small text-danger">
+	      <strong>Vorherige Version:</strong>
+	      <div>{{ $parent.diffConfigToParent(qindex, "question") }}</div>
+	    </div>
+
 	    <input class="form-control form-control-sm" v-model="question.question" placeholder="Das [ist] ein [neuer] Lückentext.">
 	    <small class="form-text text-muted">
 	      Lückentexte in eckige Klammern "[Text]" einschließen.
 	    </small>
 	  </div>
+
 	  <div class="form-group">
+	    <div v-if="$parent.showDiff && $parent.diffConfigToParent(qindex, 'other')" class="small text-danger">
+	      <strong>Vorherige Version:</strong>
+	      <div style="white-space: pre-wrap">{{ $parent.diffConfigToParent(qindex, "other") }}</div>
+	    </div>
+
 	    <textarea class="form-control form-control-sm" v-model="question.other"></textarea>
 	    <small class="form-text text-muted">
 	      Liste von falschen Antworten, jeweils eine pro Zeile.
@@ -43,7 +65,7 @@
       <div v-for="(question, qindex) in currentStep.config">
 	<div class="row">
 	  <div class="col-sm-6">
-	    <h5>Lückentext {{ qindex + 1 }}</h5>
+	    <h6>Lückentext {{ qindex + 1 }}</h6>
 	  </div>
 	</div>
 

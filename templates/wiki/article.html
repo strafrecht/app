@@ -62,9 +62,11 @@
     <label><h3>Problemfelder</h3></label>
     <div class="wiki-children">
       {% for urlpath in children_slice|sorted_wiki:urlpath %}
+      {% if urlpath.path != "loesungsskizzen/" %}
       <a href="{% url 'wiki:get' path=urlpath.path %}">
 	<span class="badge badge-pill">{{ urlpath.article.current_revision.title }}</span>
       </a>
+      {% endif %}
       {% endfor %}
     </div>
   </section>

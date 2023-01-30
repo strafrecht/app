@@ -1,7 +1,13 @@
 <template>
 <div  class="case-step case-type-solution" :key="componentKey">
-  <div v-if="editMode">
-    <span @click="loadSolution" class="btn btn-secondary ml-2 float-right">Lösungskizze neu einlesen</span>
+  <div v-if="editMode && !$parent.userId" class="text-danger">
+    Du bist nicht angemeldet! Bitte beachte, dass die Lösungskizze erst nach der Freigabe im Falltraining sichtbar wird.
+  </div>
+  <div v-if="editMode && !$parent.caseId" class="text-danger">
+    Du hast das Falltraining noch nicht gespeichert. Die Lösungsskizze kann erst nach dem Speichern des Falltrainings erstellt werden.
+  </div>
+  <div v-if="editMode && $parent.caseId">
+    <span v-if="$parent.userId" @click="loadSolution" class="btn btn-secondary ml-2 float-right">Lösungskizze neu einlesen</span>
     <div v-if="solutionPresent">
       <a :href="wikiEditUrl" class="btn btn-primary float-right" target="_blank">Lösungsskizze bearbeiten</a>
     </div>
@@ -33,13 +39,13 @@ export default {
   },
   computed: {
     wikiUrl() {
-      return "/problemfelder/loesungsskizzen/falltraining_" + this.$parent.currentCase.id + "/"
+      return "/problemfelder/loesungsskizzen/" + this.$parent.currentCase.solution_slug + "/"
     },
     wikiEditUrl() {
       return this.wikiUrl + "_edit/"
     },
     wikiCreateUrl() {
-      return "/problemfelder/loesungsskizzen/_create/?slug=falltraining_" + this.$parent.currentCase.id
+      return this.wikiUrl + "_create/"
     },
     editMode() {
       return this.$parent.editMode;
