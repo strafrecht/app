@@ -134,8 +134,8 @@
               <div class="border my-1 px-2 py-1 bg-white">
 		<span style="pointer-events: none; user-select: none;">
                   <i class="mr-2 fa fa-bars"></i>
-		  <span class="text-danger" v-if="diffStepAdded(step.step_type)">Neu!</span>
-		  <span class="text-danger" v-else-if="diffStepToCurrent(step.step_type)">Geändert!</span>
+		  <span class="text-danger" v-if="showDiff && diffStepAdded(step.step_type)">Neu!</span>
+		  <span class="text-danger" v-else-if="showDiff && diffStepToCurrent(step.step_type)">Geändert!</span>
                   {{ stepName(step.step_type) }}
 		</span>
 		<button v-if="stepOptional(step.step_type)" @click="delStep(index)" class="btn btn-sm text-danger float-right"><i style="pointer-events: none;" class="fa fa-trash"></i></button>
