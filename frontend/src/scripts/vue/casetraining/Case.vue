@@ -4,15 +4,18 @@
 </div>
 <div v-else class="casetraining" :key="componentKey">
 
-  admin: {{ isAdmin }} |
-  web user: {{ userId }} |
-  caseId: {{ caseId }} |
-  case.id: {{ currentCase.id }} |
-  case.user: {{ currentCase.user }} |
-  case.approved: {{ currentCase.approved }} |
-  case.parent: {{ currentCase.parent }} |
-  newCase: {{ newCase }} |
-  submission: {{ submissionId }} |
+  <div v-if="debugMode">
+    admin: {{ isAdmin }} |
+    user id: {{ userId }} |
+    user email: {{ userEmail }} |
+    caseId: {{ caseId }} |
+    case.id: {{ currentCase.id }} |
+    case.user: {{ currentCase.user }} |
+    case.approved: {{ currentCase.approved }} |
+    case.parent: {{ currentCase.parent }} |
+    newCase: {{ newCase }} |
+    submission: {{ submissionId }} |
+  </div>
 
   <div v-if="editMode" class="alert alert-primary">
     <button class="btn btn-primary float-right ml-2" @click="editModeOff">Bearbeitung beenden</button>
@@ -83,14 +86,22 @@
 	  </label>
 	</div>
       </div>
+      <div class="col-sm-6" v-if="showDiff">
+	<a :href="parentUrl()" target="_blank">Original Falltraining öffnen</a>
+      </div>
     </div>
     <div class="row">
       <div class="col-sm-6">
 	<div class="form-group">
 	  <label>Titel <sup class="text-danger">*</sup></label>
+
+	  <div v-if="showDiff && diffNameToParent" class="small text-danger">
+	    <strong>Vorheriger Name</strong>
+	    <div v-html="diffNameToParent"></div>
+	  </div>
+
 	  <input class="form-control" v-model="currentCase.name" placeholder="Titel des Falltrainings" required>
 	</div>
-	<div class="small" v-if="showDiff && diffNameToParent"><label>Änderungen</label> <div v-html="diffNameToParent"></div></div>
       </div>
       <div class="col-sm-6">
 	<div class="form-group">
@@ -102,22 +113,32 @@
 	    </option>
 	  </select>
 	</div>
-	<div class="small" v-if="showDiff && diffDifficultyToParent"><label>Änderungen</label> <div v-html="diffDifficultyToParent"></div></div>
+	<div class="small text-danger" v-if="showDiff && diffDifficultyToParent">
+	  <strong>Vorherige Version</strong>
+	  <div v-html="diffDifficultyToParent"></div>
+	</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+	<label>Falltrainigsschritte</label>
       </div>
     </div>
 
     <div class="row">
       <div class="col-sm-6">
 	<div class="form-group">
-	  <label>Falltrainigsschritte</label>
           <SlickList axis="y" v-model="currentCase.steps">
             <SlickItem v-for="(step, index) in currentCase.steps" :key="step.step_type" :index="index">
               <div class="border my-1 px-2 py-1 bg-white">
 		<span style="pointer-events: none; user-select: none;">
                   <i class="mr-2 fa fa-bars"></i>
+		  <span class="text-danger" v-if="diffStepAdded(step.step_type)">Neu!</span>
+		  <span class="text-danger" v-else-if="diffStepToCurrent(step.step_type)">Geändert!</span>
                   {{ stepName(step.step_type) }}
 		</span>
-		<button v-if="index > 0" @click="delStep(index)" class="btn btn-sm text-danger float-right"><i style="pointer-events: none;" class="fa fa-trash"></i></button>
+		<button v-if="stepOptional(step.step_type)" @click="delStep(index)" class="btn btn-sm text-danger float-right"><i style="pointer-events: none;" class="fa fa-trash"></i></button>
               </div>
             </SlickItem>
           </SlickList>
@@ -133,6 +154,15 @@
             </option>
           </select>
 	</div>
+	<div class="small" v-if="showDiff">
+	  <label class="text-danger">Vorherige Version</label>
+	  <div v-for="(step, index) in parentCase.steps">
+	    <div class="border my-1 px-2 py-1 bg-white">
+	      <span class="text-danger" v-if="diffStepDeleted(step.step_type)">Gelöscht!</span>
+	      {{ stepName(step.step_type) }}
+	    </div>
+	  </div>
+	</div>
       </div>
     </div>
 
@@ -144,7 +174,9 @@
 	</div>
       </div>
       <div class="col-sm-6">
-	<div v-if="showDiff && diffFactsToParent"><label>Änderungen</label> <div v-html="diffFactsToParent"></div></div>
+	<div v-if="showDiff && diffFactsToParent"><label>Änderungen</label>
+	  <div class="hide-sections" v-html="diffFactsToParent"></div>
+	</div>
       </div>
     </div>
     <sup class="text-danger">*</sup> Pflichtfelder
@@ -170,6 +202,8 @@
     <div v-if="currentStep.step_type == 'read'">
       <StepRead :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
     </div>
+
+    <StepSolution v-if="currentStep.step_type == 'solution'" />
 
     <div v-if="currentStep.step_type == 'mark_sections'">
       <StepSections :currentCase="currentCase" :currentStep="currentStep" :currentStepNo="currentStepNo" />
@@ -211,10 +245,12 @@
     </div>
   </div>
 
-  <hr/>
-  <p>{{ currentStep }}</p>
-  <hr/>
-  <p>{{ currentCase }}</p>
+  <div v-if="debugMode">
+    <hr/>
+    <p>{{ currentStep }}</p>
+    <hr/>
+    <p>{{ currentCase }}</p>
+  </div>
 
 </div>
 </template>
@@ -232,6 +268,7 @@ import StepProblems from "./StepProblems.vue";
 import StepWeights from "./StepWeights.vue";
 import StepGap from "./StepGap.vue";
 import StepFreeText from "./StepFreeText.vue";
+import StepSolution from "./StepSolution.vue";
 
 let Inline = Quill.import('blots/inline');
 
@@ -315,6 +352,7 @@ export default {
     StepWeights,
     StepGap,
     StepFreeText,
+    StepSolution,
   },
   props: {
     newCase: {
@@ -329,16 +367,21 @@ export default {
     userId: {
       type: Number,
     },
+    userEmail: {
+      type: String,
+    },
     isAdmin: {
       type: Boolean,
     },
   },
   data() {
     return {
+      debugMode: false,
       editMode: false,
       dataReady: false,
       wikiReady: false,
       wikiArticles: [],
+      wikiSolutions: [],
       currentStepNo: 1,
       currentCase: null,
       parentCase: null,
@@ -361,6 +404,7 @@ export default {
 	penalties: "Strafbarkeit",
 	problem_areas: "Probleme",
 	weights: "Gewichtung",
+	solution: "Lösungsskizze",
       },
       difficulties: {
 	shortcase: "Kurzfälle",
@@ -388,7 +432,8 @@ export default {
 	facts: "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>",
 	name: "",
 	difficulty: "",
-	steps: [{ step_type: "read", config: null }]
+	steps: [{ step_type: "read", config: null },
+		{ step_type: "solution", config: null }]
       };
     }
     this.currentCase.userFacts = this.currentCase.facts
@@ -409,18 +454,26 @@ export default {
       return this.diffText(this.parentCase.facts, this.currentCase.facts);
     },
     diffNameToParent() {
-      return this.diffSimple(this.parentCase.name, this.currentCase.name);
+      if (this.parentCase.name == this.currentCase.name)
+	return false;
+
+      return this.parentCase.name;
     },
     diffDifficultyToParent() {
-      return this.diffSimple(this.difficulties[this.parentCase.difficulty],
-			     this.difficulties[this.currentCase.difficulty]);
+      if (this.difficulties[this.parentCase.difficulty] ==
+	  this.difficulties[this.currentCase.difficulty])
+	return false;
+
+      return this.difficulties[this.parentCase.difficulty];
     },
     currentStep() {
       return this.currentCase.steps[this.currentStepNo - 1];
     },
+    parentStep() {
+      return this.parentCase.steps.filter(x => x.step_type == this.currentStep.step_type)[0];
+    },
     availableStepTypes() {
       let selected = this.currentCase.steps.map(x => x.step_type);
-      console.log(this.stepTypes);
       return Object.keys(this.stepTypes).filter(x => !selected.includes(x));
     },
     caseEditable() {
@@ -434,6 +487,69 @@ export default {
     },
   },
   methods: {
+    parentUrl() {
+      return "/falltraining/show/" + this.currentCase.parent + "/";
+    },
+    diffStepDeleted(step_type) {
+      var step = this.currentCase.steps.filter(x => x.step_type == step_type)[0];
+      return !step;
+    },
+    diffStepAdded(step_type) {
+      var step = this.parentCase.steps.filter(x => x.step_type == step_type)[0];
+      return !step;
+    },
+    diffStepToCurrent(step_type) {
+      var current = this.currentCase.steps.filter(x => x.step_type == step_type);
+      var past = this.parentCase.steps.filter(x => x.step_type == step_type);
+      return JSON.stringify(this.mapStepsToApi(current)) !==
+	JSON.stringify(this.mapStepsToApi(past));
+    },
+    diffConfigToParentDeleted(index) {
+      if (typeof index !== "undefined") {
+	if (this.parentStep.config[index].length > this.currentStep.config[index].length)
+	  return this.parentStep.config[index].length - this.currentStep.config[index].length;
+
+	return false;
+      }
+
+      if (this.parentStep.config.length > this.currentStep.config.length)
+	return this.parentStep.config.length - this.currentStep.config.length;
+
+      return false
+    },
+    diffConfigToParentNew(index, field, index2) {
+      if (!this.parentStep.config[index])
+	return true;
+
+      if (typeof index2 !== "undefined") {
+	if (!this.parentStep.config[index][field][index2])
+	  return true;
+      }
+
+      return false;
+    },
+    diffIntroToParent() {
+      if (this.parentStep.intro !== this.currentStep.intro)
+	return this.parentStep.intro;
+
+      return false;
+    },
+    diffConfigToParent(index, field, index2) {
+      if (this.diffConfigToParentNew(index, field, index2))
+	return false;
+
+      if (typeof index2 === "undefined") {
+	if (this.parentStep.config[index][field] !=
+	    this.currentStep.config[index][field])
+	  return this.parentStep.config[index][field];
+      } else {
+	if (this.parentStep.config[index][field][index2] !=
+	    this.currentStep.config[index][field][index2])
+	  return this.parentStep.config[index][field][index2];
+      }
+
+      return false;
+    },
     diffSimple(a, b) {
       if (a === b)
 	return false
@@ -468,6 +584,7 @@ export default {
 	.get("/falltraining/api/case/" + this.caseId)
 	.then((response) => {
 	  this.currentCase = response.data;
+	  this.currentCase.id = this.caseId;
 	  this.currentCase.steps = JSON.parse(this.currentCase.steps);
 	  if (this.currentCase.submission && !this.currentCase.approved)
 	    if (this.isAdmin) {
@@ -480,7 +597,7 @@ export default {
     async getParentCase() {
       await axios
 	.get("/falltraining/api/case/" + this.currentCase.parent)
-	.then((response) => {
+	.then(response => {
 	  this.parentCase = response.data;
 	  this.parentCase.steps = JSON.parse(this.parentCase.steps);
 	});
@@ -488,7 +605,20 @@ export default {
     async getWikiArticles() {
       await axios
         .get("/falltraining/api/wiki_categories")
-        .then((response) => this.wikiArticles = response.data);
+        .then(response => {
+	      this.wikiArticles = response.data.filter(x => !x.url.startsWith("/problemfelder/loesungsskizzen/"));
+	      this.wikiSolutions = response.data.filter(x => x.url.startsWith("/problemfelder/loesungsskizzen/"));
+	});
+    },
+    async getSolutionArticles() {
+      await axios
+        .get("/falltraining/api/wiki_solutions")
+        .then((response) => this.wikiSolutions = response.data);
+    },
+    stepOptional(name) {
+      if (name == "read") return false;
+      if (name == "solution") return false;
+      return true;
     },
     setStep(num) {
       this.editConfig = false;
@@ -533,7 +663,7 @@ export default {
     },
     editModeOn() {
       if (!this.isAdmin) {
-	if (this.currentCase.approved) {
+	if (this.currentCase && this.currentCase.approved) {
 	  // user is editing an approved case
 	  // set id to null, so we create a new case on save
 	  this.currentCase.id = null;
@@ -575,26 +705,30 @@ export default {
 
       return titles.join(" > ");
     },
+    mapStepsToApi(steps) {
+      // removes user answers
+      return steps.map(step => ({
+	step_type: step.step_type,
+	config: step.config,
+	intro: step.intro,
+      }))
+    },
     apiData() {
       return {
-	steps: JSON.stringify(this.currentCase.steps.map(step => ({
-	  step_type: step.step_type,
-	  config: step.config,
-	  intro: step.intro,
-	}))),
-	facts:      this.currentCase.facts,
-	name:       this.currentCase.name,
-	user:       this.userId, // NULL is anonymous
-	parent:     this.currentCase.parent,
-	difficulty: this.currentCase.difficulty,
-	approved:   this.currentCase.approved,
+	steps: JSON.stringify(this.mapStepsToApi(this.currentCase.steps)),
+	facts:         this.currentCase.facts,
+	name:          this.currentCase.name,
+	user:          this.userId, // NULL is anonymous
+	parent:        this.currentCase.parent,
+	difficulty:    this.currentCase.difficulty,
+	approved:      this.currentCase.approved,
+	solution_slug: this.currentCase.solution_slug || URLify(this.currentCase.name),
       }
     },
     handleError(error) {
-      console.log(error);
       if (error.response.status == 400) {
 	this.caseErrors = error.response.data;
-	this.editModeOn()
+	this.editModeOn();
       } else
 	this.apiErrors = error;
     },
@@ -603,11 +737,10 @@ export default {
 	.put("/falltraining/api/case/" + this.currentCase.id + "/submit", this.apiData(), axios_config)
 	.then(response => {
 	  this.currentCase.submission = response.data.submission;
-	  console.log(this.currentCase.submission);
 	  this.userMessage = "Deine Änderungen wurden eingereicht. Nach einer Prüfung werden wir Deine Überarbeitung freigeben.";
 	  this.editModeOff();
 	})
-	.catch(error => this.handleError(error))
+	.catch(error => this.handleError(error));
 
       this.componentKey += 1;
     },
@@ -616,7 +749,9 @@ export default {
 	.post("/falltraining/api/case", this.apiData(), axios_config)
 	.then(response => {
 	  this.currentCase.id = response.data.id;
+	  this.caseId = response.data.id;
 	  this.currentCase.user = response.data.user;
+	  this.currentCase.solution_slug = response.data.solution_slug;
 	})
 	.catch(error => this.handleError(error))
     },

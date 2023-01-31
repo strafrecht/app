@@ -87,5 +87,6 @@ urlpatterns = [
     path("new/", views.new, name="new"),
     path("show/<int:case_id>/", views.show, name="show"),
     path('api/wiki_categories', views.wiki_categories, name='wiki_categories'),
+    path('api/free_text_mail/<int:id>/', views.free_text_mail, name='free_text_mail'),
     path("api/", include(router.urls)),
 ]

@@ -57,23 +57,61 @@ def patch_wiki():
     def edit_form_valid(self, form):
         result = self.original_form_valid(form)
         if not self.request.user.is_superuser:
-            messages.success(
-                self.request, _("Ihre Überarbeitung wird von unserem Team überprüft.")
-            )
+            if self.urlpath:
+                messages.success(
+                    self.request, _("Ihre Überarbeitung wird von unserem Team überprüft.")
+                )
         return result
 
     Edit.original_form_valid = Edit.form_valid
     Edit.form_valid = edit_form_valid
 
     def create_form_valid(self, form):
-        result = self.original_form_valid(form)
-        if not self.request.user.is_superuser:
-            messages.success(
-                self.request, _("The new page will be reviewed and published by the moderators.")
+        from django.urls import reverse
+        from django.shortcuts import redirect
+        try:
+            self.newpath = models.URLPath._create_urlpath_from_request(
+                self.request,
+                self.article,
+                self.urlpath,
+                form.cleaned_data["slug"],
+                form.cleaned_data["title"],
+                form.cleaned_data["content"],
+                form.cleaned_data["summary"],
             )
-        return result
+            messages.success(
+                self.request,
+                _("New article '%s' created.")
+                % self.newpath.article.current_revision.title,
+            )
+            if not self.request.user.is_superuser:
+                messages.success(
+                    self.request, _("Ihre neue Seite wird von unserem Team überprüft.")
+                )
+        # TODO: Handle individual exceptions better and give good feedback.
+        except Exception as e:
+            log.exception("Exception creating article.")
+            if self.request.user.is_superuser:
+                messages.error(
+                    self.request,
+                    _("There was an error creating this article: %s") % str(e),
+                )
+            else:
+                messages.error(
+                    self.request, _("There was an error creating this article.")
+                )
+            return redirect("wiki:get", "")
 
-    Create.original_form_valid = Create.form_valid
+        if self.request.user.is_superuser:
+            return self.get_success_url()
+        else:
+            # redirect other users to parent page
+            parent = reverse(
+                "wiki:get",
+                kwargs={"article_id": self.urlpath.article.id},
+            )
+            return redirect(parent)
+
     Create.form_valid = create_form_valid
 
     # overwrite str method
@@ -112,8 +150,9 @@ def add_revision(self, new_revision, save=True):
     is_superuser = new_revision.user.is_superuser if new_revision.user else False
     new_article = not self.id
 
-    if not self.id:
-        # new article: set other_read, so only admin can access new wiki page
+    # new article: set other_read and locked, so only admin can access new wiki page
+    if new_article:
+        new_revision.locked = not is_superuser
         self.other_read = is_superuser
         self.save()
     revisions = self.articlerevision_set.all()
@@ -139,7 +178,9 @@ def add_revision(self, new_revision, save=True):
             message = "New wiki page: %s" % self.get_absolute_url()
         else:
             message = "Wiki page update: %s" % self.get_absolute_url()
-        Submission.objects.create(content_object=new_revision, submitted_by=new_revision.user, message=message)
+        Submission.objects.create(content_object=new_revision,
+                                  submitted_by=new_revision.user,
+                                  message=message)
 
 def fixed_mergeview_get(self, request, article, revision_id, *args, **kwargs):
     from django.contrib import messages
@@ -160,7 +201,6 @@ def fixed_mergeview_get(self, request, article, revision_id, *args, **kwargs):
     new_text = revision.content
 
     content = simple_merge(current_text, new_text)
-    print(content)
     # Save new revision
     if not self.preview:
         old_revision = article.current_revision

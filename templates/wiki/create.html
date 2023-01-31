@@ -9,47 +9,61 @@
 {% block wiki_contents %}
 
   {% addtoblock "js" %}
+  {% if parent_urlpath.path != "loesungsskizzen/" %}
   <script type="text/javascript" src="{% static "admin/js/urlify.js" %}"></script>
   <script type="text/javascript">
-  {% if not create_form.slug.value %}
-  //<![CDATA[
-  (function($) {
-	  $(document).ready(function (){
-		  $("#id_title").keyup(function () {
-			  var e = $("#id_slug")[0];
-			  if(!e._changed) {
-			    slug = URLify(this.value, 50);
-				  e.value = slug;
-			  }
-	      });
-	  });
-  })(jQuery);
-  //]]>
-  {% endif %}
+    {% if not create_form.slug.value %}
+    //<![CDATA[
+    (function($) {
+      $(document).ready(function (){
+	$("#id_title").keyup(function () {
+	  var e = $("#id_slug")[0];
+	  if (!e._changed) {
+	    slug = URLify(this.value, 50);
+	    e.value = slug;
+	  }
+	});
+      });
+    })(jQuery);
+    //]]>
+    {% endif %}
   </script>
+  {% else %}
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#id_slug").prop("readonly", true);
+      $("#div_id_slug .asteriskField").hide();
+      $("#hint_id_slug").hide();
+    });
+  </script>
+  {% endif %}
   {% endaddtoblock %}
 
   {% include "wiki/includes/editormedia.html" %}
-<p>
-	<a href="../" style="display: flex; flex-direction: row; align-items: center;">
-		<i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
-		<span style="font-size: 1rem; font-weight:600;">Zurück zur Kategorienübersicht</span>
-	</a>
-</p>
+  {% if parent_urlpath.path != "loesungsskizzen/" %}
+  <p>
+    <a href="../" style="display: flex; flex-direction: row; align-items: center;">
+      <i class="bi bi-arrow-left-circle-fill" style="font-size: 1.3rem; margin-right: 5px;"></i>
+      <span style="font-size: 1rem; font-weight:600;">Zurück zur Kategorienübersicht</span>
+    </a>
+  </p>
 
-<div class="h2-centered">
-<h2 class="wiki-article-title">Neues Problemfeld anlegen</h2>
-</div>
+  <div class="h2-centered"><h2 class="wiki-article-title">Neues Problemfeld anlegen</h2></div>
+  {% else %}
+  <div class="h2-centered"><h2 class="wiki-article-title">Neue Lösungskizze anlegen</h2></div>
+  {% endif %}
 
   <form method="POST" class="form-horizontal">
     {% wiki_form create_form %}
     <div class="form-group form-actions">
       <div class="col-lg-2"></div>
       <div class="col-lg-10">
+	{% if parent_urlpath.path != "loesungsskizzen/" %}
         <a href="{% url 'wiki:get' path=parent_urlpath.path %}" class="btn btn-secondary">
           <span class="fa fa-arrow-left"></span>
           {% trans "Go back" %}
         </a>
+	{% endif %}
         <button type="submit" name="save_changes" class="btn btn-primary">
           <span class="fa fa-plus"></span>
           {% trans "Create article" %}

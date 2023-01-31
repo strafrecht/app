@@ -14,6 +14,10 @@
     <div v-if="editMode">
       <div class="mb-3">
 	<label>Einleitungstext</label>
+	<div class="small text-danger" v-if="$parent.showDiff && $parent.diffIntroToParent()">
+	  <strong>Vorherige Version</strong>
+	  <div>{{ $parent.diffIntroToParent() }}</div>
+	</div>
 	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
       <div v-if="editMode">
@@ -38,6 +42,11 @@
 	    <div>
 	      <a :href="article.url" target="_blank">{{ article.title }}</a>
 	    </div>
+	    <div v-if="$parent.showDiff && $parent.diffConfigToParent(cindex, index)" class="small text-danger">
+	      <strong>Vorherige Gewichtung:</strong>
+	      <div>{{ $parent.diffConfigToParent(cindex, index) }}</div>
+	    </div>
+
 	  </div>
 	</div>
       </div>
@@ -108,7 +117,6 @@ export default {
 
     if (!this.currentStep.intro)
       this.currentStep.intro = "Gewichten Sie die Problemfelder. Insgesamt sind X Gewichte zu vergeben.";
-    console.log(this.currentStep);
   },
   methods: {
     prevStep() {

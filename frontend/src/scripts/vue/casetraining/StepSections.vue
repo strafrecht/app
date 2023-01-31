@@ -20,6 +20,10 @@
       <div v-if="editMode">
 	<div class="mb-3">
 	  <label>Einleitungstext</label>
+	  <div class="small text-danger" v-if="$parent.showDiff && $parent.diffIntroToParent()">
+	    <strong>Vorherige Version</strong>
+	    <div>{{ $parent.diffIntroToParent() }}</div>
+	  </div>
 	  <textarea class="form-control" v-model="currentStep.intro" />
 	</div>
 	<p>
@@ -47,6 +51,12 @@
       <span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
 	<img src="/assets/images/marker/eraser.png">
       </span>
+      <div v-if="editMode">
+	<div v-if="showDiff && $parent.diffFactsToParent" class="mt-4">
+	  <strong>Vorherige Einteilung</strong>
+	  <div v-html="$parent.parentCase.facts"></div>
+	</div>
+      </div>
     </div>
     <div v-if="myStep == 2">
       <div class="show-parts" v-html="currentCase.facts"></div>
@@ -106,6 +116,10 @@ export default {
       this.currentStep.intro = "Markieren Sie die Sachverhaltsabschnitte in unterschiedlichen Farben.";
   },
   methods: {
+    showDiff() {
+      return (this.$parent.showDiff
+	      && this.$parent.parentCase.facts != this.currentCase.facts)
+    },
     prevStep() {
       this.$parent.prevStep();
     },

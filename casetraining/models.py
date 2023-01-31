@@ -23,24 +23,26 @@ class Casetraining(ClusterableModel):
     name = models.CharField(max_length=100)
     difficulty = models.CharField(choices=DIFFICULTY_CHOICES, max_length=100, blank=False, null=False)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    # Sachverhalt
+    # sachverhalt
     facts = models.TextField(default='')
     # our json config for the steps
     steps = models.TextField(null=True, blank=True)
+    # slug der lösungsskizze
+    solution_slug = models.TextField(null=True, blank=True)
     approved = models.BooleanField(default=False)
     parent = models.ForeignKey("Casetraining", null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     submission = models.ForeignKey(Submission, null=True, on_delete=models.SET_NULL)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.facts      = bleach.clean(self.facts,
                                        tags=["p", "span"],
                                        attributes=["class"])
         self.difficulty = bleach.clean(self.difficulty)
         self.steps      = bleach.clean(self.steps)
         self.name       = bleach.clean(self.name)
-        super(Casetraining, self).save()
+        super(Casetraining, self).save(*args, **kwargs)
 
     def __str__(self):
         return "{} ({})".format(self.name, self.difficulty)

@@ -226,7 +226,10 @@ SERVER_EMAIL = vars.vars["SERVER_EMAIL"]
 DEFAULT_FROM_EMAIL = vars.vars["DEFAULT_FROM_EMAIL"]
 
 if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    # use mailcatcher for development
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = "localhost"
+    EMAIL_PORT = "1025"
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = vars.vars["EMAIL"]["host"]

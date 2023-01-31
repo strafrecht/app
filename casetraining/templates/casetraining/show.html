@@ -11,10 +11,11 @@
   new LVue({
     render: (h) => h(CaseApp, {
       props: {
-	newCase: false,
+	newCase:      false,
         caseId:       {{ case.id }},
 	submissionId: {% if case.submission %} {{ case.submission.id }} {% else %} null {% endif %},
         userId:       {% if user.id %} {{ user.id }} {% else %} null {% endif %},
+        userEmail:    {% if user.id %} '{{ user.email }}' {% else %} null {% endif %},
         isAdmin:      {% if user.is_staff %} true {% else %} false {% endif %}
       }
     })

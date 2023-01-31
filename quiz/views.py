@@ -5,6 +5,9 @@ from rest_framework import generics, mixins, viewsets
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.models import User
+from django.core.cache import cache
+import hashlib
+
 from wiki.models import Article, URLPath
 
 from pages.models.jurcoach import JurcoachPage
@@ -231,9 +234,19 @@ def get_questions(cat):
                 ids.append(question.id)
     return Question.objects.filter(id__in=ids).order_by('id')
 
-def get_categories(slug):
-    cat = URLPath.get_by_path(slug)
+categories_slug = ""
 
+def get_categories(slug):
+    global categories_slug
+    categories_slug = slug
+    modified = Article.objects.order_by('-modified').first().modified
+    hash = hashlib.md5((str(modified) + slug).encode('utf-8')).hexdigest()
+    result = cache.get_or_set("quiz_categories_" + slug, _get_categories, timeout=(60 * 60), version=hash)
+    return result
+
+def _get_categories():
+    global categories_slug
+    cat = URLPath.get_by_path(categories_slug)
     categories = []
 
     for child in cat.get_children():
@@ -249,5 +262,4 @@ def get_categories(slug):
         categories.append(category)
 
     categories.sort(key=lambda c: c["category"].path)
-
     return categories

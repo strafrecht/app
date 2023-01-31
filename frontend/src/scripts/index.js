@@ -34,6 +34,8 @@ import * as Chartist from 'chartist';
 global.Chartist = Chartist;
 require("chartist-plugin-fill-donut");
 
+require("./urlify.js");
+
 import { initEditor } from  './editor/index.js';
 initEditor();
 
