@@ -13,6 +13,10 @@
 {{ block.super }}
 {% endblock %}
 
+{% block title %}
+Jurcoach {{ article.current_revision.title }} – Strafrecht Online
+{% endblock %}
+
 {% block wiki_contents %}
 <div id="wiki-container">
   {% include "wiki/includes/breadcrumbs.html" %}
