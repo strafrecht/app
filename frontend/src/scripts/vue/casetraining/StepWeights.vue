@@ -149,6 +149,9 @@ export default {
 	return this.weightResult(cindex, index, weight);
 
       var target = this.editMode ? this.currentStep.config : this.currentStep.answers
+      if (!target[cindex])
+	target[cindex] = [];
+
       if (target[cindex][index] >= weight)
 	return "on";
 

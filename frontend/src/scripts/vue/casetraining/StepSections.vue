@@ -52,7 +52,7 @@
 	<img src="/assets/images/marker/eraser.png">
       </span>
       <div v-if="editMode">
-	<div v-if="showDiff && $parent.diffFactsToParent" class="mt-4">
+	<div v-if="$parent.showDiff && $parent.diffFactsToParent" class="mt-4">
 	  <strong>Vorherige Einteilung</strong>
 	  <div v-html="$parent.parentCase.facts"></div>
 	</div>
@@ -116,10 +116,6 @@ export default {
       this.currentStep.intro = "Markieren Sie die Sachverhaltsabschnitte in unterschiedlichen Farben.";
   },
   methods: {
-    showDiff() {
-      return (this.$parent.showDiff
-	      && this.$parent.parentCase.facts != this.currentCase.facts)
-    },
     prevStep() {
       this.$parent.prevStep();
     },
