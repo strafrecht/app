@@ -29,7 +29,7 @@
     </div>
 
     <div>
-      <div v-for="(marker, cindex) in sectionMarkers" class="mb-3">
+      <div v-for="(marker, cindex) in $parent.sectionMarkers" class="mb-3">
 	<h5 class="section" :class="marker">Abschnitt {{ cindex + 1 }}</h5>
 	<div v-for="(article, index) in problemsConfig(cindex)" class="border-bottom my-2 pb-2">
 	  <div class="clearfix">
@@ -97,15 +97,6 @@ export default {
     },
     editMode() {
       return this.$parent.editMode;
-    },
-    sectionMarkers() {
-      var parts = this.currentCase.facts.split(/class=\"/);
-      var classes = [];
-      for (var i = 0; i < parts.length-1; i++) {
-	classes[i] = parts[i+1].split(/\"/)[0].trim();
-      }
-      // return unique classes
-      return classes.filter((v, i, a) => a.indexOf(v) === i);
     },
   },
   beforeMount() {

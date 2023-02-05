@@ -122,26 +122,25 @@
 
     <div class="row">
       <div class="col-sm-12">
-	<label>Falltrainigsschritte</label>
+	<label>Falltrainingsschritte</label>
       </div>
     </div>
 
     <div class="row">
       <div class="col-sm-6">
 	<div class="form-group">
-          <SlickList axis="y" v-model="currentCase.steps">
-            <SlickItem v-for="(step, index) in currentCase.steps" :key="step.step_type" :index="index">
+          <div v-model="currentCase.steps">
+            <div v-for="(step, index) in currentCase.steps" :key="step.step_type" :index="index">
               <div class="border my-1 px-2 py-1 bg-white">
 		<span style="pointer-events: none; user-select: none;">
-                  <i class="mr-2 fa fa-bars"></i>
 		  <span class="text-danger" v-if="showDiff && diffStepAdded(step.step_type)">Neu!</span>
 		  <span class="text-danger" v-else-if="showDiff && diffStepToCurrent(step.step_type)">Geändert!</span>
                   {{ stepName(step.step_type) }}
 		</span>
 		<button v-if="stepOptional(step.step_type)" @click="delStep(index)" class="btn btn-sm text-danger float-right"><i style="pointer-events: none;" class="fa fa-trash"></i></button>
               </div>
-            </SlickItem>
-          </SlickList>
+            </div>
+          </div>
 	</div>
       </div>
       <div class="col-sm-6">
@@ -258,7 +257,6 @@
 <script>
 import axios from "axios";
 import { VueEditor, Quill } from "vue2-editor";
-import { SlickList, SlickItem } from 'vue-slicksort';
 import { diffJson, diffChars } from "diff";
 
 import StepRead from "./StepRead.vue";
@@ -342,8 +340,6 @@ const axios_config = {
 export default {
   name: "CurrentCase",
   components: {
-    SlickList,
-    SlickItem,
     VueEditor,
     StepRead,
     StepSections,
@@ -399,11 +395,11 @@ export default {
       stepTypes: {
 	read: "Lesen",
 	mark_sections: "Einteilen",
-	gap_text: "Lückentext",
-	free_text: "Freitext",
 	penalties: "Strafbarkeit",
 	problem_areas: "Probleme",
 	weights: "Gewichtung",
+	gap_text: "Lückentext",
+	free_text: "Freitext",
 	solution: "Lösungsskizze",
       },
       difficulties: {
@@ -450,6 +446,15 @@ export default {
     this.wikiReady = true;
   },
   computed: {
+    sectionMarkers() {
+      var parts = this.currentCase.facts.split(/class=\"/);
+      var classes = [];
+      for (var i = 0; i < parts.length-1; i++) {
+	classes[i] = parts[i+1].split(/\"/)[0].trim();
+      }
+      // return unique classes
+      return classes.filter((v, i, a) => a.indexOf(v) === i);
+    },
     diffFactsToParent() {
       return this.diffText(this.parentCase.facts, this.currentCase.facts);
     },
@@ -521,6 +526,9 @@ export default {
       if (!this.parentStep.config[index])
 	return true;
 
+      if (!this.parentStep.config[index][field])
+	return true;
+
       if (typeof index2 !== "undefined") {
 	if (!this.parentStep.config[index][field][index2])
 	  return true;
@@ -534,7 +542,7 @@ export default {
 
       return false;
     },
-    diffConfigToParent(index, field, index2) {
+    diffConfigToParent(index, field, index2, index3) {
       if (this.diffConfigToParentNew(index, field, index2))
 	return false;
 
@@ -543,9 +551,15 @@ export default {
 	    this.currentStep.config[index][field])
 	  return this.parentStep.config[index][field];
       } else {
-	if (this.parentStep.config[index][field][index2] !=
-	    this.currentStep.config[index][field][index2])
-	  return this.parentStep.config[index][field][index2];
+	if (typeof index3 === "undefined") {
+	  if (this.parentStep.config[index][field][index2] !=
+	      this.currentStep.config[index][field][index2])
+	    return this.parentStep.config[index][field][index2];
+	} else {
+	  if (this.parentStep.config[index][field][index2][index3] !=
+	      this.currentStep.config[index][field][index2][index3])
+	    return this.parentStep.config[index][field][index2][index3];
+	}
       }
 
       return false;
@@ -576,9 +590,6 @@ export default {
       });
       return text;
     },
-    caseForDiff(c) {
-      return ({ name: c.name, difficulty: c.difficulty, facts: c.facts });
-    },
     async getCase() {
       await axios
 	.get("/falltraining/api/case/" + this.caseId)
@@ -586,13 +597,16 @@ export default {
 	  this.currentCase = response.data;
 	  this.currentCase.id = this.caseId;
 	  this.currentCase.steps = JSON.parse(this.currentCase.steps);
-	  if (this.currentCase.submission && !this.currentCase.approved)
-	    if (this.isAdmin) {
-	      this.userMessage = "Dieser Fall ist zur Prüfung eingereicht.";
-	    } else {
-	      this.userMessage = "Deine Änderungen wurden eingereicht. Nach einer Prüfung werden wir Deine Überarbeitung freigeben.";
-	    }
+	  this.updateSubmissionMessage();
 	});
+    },
+    updateSubmissionMessage() {
+      if (this.currentCase.submission && !this.currentCase.approved)
+	if (this.isAdmin) {
+	  this.userMessage = "Dieser Fall ist zur Prüfung eingereicht.";
+	} else {
+	  this.userMessage = "Deine Änderungen wurden eingereicht. Nach einer Prüfung werden wir die Überarbeitung freigeben.";
+	}
     },
     async getParentCase() {
       await axios
@@ -687,7 +701,16 @@ export default {
 	return;
 
       this.currentCase.steps.push({ step_type: this.newStepType, config: null });
+      this.sortSteps();
       this.newStepType = "";
+    },
+    sortSteps() {
+      var steps = Object.keys(this.stepTypes);
+      this.currentCase.steps.sort((a, b) => {
+	if (steps.indexOf(a.step_type) > steps.indexOf(b.step_type)) return 1;
+	if (steps.indexOf(a.step_type) < steps.indexOf(b.step_type)) return -1;
+	return 0;
+      });
     },
     delStep(index) {
       this.currentCase.steps.splice(index, 1);
@@ -715,7 +738,7 @@ export default {
     },
     apiData() {
       return {
-	steps: JSON.stringify(this.mapStepsToApi(this.currentCase.steps)),
+	steps:         JSON.stringify(this.mapStepsToApi(this.currentCase.steps)),
 	facts:         this.currentCase.facts,
 	name:          this.currentCase.name,
 	user:          this.userId, // NULL is anonymous
@@ -759,6 +782,9 @@ export default {
       await axios
 	.put(
 	  "/falltraining/api/case/" + this.currentCase.id, this.apiData(), axios_config)
+	.then(response => {
+	  this.updateSubmissionMessage();
+	})
 	.catch(error => this.handleError(error))
     },
     async saveCase() {

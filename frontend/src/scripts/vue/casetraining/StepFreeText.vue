@@ -38,7 +38,7 @@
 	      <div>{{ $parent.diffConfigToParent(qindex, "text") }}</div>
 	    </div>
 
-	    <input class="form-control" v-model="question.text" placeholder="Neue Aufgabe …">
+	    <textarea class="form-control form-control-sm" v-model="question.text" placeholder="Neue Aufgabe …"/>
 	  </div>
 	</div>
       </div>

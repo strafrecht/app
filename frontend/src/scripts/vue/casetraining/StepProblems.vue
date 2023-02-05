@@ -36,7 +36,7 @@
 	</div>
 	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
-      <div v-if="editMode">
+      <div>
 	<p>Weisen Sie Problemfelder den einzelnen Sachverhaltsabschnitten zu.</p>
       </div>
     </div>
@@ -44,7 +44,7 @@
       <p>{{ currentStep.intro }}</p>
     </div>
 
-    <div class="mb-3" v-for="(marker, cindex) in sectionMarkers">
+    <div class="mb-3" v-for="(marker, cindex) in $parent.sectionMarkers">
       <h5 class="section" :class="marker">Abschnitt {{ cindex + 1 }}</h5>
 
       <div v-if="$parent.showDiff && $parent.diffConfigToParentDeleted(cindex)" class="text-danger mb-3">
@@ -163,15 +163,6 @@ export default {
     },
     editMode() {
       return this.$parent.editMode;
-    },
-    sectionMarkers() {
-      var parts = this.currentCase.facts.split(/class=\"/);
-      var classes = [];
-      for (var i = 0; i < parts.length-1; i++) {
-	classes[i] = parts[i+1].split(/\"/)[0].trim();
-      }
-      // return unique classes
-      return classes.filter((v, i, a) => a.indexOf(v) === i);
     },
     stepTarget() {
       return this.editMode ? this.currentStep.config : this.currentStep.answers;

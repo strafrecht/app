@@ -39,7 +39,7 @@
 	      <div>{{ $parent.diffConfigToParent(qindex, "question") }}</div>
 	    </div>
 
-	    <input class="form-control form-control-sm" v-model="question.question" placeholder="Das [ist] ein [neuer] Lückentext.">
+	    <textarea class="form-control form-control-sm" v-model="question.question" placeholder="Das [ist] ein [neuer] Lückentext."/>
 	    <small class="form-text text-muted">
 	      Lückentexte in eckige Klammern "[Text]" einschließen.
 	    </small>
@@ -80,7 +80,7 @@
 	      </span>
 	    </span>
 	  </div>
-	  <div class="col-sm-12 draggables">
+	  <div class="col-sm-12 draggables mt-3">
 	    <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, qindex, answer)">
 	      <div class="gap-drag"><div class="section-marker-5">{{ answer }}</div></div>
 	    </div>
@@ -89,6 +89,9 @@
 
 	<div v-if="myStep == 2" class="row">
 	  <div class="col-sm-12">
+	    <strong v-if="isCorrect(question,qindex)" class="text-success">Richtig!</strong>
+	    <strong v-else class="text-danger">Deine Antwort</strong>
+	    <br/>
 	    <span v-for="(word, index) in words(question.question)">
 	      <span>{{ word }}</span>
 	      <span v-if="index !== words(question.question).length - 1">
@@ -98,7 +101,8 @@
 	      </span>
 	    </span>
 	  </div>
-	  <div class="col-sm-12">
+	  <div v-if="!isCorrect(question,qindex)" class="col-sm-12">
+	    <strong>Richtige Antwort</strong><br/>
 	    <span v-for="(word, index) in words(question.question)">
 	      <span>{{ word }}</span>
 	      <span v-if="index !== words(question.question).length - 1">
@@ -241,6 +245,11 @@ export default {
       evt.dataTransfer.setData('item', item)
       evt.dataTransfer.setData('qindex', qindex)
     },
+    isCorrect(question,index) {
+      /* WARNING: arrays must not contain {objects} or behavior may be undefined */
+      return JSON.stringify(this.correctAnswers(question)) ===
+	JSON.stringify(this.currentStep.answers[index]);
+    }
   },
 }
 </script>
