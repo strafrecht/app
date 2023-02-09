@@ -21,6 +21,7 @@ from pages.models.sidebar import (
     SidebarSubscribeBlock,
     SidebarEventBlock
 )
+from wagtail.contrib.table_block.blocks import TableBlock
 
 from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -67,6 +68,7 @@ class ContentBlocks(blocks.StreamBlock):
     flipcard_block = FlipcardBlock(label="Flipcard")
     home_news_block = HomeNewsBlock(label="Vier letzte News-Beiträge")
     home_jurcoach_block = HomeJurcoachBlock(label="Jurcoach-Startseiten-Widget")
+    table = TableBlock()
 
 class SidebarBlocks(blocks.StreamBlock):
     sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")

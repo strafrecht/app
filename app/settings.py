@@ -93,6 +93,9 @@ INSTALLED_APPS = [
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.contrib.routable_page',
+    'wagtail.contrib.table_block',
+    # not available in wagtail 2.13
+    # 'wagtail.contrib.typed_table_block',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
