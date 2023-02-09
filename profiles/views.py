@@ -131,9 +131,9 @@ def register(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            messages.success(request, "Registration successful.")
+            messages.success(request, "Registrierung erfolgreich.")
             return redirect("/")
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+        messages.error(request, "Registrierung nicht erfolgreich. Bitte die Angaben korrigieren.")
     else:
         form = SignupForm()
     return render(request, 'profiles/register.html', {'form': form})
@@ -147,16 +147,16 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 auth_login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
+                messages.info(request, f"Du bist jetzt als {username} angemeldet.")
                 if request.GET.get("next", None):
                     return redirect(request.GET["next"])
                 return redirect("profile:index")
-            messages.error(request,"Invalid username or password.")
+            messages.error(request,"Falscher Benutzername oder Passwort.")
     else:
         form = AuthenticationForm()
     return render(request=request, template_name="profiles/login.html", context={"login_form":form})
 
 def logout(request):
     auth_logout(request)
-    messages.success(request, "Logout successful.")
+    messages.success(request, "Erfolgreich abgemeldet.")
     return redirect("/")
