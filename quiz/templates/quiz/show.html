@@ -190,22 +190,23 @@ Jurcoach Multiple-Choice-Test: {{ category }} – Strafrecht Online
     for (i = 0; i < answers.length; i++) {
       answer = answers[i]
       answers_form.style.pointerEvents = "none";
-      answers[i].parentNode.parentNode.classList.add('mct-solution')
+      answer.parentNode.parentNode.classList.add('mct-solution')
 
       if (answer.getAttribute('data-correct') == 'True') {
-	correct = correct && answer.checked
+	answer.parentNode.classList.add('check-icon')
 	if (answer.checked) {
-	  answers[i].parentNode.classList.add('check-icon')
+	  answer.parentNode.classList.add('mct-correct-answer')
 	} else {
-	  answers[i].parentNode.classList.add('dash-icon')
+	  answer.parentNode.classList.add('mct-wrong-answer')
+	  correct = false
 	}
-	answers[i].parentNode.classList.add('mct-correct-answer')
       } else {
-	if (answer.checked) {
-	  correct = correct && false
-	  answers[i].parentNode.classList.add('dash-icon')
+	answer.parentNode.classList.add('dash-icon')
+	if (!answer.checked) {
+	  answer.parentNode.classList.add('mct-correct-answer')
 	} else {
-	  answers[i].parentNode.classList.add('check-icon')
+	  answer.parentNode.classList.add('mct-wrong-answer')
+	  correct = false
 	}
       }
     }
