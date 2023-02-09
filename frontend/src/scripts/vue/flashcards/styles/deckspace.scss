@@ -5,9 +5,8 @@
   height: fit-content;
 
   .deck {
-    cursor: pointer;
-
-    &:hover {
+    .card-body:hover {
+      cursor: pointer;
       background: #f7f7f7;
     }
   }

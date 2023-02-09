@@ -4,4 +4,17 @@
 
 {% block contents %}
 <h3>Dein Jurcoach Profil</h3>
+
+
+{% if profile.rewards == 0 %}
+<p>
+  Du hast noch keine Jurcoach-Punkte.
+</p>
+{% else %}
+<p>
+  Du hast <strong>{{ profile.rewards }}</strong>
+  Jurcoach-{% if profile.rewards == 1 %}Punkt{% else %}Punkte{% endif %}!
+</p>
+{% endif %}
+
 {% endblock %}

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -43,23 +44,35 @@ def free_text_mail(request, id):
     config = data.get('config')
     answers = data.get('answers')
 
-    subject = "Korrektur-Anfrage: " + str(case)
-    text = ""
-    text += "Falltraining: " + str(case.id) + "\n\n"
-    text += "https://strafrecht-online.org/falltraining/show/" + str(case.id) + "\n\n"
-    text += "Absender: " + email + "\n\n"
+    # return if no answers given
+    if len(answers) == 0: return HttpResponse(201)
+
+    subject = "Korrektur-Anfrage: {title}".format(title=str(case))
+    text = """
+    Falltraining:
+    {site}/falltraining/show/{id}
+
+    Absender: {email}
+
+    """.format(site=settings.SITE_URL,
+               id=id,
+               email=email)
     for index, question in enumerate(config, start=0):
-        text += question.get("text")
-        text += "\n"
-        if len(answers) > index:
-            text += str(answers[index])
-        text += "\n\n"
-    text += ""
+        if len(answers) < index + 1: break
+
+        text += """
+        {question}
+
+        {answer}
+        """.format(index=index + 1,
+                   question=question.get("text"),
+                   answer=answers[index])
+
     send_mail(
         subject=subject,
         message=text,
         from_email='jukol@strafrecht-online.de',
-        recipient_list=['jukol@strafrecht-online.de'], # to
+        recipient_list=['jukol@strafrecht-online.de'],
         fail_silently=False,
     )
     return HttpResponse(201)

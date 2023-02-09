@@ -29,6 +29,10 @@ class Question(ClusterableModel):
     ]
 
 class QuestionVersion(ClusterableModel):
+
+    class Meta:
+        verbose_name = "MCT Frage"
+
     question = ParentalKey(Question, on_delete=models.CASCADE, related_name='questions')
     title = models.TextField(max_length=1000)
     description = models.TextField(max_length=2000)

@@ -18,7 +18,10 @@ from .models import Bookmark
 
 @login_required
 def index(request):
-    return render(request, "profiles/index.html", {"banner": "/media/images/login.original.jpg"})
+    return render(request, "profiles/index.html", {
+        "banner": "/media/images/login.original.jpg",
+        "profile": request.user.profile
+    })
 
 @login_required
 def bookmarks(request):
@@ -86,14 +89,13 @@ def quizzes(request):
     })
 
 @login_required
-def wiki(request):
-    revisions = Submission.objects.filter(
+def submissions(request):
+    submissions = Submission.objects.filter(
         submitted_by_id=request.user.id,
-        content_type=ContentType.objects.get_for_model(ArticleRevision).id
     ).order_by('-created')
-    return render(request, "profiles/wiki.html", {
+    return render(request, "profiles/submissions.html", {
         "banner": "/media/images/login.original.jpg",
-        "revisions": revisions
+        "submissions": submissions
     })
 
 @login_required
@@ -159,6 +161,9 @@ def login(request):
             if user is not None:
                 auth_login(request, user)
                 messages.info(request, f"Du bist jetzt als {username} angemeldet.")
+                # create user profile if missing
+                if not user.profile:
+                    Profile.objects.create(user=user)
                 if request.GET.get("next", None):
                     return redirect(request.GET["next"])
                 return redirect("profile:index")

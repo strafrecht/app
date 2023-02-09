@@ -15,5 +15,5 @@ urlpatterns = [
     path('bookmarks/', views.bookmarks, name='bookmarks'),
     path('bookmarks/create/<article_id>', views.bookmarks_create, name='bookmarks_create'),
     path('bookmarks/delete/<article_id>', views.bookmarks_delete, name='bookmarks_delete'),
-    path('wiki/', views.wiki, name='wiki'),
+    path('submissions/', views.submissions, name='submissions'),
 ]

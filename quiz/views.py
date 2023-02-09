@@ -139,7 +139,7 @@ class QuestionCreateOrUpdateSet(mixins.CreateModelMixin, generics.GenericAPIView
         if question_id:
             # we have an update to a question
             question = get_object_or_404(Question, pk=question_id)
-            message = "New question: %s" % question.category.get_absolute_url()
+            message = "MCT Update"
         else:
             # a new question
             category = get_object_or_404(Article, pk=data.get("categories"))
@@ -147,7 +147,7 @@ class QuestionCreateOrUpdateSet(mixins.CreateModelMixin, generics.GenericAPIView
                 user=user,
                 category=category,
             )
-            message = "Question update: %s" % question.category.get_absolute_url()
+            message = "Neue MCT Frage"
 
         question_version = QuestionVersion.objects.create(
             question=question,
@@ -163,11 +163,15 @@ class QuestionCreateOrUpdateSet(mixins.CreateModelMixin, generics.GenericAPIView
             )
 
         question_version.save()
+        url = "/cms/quiz/questionversion/?q=%s" % str(question_version.id)
 
         if request.user.is_superuser:
             question_version.approve()
         else:
-            Submission.objects.create(content_object=question_version, submitted_by=user, message=message)
+            Submission.objects.create(content_object=question_version,
+                                      submitted_by=user,
+                                      message=message,
+                                      url=url)
 
         return JsonResponse(data={"success": True}, status=200)
 

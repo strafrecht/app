@@ -1,17 +1,12 @@
-from wagtail.contrib.modeladmin.options import ModelAdminGroup, modeladmin_register
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from treemodeladmin.options import TreeModelAdmin
 from .models import *
 
-class CasetrainingAdmin(TreeModelAdmin):
-    model = Casetraining
-    menu_label = 'Fälle'
-    menu_icon = 'list-ul'
-
 @modeladmin_register
-class CasetrainingMenuAdmin(ModelAdminGroup):
+class CasetrainingAdmin(ModelAdmin):
+    model = Casetraining
     menu_label = 'Falltraining'
-    menu_icon = 'folder'
-    items = (CasetrainingAdmin,)
-
-# FIXME: move to django admin ...
-# https://schinckel.net/2016/04/30/multi-table-inheritance-and-the-django-admin/
+    menu_icon = 'list-ul'
+    list_display = ('id', 'submission', 'name', 'difficulty', 'approved', 'user', 'created_at', 'updated_at')
+    search_fields = ('title', 'id')
+    ordering = ['-created_at']

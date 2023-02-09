@@ -138,11 +138,11 @@
             </div>
           </div>
           <div v-if="$parent.editMode" class="flip-card-buttons mt-1">
-            <i class="bi bi-pencil-square tooltips" @click="openEditModal(id)">
+            <i style="cursor: pointer" class="fa fa-edit tooltips" @click="openEditModal(id)">
               <small class="tooltiptexts">Bearbeiten</small>
             </i>
             &nbsp;
-            <i class="bi bi-trash tooltips" @click="cardToDelete = id">
+            <i style="cursor: pointer" class="fa fa-trash text-danger tooltips" @click="cardToDelete = id">
               <small class="tooltiptexts">Löschen</small>
             </i>
           </div>
@@ -237,7 +237,7 @@ export default {
         await this.$nextTick();
         this.initSwiper();
       } else {
-        this.flashcardsSwiper && this.flashcardsSwiper.delete();
+        this.flashcardsSwiper && this.flashcardsSwiper.delete;
       }
     },
   },

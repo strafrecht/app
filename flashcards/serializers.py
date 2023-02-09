@@ -25,15 +25,24 @@ class DeckSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, attrs):
-        category = attrs["category"]
+        category = attrs.get("category", None)
         if category and category.user != self.get_user():
-            del attrs["category"]
+            raise Exception("not allowed (not users category)")
         return attrs
 
     def get_user(self):
         return self.fields["user"].get_default()
 
     def save(self, **kwargs):
+        if not self.get_user().is_staff:
+            # users can't update approved cases
+            if self.instance and self.instance.approved:
+                raise Exception("not allowed (deck is approved)")
+
+            # users can't update submitted cases
+            if self.instance and self.instance.submission:
+                raise Exception("not allowed (deck is submitted)")
+
         kwargs["user"] = self.get_user()
         return super().save(**kwargs)
 
@@ -47,7 +56,7 @@ class FlashcardSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         deck = attrs["deck"]
         if deck.user != self.get_user():
-            del attrs["deck"]
+            raise Exception("not allowed (not users deck)")
         return attrs
 
     def get_user(self):

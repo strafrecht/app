@@ -42,15 +42,13 @@ class UserCasetrainingSerializer(serializers.ModelSerializer):
         if not self.get_user().is_anonymous:
             kwargs["user"] = self.get_user()
 
-        result = super().save(**kwargs)
-        return result
+        return super().save(**kwargs)
 
     class Meta:
         model = Casetraining
         fields = "__all__"
-        read_only_fields =  ('approved', 'submission')
+        read_only_fields = ('approved', 'submission',)
 
-# FIXME: security
 class CasetrainingViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.user.is_staff:
@@ -70,11 +68,17 @@ class CasetrainingViewSet(viewsets.ModelViewSet):
         obj = self.get_object()
         if obj.submission:
             return Response({'submission': obj.submission.id})
-
+        obj.save()
         user = None
         if not request.user.is_anonymous:
             user = request.user
-        obj.submission = Submission.objects.create(content_object=obj, submitted_by=user, message="Fall eingereicht")
+        url = "/falltraining/show/%s/" % str(obj.id)
+        obj.submission = Submission.objects.create(
+            content_object=obj,
+            submitted_by=user,
+            message="Fall eingereicht",
+            url=url,
+        )
         obj.save()
         return Response({'submission': obj.submission.id})
 

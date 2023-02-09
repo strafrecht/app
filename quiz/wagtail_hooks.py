@@ -58,7 +58,6 @@ class QuestionVersionAdmin(TreeModelAdmin):
 
     def approve(self, request, instance_pk):
         question_version = self.model.objects.get(pk=instance_pk)
-        print(question_version)
         question_version.approve()
 
         return redirect(request.META.get('HTTP_REFERER'))

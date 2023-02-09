@@ -2,9 +2,13 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.shortcuts import render, get_object_or_404
+from wiki.models import Article
+
+from core.models import Submission
+
 from .models import Category, Flashcard, Deck
 from .serializers import CategorySerializer, FlashcardSerializer, DeckSerializer
-from django.shortcuts import render
 
 class FlashcardViewSet(viewsets.ModelViewSet):
     """
@@ -45,9 +49,28 @@ class DeckViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def for_wiki(self, request):
-        queryset = Deck.objects.filter(wiki_category_id=self.request.GET['article_id'])
+        if request.user.is_staff:
+            queryset = Deck.objects.filter(submission__isnull=False, wiki_category_id=self.request.GET['article_id'])
+        else:
+            queryset = Deck.objects.filter(approved=True, wiki_category_id=self.request.GET['article_id'])
         serializer = DeckSerializer(queryset, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['put'])
+    def submit(self, request, pk):
+        obj = self.get_object()
+        if obj.submission:
+            return Response({'submission': obj.submission.id})
+        obj.save()
+        user = request.user
+        obj.submission = Submission.objects.create(
+            content_object=obj,
+            submitted_by=user,
+            message="Deck eingereicht",
+            url=obj.wiki_category.get_absolute_url(),
+        )
+        obj.save()
+        return Response({'submission': obj.submission.id})
 
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer

@@ -57,14 +57,14 @@ class ViewTestCase(TestCase):
         response = self.client.get("/profile/")
         self.assertContains(response, "<h3>Dein Jurcoach Profil</h3>", status_code=200)
 
-    def test_wiki_login_redirect(self):
-        response = self.client.get("/profile/wiki/")
-        self.assertRedirects(response, '/profile/login/?next=/profile/wiki/', status_code=302,
+    def test_submissions_login_redirect(self):
+        response = self.client.get("/profile/submissions/")
+        self.assertRedirects(response, '/profile/login/?next=/profile/submissions/', status_code=302,
                              target_status_code=200, fetch_redirect_response=True)
 
-    def test_wiki_response(self):
+    def test_submissions_response(self):
         self.client.force_login(User.objects.get_or_create(username='testuser')[0])
-        response = self.client.get("/profile/wiki/")
+        response = self.client.get("/profile/submissions/")
         self.assertContains(response, "<h3>Deine Einreichungen</h3>", status_code=200)
 
     def test_quizzes_login_redirect(self):

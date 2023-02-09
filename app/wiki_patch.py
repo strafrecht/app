@@ -175,12 +175,14 @@ def add_revision(self, new_revision, save=True):
     # create submission for admins
     if not is_superuser:
         if new_article:
-            message = "New wiki page: %s" % self.get_absolute_url()
+            message = "Neue Wiki Seite"
         else:
-            message = "Wiki page update: %s" % self.get_absolute_url()
+            message = "Wiki Update"
+        url = self.get_absolute_url() + "_history/"
         Submission.objects.create(content_object=new_revision,
                                   submitted_by=new_revision.user,
-                                  message=message)
+                                  message=message,
+                                  url=url)
 
 def fixed_mergeview_get(self, request, article, revision_id, *args, **kwargs):
     from django.contrib import messages

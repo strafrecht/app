@@ -9,7 +9,12 @@
 	font-weight: bold;
 }
 .ct-chart {
-	width: 200px;
+	width: 100px;
+	height: 100px;
+	margin-right: 20px;
+}
+.ct-chart h3 {
+	background: none;
 }
 .ct-series-a .ct-slice-donut {
 	stroke: rgb(176,223,229);
@@ -28,75 +33,79 @@
 
 <div id="profile-quizzes-page">
 
-<div class="flex">
-	<div class="d-flex flex-row align-items-center justify-content-between">
-		<a href="{% url 'quiz:index' %}" class="">Browse all Quizzes</a>
+  <p>
+    <a href="{% url 'quiz:index' %}" class="">Zum MCT</a>
+  </p>
+
+  <div class="row">
+    <div class="col-sm-9">
+
+      {% for quiz in quizzes %}
+      <div class="d-flex flex-col bg-white rounded-lg p-3 my-2">
+	<div class="">
+	  <div id="ct-chart-{{forloop.counter}}" class="ct-chart"></div>
+	  <script>
+	    document.addEventListener("DOMContentLoaded", function(event) {
+	      quizz_chart("#ct-chart-{{forloop.counter}}", {{  quiz.calculate_score }}, {{  quiz.total_questions }});
+	    });
+
+	  </script>
 	</div>
-
-	<div style="display: flex; justify-content: space-between; width: 100%;">
-		<div style="display: flex; flex-direction: column;">
-			<label>Filter by</label>
-			<select id="filter_by" name="filter_by" onchange="handleFilter(this)">
-				<option value="all" {% if filter == "all" %}selected{% endif %}>All</option>
-				<option value="completed" {% if filter == "completed" %}selected{% endif %}>Completed</option>
-				<option value="incomplete" {% if filter == "incomplete" %}selected{% endif %}>Incomplete</option>
-			</select>
-		</div>
-
-		<div style="display: flex; flex-direction: column;">
-			<label>Order by</label>
-			<select id="order_by" name="order_by" onchange="handleOrder(this)">
-				<option value="updated-new" {% if filter == "updated-new" %}selected{% endif %}>Updated (newest)</option>
-				<option value="updated-old" {% if filter == "updated-old" %}selected{% endif %}>Updated (oldest)</option>
-				<option value="created-new" {% if filter == "created-new" %}selected{% endif %}>Started (newest)</option>
-				<option value="created-old" {% if filter == "created-old" %}selected{% endif %}>Started (oldest)</option>
-				<option value="score-high" {% if filter == "score-high" %}selected{% endif %}>Score (highest)</option>
-				<option value="score-low" {% if filter == "score-low" %}selected{% endif %}>Score (lowest)</option>
-			</select>
-		</div>
+	<div class="">
+	  <h5 class="text-primary">
+	    {{ quiz.category }}
+	  </h5>
+	  <div>Datum: {{ quiz.updated }}</div>
+	  <div>
+	    <a href="{% url 'quiz:for_category' quiz.category.id %}" class="btn btn-success" style="border-width: 2px; font-weight: bold;">MCT wiederholen</a>
+	    <a href="{% url 'profile:quiz_summary' quiz.id %}" class="btn btn-outline-light" style="font-weight: bold; border: 2px solid #ddd; color: #444;">Ergebnis anzeigen</a>
+	  </div>
 	</div>
+      </div>
+      {% endfor %}
+      {% if not quizzes %}
+      <p>Noch keine MCT Antworten!</p>
+      {% endif %}
 
-	<script>
-		const filter_by = document.querySelector('#filter_by').value
-		const order_by = document.querySelector('#filter_by').value
+    </div>
+    <div class="col-sm-3">
 
-		function handleFilter(e) {
-			window.location = `?filter_by=${e.value}&order_by=${order_by}`
-		}
+      <div class="mb-4">
+	<label>Filter</label>
+	<br/>
+	<select id="filter_by" name="filter_by" onchange="handleFilter(this)">
+	  <option value="all" {% if filter == "all" %}selected{% endif %}>Alle</option>
+	  <option value="completed" {% if filter == "completed" %}selected{% endif %}>Abgeschlossene</option>
+	  <option value="incomplete" {% if filter == "incomplete" %}selected{% endif %}>Nicht abgeschlossene</option>
+	</select>
+      </div>
 
-		function handleOrder(e) {
-			window.location = `?filter_by=${filter_by}&order_by=${e.value}`
-		}
-	</script>
-		{% if quizzes %}
-			{% for quiz in quizzes %}
-				<div class="d-flex flex-col bg-white rounded-lg p-3 my-2">
-					<div class="">
-						<div id="ct-chart-{{forloop.counter}}" class="ct-chart"></div>
-						<script>
-						  document.addEventListener("DOMContentLoaded", function(event) {
-						    quizz_chart("#ct-chart-{{forloop.counter}}", {{  quiz.calculate_score }}, {{  quiz.total_questions }});
-						  });
+      <div>
+	<label>Sortierung</label>
+	<br/>
+	<select id="order_by" name="order_by" onchange="handleOrder(this)">
+	  <option value="updated-new" {% if filter == "updated-new" %}selected{% endif %}>Aktualisiert</option>
+	  <option value="created-new" {% if filter == "created-new" %}selected{% endif %}>Datum</option>
+	  <option value="score-high" {% if filter == "score-high" %}selected{% endif %}>Punktzahl</option>
+	</select>
+      </div>
+    </div>
+  </div>
 
-						</script>
-					</div>
-					<div class="">
-						<h5 href="#" class="text-primary">
-							{{ quiz.category }}
-						</h5>
-						<div>Date: {{ quiz.updated }}</div>
-						<div>
-							<a href="{% url 'quiz:for_category' quiz.category.id %}" class="btn btn-success" style="border-width: 2px; font-weight: bold;">Retake Quiz</a>
-							<a href="{% url 'profile:quiz_summary' quiz.id %}" class="btn btn-outline-light" style="font-weight: bold; border: 2px solid #ddd; color: #444;">View Summary</a>
-						</div>
-					</div>
-				</div>
-			{% endfor %}
-		{% else %}
-			<p>No completed quizzes</p>
-		{% endif %}
 </div>
-</div>
+
+<script>
+  const filter_by = document.querySelector('#filter_by').value
+  const order_by = document.querySelector('#filter_by').value
+
+  function handleFilter(e) {
+    window.location = `?filter_by=${e.value}&order_by=${order_by}`
+  }
+
+  function handleOrder(e) {
+    window.location = `?filter_by=${filter_by}&order_by=${e.value}`
+  }
+</script>
 {% endblock %}
 
 {% block extra_js %}

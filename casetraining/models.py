@@ -14,6 +14,9 @@ from core.models import Submission
 
 class Casetraining(ClusterableModel):
 
+    class Meta:
+        verbose_name = "Falltraining"
+
     DIFFICULTY_CHOICES = [
         ('shortcase',  'Shortcase'),
         ('beginner',   'Beginner'),
@@ -45,7 +48,10 @@ class Casetraining(ClusterableModel):
         super(Casetraining, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "{} ({})".format(self.name, self.difficulty)
+        return "{}".format(self.name)
+
+    def title(self):
+        return self.__str__()
 
     def listing_class(self):
         if self.approved:
