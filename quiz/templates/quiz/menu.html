@@ -1,0 +1,49 @@
+<section class="text-center">
+  <div class="container">
+    <div>
+      <div class="tabbed">
+	<input checked="checked" id="at" type="radio" name="tabs" />
+	<input id="bt" type="radio" name="tabs" />
+
+	<nav>
+	  <label for="at"><h3>Allgemeiner Teil</h3></label>
+	  <label for="bt"><h3>Besonderer Teil</h3></label>
+	</nav>
+
+	<figure>
+	  <div class="at">
+	    {% for item in categories_at %}
+	    {% if item.questions.count > 0 %}
+	    <a href="{% url 'quiz:show' item.category.article.id item.questions.first.id  %}?state=start">
+	      <span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span>
+	    </a>
+	    {% else %}
+	    {% if user.is_staff %}
+	    <a href="{% url 'quiz:new_question' %}?category_id={{ item.category.id }}">
+	      <span class="badge badge-pill bg-danger text-white">{{ item.category.article.current_revision.title }}</span>
+	    </a>
+	    {% endif %}
+	    {% endif %}
+	    {% endfor %}
+	  </div>
+	  <div class="bt">
+	    {% for item in categories_bt %}
+	    {% if item.questions.count > 0 %}
+	    <a href="{% url 'quiz:show' item.category.article.id item.questions.first.id  %}?state=start">
+	      <span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span>
+	    </a>
+	    {% else %}
+	    {% if user.is_staff %}
+	    <a href="{% url 'quiz:new_question' %}?category_id={{ item.category.article.id }}">
+	      <span class="badge badge-pill bg-danger text-white">{{ item.category.article.current_revision.title }}</span>
+	    </a>
+	    {% endif %}
+	    {% endif %}
+	    {% endfor %}
+	  </div>
+	</figure>
+      </div>
+
+    </div>
+  </div>
+</section>

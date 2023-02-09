@@ -92,39 +92,7 @@ Jurcoach Multiple-Choice-Test – Strafrecht Online
     </div>
   </section>
 
-  <section class="text-center">
-    <div class="container">
-      <div>
-	<div class="tabbed">
-	  <input checked="checked" id="at" type="radio" name="tabs" />
-	  <input id="bt" type="radio" name="tabs" />
-
-	  <nav>
-	    <label for="at"><h3>Allgemeiner Teil</h3></label>
-	    <label for="bt"><h3>Besonderer Teil</h3></label>
-	  </nav>
-
-	  <figure>
-	    <div class="at">
-	      {% for item in categories_at %}
-	      {% if item.first.id > 0 %}
-	      <a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
-	      {% endif %}
-	      {% endfor %}
-	    </div>
-	    <div class="bt">
-	      {% for item in categories_bt %}
-	      {% if item.first.id > 0 %}
-	      <a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
-	      {% endif %}
-	      {% endfor %}
-	    </div>
-	  </figure>
-	</div>
-
-      </div>
-    </div>
-  </section>
+  {% include "quiz/menu.html" %}
 
 </div>
 {% endblock %}

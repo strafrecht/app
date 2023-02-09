@@ -25,7 +25,7 @@
 
     <div><label class="label">Antworten</label></div>
     <div>
-      <div v-for="(answer, index) in answers">
+      <div v-for="(answer, index) in answers" class="mb-2">
         <span class="trashcan" title="Antwort löschen" @click="deleteAnswer(index)">&#128465;</span>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <textarea id="answer-option" v-model="answer.text" :key="index" rows="2" cols="50"
@@ -104,8 +104,10 @@
           }
 
           await axios.post("{% url 'quiz:post_question' %}", newQuestion, config)
-	  // FIXME: redirect user ...
-          alert("Quiz-Frage gespeichert! Die Änderung wird von uns geprüft und freigegeben.");
+	  if ("{{ user.is_staff }}" == "True")
+            alert("Quiz-Frage gespeichert und veröffentlicht!");
+	  else
+	    alert("Quiz-Frage gespeichert! Die Änderung wird von uns geprüft und freigegeben.");
 	  window.location = "{% url 'quiz:show' question.category.id question.id %}";
         } catch (error) {
 	  alert("Fehler beim Speichern. Bitte versuchen Sie es noch einmal!");

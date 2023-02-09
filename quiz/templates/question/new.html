@@ -7,6 +7,16 @@
   <form @submit.prevent="addQuestion">
     <h2>Neue Frage hinzufügen</h2>
 
+    <div class="clearfix"></div>
+
+    <div class="mt-4">
+      <label class="label">Kategorie</label>
+    </div>
+    <div>
+      <vtreeselect class="treeselect" v-model="selectedCategory" :multiple="false" :options="categories" :disable-branch-nodes="true" required></vtreeselect>
+    </div>
+    <br/>
+
     <div><label class="label">Frage</label></div>
     <div>
       <textarea id="add-title" name="add-title" rows="2" cols="50" v-model="title"
@@ -22,14 +32,6 @@
       </textarea>
     </div>
     <br />
-
-    <div>
-      <label class="label">Kategorie wählen</label>
-    </div>
-    <div>
-      <vtreeselect class="treeselect" v-model="selectedCategory" :multiple="false" :options="categories" :disable-branch-nodes="true" required></vtreeselect>
-    </div>
-    <br/>
 
     <div><label class="label">Antworten</label></div>
     <div>
@@ -108,8 +110,10 @@
           this.title = null;
           this.description = null;
           this.answers = [{ text: "", correct: false }];
-
-          alert("Neue Quiz-Frage gespeichert! Die Änderung wird von uns geprüft und freigegeben.");
+	  if ("{{ user.is_staff }}" == "True")
+            alert("Quiz-Frage gespeichert und veröffentlicht!");
+	  else
+            alert("Neue Quiz-Frage gespeichert! Die Änderung wird von uns geprüft und freigegeben.");
         } catch (error) {
           alert("Fehler beim Speichern. Bitte versuchen Sie es noch einmal!");
         }
@@ -122,7 +126,6 @@
 	    this.categories.push(response.data);
 	    this.selectedCategory = {{ category.id }};
 	  });
-
       },
     },
   });

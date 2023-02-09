@@ -167,45 +167,11 @@ Jurcoach Multiple-Choice-Test: {{ category }} – Strafrecht Online
     </div>
   </div>
 
-  <div class="row">
-    <div class="d-flex col-md-12">
-      <section id="jurcoach-page" class="text-center" style="margin-top: 80px;">
-	<div class="container">
-	  <div>
-	    <div class="tabbed">
-	      <input checked="checked" id="at" type="radio" name="tabs" />
-	      <input id="bt" type="radio" name="tabs" />
-
-	      <nav>
-		<label for="at"><h3>Allgemeiner Teil</h3></label>
-		<label for="bt"><h3>Besonderer Teil</h3></label>
-	      </nav>
-
-	      <figure style="margin-top: 20px;">
-		<div class="at">
-		  {% for item in categories_at %}
-		  {% if item.first.id > 0 %}
-		  <a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
-		  {% endif %}
-		  {% endfor %}
-		</div>
-		<div class="bt">
-		  {% for item in categories_bt %}
-		  {% if item.first.id > 0 %}
-		  <a href="{% url 'quiz:show' item.category.article.id item.first.id  %}?state=start"><span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span></a>
-		  {% endif %}
-		  {% endfor %}
-		</div>
-	      </figure>
-	    </div>
-	  </div>
-	</div>
-      </section>
-    </div>
+  <div id="jurcoach-page" class="mt-4">
+    {% include "quiz/menu.html" %}
   </div>
 
 </div>
-
 
 <script>
   var button = document.querySelector("#show-results-button")

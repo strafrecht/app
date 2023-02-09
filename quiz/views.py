@@ -31,11 +31,19 @@ def index(request):
 def new_question(request):
     category_id = request.GET.get('category_id')
     category = get_object_or_404(Article, id=category_id)
-    return render(request, 'question/new.html', { "user": request.user, "category": category })
+    return render(request, 'question/new.html', {
+        "banner": '/media/original_images/ohnediefrau.png',
+        "user": request.user,
+        "category": category
+    })
 
 def edit_question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'question/edit.html', { "user": request.user, "question": question })
+    return render(request, 'question/edit.html', {
+        "banner": '/media/original_images/ohnediefrau.png',
+        "user": request.user,
+        "question": question
+    })
 
 def quiz_finish(request, category_id):
     category = get_object_or_404(Article, id=category_id)
@@ -251,13 +259,10 @@ def _get_categories():
 
     for child in cat.get_children():
         questions = get_questions(child)
-        if len(questions) == 0:
-            continue
 
         category = {
             "category": child,
-            "first": questions[0],
-            "questions": [questions],
+            "questions": questions,
         }
         categories.append(category)
 
