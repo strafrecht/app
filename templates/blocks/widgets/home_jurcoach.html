@@ -1,28 +1,27 @@
-{% load i18n %}
+{% load i18n static %}
 {% load wagtailcore_tags wagtailnews_admin_tags %}
 
-<div class="">
-	<h2>Jurcoach</h2>
-	<p style="text-align: center;">Trainieren Sie sich, werden Sie Teil des Projekts!</p>
+<div>
+  <h2>Jurcoach</h2>
+  <p class="mt-2">Trainieren Sie sich, werden Sie Teil des Projekts!</p>
 
-	<div class="jurcoach-links-widgets">
-		<div class="logo"><img src="http://strafrecht-online.org/_components/sonline-jurcoach-homepage2/logo_color_transparent.png"></div>
-		<a class="jurcoach-link" href="#">
-			<h3>Problemfeldwiki</h3>
-			<p>Das notwendige Wissen</p>
-		</a>
-		<a class="jurcoach-link" href="#">
-			<h3>Falltraining</h3>
-			<p>Klausursimulation online</p>
-		</a>
-		<a class="jurcoach-link" href="#">
-			<h3>MCT</h3>
-			<p>Ein kurzer Test zwischendurch?</p>
-		</a>
-		<a class="jurcoach-link" href="#">
-			<h3>Nutzerprofil</h3>
-			<p>Die individuelle Lernumgebung</p>
-		</a>
-	</div>
-
+  <div class="jurcoach-links-widgets">
+    <div class="logo"><img src="{% static 'images/jurcoach-block.png' %}" alt=""></div>
+    <a class="jurcoach-link text-left" href="{% url 'wiki:root' %}">
+      <h3>Problemfeldwiki</h3>
+      <p>Das notwendige Wissen</p>
+    </a>
+    <a class="jurcoach-link text-right" href="{% url 'casetraining:index' %}">
+      <h3>Falltraining</h3>
+      <p>Klausursimulation online</p>
+    </a>
+    <a class="jurcoach-link text-left" href="{% url 'quiz:index' %}">
+      <h3>MCT</h3>
+      <p>Ein kurzer Test zwischendurch?</p>
+    </a>
+    <a class="jurcoach-link text-right" href="{% url 'profile:index' %}">
+      <h3>Nutzerprofil</h3>
+      <p>Die individuelle Lernumgebung</p>
+    </a>
+  </div>
 </div>

@@ -107,6 +107,7 @@ h3::after {
 @import "old/charts.css";
 @import "old/custom-wagtail-columns.css";
 @import "widget/flipcard.scss";
+@import "widget/jurcoach.scss";
 //@import "old/django-pwa-app.css";
 @import "old/mysite.css";
 @import "old/person_index_page.css";
@@ -115,10 +116,6 @@ h3::after {
 @import "old/bootstrap.css";
 @import "old/sidebars/calendar_text.css";
 @import "old/sidebars/image_text.css";
-
-.jurcoach-links-widgets {
-  position: relative;
-}
 
 .block-sidebar {
   width: 100%;
