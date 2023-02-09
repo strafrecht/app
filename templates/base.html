@@ -87,48 +87,44 @@
 	</div>
 	{% endif %}
       </div>
-      {% endblock %}
+    </div>
+    {% endblock %}
 
-      {% if page.slug != "strafrecht-online" %}
-      <main role="main" class="{% if page.slug == 'jurcoach' %}'w-full'{% else %}container{% endif %}">
-	<div class="container-inner flex-column flex-md-row p-0 w-full">
-	  {% endif %}
+    <main role="main" class="container">
+      <div class="container-inner flex-column flex-md-row p-0 w-full">
 
-	  <!--div class="content d-inline-flex col-xs-12 col-sm-12 col-md-{% if page.sidebar %}8{% else %}12{% endif %} col-lg-12 p-0 pr-4"-->
-	  <div class="{% if page.slug == 'jurcoach' %}w-100{% else %}content{% endif %}">
-	    {% include 'includes/messages.html' %}
-
-	    {% block content %}{% endblock %}
-	  </div>
-
-	  {% if page.sidebar %}
-	  <div class="sidebar d-inline-flex col-xs-12 col-sm-12 col-md-4 p-0">
-	    {% block sidebar %}{% endblock %}
-	  </div>
-	  {% endif %}
-
-	  {% if page.slug != "strafrecht-online" %}
+	<div class="content">
+	  {% block submenu %}{% endblock %}
+	  {% include 'includes/messages.html' %}
+	  {% block content %}{% endblock %}
 	</div>
-      </main>
-      {% endif %}
 
-      {% include "layout/footer.html" %}
+	{% if page.sidebar %}
+	<div class="sidebar d-inline-flex col-xs-12 col-sm-12 col-md-4 p-0">
+	  {% block sidebar %}{% endblock %}
+	</div>
+	{% endif %}
 
-      {# Global javascript #}
-      <script>
-	(function(d,t) {
-	  var BASE_URL="http://chat.strafrecht-online.org";
-	  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-	  g.src=BASE_URL+"/packs/js/sdk.js";
-	  s.parentNode.insertBefore(g,s);
-	  g.onload=function(){
-	    window.chatwootSDK.run({
-	      websiteToken: 'CYuEHNWYncGMaRAQbRXD4Pb4',
-	      baseUrl: BASE_URL
-	    })
-	  }
-	})(document,"script");
-      </script>
+      </div>
+    </main>
+
+    {% include "layout/footer.html" %}
+
+    {# Global javascript #}
+    <script>
+      (function(d,t) {
+	var BASE_URL="http://chat.strafrecht-online.org";
+	var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+	g.src=BASE_URL+"/packs/js/sdk.js";
+	s.parentNode.insertBefore(g,s);
+	g.onload=function(){
+	  window.chatwootSDK.run({
+	    websiteToken: 'CYuEHNWYncGMaRAQbRXD4Pb4',
+	    baseUrl: BASE_URL
+	  })
+	}
+      })(document,"script");
+    </script>
       <!-- Mibew Code -->
       <!--
 		<script type="text/javascript" src="//132.230.132.63/mibew/js/compiled/chat_popup.js"></script>
@@ -140,10 +136,10 @@
 		chatHeadline.insertAfter( result );
 		</script>
 		-->
-		<script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
 
-		{% block extra_js %}
-		{% endblock %}
-		{% render_block "js" %}
-    </body>
+    {% block extra_js %}
+    {% endblock %}
+    {% render_block "js" %}
+  </body>
 </html>

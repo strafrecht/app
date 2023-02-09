@@ -1,0 +1,10 @@
+<div class="card bg-light">
+  <div class="card-body">
+    <a href="{% url 'profile:login' %}?next={% url 'tandem_exams:show' exam.id %}" class="btn btn-success float-right">
+      Zum Login
+    </a>
+    <p>
+      Melde Dich an, um eine Klausur zu lösen und im Tandem zu korrigieren!
+    </p>
+  </div>
+</div>

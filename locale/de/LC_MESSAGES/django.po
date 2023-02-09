@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-19 18:33+0200\n"
+"POT-Creation-Date: 2023-02-06 18:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,42 +18,118 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/wiki_patch.py:46
-msgid "The new revision will be reviewed and published by the moderators."
+#: app/templates/password_reset/password_reset_complete.html:6
+msgid "Your password has been set.  You may go ahead and log in now."
 msgstr ""
 
-#: app/wiki_patch.py:57
-msgid "The new page will be reviewed and published by the moderators."
+#: app/templates/password_reset/password_reset_complete.html:8
+#: templates/wiki/accounts/login.html:4
+msgid "Log in"
 msgstr ""
 
-#: templates/account/login.html:6 templates/account/login.html:12
-#: templates/account/login.html:45
-msgid "Sign In"
+#: app/templates/password_reset/password_reset_confirm.html:9
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
 msgstr ""
 
-#: templates/account/login.html:17
+#: app/templates/password_reset/password_reset_confirm.html:14
+msgid "Change my password"
+msgstr ""
+
+#: app/templates/password_reset/password_reset_confirm.html:19
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: app/templates/password_reset/password_reset_done.html:6
+msgid ""
+"We’ve emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: app/templates/password_reset/password_reset_done.html:8
+msgid ""
+"If you don’t receive an email, please make sure you’ve entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: app/templates/password_reset/password_reset_form.html:7
+msgid ""
+"Forgotten your password? Enter your email address below, and we’ll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: app/templates/password_reset/password_reset_form.html:12
+msgid "Reset my password"
+msgstr ""
+
+#: app/wiki_patch.py:62
+msgid "Ihre Überarbeitung wird von unserem Team überprüft."
+msgstr ""
+
+#: app/wiki_patch.py:84
+#, python-format
+msgid "New article '%s' created."
+msgstr ""
+
+#: app/wiki_patch.py:89
+msgid "Ihre neue Seite wird von unserem Team überprüft."
+msgstr ""
+
+#: app/wiki_patch.py:97
+#, python-format
+msgid "There was an error creating this article: %s"
+msgstr ""
+
+#: app/wiki_patch.py:101
+msgid "There was an error creating this article."
+msgstr ""
+
+#: app/wiki_patch.py:212 templates/wiki/preview_inline.html:22
+msgid "You cannot merge with a deleted revision"
+msgstr ""
+
+#: app/wiki_patch.py:227
+#, python-format
+msgid "Merge between revision #%(r1)d and revision #%(r2)d"
+msgstr ""
+
+#: app/wiki_patch.py:237
 #, python-format
 msgid ""
-"Please sign in with one\n"
-"\t\t\tof your existing third party accounts. Or, <a href=\"%(signup_url)s"
-"\">sign up</a>\n"
-"\t\t\tfor a %(site_name)s account and sign in below:"
+"A new revision was created: Merge between revision #%(r1)d and revision #"
+"%(r2)d"
 msgstr ""
 
-#: templates/account/login.html:27
-msgid "or"
+#: quiz/templates/quiz/show.html:161
+msgid "Quiz-Frage bearbeiten"
 msgstr ""
 
-#: templates/account/login.html:34
-#, python-format
-msgid ""
-"Falls Sie noch kein Nutzerkonto erstellt haben,\n"
-"\t\t\t<a href=\"%(signup_url)s\">registrieren</a> Sie sich bitte zunächst."
+#: quiz/templates/quiz/show.html:164
+msgid "Neue Quiz-Frage in dieser Kategorie hinzufügen"
 msgstr ""
 
-#: templates/account/login.html:44
-msgid "Forgot Password?"
-msgstr ""
+#: tandem_exams/models.py:12
+msgid "beginner"
+msgstr "Anfänger"
+
+#: tandem_exams/models.py:13
+msgid "advanced"
+msgstr "Fortgeschrittene"
+
+#: tandem_exams/models.py:40
+msgid "new"
+msgstr "Neu"
+
+#: tandem_exams/models.py:41
+msgid "accepted"
+msgstr "In Korrektur"
+
+#: tandem_exams/models.py:42
+msgid "corrected"
+msgstr "Korrigiert"
 
 #: templates/account/signup.html:5
 msgid "Signup"
@@ -148,14 +224,6 @@ msgstr ""
 msgid "The comment has been flagged."
 msgstr ""
 
-#: templates/comments/form.html:70
-msgid "send"
-msgstr ""
-
-#: templates/comments/form.html:71
-msgid "preview"
-msgstr ""
-
 #: templates/comments/list.html:25
 msgid "This comment has been removed."
 msgstr ""
@@ -201,7 +269,7 @@ msgstr ""
 msgid "Choose a news item"
 msgstr ""
 
-#: templates/news/chooser/list.html:10 templates/wiki/dir.html:115
+#: templates/news/chooser/list.html:10 templates/wiki/dir.html:114
 msgid "Title"
 msgstr ""
 
@@ -241,7 +309,7 @@ msgstr ""
 
 #: templates/news/create.html:8
 msgid "New"
-msgstr ""
+msgstr "Neu"
 
 #: templates/news/create.html:9
 msgid "news post"
@@ -255,7 +323,7 @@ msgstr ""
 msgid "Publish"
 msgstr ""
 
-#: templates/news/create.html:33 templates/wiki/edit.html:32
+#: templates/news/create.html:33 templates/wiki/edit.html:33
 msgid "Preview"
 msgstr ""
 
@@ -359,10 +427,6 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: templates/wiki/accounts/login.html:4
-msgid "Log in"
-msgstr ""
-
 #: templates/wiki/accounts/login.html:10
 msgid "Please log in"
 msgstr ""
@@ -384,54 +448,45 @@ msgstr ""
 msgid "Sign me up..."
 msgstr ""
 
-#: templates/wiki/article.html:90 templates/wiki/includes/revision_info.html:21
-msgid "locked"
-msgstr ""
-
-#: templates/wiki/article.html:160 templates/wiki/dir.html:107
-#: templates/wiki/dir.html:137
-msgid "There are no articles in this level"
-msgstr ""
-
-#: templates/wiki/create.html:51 templates/wiki/delete.html:40
-#: templates/wiki/delete.html:76 templates/wiki/move.html:37
+#: templates/wiki/create.html:64 templates/wiki/delete.html:39
+#: templates/wiki/delete.html:75 templates/wiki/move.html:37
 msgid "Go back"
 msgstr ""
 
-#: templates/wiki/create.html:55
+#: templates/wiki/create.html:69
 msgid "Create article"
 msgstr ""
 
-#: templates/wiki/delete.html:21 templates/wiki/delete.html:80
-#: templates/wiki/edit.html:49
+#: templates/wiki/delete.html:20 templates/wiki/delete.html:79
+#: templates/wiki/edit.html:52
 msgid "Delete article"
 msgstr ""
 
-#: templates/wiki/delete.html:39
+#: templates/wiki/delete.html:38
 msgid "You cannot delete a root article."
 msgstr ""
 
-#: templates/wiki/delete.html:45
+#: templates/wiki/delete.html:44
 msgid ""
 "You cannot delete this article because you do not have permission to delete "
 "articles with children. Try to remove the children manually one-by-one."
 msgstr ""
 
-#: templates/wiki/delete.html:51
+#: templates/wiki/delete.html:50
 msgid ""
 "You are deleting an article. This means that its children will be deleted as "
 "well. If you choose to purge, children will also be purged!"
 msgstr ""
 
-#: templates/wiki/delete.html:53
+#: templates/wiki/delete.html:52
 msgid "Articles that will be deleted"
 msgstr ""
 
-#: templates/wiki/delete.html:59
+#: templates/wiki/delete.html:58
 msgid "...and more!"
 msgstr ""
 
-#: templates/wiki/delete.html:67
+#: templates/wiki/delete.html:66
 msgid "You are deleting an article. Please confirm."
 msgstr ""
 
@@ -467,27 +522,27 @@ msgstr ""
 msgid "Listing articles in"
 msgstr ""
 
-#: templates/wiki/dir.html:60
+#: templates/wiki/dir.html:59
 msgid "Up one level"
 msgstr ""
 
-#: templates/wiki/dir.html:65
+#: templates/wiki/dir.html:64
 msgid "Add article"
 msgstr ""
 
-#: templates/wiki/dir.html:74
+#: templates/wiki/dir.html:73
 msgid "clear"
 msgstr ""
 
-#: templates/wiki/dir.html:86
+#: templates/wiki/dir.html:85
 msgid "article,articles"
 msgstr ""
 
-#: templates/wiki/dir.html:86
+#: templates/wiki/dir.html:85
 msgid "is,are"
 msgstr ""
 
-#: templates/wiki/dir.html:86
+#: templates/wiki/dir.html:85
 #, python-format
 msgid ""
 "Browsing <strong><a href=\"%(self_url)s\">/%(path)s</a></strong>. There "
@@ -495,7 +550,11 @@ msgid ""
 "level."
 msgstr ""
 
-#: templates/wiki/dir.html:116
+#: templates/wiki/dir.html:106 templates/wiki/dir.html:136
+msgid "There are no articles in this level"
+msgstr ""
+
+#: templates/wiki/dir.html:115
 msgid "Last modified"
 msgstr ""
 
@@ -509,15 +568,15 @@ msgstr ""
 msgid "Click here to log in"
 msgstr ""
 
-#: templates/wiki/edit.html:36 templates/wiki/edit.html:83
+#: templates/wiki/edit.html:39 templates/wiki/edit.html:86
 msgid "Save changes"
 msgstr ""
 
-#: templates/wiki/edit.html:43 templates/wiki/move.html:41
+#: templates/wiki/edit.html:46 templates/wiki/move.html:41
 msgid "Move article"
 msgstr ""
 
-#: templates/wiki/edit.html:79
+#: templates/wiki/edit.html:82
 msgid "Back to editor"
 msgstr ""
 
@@ -545,6 +604,68 @@ msgstr ""
 msgid "Back to"
 msgstr ""
 
+#: templates/wiki/history.html:5
+msgid "History"
+msgstr ""
+
+#: templates/wiki/history.html:50
+msgid ""
+"Click each revision to see a list of edited lines. Click the Preview button "
+"to see how the article looked at this stage. At the bottom of this page, you "
+"can change to a particular revision or merge an old revision with the "
+"current one."
+msgstr ""
+
+#: templates/wiki/history.html:73
+msgid "no log message"
+msgstr ""
+
+#: templates/wiki/history.html:85 templates/wiki/history.html:90
+msgid "Preview this revision"
+msgstr ""
+
+#: templates/wiki/history.html:112
+msgid "Auto log:"
+msgstr ""
+
+#: templates/wiki/history.html:120
+msgid "Change"
+msgstr ""
+
+#: templates/wiki/history.html:138
+msgid "Merge selected with current..."
+msgstr ""
+
+#: templates/wiki/history.html:142
+msgid "Switch to selected version"
+msgstr ""
+
+#: templates/wiki/history.html:161 templates/wiki/history.html:192
+msgid "Back to history view"
+msgstr ""
+
+#: templates/wiki/history.html:166 templates/wiki/history.html:171
+msgid "Switch to this version"
+msgstr ""
+
+#: templates/wiki/history.html:183
+msgid "Merge with current"
+msgstr ""
+
+#: templates/wiki/history.html:184
+msgid ""
+"When you merge a revision with the current, all data will be retained from "
+"both versions and merged at its approximate location from each revision."
+msgstr ""
+
+#: templates/wiki/history.html:184
+msgid "After this, it's important to do a manual review."
+msgstr ""
+
+#: templates/wiki/history.html:197 templates/wiki/history.html:202
+msgid "Create new merged version"
+msgstr ""
+
 #: templates/wiki/includes/anonymous_blocked.html:7
 #, python-format
 msgid ""
@@ -557,7 +678,6 @@ msgid "You need to log in or sign up to use this function."
 msgstr ""
 
 #: templates/wiki/includes/article_menu.html:6
-#: templates/wiki/includes/breadcrumbs.html:16
 msgid "Sub-articles for"
 msgstr ""
 
@@ -571,24 +691,6 @@ msgstr ""
 
 #: templates/wiki/includes/article_menu.html:57
 msgid "Settings"
-msgstr ""
-
-#: templates/wiki/includes/breadcrumbs.html:27
-msgid "No sub-articles"
-msgstr ""
-
-#: templates/wiki/includes/breadcrumbs.html:30
-msgid "...and more"
-msgstr ""
-
-#: templates/wiki/includes/breadcrumbs.html:33
-msgid "Browse articles in this level"
-msgstr ""
-
-#: templates/wiki/includes/contribute-menu-category.html:6
-msgid ""
-"Neues Problemfeld in dieser Kategorie erstellen</span> <i class=\"bi bi-"
-"arrow-right\"></i>"
 msgstr ""
 
 #: templates/wiki/includes/revision_info.html:10
@@ -605,6 +707,10 @@ msgstr ""
 
 #: templates/wiki/includes/revision_info.html:18
 msgid "restored"
+msgstr ""
+
+#: templates/wiki/includes/revision_info.html:21
+msgid "locked"
 msgstr ""
 
 #: templates/wiki/includes/revision_info.html:24
@@ -653,10 +759,6 @@ msgstr ""
 
 #: templates/wiki/preview_inline.html:17
 msgid "and"
-msgstr ""
-
-#: templates/wiki/preview_inline.html:22
-msgid "You cannot merge with a deleted revision"
 msgstr ""
 
 #: templates/wiki/preview_inline.html:31

@@ -1,0 +1,79 @@
+{% load i18n profile_tags %}
+{% load crispy_forms_tags %}
+
+<div class="exam-solution card mb-3 border-0">
+  <div class="row no-gutters h-100">
+    <div class="col-md-4 bg-{{ object|solution_bg_color }} {{ object|solution_fg_color }} text-center d-flex align-items-center justify-content-center">
+
+      {% if object.state == "ACCEPTED" %}
+      <div>
+	<i class="fa fa-x2 fa-sync fa-spin text-black"></i><br/>
+	In Korrektur!
+      </div>
+      {% endif %}
+      {% if object.state == "CORRECTED" %}
+      <div>
+	<i class="fa fa-x2 fa-thumbs-up text-white"></i><br/>
+	Korrektur abgeschlossen!
+      </div>
+      {% endif %}
+      {% if object.state == "NEW" %}
+      <div>
+	<i class="fa fa-x2 fa-sync fa-spin text-white"></i><br/>
+	Hochgeladen!
+      </div>
+      {% endif %}
+
+    </div>
+    <div class="col-md-8 bg-light">
+      <div class="card-body p-3">
+        <div class="card-text">
+	  <strong>
+	    {% if tandem %}
+	    Tandemklausur
+	    {% else %}
+	    Deine Klausur
+	    {% endif %}
+	  </strong>
+	  <div><small class="text-muted">{{ object.created_at | date }}</small></div>
+	  <div>
+	    <a href="/media/{{ object.file }}">Lösung heruterladen</a>
+	    {% if object.state == "CORRECTED" %}
+	      <br/>
+	      {% if tandem %}
+		<a href="/media/{{ object.correction }}">Korrektur heruterladen</a>
+		<br/>
+		<a href="/media/{{ object.correction_sheet }}">Korrekturbogen heruterladen</a>
+	      {% else %}
+		{% if object.tandem_exam and object.tandem_exam.state == "CORRECTED" %}
+		  <a href="/media/{{ object.correction }}">Korrektur heruterladen</a>
+		  <br/>
+		  <a href="/media/{{ object.correction_sheet }}">Korrekturbogen heruterladen</a>
+		{% else %}
+	          <p class="text-danger mt-4">
+		    Du musst zuerst eine Korrektur bei der Tandemklausur abgeben,
+		    bevor Du Deine Korrektur einsehen kannst.
+		  </p>
+		{% endif %}
+	      {% endif %}
+	    {% endif %}
+	  </div>
+	  {% if tandem and object.state == "ACCEPTED" %}
+	  <hr/>
+	  <form action="{% url 'tandem_exams:new_correction' object.pk %}" method="post" enctype="multipart/form-data">
+	    {% csrf_token %}
+	    {% if solution_id == object.pk %}
+	    {{ form.correction|as_crispy_field }}
+	    {{ form.correction_sheet|as_crispy_field }}
+	    {% else %}
+	    {{ upload_correction_form.correction|as_crispy_field }}
+	    {{ upload_correction_form.correction_sheet|as_crispy_field }}
+	    {% endif %}
+	    <input class="btn btn-sm btn-success" type="submit" value="Korrektur hochladen">
+	  </form>
+	  {% endif %}
+	</div>
+      </div>
+    </div>
+  </div>
+</div>

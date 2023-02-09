@@ -35,6 +35,7 @@ urlpatterns = [
     path('jurcoach/klausurendatenbank/', exams, name='exams'),
     path('jurcoach/klausurendatenbank/api', api_exams, name='exams'),
     path('falltraining/', include('casetraining.urls')),
+    path('tandemklausuren/', include('tandem_exams.urls')),
 
     path('notifications/', include('django_nyt.urls')),
 

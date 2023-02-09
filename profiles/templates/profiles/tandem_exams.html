@@ -1,0 +1,33 @@
+{% extends "profiles/index.html" %}
+
+{% load i18n profile_tags %}
+
+{% block contents %}
+<h3>Tandemklausuren</h3>
+
+{% if own_solutions %}
+<div class="mt-4">
+  {% for solution in own_solutions %}
+  <div class="row mt-3">
+    <div class="col-12">
+      <h6>
+	<strong>{{ solution.exam }}</strong>
+	<small>({% trans solution.exam.difficulty %})</small>
+      </h6>
+    </div>
+  </div>
+  <div class="card-deck" id="exam-solutions">
+    {% include "./includes/exam_solution.html" with object=solution %}
+    {% if solution.tandem_exam %}
+    {% include "./includes/exam_solution.html" with tandem=True object=solution.tandem_exam %}
+    {% else %}
+    {% include "./includes/exam_solution_empty.html" %}
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>Du hast noch keine Klausuren gelöst!</p>
+{% endif %}
+
+{% endblock %}

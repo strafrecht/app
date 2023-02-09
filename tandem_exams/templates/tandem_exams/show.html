@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}
+Jurcoach Tandemklausuren: {{ exam.name }} – Strafrecht Online
+{% endblock %}
+
+{% block content %}
+<h2>Tandemklausur: {{ exam.name }}</h2>
+<p>
+  {{ exam.description|richtext }}
+</p>
+
+{% if user.is_anonymous %}
+{% include "./includes/show_anonymous.html" %}
+{% else %}
+{% include "./includes/show_user.html" %}
+{% endif %}
+
+{% endblock %}

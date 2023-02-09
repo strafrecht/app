@@ -11,13 +11,19 @@ from django.http import HttpResponse
 from wiki.models import ArticleRevision
 from wiki.models.article import Article
 
-from core.models import Submission
+from core.models import Submission, Profile
 from quiz.models import Quiz, UserAnswer
+from tandem_exams.models import *
+from tandem_exams.forms import *
 from .forms import SignupForm
 from .models import Bookmark
 
 @login_required
 def index(request):
+    # create user profile if missing
+    if not hasattr(request.user, 'profile'):
+        Profile.objects.create(user=request.user)
+
     return render(request, "profiles/index.html", {
         "banner": "/media/images/login.original.jpg",
         "profile": request.user.profile
@@ -99,6 +105,17 @@ def submissions(request):
     })
 
 @login_required
+def tandem_exams(request, id=None, form=None):
+    own_solutions = request.user.exam_solutions.order_by('-created_at')
+    return render(request, "profiles/tandem_exams.html", {
+        "banner": "/media/images/login.original.jpg",
+        "own_solutions": own_solutions,
+        "form": form,
+        "solution_id": id,
+        "upload_correction_form": ExamCorrectionForm(),
+    })
+
+@login_required
 def quiz_summary(request, id):
     quiz = Quiz.objects.get(pk=id)
 
@@ -143,6 +160,8 @@ def register(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
+            # create user profile
+            Profile.objects.create(user=user)
             auth_login(request, user)
             messages.success(request, "Registrierung erfolgreich.")
             return redirect("/")
@@ -162,7 +181,7 @@ def login(request):
                 auth_login(request, user)
                 messages.info(request, f"Du bist jetzt als {username} angemeldet.")
                 # create user profile if missing
-                if not user.profile:
+                if not hasattr(user, 'profile'):
                     Profile.objects.create(user=user)
                 if request.GET.get("next", None):
                     return redirect(request.GET["next"])

@@ -42,3 +42,23 @@ def submission_fg_color(instance):
         return "text-white"
 
     return "text-white"
+
+@register.filter
+def solution_bg_color(instance):
+    if instance.state == "CORRECTED":
+        return "success"
+
+    if instance.state == "ACCEPTED":
+        return "warning"
+
+    return "info"
+
+@register.filter
+def solution_fg_color(instance):
+    if instance.state == "CORRECTED":
+        return "text-black"
+
+    if instance.state == "ACCEPTED":
+        return "text-black"
+
+    return "text-white"

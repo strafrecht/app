@@ -81,7 +81,6 @@ h3::after {
   font-family: inherit;
 }
 
-// SCSS Files (updated!)
 @import "~bootstrap/scss/bootstrap.scss";
 @import "bookmarks.scss";
 @import "inline_icons.scss";
@@ -100,11 +99,11 @@ h3::after {
 @import "old/website_index_page.scss";
 @import "old/wiki.scss";
 
-// CSS Files
 @import "pages/cms_session.css";
 @import "pages/lehre.css";
 @import "pages/feedback.css";
-@import "pages/profile.css";
+@import "pages/profile.scss";
+@import "pages/tandem_exams.scss";
 @import "old/columns.css";
 @import "old/comments.css";
 @import "old/content.css";

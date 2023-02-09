@@ -16,6 +16,7 @@ from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -34,10 +35,11 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+LOCALE_PATHS = ( os.path.join(BASE_DIR, 'locale'), )
 # Languages available
 LANGUAGES = (
     ('de', 'Deutsch'),
-    ('en', 'English'),
+    # ('en', 'English'),
 )
 
 ALLOWED_HOSTS = vars.vars["ALLOWED_HOSTS"]
@@ -79,6 +81,7 @@ INSTALLED_APPS = [
     'core',
     'quiz',
     'casetraining',
+    'tandem_exams',
     'pages',
     #'news',
     'emails',
@@ -272,20 +275,6 @@ CHANNEL_LAYERS = {
       },
   },
 }
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-#LANGUAGE_CODE = 'de-de'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-USE_L10N = True
-USE_TZ = True
-
-PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

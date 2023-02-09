@@ -2,9 +2,7 @@
 
 from django.forms.utils import pretty_name
 from django.utils.html import format_html
-from django.utils.translation import ugettext_lazy as _
 from wagtail.admin.edit_handlers import EditHandler
-
 
 class ReadOnlyPanel(EditHandler):
     def __init__(self, attr, *args, **kwargs):
@@ -38,4 +36,4 @@ class ReadOnlyPanel(EditHandler):
             '<label>{}{}</label>'
             '<div class="field-content">{}</div>'
             '</div>',
-            self.heading, _(':'), self.render())
+            self.heading, ':', self.render())

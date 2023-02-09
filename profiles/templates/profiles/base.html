@@ -1,31 +1,19 @@
 {% extends "base.html" %}
-
 {% load static %}
 
-{% block content %}
-<div class="col-12 px-0 mt-0">
-  <div class="col-12 px-0 mt-0">
-    <div id="profile-nav" class="rounded" style="align-items: center; background: white; border: 1px solid #ddd; border-top: none; display: flex; flex-direction: row; padding: 20px; border-radius: 12px !important; margin-top: -100px;">
-      <div class="font-weight-bold">
-	<a href="{% url 'profile:index' %}" class="flex p-3" style="display: flex">Dein Profil</a>
-      </div>
-      <div class="font-weight-bold">
-	<a href="{% url 'profile:quizzes' %}" class="flex p-3" style="display: flex">MCT Ergebnisse</a>
-      </div>
-      <div class="font-weight-bold">
-	<a href="{% url 'profile:flashcards' %}" class="flex p-3" style="display: flex">Flashcards</a>
-      </div>
-      <div class="font-weight-bold">
-	<a href="{% url 'profile:submissions' %}" class="flex p-3" style="display: flex">Einreichungen</a>
-      </div>
-      <div class="font-weight-bold">
-	<a href="{% url 'profile:bookmarks' %}" class="flex p-3" style="display: flex">Lesezeichen</a>
-      </div>
-    </div>
+{% block submenu %}
+<div id="profile-nav">
+  <a href="{% url 'profile:index' %}">Dein Profil</a>
+  <a href="{% url 'profile:tandem_exams' %}">Tandemklausuren</a>
+  <a href="{% url 'profile:quizzes' %}">MCT Ergebnisse</a>
+  <a href="{% url 'profile:flashcards' %}">Flashcards</a>
+  <a href="{% url 'profile:submissions' %}">Einreichungen</a>
+  <a href="{% url 'profile:bookmarks' %}">Lesezeichen</a>
+</div>
+{% endblock %}
 
-  </div>
-  <div class="col-12 mt-4">
-    {% block contents %}{% endblock %}
-  </div>
+{% block content %}
+<div class="col-12 mt-4">
+  {% block contents %}{% endblock %}
 </div>
 {% endblock %}

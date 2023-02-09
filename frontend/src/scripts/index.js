@@ -53,7 +53,22 @@ $(document).ready(function () {
   $(document).ready(sizing);
   $(window).resize(sizing);
   initBookmarks();
+  fixCustomBootstrapForms();
 });
+
+function fixCustomBootstrapForms() {
+  var elements = document.getElementsByClassName("custom-file-input");
+  for (var i = 0; i < elements.length; i++) {
+    var element = elements[i];
+    element.onchange = function (e) {
+      var filenames = "";
+      for (let i=0;i<e.target.files.length;i++) {
+	filenames+=(i>0?", ":"")+e.target.files[i].name;
+      }
+      e.target.parentNode.querySelector('.custom-file-label').textContent=filenames;
+    };
+  };
+}
 
 function sizing() {
   var win = $(this).width();

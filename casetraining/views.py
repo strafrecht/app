@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.core.cache import cache
 from django.core.mail import send_mail
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
@@ -15,7 +14,7 @@ from .models import Casetraining
 
 def index(request):
     casetrainings = Casetraining.objects.order_by('name')
-    if not request.user.is_staff:
+    if request.user.is_staff:
         casetrainings = casetrainings.filter(approved=True)
 
     return render(request, "casetraining/index.html", {
@@ -31,7 +30,11 @@ def new(request):
     })
 
 def show(request, case_id):
-    case = get_object_or_404(Casetraining, pk=case_id)
+    if request.user.is_staff:
+        case = get_object_or_404(Casetraining, pk=case_id)
+    else:
+        case = get_object_or_404(Casetraining, pk=case_id, approved=True)
+
     return render(request, "casetraining/show.html", {
         'banner': '/media/original_images/ohnediefrau.png',
         "case": case,
@@ -64,8 +67,7 @@ def free_text_mail(request, id):
         {question}
 
         {answer}
-        """.format(index=index + 1,
-                   question=question.get("text"),
+        """.format(question=question.get("text"),
                    answer=answers[index])
 
     send_mail(

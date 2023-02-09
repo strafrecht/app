@@ -16,4 +16,5 @@ urlpatterns = [
     path('bookmarks/create/<article_id>', views.bookmarks_create, name='bookmarks_create'),
     path('bookmarks/delete/<article_id>', views.bookmarks_delete, name='bookmarks_delete'),
     path('submissions/', views.submissions, name='submissions'),
+    path('tandemklausuren/', views.tandem_exams, name='tandem_exams'),
 ]
