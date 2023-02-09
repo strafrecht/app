@@ -88,7 +88,6 @@ INSTALLED_APPS = [
     'profiles',
     #'leaflet',
     'feedback',
-    'chat',
     'dashboard',
     'flashcards',
 

@@ -49,7 +49,6 @@ urlpatterns = [
     path('mail/', include(birdsong_urls)),
     path('', include('pwa.urls')),
 
-    path('chat/', include('chat.urls')),
     path('comments/', include('django_comments_xtd.urls')),
 
     re_path(r'^vote/(?P<poll_pk>.*)/$', vote, name='wagtailpolls_vote'),
