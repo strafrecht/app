@@ -36,8 +36,8 @@
 	</div>
 	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
-      <div>
-	<p>Weisen Sie Problemfelder den einzelnen Sachverhaltsabschnitten zu.</p>
+      <div v-if="editMode">
+	<p>Weise Problemfelder den einzelnen Sachverhaltsabschnitten zu.</p>
       </div>
     </div>
     <div v-else>
@@ -176,7 +176,7 @@ export default {
       this.currentStep.config = [];
 
     if (!this.currentStep.intro)
-      this.currentStep.intro = "Ermitteln Sie die Problemfelder der Sachverhaltsabschnitte.";
+      this.currentStep.intro = "Ermittel die Problemfelder der Sachverhaltsabschnitte.";
   },
   methods: {
     setProblemIndex(index) {

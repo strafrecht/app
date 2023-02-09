@@ -21,7 +21,7 @@
 	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
       <div v-if="editMode">
-	<p>Weisen Sie für alle Problemfelder zwischen einem und drei Gewichten zu.</p>
+	<p>Weise für alle Problemfelder zwischen einem und drei Gewichten zu.</p>
       </div>
     </div>
     <div v-else>
@@ -107,7 +107,7 @@ export default {
       this.currentStep.config = this.problemsStep.config.map(a => a.map(b => 1));
 
     if (!this.currentStep.intro)
-      this.currentStep.intro = "Gewichten Sie die Problemfelder. Insgesamt sind X Gewichte zu vergeben.";
+      this.currentStep.intro = "Gewichte die Problemfelder. Insgesamt sind X Gewichte zu vergeben.";
   },
   methods: {
     prevStep() {

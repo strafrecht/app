@@ -7,6 +7,9 @@
       </div>
     </div>
     <div v-else class="hide-sections mark-area" :class="markColorStyle">
+      <div v-if="myStep == 2">
+	<strong>Deine Einteilung</strong>
+      </div>
       <div style="position: relative">
 	<div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
 	  <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
@@ -27,7 +30,7 @@
 	  <textarea class="form-control" v-model="currentStep.intro" />
 	</div>
 	<p>
-	  Markieren Sie die unterschiedlichen Sachverhaltsabschnitte:
+	  Markiere die unterschiedlichen Sachverhaltsabschnitte:
 	</p>
       </div>
       <div v-else>
@@ -51,6 +54,9 @@
       <span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
 	<img src="/assets/images/marker/eraser.png">
       </span>
+      <p class="mt-2 mb-2 d-lg-none">
+	<em>Hinweis für mobile Geräte: Markiere zunächst den Text und klicke anschließend auf einen Stift.</em>
+      </p>
       <div v-if="editMode">
 	<div v-if="$parent.showDiff && $parent.diffFactsToParent" class="mt-4">
 	  <strong>Vorherige Einteilung</strong>
@@ -59,15 +65,17 @@
       </div>
     </div>
     <div v-if="myStep == 2">
+      <strong>Lösung</strong>
       <div class="show-parts" v-html="currentCase.facts"></div>
     </div>
   </template>
-  <template #buttons-right>
-    <div v-if="!editMode">
-      <button v-if="myStep == 1" class="btn btn-primary" @click="nextStep()">zur Auswertung »</button>
-      <button v-if="myStep == 2" class="btn btn-primary" @click="nextStep()">nächster Schritt »</button>
-    </div>
+  <template #buttons-right v-if="!editMode && myStep == 1">
+    <button class="btn btn-primary" @click="nextStep()">zur Auswertung »</button>
   </template>
+  <template #buttons v-if="!editMode && myStep == 2">
+    <button class="btn btn-primary" @click="nextStep()">nächster Schritt »</button>
+  </template>
+  </div>
 </step-template>
 </template>
 
@@ -113,7 +121,7 @@ export default {
       this.currentStep.config = [];
 
     if (!this.currentStep.intro)
-      this.currentStep.intro = "Markieren Sie die Sachverhaltsabschnitte in unterschiedlichen Farben.";
+      this.currentStep.intro = "Markiere die Sachverhaltsabschnitte in unterschiedlichen Farben.";
   },
   methods: {
     prevStep() {
@@ -129,6 +137,7 @@ export default {
     },
     setColor(name) {
       this.markColor = name;
+      this.markUp();
     },
     markReset() {
       this.currentStep.answers[0] = this.currentCase.facts;
@@ -145,9 +154,8 @@ export default {
 	document.designMode = "on";
 	sel.removeAllRanges();
 	sel.addRange(range);
-	if (this.markColor == "marker-erase")
-	  document.execCommand("removeFormat");
-	else
+	document.execCommand("removeFormat");
+	if (this.markColor != "marker-erase")
 	  document.execCommand("BackColor", false, "black");
 	document.designMode = "off";
 	sel.removeAllRanges();

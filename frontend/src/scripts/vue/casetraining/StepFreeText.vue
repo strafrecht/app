@@ -130,7 +130,7 @@ export default {
       this.currentStep.config = [];
 
     if (!this.currentStep.intro)
-      this.currentStep.intro = "Bearbeiten Sie die folgenden Aufgaben.";
+      this.currentStep.intro = "Bearbeite die folgenden Aufgaben.";
   },
   computed: {
     editMode() {

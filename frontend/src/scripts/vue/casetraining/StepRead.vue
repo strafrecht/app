@@ -10,10 +10,10 @@
   </template>
   <template #right>
     <p>
-      Lesen Sie den Sachverhalt.
+      Lese den Sachverhalt.
     </p>
     <p>
-      Sie können Wörter im Sachverhalt in unterschiedlichen Farben markieren. Diese werden in den nachfolgenden Schritten angezeigt.
+      Du kannst Wörter im Sachverhalt in unterschiedlichen Farben markieren. Diese werden in den nachfolgenden Schritten angezeigt.
     </p>
     <span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
       <img src="/assets/images/marker/textmarker-1.png">
@@ -33,6 +33,9 @@
     <span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
       <img src="/assets/images/marker/eraser.png">
     </span>
+    <p class="mt-2 mb-2 d-lg-none">
+      <em>Hinweis für mobile Geräte: Markiere zunächst den Text und klicke anschließend auf einen Stift.</em>
+    </p>
   </template>
   <template #buttons-right>
     <button class="btn btn-primary" @click="nextStep()">nächster Schritt »</button>
@@ -79,6 +82,7 @@ export default {
     },
     setColor(name) {
       this.markColor = name;
+      this.markUp();
     },
     markReset() {
       this.currentCase.userFacts = this.currentCase.facts;
@@ -95,9 +99,8 @@ export default {
 	document.designMode = "on";
 	sel.removeAllRanges();
 	sel.addRange(range);
-	if (this.markColor == "marker-erase")
-	  document.execCommand("removeFormat");
-	else
+	document.execCommand("removeFormat");
+	if (this.markColor != "marker-erase")
 	  document.execCommand("BackColor", false, "black");
 	document.designMode = "off";
 	sel.removeAllRanges();

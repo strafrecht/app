@@ -155,14 +155,18 @@ Jurcoach Multiple-Choice-Test: {{ category }} – Strafrecht Online
 
   <div class="row mt-4">
     <div class="col-md-12">
-      <div class="illustration-container"><div class="contribute-small"></div></div>
       <div class="contribution-area">
-	<a href="{% url 'quiz:edit_question' question_version.question.id %}">
-	  <span class="underlined green hover">{% trans "Quiz-Frage bearbeiten" %}</span> <i class="bi bi-arrow-right"></i>
-	</a>
-	<a href="{% url 'quiz:new_question' %}?category_id={{ category.id }}">
-	  <span class="underlined green hover">{% trans "Neue Quiz-Frage in dieser Kategorie hinzufügen" %}</span> <i class="bi bi-arrow-right"></i>
-	</a>
+	<div class="contribution-image"></div>
+	<div>
+	  <a href="{% url 'quiz:edit_question' question_version.question.id %}">
+	    <span class="underlined green hover">{% trans "Quiz-Frage bearbeiten" %}</span> <i class="bi bi-arrow-right"></i>
+	  </a>
+	</div>
+	<div>
+	  <a href="{% url 'quiz:new_question' %}?category_id={{ category.id }}">
+	    <span class="underlined green hover">{% trans "Neue Quiz-Frage in dieser Kategorie hinzufügen" %}</span> <i class="bi bi-arrow-right"></i>
+	  </a>
+	</div>
       </div>
     </div>
   </div>

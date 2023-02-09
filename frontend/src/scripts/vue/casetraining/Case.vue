@@ -193,9 +193,12 @@
 	<i class="fa fa-undo" />
       </button>
     </div>
-
-    <h2>{{ currentCase.name }}</h2>
-    <strong>Niveau: {{ difficulties[currentCase.difficulty] }}</strong>
+    <div class="row">
+      <div class="col">
+	<h2>{{ currentCase.name }}</h2>
+	<strong>Niveau: {{ difficulties[currentCase.difficulty] }}</strong>
+      </div>
+    </div>
     <div class="clearfix mb-4"></div>
 
     <div v-if="currentStep.step_type == 'read'">
@@ -229,12 +232,10 @@
     </div>
   </div>
 
-  <div v-if="!editMode && caseEditable" style="min-height: 200px; margin-top: 50px;">
-    <div class="illustration-container">
-      <div class="contribute-small" style="margin-top: -30px"></div>
-    </div>
+  <div v-if="!editMode && caseEditable">
     <div class="contribution-area">
-      <p style="margin-bottom: 0px !important;">
+      <div class="contribution-image"></div>
+      <p>
 	<a href="#">
           <span @click.stop="editModeOn" class="underlined green hover">Fall bearbeiten</span>
 	  <i class="bi bi-arrow-right"></i>

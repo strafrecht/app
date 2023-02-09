@@ -167,7 +167,7 @@ export default {
       this.currentStep.config = [[]];
 
     if (!this.currentStep.intro)
-      this.currentStep.intro = "Ermitteln Sie die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.";
+      this.currentStep.intro = "Ermittel die zu prüfenden Strafbarkeiten in der für die Lösungsskizze korrekten Reihenfolge.";
 
     for (let i = 0; i < this.currentStep.config.length; i++) {
       if (typeof this.currentStep.answers[i] === "undefined")

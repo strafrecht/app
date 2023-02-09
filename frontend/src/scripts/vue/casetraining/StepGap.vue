@@ -30,7 +30,7 @@
 	  <h6>
 	    <i @click="delGapText(qindex)" class="fa fa-trash text-danger" role="button" title="Lückentext löschen"></i>
 	    <strong v-if="$parent.showDiff && $parent.diffConfigToParentNew(qindex)" class="small text-danger">Neu!</strong>
-	    Lückentext {{ qindex + 1 }}
+	    <strong>Lückentext {{ qindex + 1 }}</strong>
 	  </h6>
 
 	  <div class="form-group">
@@ -62,33 +62,29 @@
     </div>
     <div v-else>
       <p>{{ currentStep.intro }}</p>
-      <div v-for="(question, qindex) in currentStep.config">
-	<div class="row">
-	  <div class="col-sm-6">
-	    <h6>Lückentext {{ qindex + 1 }}</h6>
-	  </div>
-	</div>
-
-	<div v-if="myStep == 1" class="row">
-	  <div class="col-sm-12">
-	    <span v-for="(word, index) in words(question.question)">
-	      <span>{{ word }}</span>
-	      <span v-if="index !== words(question.question).length - 1">
-		<span class="gap-drop section-marker-5" @drop="onDrop($event, question, qindex, index)" @dragover.prevent @dragenter.prevent>
-		  {{ gapWordAt(question, qindex, index) }}
-		</span>
+      <p class="mt-2 mb-2 d-lg-none">
+	<em>Hinweis für mobile Geräte: Klicke zunächst auf eine Lücke und anschließend auf einen Satzbaustein.</em>
+      </p>
+      <div v-for="(question, qindex) in currentStep.config" class="mt-3 mb-4">
+	<h6><strong>Lückentext {{ qindex + 1 }}</strong></h6>
+	<div v-if="myStep == 1">
+	  <span v-for="(word, index) in words(question.question)">
+	    <span>{{ word }}</span>
+	    <span v-if="index !== words(question.question).length - 1">
+	      <span class="gap-drop" :class="gapMarker(qindex, index)" @click="markGap(qindex, index)" @drop="onDrop($event, qindex, index)" @dragover.prevent @dragenter.prevent>
+		{{ gapWordAt(question, qindex, index) }}
 	      </span>
 	    </span>
-	  </div>
-	  <div class="col-sm-12 draggables mt-3">
-	    <div v-for="(answer, index) in gapTexts(question)" draggable @dragstart="startDrag($event, qindex, answer)">
+	  </span>
+	  <div class="draggables border mt-3">
+	    <div v-for="(answer, index) in reorderedTexts[qindex]" @click="fillGap(qindex, answer)" draggable @dragstart="startDrag($event, qindex, answer)">
 	      <div class="gap-drag"><div class="section-marker-5">{{ answer }}</div></div>
 	    </div>
 	  </div>
 	</div>
 
-	<div v-if="myStep == 2" class="row">
-	  <div class="col-sm-12">
+	<div v-if="myStep == 2">
+	  <div>
 	    <strong v-if="isCorrect(question,qindex)" class="text-success">Richtig!</strong>
 	    <strong v-else class="text-danger">Deine Antwort</strong>
 	    <br/>
@@ -101,7 +97,7 @@
 	      </span>
 	    </span>
 	  </div>
-	  <div v-if="!isCorrect(question,qindex)" class="col-sm-12">
+	  <div v-if="!isCorrect(question,qindex)">
 	    <strong>Richtige Antwort</strong><br/>
 	    <span v-for="(word, index) in words(question.question)">
 	      <span>{{ word }}</span>
@@ -113,8 +109,6 @@
 	    </span>
 	  </div>
 	</div>
-
-	<hr/>
       </div>
 
     </div>
@@ -148,7 +142,9 @@ export default {
   data() {
     return {
       componentKey: 0,
+      reorderedTexts: {},
       myStep: 1,
+      markedGap: [],
     }
   },
   beforeMount() {
@@ -159,7 +155,11 @@ export default {
       this.currentStep.config = [];
 
     if (!this.currentStep.intro)
-      this.currentStep.intro = "Füllen Sie die Lücken in den Texten mit den korrekten vorgegebenen Satzbausteinen.";
+      this.currentStep.intro = "Fülle die Lücken in den Texten mit den korrekten vorgegebenen Satzbausteinen.";
+
+    this.currentStep.config.forEach((question, index) => {
+      this.reorderedTexts[index] = this.gapTexts(question);
+    });
   },
   computed: {
     editMode() {
@@ -195,9 +195,9 @@ export default {
       return question.question.match(regex).map(w => w.substr(1, w.length - 2));
     },
     gapTexts(question) {
-      return this.shuffle(this.correctAnswers(question).concat(question.other.split("\n")));
+      return this._shuffle(this.correctAnswers(question).concat(question.other.split("\n")));
     },
-    shuffle(a) {
+    _shuffle(a) {
       for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [a[i], a[j]] = [a[j], a[i]];
@@ -230,13 +230,32 @@ export default {
 
       return this.currentStep.answers[qindex][index];
     },
-    onDrop(evt, question, qindex, index) {
+    gapMarker(qindex, index) {
+      if (this.markedGap[0] === qindex && this.markedGap[1] === index)
+	return "section-marker-3";
+
+      return "section-marker-5";
+    },
+    markGap(qindex, index) {
+      this.markedGap = [qindex, index];
+    },
+    fillGap(qindex, answer) {
+      if (this.markedGap[0] !== qindex)
+	return;
+
+      this.setGap(qindex, this.markedGap[1], answer);
+    },
+    onDrop(evt, qindex, index) {
       if (qindex != evt.dataTransfer.getData('qindex'))
 	  return false;
-      const item = evt.dataTransfer.getData('item');
+      const answer = evt.dataTransfer.getData('item');
+      this.setGap(qindex, index, answer);
+    },
+    setGap(qindex, index, answer) {
       if (typeof this.currentStep.answers[qindex] === 'undefined')
-	this.currentStep.answers[qindex] = Array(this.words(question.question).length - 1);
-      this.currentStep.answers[qindex][index] = item;
+	this.currentStep.answers[qindex] =
+	Array(this.words(this.currentStep.config[qindex].question).length - 1);
+      this.currentStep.answers[qindex][index] = answer;
       this.componentKey += 1;
     },
     startDrag(evt, qindex, item) {
