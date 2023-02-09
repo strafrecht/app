@@ -1,4 +1,4 @@
-{% load i18n wiki_tags %}
+{% load i18n wiki_tags profile_tags %}
 
 <div style="min-height: 200px;">
    <div class="illustration-container">
@@ -6,6 +6,26 @@
    </div>
 
    <div class="contribution-area">
+     {% if user.is_authenticated %}
+     <p class="js-bookmarks {{ user|bookmark_class:article }}" style="margin-bottom: 0px !important;">
+       <a class="bookmark-create"
+	  href="{% url 'profile:bookmarks_create' article_id=article.id %}">
+	 <i class="fa fa-star mr-1" style="font-size: 1em; color: #666;"></i>
+         <span class="underlined green hover">Lesezeichen hinzufügen</span>
+       </a>
+       <a class="bookmark-delete"
+	  href="{% url 'profile:bookmarks_delete' article_id=article.id %}">
+	 <i class="fa fa-star mr-1" style="font-size: 1em;"></i>
+         <span class="underlined green hover">Lesezeichen entfernen</span>
+       </a>
+     </p>
+     {% else %}
+     <p style="margin-bottom: 0px !important;">
+       <a href="#">
+         Log dich ein um Lesezeichen zu speichern!
+       </a>
+     </p>
+     {% endif %}
 
      {% if article|can_write:user and not article.current_revision.locked %}
      <p style="margin-bottom: 0px !important;">

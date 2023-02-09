@@ -1,0 +1,17 @@
+{% extends "profiles/base.html" %}
+
+{% load static %}
+
+{% block contents %}
+<h3>Deine Lesezeichen</h3>
+
+{% for bookmark in bookmarks %}
+  <div class="wiki-bookmark mt-2">
+    <a href="{{ bookmark.content_object.get_absolute_url }}">
+      <i class="fa fa-star mr-2" style="font-size: 1em;"></i>
+      {{ bookmark.content_object.current_revision.title }}
+    </a>
+  </div>
+{% endfor %}
+
+{% endblock %}

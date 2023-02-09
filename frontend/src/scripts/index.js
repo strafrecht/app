@@ -45,11 +45,14 @@ global.DeckApp = DeckApp;
 import CaseApp from "./vue/casetraining/Case.vue";
 global.CaseApp = CaseApp;
 
+import { initBookmarks } from  './bookmarks.js';
+
 // menu resize
 //
 $(document).ready(function () {
   $(document).ready(sizing);
   $(window).resize(sizing);
+  initBookmarks();
 });
 
 function sizing() {

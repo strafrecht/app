@@ -8,10 +8,12 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
-    path('profile/', views.profile, name='profile'),
     path('logout/', views.logout, name='logout'),
     path('flashcards/', views.flashcards, name='flashcards'),
     path('quizzes/', views.quizzes, name='quizzes'),
     path('quiz/<id>', views.quiz_summary, name='quiz_summary'),
+    path('bookmarks/', views.bookmarks, name='bookmarks'),
+    path('bookmarks/create/<article_id>', views.bookmarks_create, name='bookmarks_create'),
+    path('bookmarks/delete/<article_id>', views.bookmarks_delete, name='bookmarks_delete'),
     path('wiki/', views.wiki, name='wiki'),
 ]

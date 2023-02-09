@@ -6,30 +6,41 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
+from django.http import HttpResponse
 
 from wiki.models import ArticleRevision
+from wiki.models.article import Article
 
 from core.models import Submission
 from quiz.models import Quiz, UserAnswer
 from .forms import SignupForm
-
-@login_required
-def profile(request):
-    # FIXME: broken
-    if request.session.has_key('username'):
-        posts = request.session['username']
-        query = User.objects.filter(username=posts)
-        return render(request, 'profiles/profile.html', {"query":query})
-    else:
-        return render(request, 'profiles/login.html', {})
+from .models import Bookmark
 
 @login_required
 def index(request):
-    quizzes = Quiz.objects.filter(user__id=request.user.id).filter(completed=True)
-    return render(request, "profiles/index.html", {
+    return render(request, "profiles/index.html", {"banner": "/media/images/login.original.jpg"})
+
+@login_required
+def bookmarks(request):
+    return render(request, "profiles/bookmarks.html", {
         "banner": "/media/images/login.original.jpg",
-        "quizzes": quizzes
+        "bookmarks": request.user.bookmarks.order_by('-created').all()
     })
+
+@login_required
+def bookmarks_create(request, article_id):
+    article = Article.objects.get(id=article_id)
+    bookmark = request.user.bookmarks.filter(content_id=article.id,
+                                             content_type=ContentType.objects.get_for_model(Article).id).first()
+    if not bookmark:
+        bookmark = request.user.bookmarks.create(content_object=article)
+    return HttpResponse(201)
+
+@login_required
+def bookmarks_delete(request, article_id):
+    bookmark = request.user.bookmarks.filter(content_id=article_id,
+                                             content_type=ContentType.objects.get_for_model(Article).id).first().delete()
+    return HttpResponse(200)
 
 @login_required
 def flashcards(request):

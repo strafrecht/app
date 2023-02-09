@@ -1,0 +1,13 @@
+.js-bookmarks {
+  &.bookmark-present {
+    .bookmark-create {
+      display: none;
+    }
+  }
+
+  &.bookmark-absent {
+    .bookmark-delete {
+      display: none;
+    }
+  }
+}
