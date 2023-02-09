@@ -65,3 +65,7 @@ class SidebarSubscribeBlock(blocks.StructBlock):
 class SidebarEventBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/sidebar/event.html'
+
+class SidebarSearchBlock(blocks.StructBlock):
+    class Meta:
+        template = 'blocks/sidebar/search.html'

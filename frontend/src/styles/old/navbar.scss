@@ -51,31 +51,6 @@
   color: #3d3d3d;
 }
 
-#nav #nav-search {
-  background: transparent;
-  border: none;
-  font-size: 14px;
-  padding: 2px 8px;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-#nav #nav-search::placeholder {
-  color: inherit;
-}
-
-.without-header #nav #nav-search {
-  background: transparent;
-  color: #333;
-  border-bottom: 2px solid #333;
-}
-
-.with-header #nav #nav-search {
-  background: transparent;
-  color: #fff;
-  border-bottom: 2px solid #fff;
-}
-
 #nav .navbar-toggler-bar {
   background: #333;
   display: block;

@@ -19,7 +19,8 @@ from pages.models.sidebar import (
     SidebarHeaderBlock,
     SidebarPollChooser,
     SidebarSubscribeBlock,
-    SidebarEventBlock
+    SidebarEventBlock,
+    SidebarSearchBlock
 )
 from wagtail.contrib.table_block.blocks import TableBlock
 
@@ -80,6 +81,7 @@ class SidebarBlocks(blocks.StreamBlock):
     sidebar_poll = SidebarPollChooser(label="Abstimmung")
     sidebar_subscribe = SidebarSubscribeBlock()
     sidebar_event = SidebarEventBlock()
+    sidebar_search = SidebarSearchBlock(label="Suchfeld")
 
 # Pages
 #class ColumnBlocks(blocks.StreamBlock):

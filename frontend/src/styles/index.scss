@@ -91,9 +91,12 @@ h3::after {
 @import "footer.scss";
 @import "banner.scss";
 @import "old/navbar.scss";
-@import "old/sidebars/poll.scss";
-@import "old/sidebars/header.scss";
-@import "old/sidebar.scss";
+@import "pages/sidebars/poll.scss";
+@import "pages/sidebars/header.scss";
+@import "pages/sidebars/calendar_text.css";
+@import "pages/sidebars/image_text.css";
+@import "pages/sidebars/search.scss";
+@import "pages/sidebar.scss";
 @import "old/website_index_page.scss";
 @import "old/wiki.scss";
 
@@ -115,8 +118,6 @@ h3::after {
 @import "old/person_page.css";
 @import "old/polls.css";
 @import "old/bootstrap.css";
-@import "old/sidebars/calendar_text.css";
-@import "old/sidebars/image_text.css";
 
 .block-sidebar {
   width: 100%;
