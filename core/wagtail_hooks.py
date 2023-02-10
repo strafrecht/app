@@ -69,8 +69,6 @@ class ProfileAdmin(ModelAdmin):
     menu_icon = "user"
     model = Profile
     list_display = ["user", "rewards"]
-    search_fields = ["user"]
-    list_filter = ["user"]
     ordering = ["rewards"]
 
 @modeladmin_register
