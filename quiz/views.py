@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.models import User
 from django.core.cache import cache
 import hashlib
+from datetime import datetime
 
 from wiki.models import Article, URLPath
 
@@ -143,6 +144,8 @@ class QuestionCreateOrUpdateSet(mixins.CreateModelMixin, generics.GenericAPIView
         else:
             # a new question
             category = get_object_or_404(Article, pk=data.get("categories"))
+            category.modified = datetime.now()
+            category.save()
             question = Question.objects.create(
                 user=user,
                 category=category,
