@@ -1,4 +1,4 @@
 # this crontab will be reloaded by the script
 # deploy/deploy_server.sh on deployment
 
-15 4 * * * cd app && source .env/bin/activate && DJANGO_SETTINGS_MODULE=app.settings ENV=production ./django-admin clearsessions
+15 4 * * * cd app && source .env/bin/activate && ENV=production ./manage.py clearsessions
