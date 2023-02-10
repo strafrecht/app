@@ -3,7 +3,10 @@
 {% load static %}
 
 {% block contents %}
-<h3>Dein Jurcoach Profil</h3>
+<h3>Hallo {{ user.first_name }}</h3>
+<p class="mt-4">
+  Willikomen in Deinem Jurcoach Profil!
+</p>
 
 
 {% if profile.rewards == 0 %}

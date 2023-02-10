@@ -6,15 +6,19 @@
 {% block content %}
 
 <div class="container py-5">
-  <h1>Login</h1>
-  <form method="POST">
-    {% csrf_token %}
-    {{ login_form|crispy }}
-    <button class="btn btn-primary" type="submit">Login</button>
-  </form>
-  <p class="text-center">Don't have an account? <a href="{% url 'profile:register' %}">Create an account</a>.</p>
+  <h2>Login</h2>
+  <div class="mt-4 row">
+    <div class="col-sm-6">
+      <form method="POST">
+	{% csrf_token %}
+	{{ login_form|crispy }}
+	<button class="btn btn-primary" type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+  <p>Du hast noch kein Login? <a href="{% url 'profile:register' %}">Registriere Dich</a>.</p>
   {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+  <p><a href="{% url 'password_reset' %}">Passwort vergessen?</a></p>
 </div>
 
 {% endblock %}

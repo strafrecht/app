@@ -1268,7 +1268,7 @@ msgid "Up one level"
 msgstr "Zum übergeordneten Problemfeld"
 
 msgid "Update"
-msgstr "Update"
+msgstr "Aktualisieren"
 
 msgid "Upload and publish new image"
 msgstr "Neues Bild hochladen und veröffentlichen"

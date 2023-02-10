@@ -8,10 +8,10 @@
 	<div v-html="modalBody"></div>
       </template>
       <template #footer>
-	<button class="btn btn-secondary" @click="showModal = false">
+	<button class="btn btn-secondary btn-sm" @click="showModal = false">
           Schließen
 	</button>
-	<button v-if="myStep != 2" class="btn btn-success" @click="addSelectedWikiUrl">
+	<button v-if="myStep != 2" class="btn btn-success btn-sm" @click="addSelectedWikiUrl">
           Hinzufügen
 	</button>
       </template>
@@ -36,9 +36,7 @@
 	</div>
 	<textarea class="form-control" v-model="currentStep.intro" />
       </div>
-      <div v-if="editMode">
-	<p>Weise Problemfelder den einzelnen Sachverhaltsabschnitten zu.</p>
-      </div>
+      <p>Weise Problemfelder den einzelnen Sachverhaltsabschnitten zu.</p>
     </div>
     <div v-else>
       <p>{{ currentStep.intro }}</p>
@@ -68,7 +66,8 @@
 	  </div>
 	</div>
 	<div class="search-form form-group mt-2">
-	  <input v-if="problemIndex == cindex" class="form-control" v-model="wikiSearch" placeholder="Problemfeldwiki durchsuchen">
+	  <!-- mobile input bug: https://github.com/vuejs/vue/issues/8231#issuecomment-547391171 -->
+	  <input v-if="problemIndex == cindex" class="form-control" @input="e => wikiSearch = e.target.value" placeholder="Problemfeldwiki durchsuchen">
 	  <input v-else class="form-control" @focus="setProblemIndex(cindex)" placeholder="Problemfeldwiki durchsuchen">
 	  <span class="small float-right text-link" @click="openWikiBrowser(cindex)">Systematische Suche</span>
 	  <div v-if="wikiSearch.length > 0 && problemIndex == cindex" class="search-results shadow">
@@ -76,7 +75,7 @@
 	      <i class="fa fa-sync fa-spin text-info mr-2"></i>
 	      Einen Augenblick bitte – Lade Daten …
 	    </div>
-	    <div class="mb-2" v-for="(article, index) in wikiSearchArticles(cindex)" @click="addArticle(cindex, article)">
+	    <div v-else class="mb-2" v-for="(article, index) in wikiSearchArticles(cindex)" @click="addArticle(cindex, article)">
 	      <small>
 		<span class="float-right text-link" @click.stop="openWikiBrowser(cindex, article.url)">zum Wiki</span>
 		<i class="text-muted">{{ urlToText(article.url) }}</i>
@@ -276,7 +275,6 @@ export default {
 
       var results = this.wikiArticles;
       var searchTerms = this.wikiSearch.split(" ").map(str => str.trim());
-
       searchTerms.forEach(term => {
 	var re = RegExp(term, "i");
 	results = results.filter(article =>  (article.title.search(re) >= 0));

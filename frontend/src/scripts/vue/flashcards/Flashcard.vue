@@ -42,7 +42,7 @@
         <div class="form-group">
           <label>Deck</label>
           <select class="custom-select" v-model="newSelectedDeck">
-            <option v-for="deck in $parent.decks" :key="deck.id" :value="deck.id">
+            <option v-for="deck in $parent.decks.filter(d => !d.submission)" :key="deck.id" :value="deck.id">
               {{ deck.name }}
             </option>
           </select>
@@ -87,7 +87,7 @@
       <button class="btn btn-secondary" @click.prevent="$emit('close')">
 	Zurück
       </button>
-      <button v-if="$parent.editMode" class="btn btn-success" @click="showModal = true">
+      <button v-if="!selectedDeck.submission && $parent.editMode" class="btn btn-success" @click="showModal = true">
 	neue Karte
       </button>
       <button class="btn btn-primary" @click="startGameMode">
@@ -137,7 +137,7 @@
               </div>
             </div>
           </div>
-          <div v-if="$parent.editMode" class="flip-card-buttons mt-1">
+          <div v-if="!selectedDeck.submission && $parent.editMode" class="flip-card-buttons mt-1">
             <i style="cursor: pointer" class="fa fa-edit tooltips" @click="openEditModal(id)">
               <small class="tooltiptexts">Bearbeiten</small>
             </i>

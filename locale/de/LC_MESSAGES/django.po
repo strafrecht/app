@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-06 18:49+0100\n"
+"POT-Creation-Date: 2023-02-10 12:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,13 +55,13 @@ msgid ""
 "you registered with, and check your spam folder."
 msgstr ""
 
-#: app/templates/password_reset/password_reset_form.html:7
+#: app/templates/password_reset/password_reset_form.html:8
 msgid ""
 "Forgotten your password? Enter your email address below, and we’ll email "
 "instructions for setting a new one."
 msgstr ""
 
-#: app/templates/password_reset/password_reset_form.html:12
+#: app/templates/password_reset/password_reset_form.html:14
 msgid "Reset my password"
 msgstr ""
 
@@ -103,33 +103,45 @@ msgid ""
 "%(r2)d"
 msgstr ""
 
-#: quiz/templates/quiz/show.html:161
+#: quiz/templates/quiz/show.html:162
 msgid "Quiz-Frage bearbeiten"
 msgstr ""
 
-#: quiz/templates/quiz/show.html:164
+#: quiz/templates/quiz/show.html:167
 msgid "Neue Quiz-Frage in dieser Kategorie hinzufügen"
 msgstr ""
 
-#: tandem_exams/models.py:12
+#: tandem_exams/models.py:16
 msgid "beginner"
 msgstr "Anfänger"
 
-#: tandem_exams/models.py:13
+#: tandem_exams/models.py:17
 msgid "advanced"
 msgstr "Fortgeschrittene"
 
-#: tandem_exams/models.py:40
+#: tandem_exams/models.py:42
 msgid "new"
 msgstr "Neu"
 
-#: tandem_exams/models.py:41
+#: tandem_exams/models.py:43
 msgid "accepted"
 msgstr "In Korrektur"
 
-#: tandem_exams/models.py:42
+#: tandem_exams/models.py:44
 msgid "corrected"
 msgstr "Korrigiert"
+
+#: tandem_exams/models.py:68
+msgid "Lösung"
+msgstr ""
+
+#: tandem_exams/models.py:72
+msgid "Korrektur"
+msgstr ""
+
+#: tandem_exams/models.py:76
+msgid "Korrekturbogen"
+msgstr ""
 
 #: templates/account/signup.html:5
 msgid "Signup"
@@ -425,7 +437,7 @@ msgstr ""
 
 #: templates/wiki/accounts/account_settings.html:11
 msgid "Update"
-msgstr ""
+msgstr "Aktualisieren"
 
 #: templates/wiki/accounts/login.html:10
 msgid "Please log in"

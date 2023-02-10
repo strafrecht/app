@@ -14,7 +14,7 @@
 	  </div>
         </div>
 
-        <div class="form-group">
+        <div v-if="categories.length > 0" class="form-group">
           <label>Kategorie</label>
           <select class="custom-select" v-model="deckToEdit.category">
 	    <option value="">keine Kategorie</option>
@@ -26,7 +26,10 @@
 
         <div class="form-group">
 	  <label class="label">Wiki Kategorie</label>
-	  <treeselect class="treeselect" v-model="deckToEdit.wiki_category" :multiple="false" :disable-branch-nodes="true" :options="wiki_categories"/>
+	  <treeselect class="treeselect" v-model="deckToEdit.wiki_category" :multiple="false" :disable-branch-nodes="true" :options="wiki_categories" placeholder="Bitte wählen…" />
+	  <small class="form-text text-muted">
+	      Wenn Du dein Deck für andere freigeben willst, wähle hier eine Kategorie im Problemfeldwiki aus.
+	  </small>
 	</div>
       </form>
     </template>
@@ -39,19 +42,13 @@
   <modal v-if="deckToSubmit">
     <template #header>Deck einreichen</template>
     <template #body>
-      <form>
-        <div class="form-group">
-          <label>Name</label>
-	  <br/>
-	  {{ deckToSubmit.name }}
-        </div>
-
-        <div class="form-group">
-	  <label class="label">Wiki Kategorie</label>
-	  <br/>
-	  {{ wiki_category_label(deckToSubmit.wiki_category) }}
-	</div>
-      </form>
+      <p>
+	Willst Du dein Deck »{{ deckToSubmit.name }}« im Problemfeldwiki
+	unter »{{ wiki_category_label(deckToSubmit.wiki_category) }}« einreichen?
+      </p>
+      <p>
+	Nach der Einreichung werden wir dein Deck prüfen und freigeben.
+      </p>
     </template>
     <template #footer>
       <button class="btn btn-secondary" @click="deckToSubmit = null">Abbrechen</button>
@@ -72,7 +69,7 @@
 	  </div>
         </div>
 
-	<div class="form-group">
+	<div v-if="categories.length > 0" class="form-group">
           <label>Kategorie</label>
           <select class="custom-select" v-model="newDeck.category">
             <option v-for="category in categories" :key="category.id" :value="category.id">
@@ -196,9 +193,6 @@
 		    Wiki-Kategorie: <br/>
 		    <i>{{ wiki_category_label(deck.wiki_category) }}</i>
 		  </span>
-		  <span v-else>
-		    Keine Wiki-Kategorie
-		  </span>
 		</p>
 		<div class="deck-category">
 		  <span v-if="categoriesById[deck.category]" class="badge badge-pill badge-primary">{{ categoriesById[deck.category].name }}</span>
@@ -221,16 +215,16 @@
 		  <i class="small">Eingereicht!</i>
 		</span>
 		<span v-else-if="!deck.submission">
-		  <i style="cursor: pointer" class="fa fa-upload tooltips mr-2" @click="openSubmitDeck(deck.id)">
+		  <i v-if="deck.wiki_category" style="cursor: pointer" class="fa fa-upload tooltips mr-2" @click="openSubmitDeck(deck.id)">
 		    <small class="tooltiptexts">Einreichen</small>
 		  </i>
 		  <i style="cursor: pointer" class="fa fa-edit tooltips mr-2" @click="openEditDeck(deck.id)">
 		    <small class="tooltiptexts">Bearbeiten</small>
 		  </i>
-		  <i style="cursor: pointer" class="fa fa-trash tooltips text-danger" @click="deckToDelete = deck.id">
-		    <small class="tooltiptexts">Löschen</small>
-		  </i>
 		</span>
+		<i style="cursor: pointer" class="fa fa-trash tooltips text-danger" @click="deckToDelete = deck.id">
+		  <small class="tooltiptexts">Löschen</small>
+		</i>
               </div>
             </div>
 	  </div>
@@ -253,18 +247,20 @@
 	<div class="mb-4">
           <label>Kategorien</label>
 	  <br/>
-	  <span class="btn-link" @click="selectCategory(null)">Alle</span>
-	  <div class="category" v-for="(category, index) in categories" :key="category.id">
-            <span class="btn-link" @click="selectCategory(category.id)">{{ category.name }}</span>
+	  <div v-if="categories.length > 0">
+	    <span class="btn-link" @click="selectCategory(null)">Alle</span>
+	    <div class="category" v-for="(category, index) in categories" :key="category.id">
+              <span class="btn-link" @click="selectCategory(category.id)">{{ category.name }}</span>
 
-            <i style="cursor: pointer" class="fa fa-trash tooltips text-danger float-right" @click="categoryToDelete = category.id">
-              <small class="tooltiptexts">Löschen</small>
-            </i>
-            <i style="cursor: pointer" class="fa fa-edit tooltips float-right mr-2" @click="openEditCategory(index)">
-              <small class="tooltiptexts">Bearbeiten</small>
-            </i>
+              <i style="cursor: pointer" class="fa fa-trash tooltips text-danger float-right" @click="categoryToDelete = category.id">
+		<small class="tooltiptexts">Löschen</small>
+              </i>
+              <i style="cursor: pointer" class="fa fa-edit tooltips float-right mr-2" @click="openEditCategory(index)">
+		<small class="tooltiptexts">Bearbeiten</small>
+              </i>
+	    </div>
+	    <br />
 	  </div>
-	  <br />
 	  <div>
             <a href="#" class="btn btn-primary btn-sm" @click.prevent="newCategory = {}">neue Kategorie</a>
 	  </div>

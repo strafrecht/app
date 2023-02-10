@@ -5,6 +5,26 @@
 <step-template v-else type="read" :key="componentKey">
   <template #left>
     <div class="hide-sections mark-area" :class="markColorStyle">
+      <div class="markers">
+	<span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
+	  <img src="/assets/images/marker/textmarker-1.png">
+	</span>
+	<span class="btn-marker btn-marker-2" :class="markColor == 'marker-2' ?  'border' : ''" @click="setColor('marker-2')">
+	  <img src="/assets/images/marker/textmarker-2.png">
+	</span>
+	<span class="btn-marker btn-marker-3" :class="markColor == 'marker-3' ?  'border' : ''" @click="setColor('marker-3')">
+	  <img src="/assets/images/marker/textmarker-3.png">
+	</span>
+	<span class="btn-marker btn-marker-4" :class="markColor == 'marker-4' ?  'border' : ''" @click="setColor('marker-4')">
+	  <img src="/assets/images/marker/textmarker-4.png">
+	</span>
+	<span class="btn-marker btn-marker-5" :class="markColor == 'marker-5' ?  'border' : ''" @click="setColor('marker-5')">
+	  <img src="/assets/images/marker/textmarker-5.png">
+	</span>
+	<span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
+	  <img src="/assets/images/marker/eraser.png">
+	</span>
+      </div>
       <div id="mark-area-content" v-html="currentCase.userFacts" @mouseup="markUp()"></div>
     </div>
   </template>
@@ -15,24 +35,6 @@
     <p>
       Du kannst Wörter im Sachverhalt in unterschiedlichen Farben markieren. Diese werden in den nachfolgenden Schritten angezeigt.
     </p>
-    <span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
-      <img src="/assets/images/marker/textmarker-1.png">
-    </span>
-    <span class="btn-marker btn-marker-2" :class="markColor == 'marker-2' ?  'border' : ''" @click="setColor('marker-2')">
-      <img src="/assets/images/marker/textmarker-2.png">
-    </span>
-    <span class="btn-marker btn-marker-3" :class="markColor == 'marker-3' ?  'border' : ''" @click="setColor('marker-3')">
-      <img src="/assets/images/marker/textmarker-3.png">
-    </span>
-    <span class="btn-marker btn-marker-4" :class="markColor == 'marker-4' ?  'border' : ''" @click="setColor('marker-4')">
-      <img src="/assets/images/marker/textmarker-4.png">
-    </span>
-    <span class="btn-marker btn-marker-5" :class="markColor == 'marker-5' ?  'border' : ''" @click="setColor('marker-5')">
-      <img src="/assets/images/marker/textmarker-5.png">
-    </span>
-    <span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
-      <img src="/assets/images/marker/eraser.png">
-    </span>
     <p class="mt-2 mb-2 d-lg-none">
       <em>Hinweis für mobile Geräte: Markiere zunächst den Text und klicke anschließend auf einen Stift.</em>
     </p>
@@ -113,3 +115,6 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+  @import './styles/markers.scss';
+</style>

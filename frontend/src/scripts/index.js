@@ -11,7 +11,7 @@ import "@fontsource/roboto-slab";
 import "@fontsource/source-serif-pro";
 // import Vue from "vue";
 // import full Vue build
-import LVue from 'vue/dist/vue.js';
+import LVue from 'vue/dist/vue.min.js';
 global.LVue = LVue;
 
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
@@ -72,7 +72,6 @@ function fixCustomBootstrapForms() {
 
 function sizing() {
   var win = $(this).width();
-  console.log(win);
   if (win > 973) {
     $('.navbar-nav > .nav-item .dropdown-menu').hide();
     $('.navbar-nav > .nav-item').hover(function() {

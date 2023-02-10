@@ -212,19 +212,21 @@ class ChoiceViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
 def get_category_tree(request):
+    at = filter(lambda x: x["category"].article.other_read, get_categories("at"))
+    bt = filter(lambda x: x["category"].article.other_read, get_categories("bt"))
     tree = {
             "id": "cat",
-            "label": "Quiz-Teil",
+            "label": "Problemfeldwiki",
             "children": [
                 {
                     "id": "at",
                     "label": "Allgemeiner Teil",
-                    "children": [_tree_entry(child) for child in get_categories("at")],
+                    "children": [_tree_entry(child) for child in at],
                 },
                 {
                     "id": "bt",
                     "label": "Besonderer Teil",
-                    "children": [_tree_entry(child) for child in get_categories("bt")],
+                    "children": [_tree_entry(child) for child in bt],
                 },
             ]
     }
@@ -246,19 +248,14 @@ def get_questions(cat):
                 ids.append(question.id)
     return Question.objects.filter(id__in=ids).order_by('id')
 
-categories_slug = ""
-
 def get_categories(slug):
-    global categories_slug
-    categories_slug = slug
     modified = Article.objects.order_by('-modified').first().modified
     hash = hashlib.md5((str(modified) + slug).encode('utf-8')).hexdigest()
-    result = cache.get_or_set("quiz_categories_" + slug, _get_categories, timeout=(60 * 60), version=hash)
+    result = cache.get_or_set("quiz_categories_" + slug, lambda: _get_categories(slug), timeout=(60 * 60), version=hash)
     return result
 
-def _get_categories():
-    global categories_slug
-    cat = URLPath.get_by_path(categories_slug)
+def _get_categories(slug):
+    cat = URLPath.get_by_path(slug)
     categories = []
 
     for child in cat.get_children():

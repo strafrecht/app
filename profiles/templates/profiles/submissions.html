@@ -35,8 +35,12 @@
       <div class="col-md-10 bg-light">
 	<div class="card-body p-3">
           <h5 class="card-title mb-0">
+	    {% if submission.content_object %}
 	    {{ submission.content_object|class_to_name }}:
 	    {{ submission.content_object.title }}
+	    {% else %}
+	    Gelöschte Einreichung
+	    {% endif %}
 	  </h5>
           <p class="card-text"><small class="text-muted">{{ submission.created | date }}</small></p>
           <p class="card-text">{{ submission.user_message|default:"In Bearbeitung…" }}</p>

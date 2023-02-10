@@ -14,10 +14,6 @@ def prettify(value):
     return value.replace('%20', ' ').replace('.pdf', '')
 
 def banner(page):
-    #parent = page.get_parent() if hasattr(page, 'get_parent') else None
-    #parent = page.get_ancestors().first().get_first_child().get_first_child()
-    print(page)
-
     if hasattr(page, 'get_ancestors'):
         parent = page.get_ancestors().first().get_first_child().get_first_child()
     else:
@@ -35,8 +31,6 @@ def banner(page):
         return parent.header.file.url
     else:
         return False
-#page.get_parent().header
-#page.get_ancestors().first().get_first_child().get_first_child()
 
 register.filter('prettify', prettify)
 register.filter('banner', banner)

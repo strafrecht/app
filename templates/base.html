@@ -116,14 +116,16 @@
     <script type="text/javascript" src="https://chat.strafrecht-online.org/js/compiled/chat_popup.js"></script>
     <script>
       $(document).ready(function () {
-	Mibew.ChatPopup.init({"id":"63e3d6606eb81347","url":"https:\/\/chat.strafrecht-online.org\/chat?locale=de&group=2","preferIFrame":true,"modSecurity":false,"width":640,"height":480,"resizable":true,"styleLoader":"https:\/\/chat.strafrecht-online.org\/chat\/style\/popup"});
-	$.get("https://chat.strafrecht-online.org/opstatus", function(data) {
-	  let message = "<p>Momentan ist leider kein/e Mitarbeiter/in online. Sie können uns aber eine <a id='mibew-agent-button' href='https://chat.strafrecht-online.org/chat?locale=de&amp;group=2' target='_blank' onclick=\"Mibew.Objects.ChatPopups['63e3d6606eb81347'].open();return false;\">Nachricht hinterlassen</a>.";
-	  if (data == "true")
-	    message = "<p>Ein/e Mitarbeiter/in ist aktuell online. Sie können die Sprechstunde <a id='mibew-agent-button' href='https://chat.strafrecht-online.org/chat?locale=de&amp;group=2' target='_blank' onclick=\"Mibew.Objects.ChatPopups['63e3d6606eb81347'].open();return false;\">hier starten</a>.";
-	  let chatHeadline = $("h2:contains('Online-Sprechstunde')").first();
-	  $(message).insertAfter(chatHeadline);
-	});
+	let chatHeadline = $("h2:contains('Online-Sprechstunde')").first();
+	if (chatHeadline.length > 0) {
+	  Mibew.ChatPopup.init({"id":"63e3d6606eb81347","url":"https:\/\/chat.strafrecht-online.org\/chat?locale=de&group=2","preferIFrame":true,"modSecurity":false,"width":640,"height":480,"resizable":true,"styleLoader":"https:\/\/chat.strafrecht-online.org\/chat\/style\/popup"});
+	  $.get("https://chat.strafrecht-online.org/opstatus", function(data) {
+	    let message = "<p>Momentan ist leider kein/e Mitarbeiter/in online. Sie können uns aber eine <a id='mibew-agent-button' href='https://chat.strafrecht-online.org/chat?locale=de&amp;group=2' target='_blank' onclick=\"Mibew.Objects.ChatPopups['63e3d6606eb81347'].open();return false;\">Nachricht hinterlassen</a>.";
+	    if (data == "true")
+	      message = "<p>Ein/e Mitarbeiter/in ist aktuell online. Sie können die Sprechstunde <a id='mibew-agent-button' href='https://chat.strafrecht-online.org/chat?locale=de&amp;group=2' target='_blank' onclick=\"Mibew.Objects.ChatPopups['63e3d6606eb81347'].open();return false;\">hier starten</a>.";
+	    $(message).insertAfter(chatHeadline);
+	  });
+	}
       });
     </script>
     {% block extra_js %}

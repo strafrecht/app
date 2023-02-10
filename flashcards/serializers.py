@@ -35,11 +35,11 @@ class DeckSerializer(serializers.ModelSerializer):
 
     def save(self, **kwargs):
         if not self.get_user().is_staff:
-            # users can't update approved cases
+            # users can't update approved decks
             if self.instance and self.instance.approved:
                 raise Exception("not allowed (deck is approved)")
 
-            # users can't update submitted cases
+            # users can't update submitted decks
             if self.instance and self.instance.submission:
                 raise Exception("not allowed (deck is submitted)")
 
@@ -57,6 +57,15 @@ class FlashcardSerializer(serializers.ModelSerializer):
         deck = attrs["deck"]
         if deck.user != self.get_user():
             raise Exception("not allowed (not users deck)")
+
+        if not self.get_user().is_staff:
+            # users can't update approved decks
+            if deck.approved:
+                raise Exception("not allowed (deck is approved)")
+
+            # users can't update submitted decks
+            if deck.submission:
+                raise Exception("not allowed (deck is submitted)")
         return attrs
 
     def get_user(self):

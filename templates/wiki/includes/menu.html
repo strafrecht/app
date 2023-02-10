@@ -22,8 +22,9 @@
      </div>
      {% else %}
      <div>
-       <a href="#">
-         Log dich ein um Lesezeichen zu speichern!
+       <a href="{% url 'profile:login' %}?next=/problemfelder/{{ urlpath.path }}">
+         <span class="underlined green hover">Log dich ein um Lesezeichen zu speichern</span>
+	 <i class="bi bi-arrow-right"></i>
        </a>
      </div>
      {% endif %}

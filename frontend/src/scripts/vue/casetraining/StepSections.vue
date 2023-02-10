@@ -1,22 +1,44 @@
 <template>
 <step-template type="sections" :key="componentKey">
   <template #left>
-    <div v-if="editMode" class="mark-area" :class="markColorStyle">
-      <div style="position: relative">
+
+    <div class="mark-area" :class="markColorStyle">
+      <div v-if="myStep != 2" class="markers">
+	<span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
+	  <img src="/assets/images/marker/textmarker-1.png">
+	</span>
+	<span class="btn-marker btn-marker-2" :class="markColor == 'marker-2' ?  'border' : ''" @click="setColor('marker-2')">
+	  <img src="/assets/images/marker/textmarker-2.png">
+	</span>
+	<span class="btn-marker btn-marker-3" :class="markColor == 'marker-3' ?  'border' : ''" @click="setColor('marker-3')">
+	  <img src="/assets/images/marker/textmarker-3.png">
+	</span>
+	<span class="btn-marker btn-marker-4" :class="markColor == 'marker-4' ?  'border' : ''" @click="setColor('marker-4')">
+	  <img src="/assets/images/marker/textmarker-4.png">
+	</span>
+	<span class="btn-marker btn-marker-5" :class="markColor == 'marker-5' ?  'border' : ''" @click="setColor('marker-5')">
+	  <img src="/assets/images/marker/textmarker-5.png">
+	</span>
+	<span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
+	  <img src="/assets/images/marker/eraser.png">
+	</span>
+      </div>
+      <div v-if="editMode" style="position: relative">
 	<div id="mark-area-content" v-html="currentCase.facts" @mouseup="markUp()"></div>
       </div>
-    </div>
-    <div v-else class="hide-sections mark-area" :class="markColorStyle">
-      <div v-if="myStep == 2">
-	<strong>Deine Einteilung</strong>
-      </div>
-      <div style="position: relative">
-	<div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
-	  <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
+      <div v-else class="hide-sections">
+	<div v-if="myStep == 2">
+	  <strong>Deine Einteilung</strong>
 	</div>
-	<div id="mark-area-content" v-html="currentStep.answers[0]" @mouseup="markUp()"></div>
+	<div style="position: relative">
+	  <div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
+	    <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
+	  </div>
+	  <div id="mark-area-content" v-html="currentStep.answers[0]" @mouseup="markUp()"></div>
+	</div>
       </div>
     </div>
+
   </template>
   <template #right>
     <div v-if="myStep == 1">
@@ -36,24 +58,6 @@
       <div v-else>
 	<p>{{ currentStep.intro }}</p>
       </div>
-      <span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
-	<img src="/assets/images/marker/textmarker-1.png">
-      </span>
-      <span class="btn-marker btn-marker-2" :class="markColor == 'marker-2' ?  'border' : ''" @click="setColor('marker-2')">
-	<img src="/assets/images/marker/textmarker-2.png">
-      </span>
-      <span class="btn-marker btn-marker-3" :class="markColor == 'marker-3' ?  'border' : ''" @click="setColor('marker-3')">
-	<img src="/assets/images/marker/textmarker-3.png">
-      </span>
-      <span class="btn-marker btn-marker-4" :class="markColor == 'marker-4' ?  'border' : ''" @click="setColor('marker-4')">
-	<img src="/assets/images/marker/textmarker-4.png">
-      </span>
-      <span class="btn-marker btn-marker-5" :class="markColor == 'marker-5' ?  'border' : ''" @click="setColor('marker-5')">
-	<img src="/assets/images/marker/textmarker-5.png">
-      </span>
-      <span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
-	<img src="/assets/images/marker/eraser.png">
-      </span>
       <p class="mt-2 mb-2 d-lg-none">
 	<em>Hinweis für mobile Geräte: Markiere zunächst den Text und klicke anschließend auf einen Stift.</em>
       </p>
@@ -175,4 +179,7 @@ export default {
 </script>
 <style lang="scss">
   @import './styles/step-sections.scss';
+</style>
+<style lang="scss" scoped>
+  @import './styles/markers.scss';
 </style>

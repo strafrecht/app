@@ -168,7 +168,10 @@ def register(request):
         messages.error(request, "Registrierung nicht erfolgreich. Bitte die Angaben korrigieren.")
     else:
         form = SignupForm()
-    return render(request, 'profiles/register.html', {'form': form})
+    return render(request, "profiles/register.html", {
+        "banner": "/media/images/login.original.jpg",
+        "form": form,
+    })
 
 def login(request):
     if request.method == "POST":
@@ -189,7 +192,10 @@ def login(request):
             messages.error(request,"Falscher Benutzername oder Passwort.")
     else:
         form = AuthenticationForm()
-    return render(request=request, template_name="profiles/login.html", context={"login_form":form})
+    return render(request, "profiles/login.html", {
+        "banner": "/media/images/login.original.jpg",
+        "login_form": form,
+    })
 
 def logout(request):
     auth_logout(request)

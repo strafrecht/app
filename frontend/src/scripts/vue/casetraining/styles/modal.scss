@@ -1,3 +1,7 @@
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+@import "~bootstrap/scss/mixins/_breakpoints.scss";
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -42,8 +46,9 @@
     margin: 0 auto;
   }
 
-  .modal-default-button {
-    float: right;
+  .modal-footer {
+    text-align: right;
+    padding: 5px 20px;
   }
 
   /*
@@ -67,8 +72,16 @@
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
   }
+}
 
-  textarea {
-    width: 325px;
+@include media-breakpoint-down(sm) {
+  .modal-mask {
+    .modal-container {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0;
+    }
   }
 }
