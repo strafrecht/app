@@ -22,7 +22,7 @@ class CasetrainingTestCase(TestCase):
         self.assertEqual(self.obj.difficulty, "advanced")
 
     def test_to_string(self):
-        self.assertEqual(str(self.obj), "Test case 1 (advanced)")
+        self.assertEqual(str(self.obj), "Test case 1")
 
 class ViewTestCase(TestCase):
 

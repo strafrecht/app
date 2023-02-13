@@ -14,7 +14,7 @@ from .models import Casetraining
 
 def index(request):
     casetrainings = Casetraining.objects.order_by('name')
-    if request.user.is_staff:
+    if not request.user.is_staff:
         casetrainings = casetrainings.filter(approved=True)
 
     return render(request, "casetraining/index.html", {

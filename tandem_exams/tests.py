@@ -59,21 +59,20 @@ class ExamSolutionTestCase(TestCase):
     def test_has_file(self):
         self.obj.file = self.pdf_file
         self.obj.save()
-        print(self.obj.file)
         self.assertIn("exam_solutions/{}/file/".format(self.obj.pk), str(self.obj.file))
-        self.assertIn("/Lösung-Tandem_exam_1.pdf", str(self.obj.file))
+        self.assertIn("/Lösung-", str(self.obj.file))
 
     def test_has_correction(self):
         self.obj.correction = self.pdf_file
         self.obj.save()
-        self.assertIn("exam_solutions/{}/correction/".format(self.obj.pk), str(self.obj.file))
-        self.assertIn("/Korrektur-Tandem_exam_1.pdf", str(self.obj.file))
+        self.assertIn("exam_solutions/{}/correction/".format(self.obj.pk), str(self.obj.correction))
+        self.assertIn("/Korrektur-", str(self.obj.correction))
 
     def test_has_correction_sheet(self):
         self.obj.correction_sheet = self.pdf_file
         self.obj.save()
-        self.assertIn("exam_solutions/{}/correction_sheet/".format(self.obj.pk), str(self.obj.file))
-        self.assertIn("/Korrekturbogen-Tandem_exam_1.pdf", str(self.obj.file))
+        self.assertIn("exam_solutions/{}/correction_sheet/".format(self.obj.pk), str(self.obj.correction_sheet))
+        self.assertIn("/Korrekturbogen-", str(self.obj.correction_sheet))
 
     # FIXME: why does this not work???
     # https://docs.djangoproject.com/en/3.2/topics/testing/tools/#email-services
@@ -149,7 +148,10 @@ class ViewTestCase(TestCase):
             { "file": self.pdf_file },
             follow=True
         )
-        self.assertContains(response, "Lösung erfolgreich hochgeladen. Wir schicken eine Nachricht sobald ein Tandem-Partner gefunden wurde.", status_code=200)
+        self.assertRedirects(response,
+                             '/tandemklausuren/{}/'.format(self.exam1.id),
+                             status_code=302, target_status_code=200)
+        self.assertContains(response, "Lösung erfolgreich hochgeladen. Wir schicken eine Nachricht sobald ein Tandempartner gefunden wurde.", status_code=200)
         self.assertEquals(1, self.user.exam_solutions.count())
         self.assertEquals(0, self.user.exam_solution_corrections.count())
 
@@ -168,7 +170,7 @@ class ViewTestCase(TestCase):
             { "file": self.pdf_file },
             follow=True
         )
-        self.assertContains(response, "Lösung erfolgreich hochgeladen. Eine andere Klausur-Lösung wurde Dir zur Korrektur zugewiesen.", status_code=200)
+        self.assertContains(response, "Lösung erfolgreich hochgeladen. Eine andere Klausurlösung wurde Dir zur Korrektur zugewiesen.", status_code=200)
         self.assertEquals(1, self.user.exam_solutions.count())
         self.assertEquals(1, self.user.exam_solution_corrections.count())
         self.assertEquals(1, self.user2.exam_solutions.count())

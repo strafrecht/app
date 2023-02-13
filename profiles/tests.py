@@ -47,7 +47,7 @@ class ViewTestCase(TestCase):
     def setUp(self):
         # nothing
         setup = None
-        self.user = User.objects.get_or_create(username='testuser')[0]
+        self.user = User.objects.get_or_create(username='testuser', first_name='Michaela')[0]
 
     def test_index_login_redirect(self):
         response = self.client.get("/profile/")
@@ -57,7 +57,7 @@ class ViewTestCase(TestCase):
     def test_index_response(self):
         self.client.force_login(self.user)
         response = self.client.get("/profile/")
-        self.assertContains(response, "<h3>Dein Jurcoach Profil</h3>", status_code=200)
+        self.assertContains(response, "<h3>Hallo Michaela</h3>", status_code=200)
 
     def test_submissions_login_redirect(self):
         response = self.client.get("/profile/submissions/")
@@ -91,7 +91,7 @@ class ViewTestCase(TestCase):
 
     def test_exam_solutions_login_redirect(self):
         response = self.client.get("/profile/tandemklausuren/")
-        self.assertRedirects(response, '/profile/login/?next=/profile/tandem_exams/', status_code=302,
+        self.assertRedirects(response, '/profile/login/?next=/profile/tandemklausuren/', status_code=302,
                              target_status_code=200, fetch_redirect_response=True)
 
     def test_exam_solutions_response(self):
@@ -113,4 +113,4 @@ class ViewTestCase(TestCase):
         )
 
         response = self.client.get("/profile/tandemklausuren/")
-        self.assertContains(response, "<h3>Tandem exam 1</h3>", status_code=200)
+        self.assertContains(response, "<strong>Tandem exam 1</strong>", status_code=200)
