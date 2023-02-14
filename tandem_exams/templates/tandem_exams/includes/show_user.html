@@ -1,7 +1,7 @@
 {% load crispy_forms_tags %}
 
 {% if solutions %}
-<h3>Deine Lösungen</h3>
+<h3>Deine Gutachten</h3>
 <div class="row mt-3">
   <div class="col">
     {% for solution in solutions %}
@@ -16,13 +16,13 @@
   <div class="card-body">
     <div class="row">
       <div class="col">
-	<p>Lade eine Lösung als PDF-Datei hoch:</p>
+	<p>Lade ein Gutachten als PDF-Datei hoch:</p>
       </div>
       <div class="col">
 	<form action="{% url 'tandem_exams:new_solution' exam.id %}" method="post" enctype="multipart/form-data">
 	  {% csrf_token %}
 	  {{ form.file|as_crispy_field }}
-	  <input class="btn btn-sm btn-success" type="submit" value="Lösung hochladen">
+	  <input class="btn btn-sm btn-success" type="submit" value="Gutachten hochladen">
 	</form>
       </div>
     </div>

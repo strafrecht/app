@@ -11,11 +11,10 @@ class TandemExamAdmin(ModelAdmin):
 
 class ExamSolutionAdmin(ModelAdmin):
     model = ExamSolution
-    menu_label = 'Lösungen'
+    menu_label = 'Gutachten'
     menu_icon = 'list-ul'
     list_display = ('id', 'exam', 'state', 'user', 'correction_by', 'created_at', 'updated_at')
     list_filter = ('state',)
-    search_fields = ('exam', 'id')
     ordering = ['-created_at']
 
 @modeladmin_register

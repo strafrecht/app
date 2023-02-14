@@ -54,8 +54,8 @@ class Submission(models.Model):
         send_mail(
             subject=subject,
             message=text,
-            from_email='jukol@strafrecht-online.de',
-            recipient_list=['jukol@strafrecht-online.de'],
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.DEFAULT_FROM_EMAIL],
             fail_silently=False,
         )
 

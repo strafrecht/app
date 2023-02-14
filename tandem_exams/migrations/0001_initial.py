@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('file', models.FileField(blank=True, null=True, upload_to=tandem_exams.models.ExamSolution.file_target)),
                 ('correction', models.FileField(blank=True, null=True, upload_to=tandem_exams.models.ExamSolution.correction_target)),
-                ('correction_sheet', models.FileField(blank=True, null=True, upload_to=tandem_exams.models.ExamSolution.correction_sheet_target)),
+                ('correction_sheet', models.FileField(blank=True, null=True)),
                 ('state', models.CharField(choices=[('NEW', 'new'), ('ACCEPTED', 'accepted'), ('CORRECTED', 'corrected')], default='NEW', max_length=100)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),

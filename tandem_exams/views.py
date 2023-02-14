@@ -46,9 +46,9 @@ def new_solution(request, id):
             instance.file = request.FILES['file']
             instance.save()
             if instance.find_tandem_partner():
-                messages.success(request, "Lösung erfolgreich hochgeladen. Eine andere Klausurlösung wurde Dir zur Korrektur zugewiesen. Du findest die Lösung in deinem Profil.")
+                messages.success(request, "Gutachten erfolgreich hochgeladen. Ein anderes Gutachten wurde Dir zur Korrektur zugewiesen. Du findest das Gutachten in deinem Profil.")
             else:
-                messages.success(request, "Lösung erfolgreich hochgeladen. Wir schicken eine Nachricht sobald ein Tandempartner gefunden wurde.")
+                messages.success(request, "Gutachten erfolgreich hochgeladen. Wir schicken eine Nachricht, sobald ein Tandempartner / eine Tandempartnerin gefunden wurde.")
             return redirect("tandem_exams:show", id=exam.id)
     else:
         form = ExamSolutionForm()
@@ -67,7 +67,6 @@ def new_correction(request, id):
     if form.is_valid():
         solution.upload_correction(
             request.FILES['correction'],
-            request.FILES['correction_sheet']
         )
         messages.success(request, "Korrektur erfolgreich hochgeladen.")
         return redirect("profile:tandem_exams")

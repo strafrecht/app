@@ -37,18 +37,20 @@
 	  </strong>
 	  <div><small class="text-muted">{{ object.created_at | date }}</small></div>
 	  <div>
-	    <a href="/media/{{ object.file }}">Lösung heruterladen</a>
+	    <a href="/media/{{ object.file }}">
+	      {% if tandem %}
+	      Gutachten Tandempartner / Tandempartnerin herunterladen
+	      {% else %}
+	      Eigenes Gutachten herunterladen
+	      {% endif %}
+	    </a>
 	    {% if object.state == "CORRECTED" %}
 	      <br/>
 	      {% if tandem %}
 		<a href="/media/{{ object.correction }}">Korrektur heruterladen</a>
-		<br/>
-		<a href="/media/{{ object.correction_sheet }}">Korrekturbogen heruterladen</a>
 	      {% else %}
 		{% if object.tandem_exam and object.tandem_exam.state == "CORRECTED" %}
 		  <a href="/media/{{ object.correction }}">Korrektur heruterladen</a>
-		  <br/>
-		  <a href="/media/{{ object.correction_sheet }}">Korrekturbogen heruterladen</a>
 		{% else %}
 	          <p class="text-danger mt-4">
 		    Du musst zuerst eine Korrektur bei der Tandemklausur abgeben,
@@ -59,15 +61,18 @@
 	    {% endif %}
 	  </div>
 	  {% if tandem and object.state == "ACCEPTED" %}
+	  {% if tandem and object.exam.proof_sheet %}
+	  <a href="/media/{{ object.exam.proof_sheet }}">Korrekturbogen heruterladen</a>
+	  <br/>
+	  <a href="/media/{{ object.exam.sample_solution }}">Musterlösung heruterladen</a>
+	  {% endif %}
 	  <hr/>
 	  <form action="{% url 'tandem_exams:new_correction' object.pk %}" method="post" enctype="multipart/form-data">
 	    {% csrf_token %}
 	    {% if solution_id == object.pk %}
 	    {{ form.correction|as_crispy_field }}
-	    {{ form.correction_sheet|as_crispy_field }}
 	    {% else %}
 	    {{ upload_correction_form.correction|as_crispy_field }}
-	    {{ upload_correction_form.correction_sheet|as_crispy_field }}
 	    {% endif %}
 	    <input class="btn btn-sm btn-success" type="submit" value="Korrektur hochladen">
 	  </form>

@@ -20,6 +20,12 @@ class TandemExam(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     difficulty = models.CharField(choices=DIFFICULTY_CHOICES, max_length=100, blank=False, null=False)
     description = RichTextField(default='')
+    sample_solution = \
+        models.FileField(blank=True, null=True,
+                         verbose_name=_('Musterlösung'))
+    proof_sheet = \
+        models.FileField(blank=True, null=True,
+                         verbose_name=_('Korrekturbogen'))
     approved = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -35,8 +41,8 @@ class TandemExam(models.Model):
 class ExamSolution(models.Model):
 
     class Meta:
-        verbose_name = "Klausurlösung"
-        verbose_name_plural = "Klausurlösungen"
+        verbose_name = "Klausurgutachten"
+        verbose_name_plural = "Klausurgutachten"
 
     STATE_CHOICES = [
         ('NEW',       _('new')),
@@ -53,27 +59,20 @@ class ExamSolution(models.Model):
         )
 
     def file_target(instance, filename):
-        return instance.upload_target("file", "Lösung")
+        return instance.upload_target("file", "Gutachten")
 
     def correction_target(instance, filename):
         return instance.upload_target("correction", "Korrektur")
-
-    def correction_sheet_target(instance, filename):
-        return instance.upload_target("correction_sheet", "Korrekturbogen")
 
     exam = models.ForeignKey(TandemExam, on_delete=models.CASCADE, related_name='solutions')
     file = \
         models.FileField(blank=True, null=True,
                          upload_to=file_target,
-                         verbose_name=_('Lösung'))
+                         verbose_name=_('Gutachten'))
     correction = \
         models.FileField(blank=True, null=True,
                          upload_to=correction_target,
                          verbose_name=_('Korrektur'))
-    correction_sheet = \
-        models.FileField(blank=True, null=True,
-                         upload_to=correction_sheet_target,
-                         verbose_name=_('Korrekturbogen'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False, related_name='exam_solutions')
     correction_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='exam_solution_corrections')
     state = models.CharField(choices=STATE_CHOICES, default="NEW", max_length=100, blank=False, null=False)
@@ -110,9 +109,8 @@ class ExamSolution(models.Model):
         except (IntegrityError, ExamSolution.DoesNotExist) as e:
             return False
 
-    def upload_correction(self, correction, sheet):
+    def upload_correction(self, correction):
         self.correction = correction
-        self.correction_sheet = sheet
         self.state = "CORRECTED"
         self.save()
         self.notify_corrected()
@@ -136,7 +134,7 @@ class ExamSolution(models.Model):
         mail.send_mail(
             subject=subject,
             message=text,
-            from_email='jukol@strafrecht-online.de',
+            from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[recipient],
             fail_silently=False,
         )

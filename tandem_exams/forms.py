@@ -18,14 +18,13 @@ def validate_is_pdf(file):
         raise ValidationError('Falsche Dateiendung. Bitte eine Datei mit der Endung "pdf" hochladen.')
 
 class ExamSolutionForm(forms.Form):
-    file = forms.FileField(validators=(validate_is_pdf,), label="Lösung")
+    file = forms.FileField(validators=(validate_is_pdf,), label="Gutachten")
 
     helper = FormHelper()
     helper.use_custom_control = True
 
 class ExamCorrectionForm(forms.Form):
-    correction = forms.FileField(validators=(validate_is_pdf,), label="Korrektur")
-    correction_sheet = forms.FileField(validators=(validate_is_pdf,), label="Korrekturbogen")
+    correction = forms.FileField(validators=(validate_is_pdf,), label="Ausgefüllten Korrekturbogen hochladen")
 
     helper = FormHelper()
     helper.use_custom_control = True
