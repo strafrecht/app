@@ -37,6 +37,11 @@ class TandemExam(models.Model):
     def title(self):
         return self.__str__()
 
+    def has_open_tandem_solution(self):
+        return self.solutions.filter(
+            correction_by=None,
+            state="NEW",
+        ).exists()
 
 class ExamSolution(models.Model):
 

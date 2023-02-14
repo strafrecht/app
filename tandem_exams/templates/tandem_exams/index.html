@@ -24,6 +24,7 @@ Jurcoach Tandemklausuren – Strafrecht Online
     {% for exam in beginner %}
     <div>
       <a href="{% url 'tandem_exams:show' exam.id %}">{{ exam }}</a>
+      {% if exam.has_open_tandem_solution %}<sup>*</sup>{% endif %}
     </div>
     {% endfor %}
   </div>
@@ -32,8 +33,12 @@ Jurcoach Tandemklausuren – Strafrecht Online
     {% for exam in advanced %}
     <div>
       <a href="{% url 'tandem_exams:show' exam.id %}">{{ exam }}</a>
+      {% if exam.has_open_tandem_solution %}<sup>*</sup>{% endif %}
     </div>
     {% endfor %}
   </div>
 </div>
+<p>
+  <sup>*</sup> Hier wartet ein Tandempartner / eine Tandempartnerin
+</p>
 {% endblock %}
