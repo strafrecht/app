@@ -27,6 +27,7 @@ from pages.models.sidebar import (
     SidebarBorderBlock,
     SidebarImageTextBlock,
     SidebarPollChooser,
+    SidebarSearchBlock,
 )
 from django.shortcuts import get_object_or_404, render
 
@@ -85,6 +86,7 @@ class ArticleSidebarBlocks(blocks.StreamBlock):
     sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
     sidebar_image_text = SidebarImageTextBlock(label="Bild links, Text rechts")
     sidebar_poll = SidebarPollChooser(label="Abstimmung")
+    sidebar_search = SidebarSearchBlock(label="Suchfeld")
 class NewsletterSidebarBlocks(blocks.StreamBlock):
     sidebar_title = SidebarTitleBlock(label="Grau unterlegte Überschrift")
     sidebar_simple = SidebarSimpleBlock(label="Schlichter Text")
