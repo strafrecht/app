@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-10 12:57+0100\n"
+"POT-Creation-Date: 2023-02-14 11:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,38 +65,46 @@ msgstr ""
 msgid "Reset my password"
 msgstr ""
 
-#: app/wiki_patch.py:62
+#: app/wiki_patch.py:14
+msgid "New password"
+msgstr "Neues Passwort"
+
+#: app/wiki_patch.py:17
+msgid "Confirm password"
+msgstr "Passwort wiederholen"
+
+#: app/wiki_patch.py:75
 msgid "Ihre Überarbeitung wird von unserem Team überprüft."
-msgstr ""
-
-#: app/wiki_patch.py:84
-#, python-format
-msgid "New article '%s' created."
-msgstr ""
-
-#: app/wiki_patch.py:89
-msgid "Ihre neue Seite wird von unserem Team überprüft."
 msgstr ""
 
 #: app/wiki_patch.py:97
 #, python-format
+msgid "New article '%s' created."
+msgstr ""
+
+#: app/wiki_patch.py:102
+msgid "Ihre neue Seite wird von unserem Team überprüft."
+msgstr ""
+
+#: app/wiki_patch.py:110
+#, python-format
 msgid "There was an error creating this article: %s"
 msgstr ""
 
-#: app/wiki_patch.py:101
+#: app/wiki_patch.py:114
 msgid "There was an error creating this article."
 msgstr ""
 
-#: app/wiki_patch.py:212 templates/wiki/preview_inline.html:22
+#: app/wiki_patch.py:225 templates/wiki/preview_inline.html:22
 msgid "You cannot merge with a deleted revision"
 msgstr ""
 
-#: app/wiki_patch.py:227
+#: app/wiki_patch.py:240
 #, python-format
 msgid "Merge between revision #%(r1)d and revision #%(r2)d"
 msgstr ""
 
-#: app/wiki_patch.py:237
+#: app/wiki_patch.py:250
 #, python-format
 msgid ""
 "A new revision was created: Merge between revision #%(r1)d and revision #"
@@ -435,7 +443,7 @@ msgstr ""
 msgid "Account Settings"
 msgstr ""
 
-#: templates/wiki/accounts/account_settings.html:11
+#: templates/wiki/accounts/account_settings.html:14
 msgid "Update"
 msgstr "Aktualisieren"
 

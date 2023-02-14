@@ -5,6 +5,19 @@ def patch_wiki():
     """
     Monkey patch django-wiki
     """
+    # bugfix: add translation to password fields
+    from django import forms
+    from django.utils.translation import gettext_lazy as _
+    from wiki import forms_account_handling
+    class PatchedUserUpdateForm(forms_account_handling.UserUpdateForm):
+        password1 = forms.CharField(
+            label=_("New password"), widget=forms.PasswordInput(), required=False
+        )
+        password2 = forms.CharField(
+            label=_("Confirm password"), widget=forms.PasswordInput(), required=False
+        )
+    forms_account_handling.UserUpdateForm = PatchedUserUpdateForm
+
     # bugfix: SHOW_MAX_CHILDREN is ignored in django-wiki
     from wiki.views.mixins import ArticleMixin
     ArticleMixin.get_context_data = get_context_data

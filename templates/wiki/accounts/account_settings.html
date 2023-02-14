@@ -5,6 +5,9 @@
 
 {% block wiki_contents %}
 <h1 class="page-header">{% trans "Account Settings" %}</h1>
+<p>
+  Hier kannst Du deine E-Mail-Adresse oder dein Passwort ändern.
+</p>
 <form class="form-horizontal" action="" method="post">{% csrf_token %}
     {% wiki_form form %}
     <button type="submit" name="save_changes" class="btn btn-primary btn-lg">
