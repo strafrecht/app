@@ -6,19 +6,19 @@
   <template #left>
     <div class="hide-sections mark-area" :class="markColorStyle">
       <div class="markers">
-	<span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @click="setColor('marker-1')">
+	<span class="btn-marker btn-marker-1" :class="markColor == 'marker-1' ?  'border' : ''" @mousedown="setColor('marker-1')">
 	  <img src="/assets/images/marker/textmarker-1.png">
 	</span>
-	<span class="btn-marker btn-marker-2" :class="markColor == 'marker-2' ?  'border' : ''" @click="setColor('marker-2')">
+	<span class="btn-marker btn-marker-2" :class="markColor == 'marker-2' ?  'border' : ''" @mousedown="setColor('marker-2')">
 	  <img src="/assets/images/marker/textmarker-2.png">
 	</span>
-	<span class="btn-marker btn-marker-3" :class="markColor == 'marker-3' ?  'border' : ''" @click="setColor('marker-3')">
+	<span class="btn-marker btn-marker-3" :class="markColor == 'marker-3' ?  'border' : ''" @mousedown="setColor('marker-3')">
 	  <img src="/assets/images/marker/textmarker-3.png">
 	</span>
-	<span class="btn-marker btn-marker-4" :class="markColor == 'marker-4' ?  'border' : ''" @click="setColor('marker-4')">
+	<span class="btn-marker btn-marker-4" :class="markColor == 'marker-4' ?  'border' : ''" @mousedown="setColor('marker-4')">
 	  <img src="/assets/images/marker/textmarker-4.png">
 	</span>
-	<span class="btn-marker btn-marker-5" :class="markColor == 'marker-5' ?  'border' : ''" @click="setColor('marker-5')">
+	<span class="btn-marker btn-marker-5" :class="markColor == 'marker-5' ?  'border' : ''" @mousedown="setColor('marker-5')">
 	  <img src="/assets/images/marker/textmarker-5.png">
 	</span>
 	<span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
