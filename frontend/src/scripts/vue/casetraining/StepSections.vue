@@ -31,7 +31,7 @@
 	  <strong>Deine Einteilung</strong>
 	</div>
 	<div style="position: relative">
-	  <div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
+	  <div id="user-mark-area-content-outer">
 	    <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
 	  </div>
 	  <div id="mark-area-content" v-html="currentStep.answers[0]" @mouseup="markUp()"></div>
@@ -85,6 +85,7 @@
 
 <script>
 import StepTemplate from "./StepTemplate.vue";
+import { nextTick } from "vue";
 
 export default {
   name: "StepSections",
@@ -107,6 +108,20 @@ export default {
       componentKey: 0,
       myStep: 1,
       markColor: null,
+      colors: {
+	"marker-1": "rgb(1,255,255)",
+	"marker-2": "rgb(2,255,255)",
+	"marker-3": "rgb(3,255,255)",
+	"marker-4": "rgb(4,255,255)",
+	"marker-5": "rgb(5,255,255)",
+      },
+      userColors: {
+	"marker-1": "rgb(201,255,255)",
+	"marker-2": "rgb(202,255,255)",
+	"marker-3": "rgb(203,255,255)",
+	"marker-4": "rgb(204,255,255)",
+	"marker-5": "rgb(205,255,255)",
+      },
     }
   },
   computed: {
@@ -148,31 +163,33 @@ export default {
       // we need this, so text gets refreshed
       this.componentKey += 1;
     },
-    markUp() {
-      if (!this.markColor) return;
+    async markUp() {
+      if (!this.markColor)
+	return;
 
       var sel = window.getSelection();
+      if (sel.type !== "Range" || !sel.getRangeAt)
+	return;
 
-      if (sel.type == "Range" && sel.getRangeAt) {
-	var range = sel.getRangeAt(0);
-	document.designMode = "on";
-	sel.removeAllRanges();
-	sel.addRange(range);
-	document.execCommand("removeFormat");
-	if (this.markColor != "marker-erase")
-	  document.execCommand("BackColor", false, "black");
-	document.designMode = "off";
-	sel.removeAllRanges();
-	let html = document.getElementById("mark-area-content").innerHTML;
-	if (this.editMode) {
-	  html = html.replace(/style="background-color: black;"/g, "class=\"section-" + this.markColor + "\"")
-	  this.currentCase.facts = html;
-	} else {
-	  html = html.replace(/style="background-color: black;"/g, "class=\"user-section-" + this.markColor + "\"")
-	  this.currentStep.answers[0] = html;
-	}
-	this.componentKey += 1;
+      var range = sel.getRangeAt(0);
+      document.designMode = "on";
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand("removeFormat");
+      if (this.markColor != "marker-erase") {
+	let colors = this.editMode ? this.colors : this.userColors;
+	document.execCommand("BackColor", false, colors[this.markColor]);
       }
+      document.designMode = "off";
+      sel.removeAllRanges();
+      let html = document.getElementById("mark-area-content").innerHTML;
+      if (this.editMode) {
+	this.currentCase.facts = html;
+      } else {
+	this.currentStep.answers[0] = html;
+      }
+      this.componentKey += 1;
+      await nextTick();
     },
   },
 }

@@ -40,8 +40,8 @@ class Casetraining(ClusterableModel):
 
     def save(self, *args, **kwargs):
         self.facts      = bleach.clean(self.facts,
-                                       tags=["p", "span"],
-                                       attributes=["class"])
+                                       tags=["p", "span", "li", "ol", "ul", "strong"],
+                                       attributes=["style"], styles=["background-color"])
         self.difficulty = bleach.clean(self.difficulty)
         self.steps      = bleach.clean(self.steps)
         self.name       = bleach.clean(self.name)

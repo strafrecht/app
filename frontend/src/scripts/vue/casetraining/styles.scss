@@ -22,9 +22,14 @@
     cursor: pointer;
     height: 40px;
     width: 40px;
+    padding: 2px;
+    border: 1px solid transparent;
+    &.border {
+      background: #fff;
+    }
   }
 
-  .mark-marker-erase {
+  #mark-area-content .mark-marker-erase {
     cursor: url("../../../../../casetraining/static/images/marker/eraser_lo.cur") 3 35, default;
 
     & ::selection {
@@ -41,16 +46,41 @@
     }
   }
 
+  .user-markers span {
+    background-color: transparent !important;
+  }
+
+  #user-mark-area-content-outer {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    color: transparent;
+    pointer-events: none;
+  }
+
+  #mark-area-content {
+    padding: 5px 15px 15px 15px;
+    margin: 0px -15px -15px -15px;
+  }
+
+  /* section/marker colors are coded with background-color: */
+  /* sections:      rgb([1-5], 255, 255) */
+  /* user sections: rgb(20[1-5], 255, 255) */
+  /* user marker:   rgb(10[1-5], 255, 255) */
+
   $usercolors: #29e7fc, #95fd06, #c0b1fe, #ff92f3, #fff451;
 
   @for $i from 1 through length($usercolors) {
-    .user-marker-#{$i} {
+    #user-mark-area-content span[style*="background-color: rgb(10#{$i}, 255, 255)"] {
       display: inline;
       border-bottom: 4px solid nth($usercolors, $i);
+      background-color: transparent !important;
     }
 
-    .user-section-marker-#{$i},
-    .section-marker-#{$i} {
+    span[style*="background-color: rgb(#{$i}, 255, 255)"],
+    span[style*="background-color: rgb(20#{$i}, 255, 255)"],
+    .section-marker-#{$i},
+    .user-section-marker-#{$i} {
       display: inline;
       border-image-source: url(../../../../../casetraining/static/images/marker/marker-#{$i}.png);
       box-decoration-break: clone;
@@ -60,31 +90,20 @@
       border-image-width: 0 1.5ch;
       border-image-repeat: round stretch;
       position: relative;
-      border-top: transparent none 1px;
       background-color: transparent !important;
     }
 
+    .hide-sections span[style*="background-color: rgb(#{$i}, 255, 255)"],
     .hide-sections .section-marker-#{$i} {
-      border-image: none;
+      border-image: none !important;
+      background-color: transparent !important;
     }
 
-    .mark-marker-#{$i} {
+    #mark-area-content .mark-marker-#{$i} {
       cursor: url(../../../../../casetraining/static/images/marker/textmarker-#{$i}.cur) 3 35, default;
 
       & ::selection {
         background-color: nth($usercolors, $i);
-      }
-    }
-
-    .ql-toolbar {
-      button.ql-section-marker-#{$i} {
-        background: url(../../../../../casetraining/static/images/marker/textmarker-#{$i}.png);
-        background-size: contain;
-        background-repeat: no-repeat;
-        border: 1px #fff solid;
-      }
-      button.ql-section-marker-#{$i}.ql-active {
-        border: 1px #ddd solid;
       }
     }
 

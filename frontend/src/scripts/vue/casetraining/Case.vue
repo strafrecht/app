@@ -390,8 +390,7 @@ export default {
       caseErrors: null,
       userMessage: null,
       factsToolbar: [
-        ["bold", "italic"],
-        [{ list: "ordered" }, { list: "bullet" }],
+         [{ list: "ordered" }, { list: "bullet" }],
       ],
       stepTypes: {
 	read: "Lesen",
@@ -448,10 +447,12 @@ export default {
   },
   computed: {
     sectionMarkers() {
-      var parts = this.currentCase.facts.split(/class=\"/);
+      // the sections are color-coded, as execCommand does otherwise not work reliably
+      // across browsers
+      var parts = this.currentCase.facts.split(/style=\"background-color:/);
       var classes = [];
       for (var i = 0; i < parts.length-1; i++) {
-	classes[i] = parts[i+1].split(/\"/)[0].trim();
+	classes[i] = "section-marker-" + parts[i+1].split(/\"/)[0].split(/\(/)[1].split(/,/)[0].trim();
       }
       // return unique classes
       return classes.filter((v, i, a) => a.indexOf(v) === i);
@@ -808,7 +809,6 @@ export default {
 // https://stackoverflow.com/questions/14208054/change-the-color-of-text-on-selection
 // https://stackoverflow.com/questions/17288964/how-to-change-color-of-the-selected-text-dynamically-on-click-of-button
 </script>
-
 <style lang="scss">
   @import './styles.scss';
 </style>

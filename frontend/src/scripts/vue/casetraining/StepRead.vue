@@ -25,7 +25,12 @@
 	  <img src="/assets/images/marker/eraser.png">
 	</span>
       </div>
-      <div id="mark-area-content" v-html="currentCase.userFacts" @mouseup="markUp()"></div>
+      <div style="position: relative">
+	<div id="user-mark-area-content-outer">
+	  <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
+	</div>
+	<div id="mark-area-content" class="user-markers" v-html="currentCase.userFacts" @mouseup="markUp()"></div>
+      </div>
     </div>
   </template>
   <template #right>
@@ -47,6 +52,7 @@
 
 <script>
 import StepTemplate from "./StepTemplate.vue";
+import { nextTick } from "vue";
 
 export default {
   name: "StepRead",
@@ -68,6 +74,14 @@ export default {
     return {
       componentKey: 0,
       markColor: null,
+      hltr: null,
+      colors: {
+	"marker-1": "rgb(101,255,255)",
+	"marker-2": "rgb(102,255,255)",
+	"marker-3": "rgb(103,255,255)",
+	"marker-4": "rgb(104,255,255)",
+	"marker-5": "rgb(105,255,255)",
+      },
     }
   },
   computed: {
@@ -86,33 +100,47 @@ export default {
       this.markColor = name;
       this.markUp();
     },
-    markReset() {
-      this.currentCase.userFacts = this.currentCase.facts;
-      // we need this, so text gets refreshed
-      this.componentKey += 1;
-    },
-    markUp() {
-      if (!this.markColor) return;
+    async markUp() {
+      if (!this.markColor)
+	return;
 
       var sel = window.getSelection();
+      if (sel.type !== "Range" || !sel.getRangeAt)
+	return;
 
-      if (sel.type == "Range" && sel.getRangeAt) {
-	var range = sel.getRangeAt(0);
-	document.designMode = "on";
-	sel.removeAllRanges();
-	sel.addRange(range);
-	document.execCommand("removeFormat");
-	if (this.markColor != "marker-erase")
-	  document.execCommand("BackColor", false, "black");
-	document.designMode = "off";
-	sel.removeAllRanges();
-	let html = document.getElementById("mark-area-content").innerHTML;
-	html = html.replace(/style="background-color: black;"/g, "class=\"user-" + this.markColor + "\"")
-	this.currentCase.userFacts = html;
-	this.componentKey += 1;
-      }
+      var range = sel.getRangeAt(0);
+      document.designMode = "on";
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand("removeFormat");
+      if (this.markColor != "marker-erase")
+	document.execCommand("BackColor", false, this.colors[this.markColor]);
+      document.designMode = "off";
+      sel.removeAllRanges();
+      let html = document.getElementById("mark-area-content").innerHTML;
+      this.currentCase.userFacts = html;
+      this.componentKey += 1;
+      await nextTick();
     },
   },
+}
+function getSelectionHtml() {
+    var html = "";
+    if (typeof window.getSelection != "undefined") {
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            var container = document.createElement("div");
+            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                container.appendChild(sel.getRangeAt(i).cloneContents());
+            }
+            html = container.innerHTML;
+        }
+    } else if (typeof document.selection != "undefined") {
+        if (document.selection.type == "Text") {
+            html = document.selection.createRange().htmlText;
+        }
+    }
+    return html;
 }
 </script>
 <style lang="scss" scoped>

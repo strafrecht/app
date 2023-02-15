@@ -19,7 +19,7 @@
 
     <div>
       <div style="position: relative">
-	<div style="position: absolute; top: 0; left: 0; color: transparent; pointer-events: none;">
+	<div id="user-mark-area-content-outer">
 	  <div id="user-mark-area-content" v-html="currentCase.userFacts"></div>
 	</div>
 	<div id="mark-area-content" v-html="currentCase.facts"></div>
