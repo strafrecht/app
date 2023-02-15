@@ -21,7 +21,7 @@
 	<span class="btn-marker btn-marker-5" :class="markColor == 'marker-5' ?  'border' : ''" @mousedown="setColor('marker-5')">
 	  <img src="/assets/images/marker/textmarker-5.png">
 	</span>
-	<span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @click="setColor('marker-erase')">
+	<span class="btn-marker btn-marker-erase" :class="markColor == 'marker-erase' ?  'border' : ''" @mousedown="setColor('marker-erase')">
 	  <img src="/assets/images/marker/eraser.png">
 	</span>
       </div>
