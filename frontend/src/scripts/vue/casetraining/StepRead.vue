@@ -105,32 +105,19 @@ export default {
 	return;
 
       var sel = window.getSelection();
-      console.log(sel)
-      console.log(sel.type)
-      console.log(sel.getRangeAt)
-
       if (sel.type !== "Range" || !sel.getRangeAt)
 	return;
 
       var range = sel.getRangeAt(0);
-      console.log(range)
       document.designMode = "on";
-      console.log("designMode on")
       sel.removeAllRanges();
       sel.addRange(range);
-      console.log(sel)
-      console.log(document.getElementById("mark-area-content").innerHTML);
       document.execCommand("removeFormat");
-      console.log("removeFormat")
-      console.log(document.getElementById("mark-area-content").innerHTML);
       if (this.markColor != "marker-erase")
 	document.execCommand("BackColor", false, this.colors[this.markColor]);
-      console.log("BackColor")
-      console.log(document.getElementById("mark-area-content").innerHTML);
       document.designMode = "off";
       sel.removeAllRanges();
       let html = document.getElementById("mark-area-content").innerHTML;
-      console.log(html);
       this.currentCase.userFacts = html;
       this.componentKey += 1;
       await nextTick();
