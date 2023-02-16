@@ -194,18 +194,20 @@ Jurcoach Multiple-Choice-Test: {{ category }} – Strafrecht Online
 
       if (answer.getAttribute('data-correct') == 'True') {
 	answer.parentNode.classList.add('check-icon')
+	answer.parentNode.classList.add('mct-correct-answer')
 	if (answer.checked) {
-	  answer.parentNode.classList.add('mct-correct-answer')
+	  //answer.parentNode.classList.add('mct-correct-answer')
 	} else {
-	  answer.parentNode.classList.add('mct-wrong-answer')
+	  //answer.parentNode.classList.add('mct-wrong-answer')
 	  correct = false
 	}
       } else {
 	answer.parentNode.classList.add('dash-icon')
+	answer.parentNode.classList.add('mct-wrong-answer')
 	if (!answer.checked) {
-	  answer.parentNode.classList.add('mct-correct-answer')
+	  //answer.parentNode.classList.add('mct-correct-answer')
 	} else {
-	  answer.parentNode.classList.add('mct-wrong-answer')
+	  //answer.parentNode.classList.add('mct-wrong-answer')
 	  correct = false
 	}
       }

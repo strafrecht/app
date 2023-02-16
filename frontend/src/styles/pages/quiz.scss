@@ -55,17 +55,17 @@
       border-color: $green !important;
     }
 
-    &.mct-correct-answer .mct-input-helper::after {
-      color: $green !important;
-    }
+    /* &.mct-correct-answer .mct-input-helper::after { */
+    /*   color: $green !important; */
+    /* } */
 
-    &.mct-wrong-answer .mct-input-helper::before {
-      border-color: $red !important;
-    }
+    /* &.mct-wrong-answer .mct-input-helper::before { */
+    /*   border-color: $red !important; */
+    /* } */
 
-    &.mct-wrong-answer .mct-input-helper::after {
-      color: $red !important;
-    }
+    /* &.mct-wrong-answer .mct-input-helper::after { */
+    /*   color: $red !important; */
+    /* } */
 
     input:checked + .mct-input-helper::before {
       border-color: $body-color;
