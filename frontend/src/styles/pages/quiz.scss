@@ -46,7 +46,7 @@
       font-weight: 800;
       text-decoration: none;
       left: 3.1px;
-      top: 0px;
+      top: 0;
       color: #000;
       opacity: 0;
     }
@@ -55,16 +55,16 @@
       border-color: $green !important;
     }
 
-    /* &.mct-correct-answer .mct-input-helper::after { */
-    /*   color: $green !important; */
+    /* &.mct-correct-answer .mct-input-helper::after {
+    /*   color: $green !important;
     /* } */
 
-    /* &.mct-wrong-answer .mct-input-helper::before { */
-    /*   border-color: $red !important; */
+    /* &.mct-wrong-answer .mct-input-helper::before {
+    /*   border-color: $red !important;
     /* } */
 
-    /* &.mct-wrong-answer .mct-input-helper::after { */
-    /*   color: $red !important; */
+    /* &.mct-wrong-answer .mct-input-helper::after {
+    /*   color: $red !important;
     /* } */
 
     input:checked + .mct-input-helper::before {

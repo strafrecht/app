@@ -24,6 +24,7 @@
     width: 40px;
     padding: 2px;
     border: 1px solid transparent;
+
     &.border {
       background: #fff;
     }
@@ -60,12 +61,12 @@
 
   #mark-area-content {
     padding: 5px 15px 15px 15px;
-    margin: 0px -15px -15px -15px;
+    margin: 0 -15px -15px -15px;
   }
 
-  /* section/marker colors are coded with background-color: */
-  /* sections:      rgb([1-5], 255, 255) */
-  /* user sections: rgb(20[1-5], 255, 255) */
+  /* section/marker colors are coded with background-color:
+  /* sections:      rgb([1-5], 255, 255)
+  /* user sections: rgb(20[1-5], 255, 255)
   /* user marker:   rgb(10[1-5], 255, 255) */
 
   $usercolors: #29e7fc, #95fd06, #c0b1fe, #ff92f3, #fff451;
