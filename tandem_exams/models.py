@@ -162,7 +162,7 @@ class ExamSolution(models.Model):
         mail.send_mail(
             subject=subject,
             message=text,
-            from_email='jukol@strafrecht-online.de',
+            from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[recipient],
             fail_silently=False,
         )
