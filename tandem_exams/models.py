@@ -125,14 +125,15 @@ class ExamSolution(models.Model):
         subject = "Tandemklausur: {}".format(self.exam)
 
         text = """
-        Hallo {first_name},
+Hallo {first_name},
 
-        es wurde ein Tandempartner zu Deiner Klausurlösung gefunden! Du kannst
-        nun seine Tandemklausur korrigieren.
-        Du findest diese in Deinem Nutzerprofil:
-        {site}/profile/tandemklausuren/
+es wurde ein Tandempartner / eine Tandempartnerin zu
+Deinem Gutachten gefunden! Du kannst nun seine / ihre Tandemklausur
+korrigieren.
+Du findest diese in Deinem Nutzerprofil:
+{site}/profile/tandemklausuren/
 
-        Dein Jurcoach-Team
+Dein Jurcoach-Team
         """.format(site=settings.SITE_URL,
                    first_name=self.user.first_name)
 
@@ -149,13 +150,13 @@ class ExamSolution(models.Model):
         subject = "Tandemklausur: {}".format(self.exam)
 
         text = """
-        Hallo {first_name},
+Hallo {first_name},
 
-        es wurde eine Korrektur zu Deiner Tandemklausur hochgeladen. Du kannst
-        die Korrektur in Deinem Nutzerprofil einsehen:
-        {site}/profile/tandemklausuren/
+es wurde eine Korrektur zu Deiner Tandemklausur hochgeladen. Du kannst
+die Korrektur in Deinem Nutzerprofil einsehen:
+{site}/profile/tandemklausuren/
 
-        Dein Jurcoach-Team
+Dein Jurcoach-Team
         """.format(site=settings.SITE_URL,
                    first_name=self.user.first_name)
 
