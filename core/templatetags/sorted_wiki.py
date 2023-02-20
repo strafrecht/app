@@ -9,6 +9,7 @@ def sorted_wiki(children, urlpath):
     custom_order = {
         "": ["at", "bt", "rechtsprechung", "offene-problemfelder"],
         "at/": ["tb", "rw", "schuld", "irrtum", "taeterschaft", "teilnahme", "versuch", "fahrlaessig", "unterl"],
+        "rechtsprechung/at/": ["tb", "rw", "schuld", "irrtuemer", "taeterschaft", "teilnahme", "versuch", "fahrlaessig", "unterl"],
     }
 
     ordered = custom_order.get(urlpath.path)
