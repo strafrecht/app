@@ -56,17 +56,17 @@
         		></v-switch>
         		<v-spacer></v-spacer>
         		<v-switch
-        			v-model="filtering['intermediate']"
-          		label="Examensklausuren"
+        			v-model="filtering['advanced']"
         			color="teal"
+          		label="Fortgeschrittenenklausuren"
           		class="mt-2"
           		@change="filterDifficulty"
         		></v-switch>
         		<v-spacer></v-spacer>
         		<v-switch
-        			v-model="filtering['advanced']"
+        			v-model="filtering['intermediate']"
+          		label="Examensklausuren"
         			color="teal"
-          		label="Fortgeschrittenenklausuren"
           		class="mt-2"
           		@change="filterDifficulty"
         		></v-switch>
@@ -89,18 +89,12 @@
 						<div style="display: flex; flex-direction: column;">
 							<div style="display: flex; margin-bottom: 20px;">
       					<div style="min-width: 140px;">Paragraphen</div>
-      					<div style="flex-grow: 1;">
-									{% verbatim %}
-										{{ item.paragraphs }}
-									{% endverbatim %}
+      					<div style="flex-grow: 1;" v-html="item.paragraphs">
 								</div>
 							</div>
 							<div style="display: flex;">
       					<div style="min-width: 140px;">Problemfelder</div>
-      					<div style="flex-grow: 1;">
-									{% verbatim %}
-										{{ item.problems }}
-									{% endverbatim %}
+      					<div style="flex-grow: 1;" v-html="item.problems">
 								</div>
 							</div>
 						</div>
@@ -265,7 +259,10 @@
   					return 'Examensklausur'
   					break
   				case 'original-exam':
-  					return 'Originalexamensklausur'
+  					return 'Originalklausur'
+  					break
+  				case 'term-paper':
+  					return 'Hausarbeit'
   					break
   				case 'exercise':
   					return 'Übungsfall'

@@ -26,7 +26,8 @@ class Exams(models.Model):
     EXAM_TYPE_CHOICES = [
         ('falltraining', 'Klausur im Falltraining'),
         ('exam','Examensklausur'),
-        ('original-exam', 'Originalexamensklausur'),
+        ('original-exam', 'Originalklausur'),
+        ('term-paper', 'Hausarbeit'),
         ('exercise', 'Übungsfall'),
         ('tutorial', 'AG-Fall'),
     ]
