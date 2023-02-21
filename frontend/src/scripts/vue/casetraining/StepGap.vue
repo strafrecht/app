@@ -61,7 +61,7 @@
       <button class="btn btn-primary" @click="addGapText()">neuer Lückentext</button>
     </div>
     <div v-else>
-      <p>{{ currentStep.intro }}</p>
+      <p style="white-space: pre-line">{{ currentStep.intro }}</p>
       <p class="mt-2 mb-2 d-lg-none">
 	<em>Hinweis für mobile Geräte: Klicke zunächst auf eine Lücke und anschließend auf einen Satzbaustein.</em>
       </p>

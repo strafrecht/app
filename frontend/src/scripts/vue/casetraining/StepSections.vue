@@ -56,7 +56,7 @@
 	</p>
       </div>
       <div v-else>
-	<p>{{ currentStep.intro }}</p>
+	<p style="white-space: pre-line">{{ currentStep.intro }}</p>
       </div>
       <p class="mt-2 mb-2 d-lg-none">
 	<em>Hinweis für mobile Geräte: Markiere zunächst den Text und klicke anschließend auf einen Stift.</em>

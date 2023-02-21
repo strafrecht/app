@@ -39,7 +39,7 @@
       <p>Weise Problemfelder den einzelnen Sachverhaltsabschnitten zu.</p>
     </div>
     <div v-else>
-      <p>{{ currentStep.intro }}</p>
+      <p style="white-space: pre-line">{{ currentStep.intro }}</p>
     </div>
 
     <div class="mb-3" v-for="(marker, cindex) in $parent.sectionMarkers">

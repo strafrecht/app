@@ -45,7 +45,7 @@
       <button class="btn btn-primary" @click="addFreeText">neue Aufgabe</button>
     </div>
     <div v-else>
-      <p>{{ currentStep.intro }}</p>
+      <p style="white-space: pre-line">{{ currentStep.intro }}</p>
       <div v-for="(discussion, index) in currentStep.config">
 	<h6 v-html="discussion.text" class="mt-3"></h6>
 	<vue-editor v-model="currentStep.answers[index]" :editorToolbar="customToolbar"></vue-editor>

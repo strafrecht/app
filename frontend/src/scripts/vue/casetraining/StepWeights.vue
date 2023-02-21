@@ -25,7 +25,7 @@
       </div>
     </div>
     <div v-else>
-      <p>{{ currentStep.intro }}</p>
+      <p style="white-space: pre-line">{{ currentStep.intro }}</p>
     </div>
 
     <div>
