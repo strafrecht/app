@@ -229,6 +229,7 @@ ASGI_APPLICATION = 'app.routing.application'
 ADMINS = vars.vars["ADMINS"]
 SERVER_EMAIL = vars.vars["SERVER_EMAIL"]
 DEFAULT_FROM_EMAIL = vars.vars["DEFAULT_FROM_EMAIL"]
+BIRDSONG_FROM_EMAIL = vars.vars["BIRDSONG_FROM_EMAIL"]
 
 if DEBUG:
     # use mailcatcher for development

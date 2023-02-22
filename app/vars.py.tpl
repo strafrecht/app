@@ -4,6 +4,7 @@ vars = {
     "ADMINS": [],
     "SERVER_EMAIL": "system@localhost",
     "DEFAULT_FROM_EMAIL": "webmaster@localhost",
+    "BIRDSONG_FROM_EMAIL": "newsletter@localhost",
     "SECRET_KEY": 'eo3taeleev0ZeiReeteer9Xeepoor3quai7poorai1laishaeshohmaej6weiC3e',
     "ALLOWED_HOSTS": [
         'localhost',
