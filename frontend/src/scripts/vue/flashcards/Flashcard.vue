@@ -106,10 +106,10 @@
             <div class="flip-card">
               <div class="flip-card-inner">
 		<div class="flip-card-front">
-		  <small>{{ result.card.front_side }}</small>
+		  <div class="flip-card-content"><small>{{ result.card.front_side }}</small></div>
 		</div>
 		<div class="flip-card-back">
-		  <small>{{ result.card.back_side }}</small>
+		  <div class="flip-card-content"><small>{{ result.card.back_side }}</small></div>
 		</div>
               </div>
             </div>
@@ -130,10 +130,10 @@
           <div class="flip-card">
             <div class="flip-card-inner">
               <div class="flip-card-front">
-		<small>{{ front_side }}</small>
+		<div class="flip-card-content"><small>{{ front_side }}</small></div>
               </div>
               <div class="flip-card-back">
-		<small>{{ back_side }}</small>
+		<div class="flip-card-content"><small>{{ back_side }}</small></div>
               </div>
             </div>
           </div>
@@ -169,13 +169,13 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="({ front_side, back_side, id }) in gameModeCards" :key="id">
           <div :data-id="id" :class="['swiper-flashcard']" :ref="`flashcard-${id}`" @click="onSlideClick(id)" title="Klick um die andere Seite zu sehen">
-            <div class="flashcard-front">
-              <span class="card-content">{{ front_side }}</span>
-              <br />
-            </div>
-            <div class="flashcard-back">
-              <span class="card-content"> {{ back_side }}</span>
-              <br />
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+		<div class="flip-card-content">{{ front_side }}</div>
+              </div>
+              <div class="flip-card-back">
+		<div class="flip-card-content">{{ back_side }}</div>
+              </div>
             </div>
           </div>
         </div>

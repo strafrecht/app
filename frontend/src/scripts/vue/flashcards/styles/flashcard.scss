@@ -3,6 +3,8 @@
     overflow: hidden;
     width: 270px;
     margin: 0 auto;
+    padding-top: 20px;
+    padding-left: 10px;
   }
 
   .swiper-controls {
@@ -30,7 +32,6 @@
   }
 
   .swiper-flashcard {
-    background: #fff;
     border-radius: 1em;
     width: 16rem;
     height: 24rem;
@@ -42,38 +43,6 @@
 
   .swiper-slide-rotate {
     transform: rotateY(180deg);
-  }
-
-  .flashcard-front,
-  .flashcard-back {
-    border-radius: 1em;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: small;
-  }
-
-  .flashcard-front {
-    background: #e9e9e9;
-  }
-
-  .flashcard-back {
-    transform: rotateY(180deg);
-    background: #cfe6d4;
-  }
-
-  .card {
-    margin: 5px;
-    padding: 4px;
-    background-color: #fff;
-    color: #2c3e50;
-    height: fit-content;
-    border: none;
   }
 
   .flip-card {
@@ -103,6 +72,18 @@
     transform: rotateY(180deg);
   }
 
+  .flip-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 0.875em;
+
+    small {
+      font-size: 0.725em;
+    }
+  }
+
   .flip-card-front,
   .flip-card-back {
     padding: 1em 10px;
@@ -121,7 +102,7 @@
   }
 
   .flip-card-back {
-    background-color: rgb(233, 233, 233);
+    background-color: #cfe6d4;
     color: black;
     transform: rotateY(180deg);
   }
@@ -158,11 +139,6 @@
   .swiper-button-prev::after {
     color: #6c757d;
     font-size: 28px;
-  }
-
-  .card-content {
-    margin: 20px;
-    text-align: center;
   }
 
   .hide {
