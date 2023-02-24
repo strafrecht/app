@@ -48,7 +48,7 @@ def new_solution(request, id):
             if instance.find_tandem_partner():
                 messages.success(request, "Gutachten erfolgreich hochgeladen. Ein anderes Gutachten wurde Dir zur Korrektur zugewiesen. Du findest das Gutachten in deinem Profil.")
             else:
-                messages.success(request, "Gutachten erfolgreich hochgeladen. Wir schicken eine Nachricht, sobald ein Tandempartner / eine Tandempartnerin gefunden wurde.")
+                messages.success(request, "Gutachten erfolgreich hochgeladen. Wir schicken eine Nachricht, sobald ein:e Tandempartner:in gefunden wurde.")
             return redirect("tandem_exams:show", id=exam.id)
     else:
         form = ExamSolutionForm()
