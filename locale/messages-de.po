@@ -199,7 +199,7 @@ msgid "An image was added: %s"
 msgstr "Ein Bild wurde hinzugefügt: %s"
 
 msgid "Are you sure?"
-msgstr "Bist du dir sicher?"
+msgstr "Bist Du dir sicher?"
 
 msgid "Article"
 msgstr "Problemfeld"
