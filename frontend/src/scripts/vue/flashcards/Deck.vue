@@ -28,7 +28,7 @@
 	  <label class="label">Wiki Kategorie</label>
 	  <treeselect class="treeselect" v-model="deckToEdit.wiki_category" :multiple="false" :disable-branch-nodes="true" :options="wiki_categories" placeholder="Bitte wählen…" />
 	  <small class="form-text text-muted">
-	      Wenn Du dein Deck für andere freigeben willst, wähle hier eine Kategorie im Problemfeldwiki aus.
+	      Wenn Du Dein Deck für andere freigeben willst, wähle hier eine Kategorie im Problemfeldwiki aus.
 	  </small>
 	</div>
       </form>
@@ -43,11 +43,11 @@
     <template #header>Deck einreichen</template>
     <template #body>
       <p>
-	Willst Du dein Deck »{{ deckToSubmit.name }}« im Problemfeldwiki
+	Willst Du Dein Deck »{{ deckToSubmit.name }}« im Problemfeldwiki
 	unter »{{ wiki_category_label(deckToSubmit.wiki_category) }}« einreichen?
       </p>
       <p>
-	Nach der Einreichung werden wir dein Deck prüfen und freigeben.
+	Nach der Einreichung werden wir Dein Deck prüfen und freigeben.
       </p>
     </template>
     <template #footer>
