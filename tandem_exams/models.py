@@ -127,8 +127,8 @@ class ExamSolution(models.Model):
         text = """
 Hallo {first_name},
 
-es wurde ein Tandempartner / eine Tandempartnerin zu
-Deinem Gutachten gefunden! Du kannst nun seine / ihre Tandemklausur
+es wurde ein:e Tandempartner:in zu
+Deinem Gutachten gefunden! Du kannst nun die entsprechende Tandemklausur
 korrigieren.
 Du findest diese in Deinem Nutzerprofil:
 {site}/profile/tandemklausuren/
