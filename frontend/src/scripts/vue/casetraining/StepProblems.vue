@@ -175,7 +175,7 @@ export default {
       this.currentStep.config = [];
 
     if (!this.currentStep.intro)
-      this.currentStep.intro = "Ermittel die Problemfelder der Sachverhaltsabschnitte.";
+      this.currentStep.intro = "Ermittle die Problemfelder der Sachverhaltsabschnitte.";
   },
   methods: {
     setProblemIndex(index) {
