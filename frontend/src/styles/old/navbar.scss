@@ -1,10 +1,12 @@
 #nav {
-  border-bottom: 0 solid #eee;
+  border-bottom: 1px solid #eee;
   background: #fff;
   margin-top: 0 !important;
   padding: 0;
   top: 0;
   z-index: 500;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  color: #3d3d3d;
 }
 
 #nav .navbar-nav {
