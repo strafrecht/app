@@ -45,9 +45,11 @@ class PeopleIndexPage(RoutablePageMixin, Page):
         context['head'] = staff.filter(role='chairholder')
         context['office'] = staff.filter(role='office-management')
         context['academic'] = staff.filter(
-            Q(role='academic-staff-male') | Q(role='academic-staff-female') | Q(role='academic-assistant')
+            Q(role='academic-staff-male') | Q(role='academic-staff-female') | Q(role='academic-assistant') | Q(role='jurcoach-law-team-academic')
         )
-        context['student'] = staff.filter(role='student-assistant')
+        context['student'] = staff.filter(
+            Q(role='student-assistant') | Q(role='jurcoach-law-team-student')
+        )
         return context
 
     @route('(?P<person>\d+)/$', name="person")
@@ -91,6 +93,8 @@ class People(models.Model):
         ('office-management', 'Office Management'),
         ('academic-staff-male', 'Wiss. Mitarbeiter'),
         ('academic-staff-female', 'Wiss. Mitarbeiterin'),
+        ('former academic-staff-male', 'Ehem. Wiss. Mitarbeiter'), 
+        ('former academic-staff-female', 'Ehem. Wissenschaftliche Mitarbeiterin'),
         ('academic-assistant', 'Wiss. Hilfskraft'),
         ('student-assistant', 'Stud. Hilfskraft'),
         ('jurcoach-law-team', 'Jurcoach Jura-Team'),
