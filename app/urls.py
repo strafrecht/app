@@ -32,8 +32,8 @@ urlpatterns = [
     path('search/', include('pages.urls')),
 
     path('profile/', include('profiles.urls')),
-    path('jurcoach/klausurendatenbank/', exams, name='exams'),
-    path('jurcoach/klausurendatenbank/api', api_exams, name='exams'),
+    path('jurcoach/klausurdatenbank/', exams, name='exams'),
+    path('jurcoach/klausurdatenbank/api', api_exams, name='exams'),
     path('falltraining/', include('casetraining.urls')),
     path('tandemklausuren/', include('tandem_exams.urls')),
 
