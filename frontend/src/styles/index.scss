@@ -50,7 +50,7 @@ h3,
 h3 b {
   color: #333 !important;
   font-family: $serif-font;
-  font-size: 19px !important;
+  font-size: 23px !important;
   font-weight: 800 !important;
   background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #e8e7df 14px, #e8e7df 32px);
   line-height: 32px !important;
@@ -59,23 +59,39 @@ h3 b {
   margin-bottom: 20px !important;
 }
 
+h4,
+h4 b {
+  color: #333 !important;
+  font-family: $serif-font;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  line-height: 22px !important;
+  line-height: 0 !important;
+  display: inline !important;
+  margin-bottom: 20px !important;
+}
+
 h2::before,
 h2::after,
 h3::before,
-h3::after {
+h3::after,
+h4::before,
+h4::after{
   content: '\A';
   white-space: pre;
 }
 
 .block-richtext h2 a,
-.block-richtext h3 a {
+.block-richtext h3 a,
+.block-richtext h4{
   text-decoration: none;
   color: inherit;
   font-family: inherit;
 }
 
 .block-richtext h2 a:hover,
-.block-richtext h3 a:hover {
+.block-richtext h3 a:hover,
+.block-richtext h4 a:hover{
   text-decoration: none;
   color: inherit;
   font-family: inherit;
