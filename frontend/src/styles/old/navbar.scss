@@ -63,7 +63,7 @@
 
 .with-header #nav .navbar-toggler-bar,
 #nav .navbar-trans .navbar-toggler-bar {
-  background: #fff;
+  background: rgba(0,0,0,0.6);
 }
 
 #nav .navbar-toggler {
@@ -177,7 +177,7 @@ li.ancestor.nav-item > a:hover {
 }
 
 #nav .navbar-nav .nav-item .dropdown-menu .dropdown-item:hover {
-  background-color: rgba(0,0,0,0.6);
+  background-color: transparent;
 }
 
 /* trans navbar styles
