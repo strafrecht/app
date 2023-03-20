@@ -32,5 +32,5 @@
 .session-material {
     xdisplay: flex;
     xflex-direction: column;
-    line-height: 2rem !important;
+    line-height: 1rem !important;
 }
