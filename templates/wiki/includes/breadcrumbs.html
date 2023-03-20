@@ -1,7 +1,7 @@
 {% load i18n sekizai_tags static %}
 
 {% if urlpath %}
-<div class="breadcrumb-new" style="top: 0 !important; margin-bottom: 20px !important;">Du bist hier: <a style="color: #3d3d3d; text-decoration: none;" href="/">Home</a> &gt;
+<div class="breadcrumb-new" style="top: -40 !important; margin-bottom: 20px !important;">Du bist hier: <a style="color: #3d3d3d; text-decoration: none;" href="/">Home</a> &gt;
   <a style="color: #3d3d3d; text-decoration: none;" href="/jurcoach">Jurcoach</a> &gt;
   {% for ancestor in urlpath.cached_ancestors %}
   <a style="color: #3d3d3d; text-decoration: none;" href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a> &gt;
