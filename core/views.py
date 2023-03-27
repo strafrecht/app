@@ -4,12 +4,14 @@ import logging
 import os
 import urllib.parse
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.core import serializers
 from wagtail.documents.models import Document
 from wiki.models import Article
+
 from pages.models.exams import Exams
 from core.seed import start
 
@@ -97,3 +99,52 @@ def api_exams(request):
     } for exam in exams]
 
     return JsonResponse({'data': data})
+
+# newsletter subscription
+
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.utils.crypto import get_random_string, salted_hmac
+from django.conf import settings
+from birdsong.models import Contact
+
+def newsletter_subscribe(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if email:
+            hashed_email = salted_hmac(settings.SECRET_KEY, email.lower()).hexdigest()
+            confirmation_url = request.build_absolute_uri(reverse('newsletter_confirm', args=[hashed_email, email]))
+            text = """
+Bitte Bestätigen Sie ihre Anmeldung zum LSH-Newsletter über folgenden Link:
+{confirmation_url}
+
+Falls Sie die Anmeldung zum Newsletter nicht angefordert haben,
+können Sie diese E-Mail ignorieren.
+
+Dein Jurcoach-Team
+            """.format(confirmation_url=confirmation_url)
+            send_mail(
+                'Bestätigung der Anmeldung zum LSH-Newsletter',
+                text,
+                settings.BIRDSONG_FROM_EMAIL,
+                [email],
+                fail_silently=False,
+            )
+            messages.success(request, f"Wir senden Dir eine Bestätigungs-E-Mail für die Anmeldung zu.")
+        else:
+            messages.info(request, f"E-Mail-Adresse fehlt.")
+    else:
+        return HttpResponseBadRequest('Only POST requests allowed.')
+
+    return redirect("/archiv/lsh-newsletter/")
+
+
+def newsletter_confirm(request, hashed_email, email):
+    computed_hash = salted_hmac(settings.SECRET_KEY, email.lower()).hexdigest()
+    if hashed_email == computed_hash:
+        Contact.objects.create(email=email)
+        messages.success(request, f"Du wurdest für den LSH-Newsletter eingetragen.")
+    else:
+        messages.error(request, f"Der Bestätigungslink ist nicht korrekt.")
+
+    return redirect("/archiv/lsh-newsletter/")
