@@ -8,7 +8,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.core import urls as wagtail_urls
 
-from core.views import exams, api_exams
+from core.views import exams, api_exams, newsletter_subscribe, newsletter_confirm
 
 from wagtailpolls.views.vote import vote
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls
@@ -47,6 +47,8 @@ urlpatterns = [
     path('lehre/', include('core.urls')),
 
     path('mail/', include(birdsong_urls)),
+    path('mail/subscribe', newsletter_subscribe, name='newsletter_subscribe'),
+    path('mail/confirm/<str:hashed_email>/<str:email>',   newsletter_confirm,   name='newsletter_confirm'),
     path('', include('pwa.urls')),
 
     path('comments/', include('django_comments_xtd.urls')),

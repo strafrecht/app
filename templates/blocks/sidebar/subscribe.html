@@ -1,11 +1,17 @@
 {% load wagtailimages_tags %}
 
-<div class="sidebar-subscribe">
-	<div class="text">
-		{{ content }} 
-	</div>
-	<div class="image">
-		{{ text }}
-		{% image value.image width-400 %}
-	</div>
+<div class="sidebar sidebar-border">
+  <div class="text">
+    <h2>Zum Newsletter an-/abmelden</h2>
+    <p>
+      Bitte geben Sie in das unten stehende Feld Ihre aktuelle E-Mail-Adresse ein und klicken Sie auf 'Abonnieren'.
+    </p>
+    <form method="post" action="{% url 'newsletter_subscribe' %}">
+      {% csrf_token %}
+      <div class="form-group">
+	<input type="email" name="email" class="form-control" placeholder="E-Mail Adresse" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Abonnieren</button>
+    </form>
+  </div>
 </div>

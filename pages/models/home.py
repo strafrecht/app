@@ -79,7 +79,7 @@ class SidebarBlocks(blocks.StreamBlock):
     sidebar_header = SidebarHeaderBlock(label="Bild oben, Text darunter")
     sidebar_calendar_text = SidebarCalendarTextBlock(label="Kalender links, Text rechts")
     sidebar_poll = SidebarPollChooser(label="Abstimmung")
-    sidebar_subscribe = SidebarSubscribeBlock()
+    sidebar_subscribe = SidebarSubscribeBlock(label="Newsletter-Anmeldung")
     sidebar_event = SidebarEventBlock()
     sidebar_search = SidebarSearchBlock(label="Suchfeld")
 
