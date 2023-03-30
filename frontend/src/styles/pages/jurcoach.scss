@@ -119,8 +119,7 @@
 /* wiki styles */
 #wiki-container {
   .wiki-article-title {
-    margin-bottom: 30px;
-    background: repeating-linear-gradient(to bottom, transparent, transparent 20px, #e8e7df 20px, #e8e7df 40px);
+    linear-gradient(90deg, #ffe100, #ffe100)    
     line-height: 40px !important;
     display: inline !important;
   }
