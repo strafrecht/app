@@ -70,17 +70,7 @@ h4 b {
   display: inline !important;
   margin-top: 20px !important;
   margin-bottom: 20px !important;
-}
 
-h2::before,
-h2::after,
-h3::before,
-h3::after,
-h4::before,
-h4::after{
-  content: '\A';
-  white-space: pre;
-}
 
 .block-richtext h2 a,
 .block-richtext h3 a,
