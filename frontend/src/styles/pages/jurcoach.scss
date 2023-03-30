@@ -508,11 +508,5 @@ div.h2-centered {
   line-height: 32px !important;
   border-bottom: 4px solid #ffe200;
   display: inline !important;
-  & + p {
-    margin-top: 8px;
-  }
 
-  &.green {
-    background: repeating-linear-gradient(to bottom, transparent, transparent 14px, $green 14px, $green 32px) !important;
-  }
 }
