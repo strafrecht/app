@@ -44,28 +44,20 @@ h2 {
 
 h3,
 h3 b {
-  color: #333 !important;
+  color: rgb(140, 140, 140) !important;
   font-family: $serif-font;
   font-size: 23px !important;
-  font-weight: 800 !important;
-  background: repeating-linear-gradient(to bottom, transparent, transparent 14px, #e8e7df 14px, #e8e7df 32px);
-  line-height: 32px !important;
-  line-height: 0 !important;
-  display: inline !important;
-  margin-bottom: 20px !important;
+  font-weight: 1000 !important;
 }
 
 h4,
 h4 b {
   color: #333 !important;
-  font-family: $serif-font;
-  font-size: 20px !important;
+  font-family: "Roboto-Slab";
+  font-size: 18px !important;
   font-weight: 600 !important;
-  line-height: 22px !important;
-  line-height: 0 !important;
-  display: inline !important;
-  margin-top: 20px !important;
-  margin-bottom: 20px !important;
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
 }
 
 .block-richtext h2 a,
