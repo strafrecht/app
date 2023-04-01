@@ -127,7 +127,8 @@ li.ancestor.nav-item > a:hover {
 #nav .navbar-nav .nav-item .dropdown-menu {
   background: #fff;
   min-width: 220px;
-  border: none;
+  border: 1px solid;
+  border-radius: 15px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.12);
   color: #555;
   margin-top: 20px;
