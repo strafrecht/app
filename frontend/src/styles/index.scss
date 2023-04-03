@@ -1,20 +1,20 @@
-$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/brands';
-@import "chartist/dist/chartist.css";
-@import "swiper/css";
-@import "bootstrap-icons/font/bootstrap-icons.css";
-@import "fonts.scss";
+@import 'chartist/dist/chartist.css';
+@import 'swiper/css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import 'fonts.scss';
 
 $body-color: #3d3d3d;
 $yellow: #ffe200;
 $green: #add345;
 $red: #ce0000;
 $bg-gray: #e8e7df;
-$line-gray:#e8e7e0;
+$line-gray: #e8e7e0;
 $serif-font: 'Roboto Slab';
 $container-width: 960px;
 
@@ -39,18 +39,18 @@ body {
 h2 {
   font-size: 28px;
   font-weight: 1000 !important;
-  font-family: "Roboto Slab";
+  font-family: 'Roboto Slab';
   background-image: linear-gradient(90deg, #ffe100, #ffe100);
   background-position: bottom;
   background-size: 100% 50%;
   background-repeat: no-repeat;
-  display: inline
+  display: inline;
 }
 
 h3,
 h3 b {
   color: rgb(0, 0, 0) !important;
-  font-family: "Roboto Slab";
+  font-family: 'Roboto Slab';
   font-size: 23px !important;
   font-weight: 1000 !important;
 }
@@ -58,7 +58,7 @@ h3 b {
 h4,
 h4 b {
   color: #333 !important;
-  font-family: "Roboto Slab";
+  font-family: 'Roboto Slab';
   font-size: 18px !important;
   font-weight: 600 !important;
   margin-top: 15px !important;
@@ -67,7 +67,7 @@ h4 b {
 
 .block-richtext h2 a,
 .block-richtext h3 a,
-.block-richtext h4{
+.block-richtext h4 {
   text-decoration: none;
   color: inherit;
   font-family: inherit;
@@ -75,48 +75,64 @@ h4 b {
 
 .block-richtext h2 a:hover,
 .block-richtext h3 a:hover,
-.block-richtext h4 a:hover{
+.block-richtext h4 a:hover {
   text-decoration: none;
   color: inherit;
   font-family: inherit;
 }
 
-@import "~bootstrap/scss/bootstrap.scss";
-@import "bookmarks.scss";
-@import "inline_icons.scss";
-@import "old/base.scss";
-@import "pages/jurcoach.scss";
-@import "pages/quiz.scss";
-@import "footer.scss";
-@import "banner.scss";
-@import "old/navbar.scss";
-@import "pages/sidebars/poll.scss";
-@import "pages/sidebars/header.scss";
-@import "pages/sidebars/calendar_text.css";
-@import "pages/sidebars/image_text.css";
-@import "pages/sidebars/search.scss";
-@import "pages/sidebar.scss";
-@import "old/website_index_page.scss";
-@import "old/wiki.scss";
+/* TABLE */
 
-@import "pages/cms_session.css";
-@import "pages/lehre.css";
-@import "pages/feedback.css";
-@import "pages/profile.scss";
-@import "pages/tandem_exams.scss";
-@import "old/columns.css";
-@import "old/comments.css";
-@import "old/content.css";
-@import "old/charts.css";
-@import "old/custom-wagtail-columns.css";
-@import "widget/flipcard.scss";
-@import "widget/jurcoach.scss";
+.block-table table {
+  width: 100%;
+}
+.block-table table thead {
+  border-bottom: 2px solid $line-gray;
+}
+.block-table table tr:not(:first-child) {
+  border-bottom: 1px solid $line-gray;
+}
+.block-table table th,
+.block-table table td {
+  padding: 0.25rem 0;
+}
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import 'bookmarks.scss';
+@import 'inline_icons.scss';
+@import 'old/base.scss';
+@import 'pages/jurcoach.scss';
+@import 'pages/quiz.scss';
+@import 'footer.scss';
+@import 'banner.scss';
+@import 'old/navbar.scss';
+@import 'pages/sidebars/poll.scss';
+@import 'pages/sidebars/header.scss';
+@import 'pages/sidebars/calendar_text.css';
+@import 'pages/sidebars/image_text.css';
+@import 'pages/sidebars/search.scss';
+@import 'pages/sidebar.scss';
+@import 'old/website_index_page.scss';
+@import 'old/wiki.scss';
+
+@import 'pages/cms_session.css';
+@import 'pages/lehre.css';
+@import 'pages/feedback.css';
+@import 'pages/profile.scss';
+@import 'pages/tandem_exams.scss';
+@import 'old/columns.css';
+@import 'old/comments.css';
+@import 'old/content.css';
+@import 'old/charts.css';
+@import 'old/custom-wagtail-columns.css';
+@import 'widget/flipcard.scss';
+@import 'widget/jurcoach.scss';
 //@import "old/django-pwa-app.css";
-@import "old/mysite.css";
-@import "old/person_index_page.css";
-@import "old/person_page.css";
-@import "old/polls.css";
-@import "old/bootstrap.css";
+@import 'old/mysite.css';
+@import 'old/person_index_page.css';
+@import 'old/person_page.css';
+@import 'old/polls.css';
+@import 'old/bootstrap.css';
 
 .block-sidebar {
   width: 100%;
