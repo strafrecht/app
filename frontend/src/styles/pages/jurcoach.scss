@@ -44,7 +44,7 @@
         padding-left: 0.8em;
         cursor: pointer;
 
-        input[type="radio"] {
+        input[type='radio'] {
           appearance: none;
           background: #fff;
           border-radius: 100%;
@@ -64,7 +64,7 @@
       }
     }
 
-    [type="submit"]:not(:disabled) {
+    [type='submit']:not(:disabled) {
       cursor: pointer;
       background: $yellow;
       border: 0;
@@ -163,27 +163,30 @@
     }
 
     .wiki-children {
-      display: block;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
       text-align: center;
       margin-left: 0;
       clear: both;
       color: #3d3d3d;
 
       a {
-	color: #333 !important;
-	font-weight: 700;
-	font-size: 14px;
+        flex-grow: 1;
+        color: #333 !important;
+        font-weight: 700;
+        font-size: 14px;
       }
 
       a > span.badge {
+        width: 100%;
         background: #fff;
         padding: 0.4rem 1rem;
         border: 3px solid #e8e7e0;
         color: #3d3d3d;
         font-size: 14px;
-        margin-bottom: 0.5rem;
-	white-space: normal;
-	line-height: 1.1em;
+        white-space: normal;
+        line-height: 1.1em;
 
         &:hover {
           background: #ffe200;
@@ -458,7 +461,10 @@ div.h2-centered {
   .active.carousel-item-left + .carousel-item-next.carousel-item-left,
   .carousel-item-next.carousel-item-left + .carousel-item,
   .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
-  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item {
+  .carousel-item-next.carousel-item-left
+    + .carousel-item
+    + .carousel-item
+    + .carousel-item {
     position: relative;
     transform: translate3d(-100%, 0, 0);
     visibility: visible;
@@ -478,14 +484,21 @@ div.h2-centered {
   .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
   .carousel-item-prev.carousel-item-right + .carousel-item,
   .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
-  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item {
+  .carousel-item-prev.carousel-item-right
+    + .carousel-item
+    + .carousel-item
+    + .carousel-item {
     position: relative;
     transform: translate3d(100%, 0, 0);
     display: block;
     visibility: visible;
   }
 
-  .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item {
+  .carousel-inner
+    .active.carousel-item
+    + .carousel-item
+    + .carousel-item
+    + .carousel-item {
     position: absolute;
     top: 0;
     right: -33.3333%;
@@ -494,17 +507,21 @@ div.h2-centered {
     visibility: visible;
   }
 
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
+  .carousel-inner
+    .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+  .carousel-inner
+    .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left)
+    + .carousel-item,
+  .carousel-inner
+    .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left)
+    + .carousel-item
+    + .carousel-item {
     transition: none;
   }
 }
 
 #jurcoach-page h3.highlighted {
-  
   line-height: 32px !important;
   border-bottom: 4px solid #ffe200;
   display: inline !important;
-
 }
