@@ -96,7 +96,6 @@ h4 b {
 .block-table table thead tr * + *,
 .block-table table tbody tr * + * {
   padding-left: 1rem;
-  padding-right: 1rem;
 }
 .block-table table tr:not(:first-child) {
   border-top: 1px solid $line-gray;
