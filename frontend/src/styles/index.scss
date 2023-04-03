@@ -188,7 +188,6 @@ main.container > div > .container {
 #quiz-category-question .h2-wrapper-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 50px;
 }
 
 #quiz-category-question .h2-wrapper {
@@ -196,6 +195,7 @@ main.container > div > .container {
   font-size: 28px;
   font-weight: 800 !important;
   font-family: $serif-font;
+  margin-bottom: 1.75rem;
 }
 
 @media screen and (max-width: 720px) {

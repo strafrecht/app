@@ -4,59 +4,74 @@
 {% load wagtailcore_tags wagtailimages_tags website_tags %}
 
 {% block extra_css %}
-	<style>
+<style>
 	.tabbed figure {
-	   display: block;
-	   margin-left: 0;
-	   clear: both;
+		display: block;
+		margin-left: 0;
+		clear: both;
 	}
-	.tabbed > input,
-	.tabbed figure > div { display: none; }
-	.tabbed figure > div {
-	  width: 100%;
-	  color: #3d3d3d;
+
+	.tabbed>input,
+	.tabbed figure>div {
+		display: none;
 	}
-	.tabbed figure > div a > span.badge {
-	  background: #fff;
-	  padding: .4rem 1rem;
-	  border: 3px solid #E8E7E0;
-	  color: #3d3d3d;
-	  font-size: 14px;
-	  margin-bottom: .5rem;
+
+	.tabbed figure>div {
+		width: 100%;
+		color: #3d3d3d;
 	}
-	.tabbed figure > div a > span.badge:hover {
-	  background: #FFE200;
-	  border: 3px solid #FFE200;
-	  cursor: pointer;
+
+	.tabbed figure>div a>span.badge {
+		background: #fff;
+		padding: .4rem 1rem;
+		border: 3px solid #E8E7E0;
+		color: #3d3d3d;
+		font-size: 14px;
+		margin-bottom: .5rem;
 	}
+
+	.tabbed figure>div a>span.badge:hover {
+		background: #FFE200;
+		border: 3px solid #FFE200;
+		cursor: pointer;
+	}
+
 	#jurcoach-page section nav {
-	  margin-bottom: 20px;
+		margin-bottom: 20px;
 	}
+
 	#jurcoach-page section nav label {
-	  cursor: pointer;
-	  margin: 0 .6rem;
+		cursor: pointer;
+		margin: 0 .6rem;
 	}
+
 	#jurcoach-page section nav label h3 {
-	  color: #999 !important;
-	  margin-bottom: 0;
+		color: #999 !important;
+		margin-bottom: 0;
 	}
-	#at:checked ~ figure .at,
-	#bt:checked ~ figure .bt { display: block; }
-	#at:checked ~ nav label[for="at"],
-	#bt:checked ~ nav label[for="bt"] {
-	  position: relative;
-	  color: #000  !important;
-	  border-bottom: 4px solid #FFE200;
-	  cursor: default;
+
+	#at:checked~figure .at,
+	#bt:checked~figure .bt {
+		display: block;
 	}
-	#jurcoach-page #at:checked ~ nav label[for="at"] h3,
-	#jurcoach-page #bt:checked ~ nav label[for="bt"] h3 {
-	  color: #000  !important;
+
+	#at:checked~nav label[for="at"],
+	#bt:checked~nav label[for="bt"] {
+		position: relative;
+		color: #000 !important;
+		border-bottom: 4px solid #FFE200;
+		cursor: default;
 	}
+
+	#jurcoach-page #at:checked~nav label[for="at"] h3,
+	#jurcoach-page #bt:checked~nav label[for="bt"] h3 {
+		color: #000 !important;
+	}
+
 	main>.container-inner>.content {
-	  max-width: none;
+		max-width: none;
 	}
-	</style>
+</style>
 {% endblock %}
 
 
@@ -65,11 +80,13 @@
 	{% include "layout/menu.html" %}
 </div>
 <section id="banner" style="background-image: url({{ header_image.file.url }})">
-  <div>
-    <div class="container header-text">
-      <a href="/"><h2>STRAFRECHT-ONLINE.ORG</h2></a>
-    </div>
-  </div>
+	<div>
+		<div class="container header-text">
+			<a href="/">
+				<h2>STRAFRECHT-ONLINE.ORG</h2>
+			</a>
+		</div>
+	</div>
 </section>
 {% endblock %}
 
@@ -79,28 +96,35 @@ Jurcoach Multiple-Choice-Test – Strafrecht Online
 
 {% block content %}
 <div id="jurcoach-page">
-  <section class="text-center" style="padding: 50px 0;">
-    <div class="container" style="max-width:700px !important;">
-      <div class="h2-wrapper">
-	<h2 style="margin-bottom: 50px;">Multiple-Choice-Test</h2>
-      </div>
-      <p>
-	Teste spielerisch Dein Wissen durch die Beantwortung von Lernfragen zu ausgewählten Themenbereichen. 
-      </p>
-	<p> 
-	Zwar gilt: Selbst mit einem perfekt beantworteten MCT hat man keine Gewähr dafür, auch bei einer Klausur oder Hausarbeit blendend dazustehen. Aber man hat gezeigt, dass man auf zentrale Fragen des Strafrechts eine Antwort zu geben wusste. Und über die Erläuterungen zur Lösung hat man zudem die Möglichkeit erhalten, diese Lösung argumentativ weiter abzusichern.
-	</p>
-	<p> 
-	Daher: Sich einmal einigen ganz konkreten Fragen aus dem Strafrecht auszusetzen, kann einem ein gutes Feedback geben, wie es um das Wissen in diesem Rechtsgebiet bestellt ist. Und vielleicht macht es sogar Spaß zu sehen, welche Quote man am Ende erzielt hat.
-	</p>
-	<p> 
-	Wir sind also überzeugt davon, dass ein Multiple-Choice-Test eine gelungene Abwechslung im juristischen Studium sein kann. Und daher arbeiten wir daran, unser Fragenarsenal beständig zu erweitern. Damit Du nicht nur einmal, sondern immer mal wieder hier vorbeischaust! Gerne darfst auch Du Dir Lernfragen für den MCT ausdenken!
-	</p>	    
-		
-    </div>
-  </section>
+	<section class="text-center" style="padding: 50px 0;">
+		<div class="container" style="max-width:700px !important;">
+			<div class="h2-wrapper">
+				<h2>Multiple-Choice-Test</h2>
+			</div>
+			<p>
+				Teste spielerisch Dein Wissen durch die Beantwortung von Lernfragen zu ausgewählten Themenbereichen.
+			</p>
+			<p>
+				Zwar gilt: Selbst mit einem perfekt beantworteten MCT hat man keine Gewähr dafür, auch bei einer Klausur oder
+				Hausarbeit blendend dazustehen. Aber man hat gezeigt, dass man auf zentrale Fragen des Strafrechts eine Antwort
+				zu geben wusste. Und über die Erläuterungen zur Lösung hat man zudem die Möglichkeit erhalten, diese Lösung
+				argumentativ weiter abzusichern.
+			</p>
+			<p>
+				Daher: Sich einmal einigen ganz konkreten Fragen aus dem Strafrecht auszusetzen, kann einem ein gutes Feedback
+				geben, wie es um das Wissen in diesem Rechtsgebiet bestellt ist. Und vielleicht macht es sogar Spaß zu sehen,
+				welche Quote man am Ende erzielt hat.
+			</p>
+			<p>
+				Wir sind also überzeugt davon, dass ein Multiple-Choice-Test eine gelungene Abwechslung im juristischen Studium
+				sein kann. Und daher arbeiten wir daran, unser Fragenarsenal beständig zu erweitern. Damit Du nicht nur einmal,
+				sondern immer mal wieder hier vorbeischaust! Gerne darfst auch Du Dir Lernfragen für den MCT ausdenken!
+			</p>
 
-  {% include "quiz/menu.html" %}
+		</div>
+	</section>
+
+	{% include "quiz/menu.html" %}
 
 </div>
 {% endblock %}
