@@ -9,9 +9,10 @@
   <div class="mt-4 row">
     <div class="col-sm-8">
       <form method="POST">
-	{% csrf_token %}
-	{{ form|crispy }}
-	<button class="btn btn-primary" type="submit">Registrieren</button>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <p>* Pflichtfeld</p>
+	      <button class="btn btn-primary" type="submit">Registrieren</button>
       </form>
     </div>
   </div>
