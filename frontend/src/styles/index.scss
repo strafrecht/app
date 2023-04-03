@@ -65,11 +65,6 @@ h4 b {
   margin-bottom: 15px !important;
 }
 
-.block-content .block-richtext * {
-  margin: 10px 0;
-  width: 97%;
-}
-
 .block-richtext h2 a,
 .block-richtext h3 a,
 .block-richtext h4 {
@@ -78,24 +73,12 @@ h4 b {
   font-family: inherit;
 }
 
-.block-richtext h2 + * {
-  margin-top: 1.75rem;
-}
-.block-richtext h3 + * {
-  margin-top: 1rem;
-}
-
 .block-richtext h2 a:hover,
 .block-richtext h3 a:hover,
 .block-richtext h4 a:hover {
   text-decoration: none;
   color: inherit;
   font-family: inherit;
-}
-
-.block-richtext br {
-  display: block;
-  margin: 0;
 }
 
 @import '~bootstrap/scss/bootstrap.scss';
@@ -177,4 +160,9 @@ main.container > div > .container {
   main.container.container-inner {
     flex-direction: column;
   }
+}
+
+.block-content .block-richtext * {
+  margin: 10px 0;
+  width: 97%;
 }
