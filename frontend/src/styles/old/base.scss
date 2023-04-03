@@ -1,4 +1,3 @@
-
 /* Handle basic element styling */
 
 /* -------------------------------------------------------------------------------------------- */
@@ -154,13 +153,13 @@ body .header-image .header-caption {
 }
 
 .revised::after {
-  content: "Überarbeitet";
+  content: 'Überarbeitet';
   color: #fff;
   background: #416fd6;
 }
 
 .new::after {
-  content: "NEU";
+  content: 'NEU';
   background: rgb(225, 213, 196);
   color: #b2ab40;
 }
@@ -172,7 +171,7 @@ body .header-image .header-caption {
 }
 
 .Draftail-block--revised_label span[data-text]::after {
-  content: "Überarbeitet" !important;
+  content: 'Überarbeitet' !important;
   color: #fff !important;
   background: #416fd6 !important;
   margin-left: 0.5em !important;
@@ -185,7 +184,7 @@ body .header-image .header-caption {
 }
 
 .Draftail-block--new_label span[data-text]::after {
-  content: "NEU" !important;
+  content: 'NEU' !important;
   background: rgb(225, 213, 196) !important;
   color: #b2ab40 !important;
   margin-left: 0.5em !important;
@@ -218,8 +217,17 @@ body .header-image .header-caption {
   margin: 0;
 }
 
+#exam-table-page .v-application {
+  display: block;
+}
+
 #exam-table-page .v-application--wrap {
   display: inline-table;
+  width: 100%;
+}
+#exam-table-page .v-application--wrap {
+  display: inline-table;
+  width: 100%;
 }
 
 /* Handle Responsive Design  */
