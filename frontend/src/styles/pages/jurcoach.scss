@@ -163,25 +163,28 @@
     }
 
     .wiki-children {
-      display: block;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
       text-align: center;
       margin-left: 0;
       clear: both;
       color: #3d3d3d;
 
       a {
+        flex-grow: 1;
         color: #333 !important;
         font-weight: 700;
         font-size: 14px;
       }
 
       a > span.badge {
+        width: 100%;
         background: #fff;
         padding: 0.4rem 1rem;
         border: 3px solid #e8e7e0;
         color: #3d3d3d;
         font-size: 14px;
-        margin-bottom: 0.5rem;
         white-space: normal;
         line-height: 1.1em;
 
