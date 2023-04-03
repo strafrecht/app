@@ -107,9 +107,9 @@
 }
 
 li.active.nav-item > a,
+li.nav-item:hover > a,
 li.ancestor.nav-item > a {
   border-bottom: 4px solid $yellow;
-  margin-top: 4px !important;
 }
 
 li.active.nav-item.show > a,
