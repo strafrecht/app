@@ -81,6 +81,13 @@ h4 b {
   font-family: inherit;
 }
 
+.block-richtext h2 + * {
+  margin-top: 1.75rem;
+}
+.block-richtext h3 + * {
+  margin-top: 1rem;
+}
+
 .block-richtext br {
   display: block;
   margin: 0 !important;
