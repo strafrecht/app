@@ -81,6 +81,13 @@ h4 b {
   font-family: inherit;
 }
 
+.block-richtext h2 + * {
+  margin-top: 1.75rem;
+}
+.block-richtext h3 + * {
+  margin-top: 1rem;
+}
+
 @import '~bootstrap/scss/bootstrap.scss';
 @import 'bookmarks.scss';
 @import 'inline_icons.scss';
