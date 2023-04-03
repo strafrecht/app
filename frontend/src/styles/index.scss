@@ -86,6 +86,31 @@ h4 b {
   margin: 0;
 }
 
+/* TABLE */
+
+.block-table {
+  overflow-x: auto;
+}
+
+.block-table table {
+  min-width: 100%;
+}
+.block-table table thead {
+  border-bottom: 2px solid $line-gray;
+}
+.block-table table thead tr * + *,
+.block-table table tbody tr * + * {
+  padding-left: 1rem;
+}
+.block-table table tr:not(:first-child) {
+  border-top: 1px solid $line-gray;
+}
+.block-table table th,
+.block-table table td {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
 @import '~bootstrap/scss/bootstrap.scss';
 @import 'bookmarks.scss';
 @import 'inline_icons.scss';
