@@ -92,11 +92,13 @@ h4 b {
 }
 
 .block-content .block-richtext h2 + *,
-.content h2 + * {
+.content h2 + *,
+.wiki-content h2 + * {
   margin-top: 1.75rem;
 }
 .block-content .block-richtext h3 + *,
-.content h3 + * {
+.content h3 + *,
+.wiki-content h3 + * {
   margin-top: 1rem;
 }
 
