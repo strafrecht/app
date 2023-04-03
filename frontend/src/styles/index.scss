@@ -86,11 +86,11 @@ h4 b {
   font-family: inherit;
 }
 
-.block-content .block-richtext h2,
+.block-content .block-richtext h2 + *,
 .content h2 + * {
   margin-top: 1.75rem;
 }
-.block-content .block-richtext h3,
+.block-content .block-richtext h3 + *,
 .content h3 + * {
   margin-top: 1rem;
 }
