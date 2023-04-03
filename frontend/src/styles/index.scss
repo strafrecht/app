@@ -185,12 +185,12 @@ main.container > div > .container {
   display: flex;
 }
 
-#quiz-category-question .h2-wrapper-container {
+.h2-wrapper-container {
   display: flex;
   justify-content: center;
 }
 
-#quiz-category-question .h2-wrapper {
+.h2-wrapper {
   display: block;
   font-size: 28px;
   font-weight: 800 !important;
