@@ -19,135 +19,123 @@
 {% endblock %}
 
 {% block content %}
-<div id="jurcoach-page">
-	<section style="margin-bottom: 60px; padding: 50px 0;">
-		<div class="container" style="max-width:700px !important;">
-			<div class="illustration-container">
-				<div class="jurcoach-logo"></div>
+	<div id="jurcoach-page">
+		<section style="margin-bottom: 60px; padding: 50px 0;">
+			<div class="container" style="max-width:700px !important;">
+				<div class="illustration-container"><div class="jurcoach-logo"></div></div>
+				<div class="h2-wrapper text-center">
+					<h2>{{ self.intro_headline }}</h2>
+				</div>
+				{{ self.intro_text | richtext }}
 			</div>
-			<div class="h2-wrapper text-center">
-				<h2>{{ self.intro_headline }}</h2>
-			</div>
-			{{ self.intro_text | richtext }}
-		</div>
-	</section>
+		</section>
 
-	<section class="text-center">
-		<div class="container">
+		<section class="text-center">
+			<div class="container">
 			<div class="h2-wrapper">
 				<h2>{{ self.carousel_headline }}</h2>
 			</div>
 
 			<div>
 				<div class="carousel-wrapper">
-					<div class="carousel-navigation"><span class="carousel-prev"><i class="bi bi-chevron-left"></i></span> <span
-							class="slider-pagination"></span> <span class="carousel-next"><i class="bi bi-chevron-right"></i></span>
-					</div>
-					<div class="carousel">
-						{% for slide in self.jurcoachcarousel.all %}
-						<div class="carousel-item">
-							<div class="person {{ slide.illustration }}"></div>
-							<h3 class="highlighted">{{ slide.get_illustration_display }}</h3>
-							{{ slide.carousel_description | richtext }} {% if slide.carousel_link_text %}
-							<a href="{{ slide.carousel_link_url }}"> <span class="underlined hover yellow">{{ slide.carousel_link_text
-									}}</span> <i class="bi bi-arrow-right"></i> </a>
-							{% endif %}
-						</div>
-						{% endfor %}
+				<div class="carousel-navigation"><span class="carousel-prev"><i class="bi bi-chevron-left"></i></span> <span class="slider-pagination"></span> <span class="carousel-next"><i class="bi bi-chevron-right"></i></span></div>
+				  <div class="carousel">
+					    {% for slide in self.jurcoachcarousel.all %}
+					    <div class="carousel-item">
+						<div class="person {{ slide.illustration }}"></div>
+						<h3 class="highlighted">{{ slide.get_illustration_display }}</h3>
+						{{ slide.carousel_description | richtext }} {% if slide.carousel_link_text %}
+						<a href="{{ slide.carousel_link_url }}"> <span class="underlined hover yellow">{{ slide.carousel_link_text }}</span> <i class="bi bi-arrow-right"></i> </a>
+						{% endif %}
+					    </div>
+					    {% endfor %}
+				  </div>
+				</div>
+			</div>
+			</div>
+		</section>
+		<section class="text-center">
+		<div class="line"><div class="triangle"></div></div>
+			<div class="container" style="display: flex; flex-direction: row; align-items: center; text-align: left;">
+				<div class="person contribute"></div>
+				<div class="">
+					<h3 class="highlighted green" style="font-size: 18px; font-weight: 800; display: inline-block;">{{ self.contribution_headline }}</h3>
+					<div style="font-size: 14px !important;margin-top: 1rem;">{{ self.contribution_description | richtext }}</div>
+					<div style="font-size: 14px; font-weight: 600;">
+						<a href="/falltraining/new/" style="margin-right: 20px;"><span class="underlined hover green">Neuen Fall erstellen</span> <i class="bi bi-arrow-right"></i></a>
+						<a href="/problemfelder/" style="margin-right: 20px;"><span class="underlined hover green">Neuen Wiki-Artikel erstellen</span> <i class="bi bi-arrow-right"></i></a>
+						<a href="/quiz/" style="margin-right: 20px;"><span class="underlined hover green">MCT anlegen</span> <i class="bi bi-arrow-right"></i></a>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<section class="text-center">
-		<div class="line">
-			<div class="triangle"></div>
-		</div>
-		<div class="container" style="display: flex; flex-direction: row; align-items: center; text-align: left;">
-			<div class="person contribute"></div>
-			<div class="">
-				<h3 class="highlighted green" style="font-size: 18px; font-weight: 800; display: inline-block;">{{
-					self.contribution_headline }}</h3>
-				<div style="font-size: 14px !important;margin-top: 1rem;">{{ self.contribution_description | richtext }}</div>
-				<div style="font-size: 14px; font-weight: 600;">
-					<a href="/falltraining/new/" style="margin-right: 20px;"><span class="underlined hover green">Neuen Fall
-							erstellen</span> <i class="bi bi-arrow-right"></i></a>
-					<a href="/problemfelder/" style="margin-right: 20px;"><span class="underlined hover green">Neuen Wiki-Artikel
-							erstellen</span> <i class="bi bi-arrow-right"></i></a>
-					<a href="/quiz/" style="margin-right: 20px;"><span class="underlined hover green">MCT anlegen</span> <i
-							class="bi bi-arrow-right"></i></a>
-				</div>
-			</div>
-		</div>
-	</section>
+		</section>
 
-	<section class="text-center" style="background: #EEEDE8; margin-top: 50px; padding: 50px 0;">
-		<div class="container" style="display: flex; flex-direction: row;">
-			{% for column in self.jurcoachfooter.all %}
-			<div class="bottom-item">
-				<h3>{{ column.footeritem_headline }}</h3>
-				{{ column.footeritem_text | richtext }}
-				<a href="{{ column.footeritem_linkurl }}"><span class="underlined hover">{{ column.footeritem_linktext }}</span>
-					<i class="bi bi-arrow-right"></i>
-				</a>
-			</div>
-			{% endfor %}
-			<div class="bottom-item">
-				{% if self.poll %}
-				<script>
-					document.addEventListener("DOMContentLoaded", function (event) {
-						init_poll("{% url "wagtailpolls_vote" page.poll.id %}")
-					});
-				</script>
-				<div class="jurcoach-poll">
-					<h3>{{ self.poll.title }}</h3>
-					<form id="poll" class='poll' method='POST' action='{% url ' wagtailpolls_vote' page.poll.id %}'>
-						{% csrf_token %}
-						{{ self.poll.form }}
+		<section class="text-center" style="background: #EEEDE8; margin-top: 50px; padding: 50px 0;">
+			<div class="container" style="display: flex; flex-direction: row;">
+				{% for column in self.jurcoachfooter.all %}
+				<div class="bottom-item">
+					<h3>{{ column.footeritem_headline }}</h3>
+					{{ column.footeritem_text | richtext }}
+					<a href="{{ column.footeritem_linkurl }}"><span class="underlined hover">{{ column.footeritem_linktext }}</span> <i class="bi bi-arrow-right"></i>
+					</a>
+				</div>
+				{% endfor %}
+				<div class="bottom-item">
+					{% if self.poll %}
+					<script>
+					  document.addEventListener("DOMContentLoaded", function(event) {
+					    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
+					  });
+					</script>
+					<div class="jurcoach-poll">
+						<h3>{{ self.poll.title }}</h3>
+						<form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
+							{% csrf_token %}
+							{{ self.poll.form }}
 						<input type="submit" value="Abstimmen" class="poll-vote-button">
 					</form>
+					</div>
+					{% endif %}
 				</div>
-				{% endif %}
-			</div>
 
+			</div>
 		</div>
-</div>
 
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'js/slick-1.8.1.min.js' %}"></script>
-<link rel="stylesheet" type="text/css" href="{% static 'css/slick-1.8.1.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/slick-1.8.1.css' %}"/>
 <script>
-	jQuery(function ($) {
-		var $status = $('.slider-pagination')
-		var $slickElement = $('.carousel')
+    jQuery(function($){
+      var $status = $('.slider-pagination');
+      var $slickElement = $('.carousel');
 
-		$slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
-			if ((currentSlide == 0) || (currentSlide === undefined)) {
-				var i = 1
-			} else if (currentSlide > 0 && currentSlide < 5) {
-				var i = 2
-			} else {
-				var i = 3
-			}
-			$status.text(i + '/' + 2)
-		})
+      $slickElement.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
+	if ((currentSlide == 0) || (currentSlide === undefined)) {
+	  var i = 1;
+	} else if (currentSlide > 0 && currentSlide < 5) {
+	  var i = 2;
+	} else {
+	  var i = 3;
+	}
+	$status.text(i + '/' + 2);
+      });
 
-		$slickElement.slick({
-			autoplay: false,
-			arrows: false,
-			infinite: false,
-			slidesToShow: 4,
-			slidesToScroll: 4
-		})
+      $slickElement.slick({
+	autoplay: false,
+	arrows: false,
+	infinite: false,
+	slidesToShow: 4,
+	slidesToScroll: 4
+      });
 
-		$('.carousel-prev').click(function () {
-			$(this).parent().parent().find('.carousel').slick('slickPrev')
-		})
+      $('.carousel-prev').click(function(){
+	$(this).parent().parent().find('.carousel').slick('slickPrev');
+      } );
 
-		$('.carousel-next').click(function (e) {
-			e.preventDefault()
-			$(this).parent().parent().find('.carousel').slick('slickNext')
-		})
-	});
+      $('.carousel-next').click(function(e){
+	e.preventDefault();
+	$(this).parent().parent().find('.carousel').slick('slickNext');
+      } );
+    });
 </script>
 {% endblock %}
