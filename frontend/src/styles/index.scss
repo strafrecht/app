@@ -86,6 +86,11 @@ h4 b {
   font-family: inherit;
 }
 
+.block-content .block-richtext p,
+.content p {
+  display: inline-block;
+}
+
 .block-content .block-richtext h2 + *,
 .content h2 + * {
   margin-top: 1.75rem;
