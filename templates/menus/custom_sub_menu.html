@@ -2,12 +2,12 @@
 
 <div class="dropdown-menu" aria-labelledby="navbar-dropdown-{{ parent_page.pk }}">
   {% if item.href == "/jurcoach/" %}
-    <a class="dropdown-item" href="{% url 'wiki:root' %}">Problemfeld-Wiki</a>
-    <a class="dropdown-item" href="{% url 'quiz:index' %}">MCT</a>
-    <a class="dropdown-item" href="{% url 'casetraining:index' %}">Falltraining</a>
-    <a class="dropdown-item" href="{% url 'tandem_exams:index' %}">Tandemklausuren</a>
+  <p><a class="dropdown-item" href="{% url 'wiki:root' %}">Problemfeld-Wiki</a></p>
+  <p><a class="dropdown-item" href="{% url 'quiz:index' %}">MCT</a></p>
+  <p><a class="dropdown-item" href="{% url 'casetraining:index' %}">Falltraining</a></p>
+  <p><a class="dropdown-item" href="{% url 'tandem_exams:index' %}">Tandemklausuren</a></p>
   {% endif %}
   {% for sub_item in menu_items %}
-    <a class="dropdown-item" href="{{ sub_item.href }}">{{ sub_item.text }}</a>
+  <p><a class="dropdown-item" href="{{ sub_item.href }}">{{ sub_item.text }}</a></p>
   {% endfor %}
 </div>

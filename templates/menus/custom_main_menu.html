@@ -1,10 +1,7 @@
 {% load menu_tags wagtailcore_tags %}
 
-<nav
-	id="nav"
-	class="navbar navbar-expand-lg {% if page.slug == " strafrecht-online" %}navbar-trans{% endif %}"
-	style="flex-direction: column; justify-content: flex-start; padding: 5px 0; position: absolute; top: 0; width: 100%; background: rgba(0,0,0,0.6); border: none;"
-	>
+<nav id="nav" class="navbar navbar-expand-lg {% if page.slug == " strafrecht-online" %}navbar-trans{% endif %}"
+	style="flex-direction: column; justify-content: flex-start; padding: 5px 0; position: absolute; top: 0; width: 100%; background: rgba(0,0,0,0.6); border: none;">
 	<div class="container" style="margin: 8px 0px; padding: 0px;">
 
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05"
@@ -47,9 +44,9 @@
 								<i class="fa fa-user-circle mr-2" style="font-size: 22px;"></i>
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="{% url 'profile:index' %}">Profil</a>
-								<a class="dropdown-item" href="{% url 'wiki:profile_update' %}">Einstellungen</a>
-								<a class="dropdown-item" href="{% url 'profile:logout' %}">Abmelden</a>
+								<p><a class="dropdown-item" href="{% url 'profile:index' %}">Profil</a></p>
+								<p><a class="dropdown-item" href="{% url 'wiki:profile_update' %}">Einstellungen</a></p>
+								<p><a class="dropdown-item" href="{% url 'profile:logout' %}">Abmelden</a></p>
 							</div>
 						</li>
 						{% else %}
