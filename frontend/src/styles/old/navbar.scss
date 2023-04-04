@@ -102,15 +102,6 @@
   max-width: 900px !important;
 }
 
-#nav li.nav-item > a {
-  border-bottom: 4px solid transparent;
-}
-
-#nav li.nav-item.active > a,
-#nav li.nav-item.ancestor > a {
-  border-color: $yellow;
-}
-
 #nav li.nav-item.active.show > a,
 #nav li.nav-item.ancestor.show > a,
 #nav li.nav-item.active > a:hover,
@@ -210,6 +201,12 @@
     //text-shadow: 1px 1px rgba(0, 0, 0, 0.9);
   }
 
+  #nav li.nav-item > a {
+    border-bottom: 4px solid transparent;
+  }
+
+  #nav li.nav-item.active > a,
+  #nav li.nav-item.ancestor > a,
   #nav li.nav-item:hover > a {
     border-color: $yellow;
   }
@@ -245,11 +242,6 @@
     width: 50%;
     border: none !important;
     margin: 10px 0;
-  }
-
-  li.active.nav-item > a,
-  li.ancestor.nav-item > a {
-    border: 0;
   }
 
   #nav .navbar-collapse.show .nav-item .nav-link {
