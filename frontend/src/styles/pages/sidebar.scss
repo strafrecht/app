@@ -9,6 +9,10 @@
   line-height: 22px;
   max-width: 307px;
   margin: 20px 0;
+
+  @media (min-width: 768px) {
+    margin: 0;
+  }
 }
 
 .sidebar .text {
@@ -73,8 +77,8 @@
   font-weight: 900;
 }
 
-div[class^="block-sidebar"]:first-child .widget,
-div[class^="block-sidebar"]:first-child .sidebar {
+div[class^='block-sidebar']:first-child .widget,
+div[class^='block-sidebar']:first-child .sidebar {
   margin-top: 0;
 }
 
