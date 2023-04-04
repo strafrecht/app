@@ -202,14 +202,14 @@
   }
 
   #nav li.nav-item > a,
-  #nav li.dropdown-item {
+  #nav .dropdown-menu a.dropdown-item {
     border-bottom: 4px solid transparent;
   }
 
   #nav li.nav-item.active > a,
   #nav li.nav-item.ancestor > a,
   #nav li.nav-item:hover > a,
-  #nav li.dropdown-item:hover > a {
+  #nav .dropdown-menu a.dropdown-item:hover {
     border-color: $yellow;
   }
 }
