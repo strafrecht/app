@@ -102,20 +102,20 @@
   max-width: 900px !important;
 }
 
-#nav li.nav-item > a {
-  border-bottom: 4px solid transparent;
+.navbar-nav:nth-child(2) .nav-item:last-child a.nav-link:hover {
+  cursor: default;
 }
 
-#nav li.nav-item.active > a,
-#nav li.nav-item:hover > a,
-#nav li.nav-item.ancestor > a {
-  border-color: $yellow;
+li.active.nav-item > a,
+li.ancestor.nav-item > a {
+  border-bottom: 4px solid $yellow;
+  margin-top: 4px !important;
 }
 
-#nav li.nav-item.active.show > a,
-#nav li.nav-item.ancestor.show > a,
-#nav li.nav-item.active > a:hover,
-#nav li.nav-item.ancestor > a:hover {
+li.active.nav-item.show > a,
+li.ancestor.nav-item.show > a,
+li.active.nav-item > a:hover,
+li.ancestor.nav-item > a:hover {
   border-color: #fff;
 }
 
