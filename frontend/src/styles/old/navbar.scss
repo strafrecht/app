@@ -107,7 +107,6 @@
 }
 
 #nav li.nav-item.active > a,
-#nav li.nav-item:hover > a,
 #nav li.nav-item.ancestor > a {
   border-color: $yellow;
 }
@@ -209,6 +208,10 @@
     > .nav-link {
     color: white !important;
     //text-shadow: 1px 1px rgba(0, 0, 0, 0.9);
+  }
+
+  #nav li.nav-item:hover > a {
+    border-color: $yellow;
   }
 }
 
