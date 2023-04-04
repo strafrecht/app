@@ -170,7 +170,7 @@
 }
 
 #nav .navbar-nav .nav-item .dropdown-menu p {
-  margin-bottom: 0.5rem;
+  margin: 0;
 }
 
 #nav .navbar-nav .nav-item .dropdown-menu .dropdown-item:hover {
@@ -221,6 +221,7 @@
   #nav .navbar-nav .nav-item .dropdown-menu p {
     margin-left: 10px;
     margin-right: 10px;
+    margin-bottom: 0.5rem;
   }
   #nav .navbar-nav .nav-item .dropdown-menu .dropdown-item {
     padding: 5px 0 1px 0;
