@@ -1,61 +1,68 @@
 {% load menu_tags wagtailcore_tags %}
 
-<nav id="nav" class="navbar navbar-expand-lg {% if page.slug == "strafrecht-online" %}navbar-trans{% endif %}" style="flex-direction: column; justify-content: flex-start; padding: 5px 0; position: absolute; top: 0; width: 100%; background: rgba(0,0,0,0.6); border: none;">
-  <div class="container" style="margin: 8px 0px; padding: 0px;">
+<nav
+	id="nav"
+	class="navbar navbar-expand-lg {% if page.slug == " strafrecht-online" %}navbar-trans{% endif %}"
+	style="flex-direction: column; justify-content: flex-start; padding: 5px 0; position: absolute; top: 0; width: 100%; background: rgba(0,0,0,0.6); border: none;"
+	>
+	<div class="container" style="margin: 8px 0px; padding: 0px;">
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon">
-	<span class="navbar-toggler-bar"></span>
-	<span class="navbar-toggler-bar"></span>
-	<span class="navbar-toggler-bar"></span>
-      </span>
-    </button>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05"
+			aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon">
+				<span class="navbar-toggler-bar"></span>
+				<span class="navbar-toggler-bar"></span>
+				<span class="navbar-toggler-bar"></span>
+			</span>
+		</button>
 
-    <div class="collapse navbar-collapse" id="navbarsExample05">
-      <div class="navbar-collapse-inner">
-	<div style="display: flex; width: 100%; align-items: center;">
+		<div class="collapse navbar-collapse" id="navbarsExample05">
+			<div class="navbar-collapse-inner">
+				<div style="display: flex; width: 100%; align-items: center;">
 
-	  <ul class="navbar-nav" style="flex-grow: 1;">
-	    {% for item in menu_items %}
-	    {% if item.has_children_in_menu %}
-	    <li class="{{ item.active_class }} nav-item dropdown">
-	      <a href="{{ item.href }}" id="navbar-dropdown-{{ item.link_page.pk }}" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 16px !important;">
-		{{ item.text }}
-	      </a>
+					<ul class="navbar-nav" style="flex-grow: 1;">
+						{% for item in menu_items %}
+						{% if item.has_children_in_menu %}
+						<li class="{{ item.active_class }} nav-item dropdown">
+							<a href="{{ item.href }}" id="navbar-dropdown-{{ item.link_page.pk }}" class="nav-link dropdown-toggle"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 16px !important;">
+								{{ item.text }}
+							</a>
 
-	      {% sub_menu item template="menus/custom_sub_menu.html" %}
-	    </li>
-	    {% else %}
-	    <li class="{{ item.active_class }} nav-item">
-	      <a class="nav-link" href="{{ item.href }}">{{ item.text }}</a>
-	    </li>
-	    {% endif %}
-	    {% endfor %}
-	  </ul>
+							{% sub_menu item template="menus/custom_sub_menu.html" %}
+						</li>
+						{% else %}
+						<li class="{{ item.active_class }} nav-item">
+							<a class="nav-link" href="{{ item.href }}">{{ item.text }}</a>
+						</li>
+						{% endif %}
+						{% endfor %}
+					</ul>
 
-	  <ul class="navbar-nav">
-	    {% if user.is_authenticated %}
-	    <li class="nav-item dropdown">
-	      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		<i class="fa fa-user-circle mr-2" style="font-size: 22px;"></i>
-	      </a>
-	      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-		<a class="dropdown-item" href="{% url 'profile:index' %}">Profil</a>
-		<a class="dropdown-item" href="{% url 'wiki:profile_update' %}">Einstellungen</a>
-		<a class="dropdown-item" href="{% url 'profile:logout' %}">Abmelden</a>
-	      </div>
-	    </li>
-	    {% else %}
-	    <li class="nav-item">
-	      <a class="nav-link" href="{% url 'profile:login' %}">Einloggen</a>
-	    </li>
-	    <li class="nav-item">
-              <a class="nav-link" href="{% url 'profile:register' %}">Registrieren</a>
-	    </li>
-	    {% endif %}
-	  </ul>
+					<ul class="navbar-nav">
+						{% if user.is_authenticated %}
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+								<i class="fa fa-user-circle mr-2" style="font-size: 22px;"></i>
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" href="{% url 'profile:index' %}">Profil</a>
+								<a class="dropdown-item" href="{% url 'wiki:profile_update' %}">Einstellungen</a>
+								<a class="dropdown-item" href="{% url 'profile:logout' %}">Abmelden</a>
+							</div>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'profile:login' %}">Einloggen</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" style="cursor: pointer;" href="{% url 'profile:register' %}">Registrieren</a>
+						</li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
-      </div>
-    </div>
-  </div>
 </nav>
