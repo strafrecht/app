@@ -102,14 +102,14 @@
   max-width: 900px !important;
 }
 
-.navbar-nav:nth-child(2) .nav-item:last-child a.nav-link:hover {
-  cursor: default;
+#nav .nav-item > a {
+  border-bottom: 4px solid transparent;
 }
 
 li.active.nav-item > a,
 li.nav-item:hover > a,
 li.ancestor.nav-item > a {
-  border-bottom: 4px solid $yellow;
+  border-color: $yellow;
 }
 
 li.active.nav-item.show > a,
@@ -125,9 +125,9 @@ li.ancestor.nav-item > a:hover {
 }
 
 #nav .navbar-nav .nav-item .dropdown-menu {
-  background: rgba(0,0,0,0.9);
+  background: rgba(0, 0, 0, 0.9);
   min-width: 220px;
-  border: 2px solid rgb(150,150,150);
+  border: 2px solid rgb(150, 150, 150);
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5), 0 10px 10px rgba(0, 0, 0, 0.5);
   color: #555;
@@ -140,7 +140,7 @@ li.ancestor.nav-item > a:hover {
 
 #nav .navbar-nav .nav-item .dropdown-menu::before {
   position: absolute;
-  content: "";
+  content: '';
   top: 0px;
   left: 16%;
   transform: translateY(-100%);
@@ -148,7 +148,7 @@ li.ancestor.nav-item > a:hover {
   height: 10px;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-bottom: 15px solid rgb(150,150,150);
+  border-bottom: 15px solid rgb(150, 150, 150);
 }
 
 #nav .navbar-collapse.show .dropdown-item:hover {
@@ -202,7 +202,11 @@ li.ancestor.nav-item > a:hover {
 }
 
 @media screen and (min-width: 991px) {
-  .with-header #nav ul.navbar-nav:nth-child(1) .nav-item:not(.active,.ancestor) > .nav-link {
+  .with-header
+    #nav
+    ul.navbar-nav:nth-child(1)
+    .nav-item:not(.active, .ancestor)
+    > .nav-link {
     color: white !important;
     //text-shadow: 1px 1px rgba(0, 0, 0, 0.9);
   }
