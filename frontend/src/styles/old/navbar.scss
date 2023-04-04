@@ -212,6 +212,20 @@
   #nav .dropdown-menu a.dropdown-item:hover {
     border-color: $yellow;
   }
+
+  #nav .navbar-nav .nav-item .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #nav .navbar-nav .nav-item .dropdown-menu .dropdown-item {
+    padding: 5px 0 1px 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: block;
+    width: auto;
+  }
 }
 
 @media screen and (max-width: 990px) {
