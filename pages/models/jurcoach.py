@@ -29,6 +29,9 @@ class JurcoachCarousel(Orderable):
         ('mct', 'Multiple-Choice-Test'),
         ('klausurdatenbank', 'Klausurdatenbank'),
         ('rechtsprechung', 'Höchstrichterliche Rechtsprechung'),
+        ('tandemklausur', 'Tandemklausur'),
+        ('lernplan', 'Lernplan'),
+        ('reward-system', 'Reward-System'),
     ]
     illustration = models.CharField(
         'Auswahl der Illustration',
