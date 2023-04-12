@@ -121,7 +121,7 @@ class SessionPage(Page):
     class Meta:
         verbose_name = 'Lehrveranstaltung'
         verbose_name_plural = 'Lehrveranstaltungen'
-        
+
     SESSION_TYPE_CHOICES = [
         ('lecture', 'Vorlesung'),
         ('exercise', 'Übung'),
@@ -193,6 +193,7 @@ class SessionPage(Page):
     name = models.CharField('Name', max_length=255)
     subtitle = models.CharField('Untertitel', max_length=255)
     date = RichTextField(blank=True, verbose_name="Datum/Zeit")
+    allow_comments = models.BooleanField(default=False, verbose_name="Kommentare erlaubt")
     #tags = ClusterTaggableManager(through=SessionTags, blank=True)
     speaker = models.ForeignKey(
         User,
@@ -240,6 +241,7 @@ class SessionPage(Page):
                     FieldPanel('title', classname="col12"),
                     FieldPanel('name', classname="col12"),
                     FieldPanel('subtitle', classname="col12"),
+                    FieldPanel('allow_comments', classname="col12"),
                 ], classname="collapsible"),
                 MultiFieldPanel([
                     FieldPanel('date', classname="col12"),
