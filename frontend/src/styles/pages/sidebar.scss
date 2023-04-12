@@ -99,6 +99,8 @@ div[class^='block-sidebar']:first-child .sidebar {
 .news-widget-inner {
   background: rgb(243, 243, 243);
   padding: 20px;
+  border: 1.5px solid rgb(220,220,220);
+  border-radius: 10px;
 }
 
 .news-widget .date {
