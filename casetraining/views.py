@@ -18,7 +18,7 @@ def index(request):
         casetrainings = casetrainings.filter(approved=True)
 
     return render(request, "casetraining/index.html", {
-        'banner': '/media/original_images/ohnediefrau.png',
+        'banner': '/media/original_images/Bogota_IMG_0242-modified.jpg',
         "advanced":  casetrainings.filter(difficulty="advanced"),
         "beginner":  casetrainings.filter(difficulty="beginner"),
         "shortcase": casetrainings.filter(difficulty="shortcase"),
@@ -26,7 +26,7 @@ def index(request):
 
 def new(request):
     return render(request, "casetraining/new.html", {
-        'banner': '/media/original_images/ohnediefrau.png',
+        'banner': '/media/original_images/Bogota_IMG_0242-modified.jpg',
     })
 
 def show(request, case_id):
@@ -36,7 +36,7 @@ def show(request, case_id):
         case = get_object_or_404(Casetraining, pk=case_id, approved=True)
 
     return render(request, "casetraining/show.html", {
-        'banner': '/media/original_images/ohnediefrau.png',
+        'banner': '/media/original_images/Bogota_IMG_0242-modified.jpg',
         "case": case,
     })
 
