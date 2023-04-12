@@ -26,7 +26,7 @@ def show(request, id):
             form = ExamSolutionForm()
 
     return render(request, "tandem_exams/show.html", {
-        'banner': '/media/original_images/ohnediefrau.png',
+        'banner': '/media/original_images/Bogota_IMG_0242-modified.jpg',
         "exam": exam,
         "form": form,
         "solutions": solutions,
@@ -53,7 +53,7 @@ def new_solution(request, id):
     else:
         form = ExamSolutionForm()
     return render(request, "tandem_exams/show.html", {
-        'banner': '/media/original_images/ohnediefrau.png',
+        'banner': '/media/original_images/Bogota_IMG_0242-modified.jpg',
         "exam": exam,
         "form": form,
     })
