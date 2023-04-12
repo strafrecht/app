@@ -115,7 +115,7 @@
     <script type="text/javascript" src="https://chat.strafrecht-online.org/js/compiled/chat_popup.js"></script>
     <script>
       $(document).ready(function () {
-	let chatHeadline = $("h3:contains('Online-Sprechstunde')").first();
+	let chatHeadline = $("h4:contains('Online-Sprechstunde')").first();
 	if (chatHeadline.length > 0) {
 	  Mibew.ChatPopup.init({"id":"63e3d6606eb81347","url":"https:\/\/chat.strafrecht-online.org\/chat?locale=de&group=2","preferIFrame":true,"modSecurity":false,"width":640,"height":480,"resizable":true,"styleLoader":"https:\/\/chat.strafrecht-online.org\/chat\/style\/popup"});
 	  $.get("https://chat.strafrecht-online.org/opstatus", function(data) {
