@@ -121,7 +121,6 @@ class BasePage(Page):
         abstract = True
 
     def get_absolute_url(self):
-        print(self.get_url())
         return self.get_url()
 
     content = StreamField([
