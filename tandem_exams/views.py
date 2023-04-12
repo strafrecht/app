@@ -11,7 +11,7 @@ def index(request):
     exams = TandemExam.objects.order_by('name').filter(approved=True)
 
     return render(request, "tandem_exams/index.html", {
-        'banner': '/media/original_images/ohnediefrau.png',
+        'banner': '/media/original_images/Bogota_IMG_0242-modified.jpg',
         "advanced":  exams.filter(difficulty="advanced"),
         "beginner":  exams.filter(difficulty="beginner"),
     })
