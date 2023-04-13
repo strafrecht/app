@@ -120,7 +120,7 @@
   border: 2px solid rgb(150, 150, 150);
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5), 0 10px 10px rgba(0, 0, 0, 0.5);
-  color: #555;
+  color: #fff;
   margin-top: 20px;
   margin-left: -1px;
   font-size: 14px;
@@ -189,7 +189,7 @@
 /* mobile nav styles */
 #nav .navbar-collapse.show .nav-item {
   /* border-bottom: 1px solid #dbdbdb; */
-  color: #555;
+  color: #fff;
 }
 
 #nav .navbar-trans .navbar-collapse.show .nav-item {
@@ -283,7 +283,7 @@
 
   #nav .navbar-collapse.show .dropdown-item {
     padding: 10px 0 10px 20px !important;
-    color: #555 !important;
+    color: #fff !important;
   }
 
   #nav .navbar-collapse ul:first-of-type {
