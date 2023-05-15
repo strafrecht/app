@@ -428,15 +428,21 @@ MESSAGE_TAGS = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'file': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+        }
+    },
     'handlers': {
         'file': {
             'level': vars.vars["LOGGING"]["level"],
             'class': 'logging.FileHandler',
+            'formatter': 'file',
             'filename': vars.vars["LOGGING"]["filename"],
         },
     },
     'loggers': {
-        'django': {
+        '': {
             'handlers': ['file'],
             'level': vars.vars["LOGGING"]["level"],
             'propagate': True,
