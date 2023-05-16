@@ -26,8 +26,8 @@ class SendCampaignThread(Thread):
     def run(self):
         try:
             logger.info(f"Sending {len(self.messages)} emails")
-            send_mass_html_mail(self.messages)
-            logger.info("Sending finished")
+            num = send_mass_html_mail(self.messages, fail_silently=True)
+            logger.info(f"Sending finished ({num} sent)")
             with transaction.atomic():
                 Campaign.objects.filter(pk=self.campaign_pk).update(
                     status=CampaignStatus.SENT,
