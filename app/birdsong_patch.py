@@ -44,14 +44,13 @@ class SendCampaignThread(Thread):
             close_old_connections()
 
 class SMTPBackgroundTread(Thread):
-    def __init__(self, from_email, reply_to, request, campaign, contact_pks, test_send):
+    def __init__(self, from_email, reply_to, request, campaign, contact_pks):
         super().__init__()
         self.from_email = from_email
         self.reply_to = reply_to
         self.request = request
         self.campaign = campaign
         self.contacts = Contact.objects.filter(pk__in=contact_pks)
-        self.test_send = test_send
 
     def run(self):
         messages = []
@@ -70,20 +69,37 @@ class SMTPBackgroundTread(Thread):
                 'reply_to': [self.reply_to],
             })
         logger.info(f"Preparing finished")
-        if self.test_send:
-            # Don't mark as complete, don't worry about threading
-            send_mass_html_mail(messages)
-        else:
-            campaign_thread = SendCampaignThread(
-                self.campaign.pk, [c.pk for c in self.contacts], messages)
-            campaign_thread.start()
+
+        campaign_thread = SendCampaignThread(
+            self.campaign.pk, [c.pk for c in self.contacts], messages)
+        campaign_thread.start()
 
 
 class SMTPBackgroundBackend(BaseEmailBackend):
     def send_campaign(self, request, campaign, contacts, test_send=False):
-        background_thread = SMTPBackgroundTread(
-            self.from_email, self.reply_to, request, campaign, [c.pk for c in contacts], test_send)
-        background_thread.start()
+        if test_send:
+            messages = []
+            logger.info(f"Preparing {len(contacts)} test emails")
+            for contact in contacts:
+                logger.info(f"Preparing {contact.email}")
+                content = render_to_string(
+                    campaign.get_template(request),
+                    campaign.get_context(request, contact),
+                )
+                messages.append({
+                    'subject': campaign.subject,
+                    'body': content,
+                    'from_email': self.from_email,
+                    'to': [contact.email],
+                    'reply_to': [self.reply_to],
+                })
+                logger.info(f"Preparing finished")
+            send_mass_html_mail(messages)
+            logger.info(f"Test send finished")
+        else:
+            background_thread = SMTPBackgroundTread(
+                self.from_email, self.reply_to, request, campaign, [c.pk for c in contacts])
+            background_thread.start()
 
 
 logger = logging.getLogger(__name__)
