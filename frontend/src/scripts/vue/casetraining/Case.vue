@@ -237,7 +237,7 @@
       <div class="contribution-image"></div>
       <p>
 	<a href="#">
-          <span @click.stop="editModeOn" class="underlined green hover">Fall bearbeiten</span>
+          <span @click.stop="editModeOn" class="underlined green hover">Dir ist an dem Fall etwas aufgefallen? Hier kannst Du ihn editieren.</span>
 	  <i class="bi bi-arrow-right"></i>
 	  <br/>
 	</a>
