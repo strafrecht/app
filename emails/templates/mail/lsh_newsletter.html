@@ -12,12 +12,12 @@
         {% block email_name %}{% endblock %}
         {{ self.name }}
         </mj-text>
-        <mj-divider border-width="2px" border-color="#616161" padding="0"></mj-divider>
+        <mj-divider border-width="2px" border-color="#616161"></mj-divider>
       </mj-column>
     </mj-section>
     <mj-section>
       <mj-column>
-        <mj-text>
+        <mj-text padding="0">
 		{% for b in self.body %}
 			{{ b }}
 		{% endfor %}
