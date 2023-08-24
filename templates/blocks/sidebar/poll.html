@@ -17,7 +17,7 @@
     {{ page.poll.form }}
     
     <input type="submit" value="Abstimmen" class="poll-vote-button">
-    <small>Startdatum: {{page.poll.date_created.date}}</small>
+    <small>Startdatum: {{page.poll.date_created.date.day}} {{page.poll.date_created.date.month}} {{page.poll.date_created.date.year}}</small>
   </form>
 </div>
 {% endif %}
