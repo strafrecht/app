@@ -12,7 +12,7 @@
 			<div class="article-cards" style="display: flex; flex-direction: column;">
 				{% for article in group.articles %}
 				<div class="article-card">
-					<a href="{% routablepageurl article.articles_page 'article_by_date' 2020 10 10 article.slug %}">{{ article.title }}</a>
+					<a href="{% routablepageurl article.articles_page 'article_by_date' article.date.year article.date.month article.date.day article.slug %}">{{ article.title }}</a>
 					<div>
 						{% if article.author %}
 						<span class="meta">
