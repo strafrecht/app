@@ -45,11 +45,10 @@ class PeopleIndexPage(RoutablePageMixin, Page):
         context['head'] = staff.filter(role='chairholder')
         context['office'] = staff.filter(role='office-management')
         context['academic'] = staff.filter(
-            Q(role='academic-staff-male') | Q(role='academic-staff-female') | Q(role='academic-assistant') | Q(role='jurcoach-law-team-academic')
-        )
+            Q(role='academic-staff-male') | Q(role='academic-staff-female') | Q(role='academic-assistant') | Q(role='jurcoach-law-team-academic'))
         context['student'] = staff.filter(
-            Q(role='student-assistant') | Q(role='jurcoach-law-team-student')
-        )
+            Q(role='student-assistant') | Q(role='jurcoach-law-team-student'))
+        context['webmaster'] = staff.filter(role='webmaster')
         return context
 
     @route('(?P<person>\d+)/$', name="person")
