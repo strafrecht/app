@@ -19,4 +19,5 @@ urlpatterns = [
     re_path(r'^delete/(?P<poll_pk>.*)/$', editor.delete, name='wagtailpolls_delete'),
     re_path(r'^copy/(?P<poll_pk>.*)/$', editor.copy, name='wagtailpolls_copy'),
     re_path(r'^results/(?P<poll_pk>.*)/$', results.results, name='wagtailpolls_results'),
+    re_path(r'^results2/(?P<poll_pk>.*)/$', results2.results2, name='wagtailpolls_results_2'),
 ]
