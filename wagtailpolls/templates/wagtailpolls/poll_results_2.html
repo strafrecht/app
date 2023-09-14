@@ -1,0 +1,16 @@
+<html>
+<div class='nice-padding'>
+<table class="listing">
+                <tbody>
+                    {% for question in poll.questions.all %}
+                    <tr>
+                        <td class="title">
+                            <small>{{question}}</small>
+                        </td>
+                        <td>{{question.votes.all.count}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+</div>
+</html>
