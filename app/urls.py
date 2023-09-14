@@ -8,6 +8,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.core import urls as wagtail_urls
 
+from wagtailpolls.views.results2 import results2
 from core.views import exams, api_exams, newsletter_subscribe, newsletter_confirm
 
 from wagtailpolls.views.vote import vote
@@ -55,6 +56,7 @@ urlpatterns = [
 
     re_path(r'^vote/(?P<poll_pk>.*)/$', vote, name='wagtailpolls_vote'),
 
+    re_path(r'^results2/(?P<poll_pk>.*)/$', results2, name='wagtailpolls_results_2'),
     path('problemfelder/', include('wiki.urls')),
     path('', include(wagtail_urls)),
     path('avatar/', include('avatar.urls')),
