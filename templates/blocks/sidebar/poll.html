@@ -19,7 +19,7 @@
     <input type="submit" value="Abstimmen" class="poll-vote-button">
     <small>Startdatum: {{page.poll.date_created.date.day}}.{{page.poll.date_created.date.month}}.{{page.poll.date_created.date.year}}</small>
     
-    <a href="{% url 'wagtailpolls_results_2' page.poll.id  %}" class="icon icon-arrow-right" target = "_blank"><Ergebnis></a>
+    <a href="{% url 'wagtailpolls_results_2' page.poll.id  %}" class="poll-result-button" target = "_blank"><b>Ergebnis</b></a>
    
 </div>
 
