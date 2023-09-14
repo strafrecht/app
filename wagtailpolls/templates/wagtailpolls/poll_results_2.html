@@ -5,7 +5,7 @@
                     {% for question in poll.questions.all %}
                     <tr>
                         <td class="title">
-                            <small>{{question}}</small>
+                            <h1>{{question}}</h1>
                         </td>
                         <td>{{question.votes.all.count}}</td>
                     </tr>
