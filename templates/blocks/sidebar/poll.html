@@ -18,11 +18,9 @@
     
     <input type="submit" value="Abstimmen" class="poll-vote-button">
     <small>Startdatum: {{page.poll.date_created.date.day}}.{{page.poll.date_created.date.month}}.{{page.poll.date_created.date.year}}</small>
-    <a href = '#' id = "popupLink">Ergebnis</a>
-    <div class = "overlay" id = "overlay"></div>
-    <div class="popup-container" id="popupContainer">
-    <a href="{% url 'wagtailpolls_vote' page.poll.id  %}" class="icon icon-arrow-right"><b>Ergebnis</b></a>
-    <button id="closePopup">Schließen</button>
+    
+    <a href="{% url 'wagtailpolls_results_2' page.poll.id  %}" class="icon icon-arrow-right" target = "_blank"><b>Ergebnis</b></a>
+   
 </div>
 
   </form>
