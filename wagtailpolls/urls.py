@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.urls import re_path
-from .views import chooser, editor, results
+from .views import chooser, editor, results, results2
 
 #app_name = 'wagtailpolls'
 
