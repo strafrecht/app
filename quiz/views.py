@@ -22,7 +22,6 @@ def index(request):
     header_headline = JurcoachPage.objects.all().last().header_headline
     header_slogan = JurcoachPage.objects.all().last().header_slogan
     return render(request, "quiz/index.html", {
-        "categories_grundlagen": get_categories("grundlagen"),
         "categories_at": get_categories("at"),
         "categories_bt": get_categories("bt"),
         "header_image": header_image,
@@ -122,7 +121,6 @@ def quiz(request, category_id, question_id):
             'category': category,
             'question_version': question_version,
             'questions': questions,
-            'categories_grundlagen': get_categories("grundlagen"),
             'categories_at': get_categories("at"),
             'categories_bt': get_categories("bt"),
         })
@@ -217,18 +215,12 @@ class ChoiceViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
 def get_category_tree(request):
-    grundlagen = filter(lambda x: x["category"].article.other_read, get_categories("grundlagen"))
     at = filter(lambda x: x["category"].article.other_read, get_categories("at"))
     bt = filter(lambda x: x["category"].article.other_read, get_categories("bt"))
     tree = {
             "id": "cat",
             "label": "Problemfeldwiki",
             "children": [
-                {
-                    "id": "grundlagen",
-                    "label": "Grundlagen",
-                    "children": [_tree_entry(child) for child in grundlagen],
-                },
                 {
                     "id": "at",
                     "label": "Allgemeiner Teil",
