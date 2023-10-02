@@ -231,6 +231,11 @@ def get_category_tree(request):
                     "label": "Besonderer Teil",
                     "children": [_tree_entry(child) for child in bt],
                 },
+                {
+                    "id": "grundlagen",
+                    "label": "Grundlagen",
+                    "children": [_tree_entry(child) for child in grundlagen],
+                },
             ]
     }
 
