@@ -63,9 +63,6 @@ class IndexViewTests(TestCase):
         URLPath.create_urlpath(URLPath.root(), "bt",
                                title="Title 1",
                                content="Content")
-        URLPath.create_urlpath(URLPath.root(), "grundlagen",
-                               title="Title 2",
-                               content="Content")
         poll = Poll.objects.create(title="Poll Title")
         JurcoachPage.objects.create(body="Jurcoach Body",
                                     title="Jurcoach Title",
