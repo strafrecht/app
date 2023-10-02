@@ -44,20 +44,6 @@
 	    {% endif %}
 	    {% endfor %}
 	  </div>
-	  <div class="grundlagen">
-	    {% for item in categories_grundlagen %}
-	    {% if item.questions.count > 0 %}
-	    <a href="{% url 'quiz:show' item.category.article.id item.questions.first.id  %}?state=start">
-	      <span class="badge badge-pill">{{ item.category.article.current_revision.title }}</span>
-	    </a>
-	    {% else %}
-	    {% if user.is_staff %}
-	    <a href="{% url 'quiz:new_question' %}?category_id={{ item.category.article.id }}">
-	      <span class="badge badge-pill bg-danger text-white">{{ item.category.article.current_revision.title }}</span>
-	    </a>
-	    {% endif %}
-	    {% endif %}
-	    {% endfor %}
 	  </div>
 	</figure>
       </div>
