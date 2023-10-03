@@ -91,7 +91,7 @@ tqdm==4.60.0
 Twisted==21.2.0
 txaio==21.2.1
 Unidecode==1.2.0
-urllib3==1.26.4
+urllib3==1.26.17
 wagtail==2.13
 wagtail-autocomplete==0.6.3
 wagtail-color-panel==1.2.0
