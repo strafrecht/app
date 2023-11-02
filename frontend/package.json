@@ -60,7 +60,7 @@
     "@toast-ui/editor": "3.2.1",
     "axios": "1.1.3",
     "bootstrap": "^4.6.0",
-    "bootstrap-icons": "1.9.1",
+    "bootstrap-icons": "1.10.3",
     "chartist": "0.11.4",
     "chartist-plugin-fill-donut": "0.1.4",
     "core-js": "^3.11.1",
