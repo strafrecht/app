@@ -44,6 +44,7 @@ class PeopleIndexPage(RoutablePageMixin, Page):
 
         context['head'] = staff.filter(role='chairholder')
         context['office'] = staff.filter(role='office-management')
+        context['lecturer'] = staff.filter(role='lecturer')
         context['academic'] = staff.filter(
             Q(role='academic-staff-male') | Q(role='academic-staff-female') | Q(role='academic-assistant') | Q(role='jurcoach-law-team-academic'))
         context['student'] = staff.filter(
@@ -90,6 +91,7 @@ class People(models.Model):
     ROLE_CHOICES = [
         ('chairholder', 'Lehrstuhlinhaber'),
         ('office-management', 'Office Management'),
+        ('lecturer', 'Lehrbeauftragte'),
         ('academic-staff-male', 'Wiss. Mitarbeiter'),
         ('academic-staff-female', 'Wiss. Mitarbeiterin'),
         ('former academic-staff-male', 'Ehem. Wiss. Mitarbeiter'), 
