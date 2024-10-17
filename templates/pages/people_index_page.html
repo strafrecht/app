@@ -30,6 +30,13 @@
 				</div>
 				
 				<div class="role-group">
+				<h5>Lehrbeauftragte</h5>
+				{% for person in lecturer|dictsort:"last_name" %}
+					<a href="{% routablepageurl page "person" person.id %}">{{ person.first_name }} {{ person.last_name }}</a>
+				{% endfor %}
+				</div>
+				
+				<div class="role-group">
 				<h5>Wissenschaftliches Personal</h5>
 				{% for person in academic|dictsort:"last_name" %}
 					<div>
