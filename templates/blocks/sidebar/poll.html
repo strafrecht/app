@@ -1,70 +1,150 @@
 {% extends "blocks/widget.html" %}
-
-{% load wagtailimages_tags %}
-{% load wagtailpolls_tags %}
+{% load wagtailimages_tags wagtailpolls_tags %}
 
 {% block widget %}
 {% if page.poll %}
-<script>
-  document.addEventListener("DOMContentLoaded", function(event) {
-    init_poll("{% url "wagtailpolls_vote" page.poll.id %}");
-  });
-</script>
 <div class="sidebar sidebar-poll poll">
   <h3>{{ page.poll.title }}</h3>
-  <form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' page.poll.id %}'>
+  <form id="poll" class="poll" method="POST" action="{% url 'wagtailpolls_vote' page.poll.id %}">
     {% csrf_token %}
     {{ page.poll.form }}
-    
-    <input type="submit" value="Abstimmen" class="poll-vote-button">
-    <small>Startdatum: {{page.poll.date_created.date.day}}.{{page.poll.date_created.date.month}}.{{page.poll.date_created.date.year}}</small>
-    
-   
-</div>
-
+    <div class="poll-buttons">
+      <input type="submit" value="Abstimmen" class="poll-button">
+      <button type="button" data-url="{% url 'wagtailpolls_vote' page.poll.id %}" class="poll-button">
+        Ergebnis
+      </button>
+    </div>
+    <div class="poll-date">
+      <h6>Startdatum: {{ page.poll.date_created.date|date:"d.m.Y" }}</h6>
+    </div>
   </form>
 </div>
-<head>
- <style>
-  .popup-container{
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color:white;
-    border: 1px solid #ccc;
-    box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-  }
-  .overlay{
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index:900;
-</style>
-</head>
+
 <script>
-    const popupLink = document.getElementById('popupLink');
-    const popupContainer = document.getElementById('popupContainer');
-    const closePopup = document.getElementById('closePopup');
-    const overlay = document.getElementById('overlay');
+document.addEventListener("DOMContentLoaded", () => {
+  const pollForm = document.getElementById('poll');
+  const resultsButton = pollForm.querySelector('[data-url]');
+  
+  const fetchData = async (url, options) => {
+    try {
+      const response = await fetch(url, {
+        headers: {'Accept': 'application/json'},
+        credentials: 'same-origin',
+        ...options
+      });
+      return await response.json();
+    } catch (err) {
+      console.error('Poll operation failed:', err);
+    }
+  };
 
-    popupLink.addEventListener('click', function(event){
-      event.preventDefault();
-      popupContainer.style.display = 'block';
-      overlay.style.display = 'block';
+  const handlePollSubmit = async (e) => {
+    e.preventDefault();
+    const data = await fetchData(pollForm.action, {
+      method: 'POST',
+      body: new FormData(pollForm)
     });
+    if (data) updatePollView(data);
+  };
 
-    closePopup.addEventListener('click', function() {
-      popupContainer.style.display = 'none';
-      overlay.style.display = 'none';
-    });
+  const showResults = async () => {
+    const data = await fetchData(resultsButton.dataset.url);
+    if (data) updatePollView(data);
+  };
+
+  const updatePollView = (data) => {
+    const pollContainer = document.querySelector('.poll');
+    pollContainer.innerHTML = createPollResultsView(data);
+  };
+
+  const createPollResultsView = (data) => {
+    const results = Object.entries(data.votes)
+      .map(([question, votes]) => {
+        const percentage = ((votes / data.total_votes) * 100).toFixed(1);
+        return `
+          <div class="result-bar">
+            <div class="bar-container">
+              <div class="bar-vote" style="width: ${percentage}%"></div>
+              <span class="percentage">${percentage}% (${votes} ${votes === 1 ? 'Stimme' : 'Stimmen'})</span>
+            </div>
+            <div class="question">${question}</div>
+          </div>`;
+      }).join('');
+
+    return `
+      <h3>${data.poll}</h3>
+      <div class="results">
+        ${results}
+        <div class="poll-buttons">
+          <button type="button" class="poll-button" onclick="location.reload()">
+            Zurück
+          </button>
+        </div>
+      </div>`;
+  };
+
+  pollForm.addEventListener('submit', handlePollSubmit);
+  resultsButton.addEventListener('click', showResults);
+});
 </script>
+
+<style>
+.poll-button {
+  background-color: #ffe100;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.poll-button:hover,
+.poll-button:active {
+  background-color: #ffef77;
+}
+
+.poll-button:focus {
+  outline: none;
+}
+
+.poll-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.results { margin-top: 20px; }
+.result-bar { margin-bottom: 15px; }
+.bar-container {
+  background: #eee;
+  height: 25px;
+  position: relative;
+  margin-top: 5px;
+}
+.bar-vote {
+  background: #ffe100;
+  height: 100%;
+  transition: width 0.5s ease-in-out;
+}
+.percentage {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #000;
+}
+.poll-date {
+  text-align: center;
+  margin: 1rem;
+}
+.poll-buttons {
+  text-align: center;
+  margin: 1rem;
+}
+
+</style>
 {% endif %}
 {% endblock %}
