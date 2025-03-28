@@ -20,7 +20,7 @@ comments-wagtail-xtd==1.0.1
 constantly==15.1.0
 cryptography==3.4.7
 daphne==3.0.2
-Django==3.2.5
+Django==3.2.19
 django-admin-interface==0.16.3
 django-appconf==1.0.4
 django-avatar==5.0.0
