@@ -2,10 +2,10 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
-import wagtail_color_panel.blocks
+# import wagtail_color_panel.blocks  # Temporarily disabled for Wagtail 3.0 upgrade
 
 
 class Migration(migrations.Migration):
@@ -20,8 +20,8 @@ class Migration(migrations.Migration):
             name='HomePage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('content', wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock())]))])),
-                ('sidebar', wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())])), ('sidebar_calendar_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('calendar', wagtail.core.blocks.DateBlock(format='%Y-%m-%d'))])), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))])), ('sidebar_poll', wagtail.core.blocks.StructBlock([])), ('sidebar_subscribe', wagtail.core.blocks.StructBlock([])), ('sidebar_event', wagtail.core.blocks.StructBlock([]))]))])),
+                ('content', wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock())]))])),
+                ('sidebar', wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())])), ('sidebar_calendar_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('calendar', wagtail.blocks.DateBlock(format='%Y-%m-%d'))])), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))])), ('sidebar_poll', wagtail.blocks.StructBlock([])), ('sidebar_subscribe', wagtail.blocks.StructBlock([])), ('sidebar_event', wagtail.blocks.StructBlock([]))]))])),
             ],
             options={
                 'abstract': False,

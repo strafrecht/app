@@ -7,7 +7,7 @@ from django.apps import apps
 #from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.templatetags.static import static
 
-from wagtail.core import blocks
+from wagtail import blocks
 
 
 class ColumnsBlock(blocks.StructBlock):

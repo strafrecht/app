@@ -3,9 +3,9 @@ import datetime
 from django import forms
 from django.conf import settings
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ungettext_lazy as __
-from ipware.ip import get_ip, get_real_ip
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ngettext_lazy as __
+from ipware import get_client_ip
 
 from .models import Vote
 
@@ -30,7 +30,7 @@ class VoteForm(forms.ModelForm):
         self.request = request
         self.fields['question'].queryset = poll.questions.all()
         if request:
-            self.ip = get_real_ip(self.request) or get_ip(self.request)
+            self.ip, is_routable = get_client_ip(self.request)
 
     def recent_vote(self):
         vote = Vote.objects.filter(ip=self.ip).order_by('-time')

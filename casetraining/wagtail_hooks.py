@@ -1,5 +1,5 @@
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from treemodeladmin.options import TreeModelAdmin
+from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
+# from treemodeladmin.options import TreeModelAdmin  # Temporarily disabled for Wagtail 3.0 upgrade
 from .models import *
 
 @modeladmin_register

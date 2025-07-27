@@ -8,19 +8,17 @@ from itertools import groupby
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
-    FieldRowPanel,
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
-    StreamFieldPanel,
 )
 
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Page, Collection
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Page, Collection
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
-from wagtail.images.edit_handlers import ImageChooserPanel
+# ImageChooserPanel replaced with FieldPanel for Wagtail 4.0 compatibility
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
@@ -143,31 +141,31 @@ class People(models.Model):
 
     panels = [
         MultiFieldPanel([
-            FieldRowPanel([
+            MultiFieldPanel([
                 FieldPanel('user', classname="col-12"),
             ]),
-            FieldRowPanel([
+            MultiFieldPanel([
                 FieldPanel('first_name', classname="col-6"),
                 FieldPanel('last_name', classname="col-6"),
             ], "Name"),
-            FieldRowPanel([
+            MultiFieldPanel([
                 FieldPanel('telephone', classname="col-4"),
                 FieldPanel('email', classname="col-4"),
             ], "Contact"),
-            FieldRowPanel([
+            MultiFieldPanel([
                 FieldPanel('status', classname="col-6"),
                 FieldPanel('role', classname="col-6"),
             ]),
-            FieldRowPanel([
+            MultiFieldPanel([
                 FieldPanel('room', classname="col-4"),
             ], "Room"),
         ], "Information"),
         MultiFieldPanel([
-            FieldRowPanel([
+            MultiFieldPanel([
                 FieldPanel('description', classname="col-12"),
             ]),
         ], "Weitere Informationen"),
-        ImageChooserPanel('image')
+        FieldPanel('image')
     ]
 
     search_fields = [

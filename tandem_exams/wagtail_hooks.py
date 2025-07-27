@@ -1,4 +1,4 @@
-from wagtail.contrib.modeladmin.options import ModelAdminGroup, ModelAdmin, modeladmin_register
+from wagtail_modeladmin.options import ModelAdminGroup, ModelAdmin, modeladmin_register
 from .models import *
 
 class TandemExamAdmin(ModelAdmin):

@@ -106,7 +106,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.utils.crypto import get_random_string, salted_hmac
 from django.conf import settings
-from birdsong.models import Contact
+from birdsong.models import Contact  # Re-enabled with forked wagtail-birdsong
 
 def newsletter_subscribe(request):
     if request.method == 'POST':
@@ -142,7 +142,7 @@ Dein Jurcoach-Team
 def newsletter_confirm(request, hashed_email, email):
     computed_hash = salted_hmac(settings.SECRET_KEY, email.lower()).hexdigest()
     if hashed_email == computed_hash:
-        Contact.objects.create(email=email)
+        Contact.objects.create(email=email)  # Re-enabled with forked wagtail-birdsong
         messages.success(request, f"Du wurdest für den LSH-Newsletter eingetragen.")
     else:
         messages.error(request, f"Der Bestätigungslink ist nicht korrekt.")

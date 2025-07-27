@@ -2,11 +2,11 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
-import wagtail_color_panel.blocks
-import wagtailmodelchooser.blocks
+# import wagtail_color_panel.blocks  # Temporarily disabled for Wagtail 3.0 upgrade
+# import wagtailmodelchooser.blocks  # Temporarily disabled for Wagtail 3.0 upgrade
 
 
 class Migration(migrations.Migration):
@@ -33,22 +33,22 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='articlepage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())])), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))]))], blank=True),
+            field=wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())])), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))]))], blank=True),
         ),
         migrations.AlterField(
             model_name='articlespage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())])), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))]))]),
+            field=wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())])), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))]))]),
         ),
         migrations.AlterField(
             model_name='evaluationspage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())])), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))]))], required=False))]),
+            field=wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())])), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))]))], required=False))]),
         ),
         migrations.AlterField(
             model_name='newsletterspage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))]))], required=False))]),
+            field=wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))]))], required=False))]),
         ),
         migrations.AlterField(
             model_name='sessionpage',
@@ -58,11 +58,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sessionpage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], blank=True),
+            field=wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], blank=True),
         ),
         migrations.AlterField(
             model_name='sessionspage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], blank=True),
+            field=wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], blank=True),
         ),
     ]

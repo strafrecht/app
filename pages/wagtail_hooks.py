@@ -1,8 +1,8 @@
 from django.utils.html import format_html
 from django.templatetags.static import static
 from wagtail.admin.rich_text.converters.html_to_contentstate import InlineStyleElementHandler, BlockElementHandler, InlineEntityElementHandler
-from wagtail.core import hooks
-from wagtail.contrib.modeladmin.options import (
+from wagtail import hooks
+from wagtail_modeladmin.options import (
     ModelAdmin, ModelAdminGroup, modeladmin_register
 )
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features

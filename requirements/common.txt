@@ -1,14 +1,14 @@
 aioredis==1.3.1
 anyascii==0.2.0
 arrow==1.1.0
-asgiref==3.4.1
+asgiref>=3.4.1
 async-timeout==3.0.1
 attrs==20.3.0
 autobahn==21.3.1
 Automat==20.2.0
 beautifulsoup4==4.9.0
-wagtail-birdsong==0.2.0
-django-mjml==0.12.0
+# wagtail-birdsong>=1.0.0  # Using local fork - see wagtail-birdsong-fork directory
+django-mjml>=1.4  # Re-enabled for Django 4.1 - MJML email templates
 bleach==3.3.0
 certifi==2020.12.5
 cffi==1.14.5
@@ -16,14 +16,14 @@ channels==3.0.3
 channels-redis==3.2.0
 chardet==4.0.0
 ciso8601==2.1.3
-comments-wagtail-xtd==1.0.1
+# comments-wagtail-xtd>=1.0.4  # Temporarily disabled - uses old wagtail.core imports incompatible with Wagtail 6.x
 constantly==15.1.0
 cryptography==3.4.7
 daphne==3.0.2
-Django==3.2.5
+Django==5.2.4
 django-admin-interface==0.16.3
-django-appconf==1.0.4
-django-avatar==5.0.0
+django-appconf>=1.0.5
+django-avatar==7.0.1
 django-classy-tags==2.0.0
 django-cogwheels==0.3
 django-colorfield==0.4.1
@@ -38,14 +38,14 @@ django-flat-responsive==2.0
 django-flat-theme==1.1.4
 django-ipware==1.1.2
 django-js-asset==1.2.2
-django-modelcluster==5.1
-django-mptt==0.11.0
-django-nyt==1.2
+django-modelcluster>=6.0,<7.0
+django-mptt>=0.13
+django-nyt==1.4.2
 django-pagedown==2.2.0
 django-pipeline==2.0.6
-django-pwa==1.0.10
+django-pwa==2.0.1
 django-sekizai==2.0.0
-django-taggit==1.4.0
+django-taggit>=3.0.0
 django-treebeard==4.5.1
 djangorestframework==3.12.4
 docutils==0.17.1
@@ -62,12 +62,12 @@ jeepney==0.6.0
 keyring==23.0.1
 l18n==2020.6.1
 lxml==4.6.3
-Markdown==3.2.2
+Markdown>=3.4,<3.7
 markdownify==0.9.0
 msgpack==1.0.2
-openpyxl==3.0.7
+openpyxl>=3.0.10
 packaging==20.9
-Pillow==8.2.0
+Pillow>=8.4.0
 psycopg2-binary==2.8.6
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
@@ -81,29 +81,31 @@ requests==2.25.1
 SecretStorage==3.3.1
 service-identity==18.1.0
 six==1.15.0
-sorl-thumbnail==12.7.0
+sorl-thumbnail>=12.8
 soupsieve==2.2.1
 sqlparse==0.4.1
 tablib==3.0.0
-telepath==0.2
+telepath>=0.3
 tqdm==4.60.0
 Twisted==21.2.0
 txaio==21.2.1
 Unidecode==1.2.0
 urllib3==1.26.4
-wagtail==2.14
-wagtail-autocomplete==0.6.3
-wagtail-color-panel==1.2.0
-wagtail-markdown==0.7.0
-wagtail-modelchooser==2.13.1
-wagtailfontawesome==1.2.1
-wagtailmenus==3.0.2
-wagtailnews==2.7.1
-wagtailstreamforms==3.16.3
-wagtail-treemodeladmin==1.5.0
+wagtail==6.4.2
+wagtail-autocomplete>=0.12.0  # Re-enabled for Wagtail 5.2 - Autocomplete edit handler
+wagtail-color-panel>=1.6.0  # Re-enabled for Wagtail 5.2 - Color selection panels
+# wagtail-markdown>=0.12.1  # Temporarily disabled due to bleach dependency conflict with wiki package
+wagtail-modelchooser>=4.0.1  # Re-enabled for Wagtail 5.2 - Model choosers for admin
+wagtail-font-awesome-svg>=1.1  # Re-enabled for Wagtail 5.2 - Modern FontAwesome SVG icons
+# wagtailfontawesome>=1.2.1  # Temporarily disabled - uses old wagtail.core imports incompatible with Wagtail 6.x
+wagtailmenus==3.1.9
+wagtailnews>=3.0.0  # Re-enabled for Wagtail 5.2 - News/blog functionality
+# wagtailstreamforms==4.1.0  # Temporarily disabled for Wagtail 6.0 upgrade - needs compatibility update
+wagtail-treemodeladmin>=1.9.2  # Re-enabled for Wagtail 5.2 - Tree-like navigation for ModelAdmin
+wagtail-modeladmin>=2.2.0  # Required for Wagtail 6.0+ - Replaces wagtail.contrib.modeladmin
 webencodings==0.5.1
 wget==3.2
-wiki==0.7.10
+wiki==0.12.0
 Willow==1.4
 wrapt==1.14.1
 xlrd==2.0.1

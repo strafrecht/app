@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
 #from pages.models import Node, Exams
-from wagtail.core.models import Page
-from wagtail.search.models import Query
+from wagtail.models import Page
+from wagtail.contrib.search_promotions.models import Query
 from pages.models.news import ArticlePage
 from pages.models.sessions import SessionPage
 

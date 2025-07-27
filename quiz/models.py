@@ -2,7 +2,7 @@ from django.db import models
 from modelcluster.fields import ParentalKey
 from django.contrib.auth.models import User
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wiki.models import URLPath
 
 from core.edit_handlers import ReadOnlyPanel

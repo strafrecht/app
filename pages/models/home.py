@@ -1,10 +1,10 @@
 from django.db import models
 
 # Wagtail
-from wagtail.core import blocks, fields
-from wagtail.core.models import Page
-from wagtail.core.fields import StreamField
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, FieldRowPanel, MultiFieldPanel
+from wagtail import blocks, fields
+from wagtail.models import Page
+from wagtail.fields import StreamField
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 
 # 3rd Party
 from wagtailcolumnblocks.blocks import ColumnsBlock
@@ -25,8 +25,7 @@ from pages.models.sidebar import (
 from wagtail.contrib.table_block.blocks import TableBlock
 
 from wagtail.images.models import Image
-from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.admin.edit_handlers import FieldPanel
+# ImageChooserPanel replaced with FieldPanel for Wagtail 4.0 compatibility
 
 
 
@@ -127,19 +126,19 @@ class BasePage(Page):
         ('content', ContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    }, verbose_name="Hauptspalte")
+    }, use_json_field=True, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
         ('sidebar', SidebarBlocks(required=False, label="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    }, verbose_name="Seitenleiste")
+    }, use_json_field=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
         FieldPanel('allow_comments'),
-        ImageChooserPanel('header'),
-        FieldRowPanel([
+        FieldPanel('header'),
+        MultiFieldPanel([
             FieldPanel('content', classname='col8'),
             FieldPanel('sidebar', classname='col4'),
         ], classname='full')

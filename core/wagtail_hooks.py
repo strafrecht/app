@@ -1,6 +1,6 @@
-from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from wagtail.core import hooks
+from wagtail_modeladmin.helpers import AdminURLHelper, ButtonHelper
+from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail import hooks
 from wiki.models import ArticleRevision
 
 from django.templatetags.static import static

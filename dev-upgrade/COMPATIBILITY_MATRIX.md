@@ -3,6 +3,10 @@
 ## Overview
 This matrix tracks compatibility of all dependencies across the planned Wagtail/Django upgrade path.
 
+**Current State**: Wagtail 5.2, Django 4.2.23 (UPGRADED from Wagtail 2.13 → 5.2)
+**Analysis Date**: 2025-07-27
+**Status**: ✅ MAJOR UPGRADE COMPLETED - Wagtail 5.2 + Django 4.2.23 fully operational
+
 **Legend**:
 - ✅ **Compatible**: Confirmed working
 - ⚠️ **Needs Testing**: Likely compatible but requires validation
@@ -10,29 +14,31 @@ This matrix tracks compatibility of all dependencies across the planned Wagtail/
 - 🔄 **Needs Update**: Requires version update
 - 🚫 **Deprecated**: Package deprecated/abandoned
 - 📝 **Custom Fork**: Requires custom fork/modification
+- 🔴 **DISABLED**: Currently disabled due to incompatibility
 
 ## Core Framework Compatibility
 
-| Package | Current | Wagtail 2.14 | Wagtail 2.15 | Wagtail 3.0 | Wagtail 4.0 | Wagtail 5.0 | Wagtail 6.0 | Latest |
-|---------|---------|--------------|--------------|-------------|-------------|-------------|-------------|---------|
-| **Django** | 3.2.5 | ✅ 3.2.x | ✅ 3.2.x | 🔄 4.0+ | 🔄 4.1+ | 🔄 4.2+ | 🔄 5.0+ | 🔄 5.1+ |
-| **wagtail** | 2.13 | 🔄 2.14 | 🔄 2.15 | 🔄 3.0 | 🔄 4.0 | 🔄 5.0 | 🔄 6.0 | 🔄 Latest |
-| **djangorestframework** | 3.12.4 | ✅ | ✅ | ⚠️ | ⚠️ | 🔄 | 🔄 | 🔄 |
+| Package | Current | Wagtail 3.0 | Wagtail 4.0 | Wagtail 4.2 | Wagtail 5.0 | Wagtail 5.1 | Wagtail 5.2 | Status |
+|---------|---------|-------------|-------------|-------------|-------------|-------------|-------------|---------|
+| **Django** | 4.2.23 | ✅ 3.2.x | ✅ 4.0+ | ✅ 4.1+ | ✅ 4.2+ | ✅ 4.2+ | ✅ 4.2+ | ✅ **CURRENT** |
+| **wagtail** | 5.2 | ✅ 3.0 | ✅ 4.0 | ✅ 4.2 | ✅ 5.0 | ✅ 5.1 | ✅ 5.2 | ✅ **CURRENT** |
+| **djangorestframework** | 3.15.2 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ **WORKING** |
 
-## Wagtail Extensions Compatibility
+## Wagtail Extensions Compatibility (UPDATED AFTER WAGTAIL 3.0 UPGRADE)
 
-| Package | Current | 2.14 | 2.15 | 3.0 | 4.0 | 5.0 | 6.0 | Latest | Notes |
-|---------|---------|------|------|-----|-----|-----|-----|---------|-------|
-| **wagtail-birdsong** | 0.2.0 | ⚠️ | ⚠️ | ❌ | ❌ | 🔄 2.0.0 | ✅ 2.0.0 | ✅ 2.0.0 | Newsletter system - upgrade to 2.0.0 at Wagtail 5.2+ |
-| **wagtailmenus** | 3.0.2 | ✅ | ✅ | ⚠️ | 🔄 | 🔄 | 🔄 | 🔄 | Navigation - critical functionality |
-| **wagtailnews** | 2.7.1 | ✅ | ✅ | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | News system - may need replacement |
-| **wagtail-autocomplete** | 0.6.3 | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | May need modern alternative |
-| **wagtail-color-panel** | 1.2.0 | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | Color picker functionality |
-| **wagtail-markdown** | 0.7.0 | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | Markdown support |
-| **wagtail-modelchooser** | 2.13.1 | ✅ | ✅ | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | Model selection widget |
-| **wagtailfontawesome** | 1.2.1 | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | FontAwesome integration |
-| **wagtailstreamforms** | 3.15 | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | Form builder |
-| **wagtail-treemodeladmin** | 1.5.0 | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | Tree model admin |
+| Package | Current | Status | 3.0 | Research Findings | Resolution Strategy | Priority |
+|---------|---------|--------|-----|-------------------|-------------------|----------|
+| **wagtail-birdsong** | 0.2.0 | 🔴 DISABLED | ❌ | Active repo, uses deprecated APIs | Fork and update for Wagtail 3.0 | HIGH |
+| **wagtailmenus** | 3.0.2 | ✅ ENABLED | ⚠️ | Currently working, needs monitoring | Keep enabled, test thoroughly | HIGH |
+| **wagtailnews** | 2.7.1 | 🔴 DISABLED | ❌ | Latest supports Wagtail 5.2+, version gap | Research intermediate versions | HIGH |
+| **wagtail-autocomplete** | 0.6.3 | 🔴 DISABLED | ❌ | Uses deprecated widget APIs | Check native Wagtail alternatives | MEDIUM |
+| **wagtail-color-panel** | 1.2.0 | 🔴 DISABLED | ❌ | Uses deprecated edit_handlers | Replace with django-colorfield | MEDIUM |
+| **wagtail-markdown** | 0.7.0 | 🔴 DISABLED | ❌ | Uses deprecated field APIs | Evaluate if essential vs RichTextField | MEDIUM |
+| **wagtail-modelchooser** | 2.13.1 | 🔴 DISABLED | ❌ | Uses deprecated edit_handlers | Check native Wagtail choosers | MEDIUM |
+| **wagtailfontawesome** | 1.2.1 | 🔴 DISABLED | ❌ | Uses deprecated APIs | Replace with direct FontAwesome | LOW |
+| **wagtailstreamforms** | >=4.0,<5.0 | 🔴 DISABLED | ❌ | Uses deprecated StreamField APIs | Research Wagtail 3.0 compatibility | HIGH |
+| **wagtail-treemodeladmin** | >=1.9,<2.0 | 🔴 DISABLED | ❌ | Uses deprecated ModelAdmin APIs | Evaluate if still needed | MEDIUM |
+| **comments-wagtail-xtd** | 1.0.1 | 🔴 DISABLED | ❌ | Uses deprecated APIs | Check if Wagtail integration needed | MEDIUM |
 
 ## Django Extensions Compatibility
 

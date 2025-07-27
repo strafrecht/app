@@ -3,6 +3,127 @@
 ## Overview
 This document tracks all custom modifications, patches, and workarounds implemented during the Wagtail/Django upgrade process. This includes forked dependencies, custom code modifications, and configuration changes.
 
+**Current Status**: ✅ MAJOR UPGRADE COMPLETED - Wagtail 2.13 → 6.4.2, Django 3.2.5 → 5.2.4
+**Last Updated**: 2025-07-27
+
+## ✅ COMPLETED CHANGES (Wagtail 6.4.2 & Django 5.2.4 Upgrade)
+
+### Forked Dependencies for Wagtail 6.x/Django 5.x Compatibility
+
+#### wagtail-birdsong (Newsletter System) - FORKED
+- **Original Version**: 2.0.0 (neon-jungle/wagtail-birdsong)
+- **Fork Location**: `/root/strafrecht-online/wagtail-birdsong-fork/`
+- **Fork Version**: 2.0.1
+- **Installation**: `pip install -e ./wagtail-birdsong-fork`
+- **Status**: ✅ COMPLETED and WORKING
+
+**Changes Made**:
+1. **Import Fix**: Updated `from wagtail.coreutils import camelcase_to_underscore` (line 10 in models.py)
+   - The import was correct - `wagtail.coreutils` still exists in Wagtail 6.x
+2. **Dependencies Updated**: Updated setup.py requirements:
+   - `wagtail>=6.0` (was `wagtail>=5.2`)
+   - Added `Django>=5.0` requirement
+3. **Version Bump**: Updated to 2.0.1 to distinguish from original
+
+**Re-enabled Components**:
+- ✅ `birdsong` app in INSTALLED_APPS
+- ✅ `mjml` app in INSTALLED_APPS (upgraded to django-mjml 1.4)
+- ✅ `emails` app in INSTALLED_APPS
+- ✅ Newsletter models: `NewsletterEmail`, `LSHNewsletter`
+- ✅ Newsletter admin: `LSHNewsletterAdmin`, `ContactAdmin`
+- ✅ Birdsong URLs: `/mail/` endpoints
+- ✅ Newsletter subscription functionality in core/views.py
+
+**Testing**: ✅ Application passes `python manage.py check --deploy` with no errors
+
+## ✅ COMPLETED CHANGES (Previous Wagtail 5.2 Upgrade)
+
+### Wagtail 5.0+ Breaking Changes Fixed
+*All changes required for Wagtail 5.0+ compatibility*
+
+#### Wagtail Core Import Updates
+- **Files Modified**: 41 Python files across the entire codebase
+- **Change**: Updated `wagtail.core.*` imports to `wagtail.*`
+- **Script Used**: `dev-upgrade/fix_wagtail_core_imports.py`
+- **Examples**:
+  - `from wagtail.core.models import Page` → `from wagtail.models import Page`
+  - `from wagtail.core.fields import RichTextField` → `from wagtail.fields import RichTextField`
+  - `from wagtail.core.blocks import StreamBlock` → `from wagtail.blocks import StreamBlock`
+- **Status**: ✅ COMPLETED
+
+#### Panel System Updates (Wagtail 5.0+)
+- **Files Modified**: 8 Python files
+- **Changes**:
+  - Replaced `StreamFieldPanel` with `FieldPanel` (deprecated in Wagtail 5.0)
+  - Replaced `FieldRowPanel` with `MultiFieldPanel` (deprecated in Wagtail 5.0)
+  - Added missing imports for `TabbedInterface`, `MultiFieldPanel`
+- **Script Used**: `dev-upgrade/fix_wagtail_5_panels.py`
+- **Status**: ✅ COMPLETED
+
+#### Migration Files Fixed
+- **Files Modified**: 23 migration files
+- **Change**: Updated old `wagtail.core.*` imports in migration files
+- **Script Used**: `dev-upgrade/fix_migration_wagtail_core.py`
+- **Status**: ✅ COMPLETED
+
+### Django 4.0+ Compatibility Fixes
+*All changes required for Django 4.0+ compatibility*
+
+#### URL Pattern Updates
+- **Files Modified**: `quiz/wagtail_hooks.py`, `wagtailpolls/wagtail_hooks.py`
+- **Change**: Updated `django.conf.urls.url` to `django.urls.re_path`
+- **Reason**: `url()` function removed in Django 4.0
+- **Status**: ✅ COMPLETED
+
+#### Translation Function Updates
+- **Files Modified**: `wagtailpolls/views/chooser.py`, `wagtailpolls/forms.py`
+- **Changes**:
+  - `ugettext` → `gettext`
+  - `ungettext_lazy` → `ngettext_lazy`
+- **Reason**: Old translation functions removed in Django 4.0
+- **Status**: ✅ COMPLETED
+
+#### IP Address Detection Updates
+- **Files Modified**: `wagtailpolls/forms.py`
+- **Change**: Updated django-ipware API usage
+- **Old**: `get_real_ip(request) or get_ip(request)`
+- **New**: `get_client_ip(request)`
+- **Status**: ✅ COMPLETED
+
+### Package Version Updates
+*Package updates for Django 4.2/Wagtail 5.2 compatibility*
+
+#### Core Package Updates
+- **django-comments-xtd**: 2.9.1 → 2.10.7 (Django 4.2 compatibility)
+- **wagtailmenus**: 3.0.2 → 3.1.9 (Wagtail 5.0+ compatibility)
+- **django-pipeline**: 2.0.6 → 3.1.0 (Django 4.0+ compatibility)
+- **django-pwa**: 1.0.10 → 1.1.0 (Django 4.0+ compatibility)
+- **django-filter**: 22.1 → 23.5 (Wagtail 5.2 requirement)
+- **Status**: ✅ COMPLETED
+
+#### Additional Dependencies Installed
+- **wrapt**: 1.17.2 (required by wiki_patch.py)
+- **html2text**: 2025.4.15 (required by core.views)
+- **wget**: 3.2 (required by core.seed)
+- **django-ipware**: 7.0.1 (updated API)
+- **Status**: ✅ COMPLETED
+
+#### Pillow Version Management
+- **Issue**: Pillow 10.4.0 incompatible with django-avatar (Image.ANTIALIAS removed)
+- **Solution**: Downgraded to Pillow 9.5.0
+- **Removed**: pillow-heif (dependency conflict)
+- **Status**: ✅ COMPLETED
+
+### Database Migration Handling
+*Special handling for problematic migrations*
+
+#### Wagtail Log Entry Migrations
+- **Migrations**: wagtailcore.0088, wagtailcore.0089
+- **Issue**: Column `wagtailcore_pagelogentry.data` does not exist
+- **Solution**: Faked migrations (log entries can be regenerated)
+- **Command**: `python manage.py migrate wagtailcore 0088 --fake`
+- **Status**: ✅ COMPLETED
+
 ## Custom Modifications Tracking
 
 ### Forked Dependencies

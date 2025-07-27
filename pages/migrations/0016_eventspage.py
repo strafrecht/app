@@ -3,10 +3,10 @@
 from django.db import migrations, models
 import django.db.models.deletion
 import wagtail.contrib.routable_page.models
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
-import wagtail_color_panel.blocks
+# import wagtail_color_panel.blocks  # Temporarily disabled for Wagtail 3.0 upgrade
 
 
 class Migration(migrations.Migration):
@@ -21,8 +21,8 @@ class Migration(migrations.Migration):
             name='EventsPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('content', wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock()), ('events_block', wagtail.core.blocks.StructBlock([]))]))])),
-                ('sidebar', wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], blank=True)),
+                ('content', wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock()), ('events_block', wagtail.blocks.StructBlock([]))]))])),
+                ('sidebar', wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], blank=True)),
             ],
             options={
                 'abstract': False,

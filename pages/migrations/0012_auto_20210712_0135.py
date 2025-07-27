@@ -4,11 +4,11 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import wagtail.contrib.routable_page.models
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
-import wagtail_color_panel.blocks
-import wagtailmodelchooser.blocks
+# import wagtail_color_panel.blocks  # Temporarily disabled for Wagtail 3.0 upgrade
+# import wagtailmodelchooser.blocks  # Temporarily disabled for Wagtail 3.0 upgrade
 
 
 class Migration(migrations.Migration):
@@ -29,17 +29,17 @@ class Migration(migrations.Migration):
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
                 ('name', models.CharField(max_length=255)),
                 ('subtitle', models.CharField(max_length=255)),
-                ('date', wagtail.core.fields.RichTextField(blank=True)),
+                ('date', wagtail.fields.RichTextField(blank=True)),
                 ('type', models.CharField(blank=True, choices=[('lecture', 'Vorlesung'), ('exercise', 'Übung'), ('study_group', 'Arbeitsgemeinschaft'), ('exam_prep', 'Klausurenkurs'), ('seminar', 'Seminar')], default='lecture', max_length=255)),
                 ('semester', models.CharField(blank=True, choices=[('ss2022', 'Sommersemester 2022'), ('ws2022', 'Wintersemester 2022'), ('ss2021', 'Sommersemester 2021'), ('ws2021', 'Wintersemester 2021'), ('ss2020', 'Sommersemester 2020'), ('ws2020', 'Wintersemester 2020'), ('ss2019', 'Sommersemester 2019'), ('ws2019', 'Wintersemester 2019'), ('ss2018', 'Sommersemester 2018'), ('ws2018', 'Wintersemester 2018')], default='ws2020', max_length=255)),
-                ('assessment', wagtail.core.fields.RichTextField(blank=True)),
-                ('description', wagtail.core.fields.RichTextField(blank=True)),
-                ('speaker_description', wagtail.core.fields.RichTextField(blank=True)),
-                ('content', wagtail.core.fields.RichTextField(blank=True)),
-                ('location', wagtail.core.fields.RichTextField(blank=True)),
+                ('assessment', wagtail.fields.RichTextField(blank=True)),
+                ('description', wagtail.fields.RichTextField(blank=True)),
+                ('speaker_description', wagtail.fields.RichTextField(blank=True)),
+                ('content', wagtail.fields.RichTextField(blank=True)),
+                ('location', wagtail.fields.RichTextField(blank=True)),
                 ('lat', models.FloatField(blank=True, null=True)),
                 ('lon', models.FloatField(blank=True, null=True)),
-                ('sidebar', wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], required=False))])),
+                ('sidebar', wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], required=False))])),
                 ('speaker', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -52,8 +52,8 @@ class Migration(migrations.Migration):
             name='SessionsPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('content', wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock()), ('semester_block', wagtail.core.blocks.StructBlock([]))]))])),
-                ('sidebar', wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], required=False))])),
+                ('content', wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock()), ('semester_block', wagtail.blocks.StructBlock([]))]))])),
+                ('sidebar', wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))])), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())]))], required=False))])),
             ],
             options={
                 'abstract': False,
@@ -67,17 +67,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='articlespage',
             name='content',
-            field=wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock()), ('article_list_block', wagtail.core.blocks.StructBlock([])), ('evaluation_list_block', wagtail.core.blocks.StructBlock([]))]))]),
+            field=wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock()), ('article_list_block', wagtail.blocks.StructBlock([])), ('evaluation_list_block', wagtail.blocks.StructBlock([]))]))]),
         ),
         migrations.AlterField(
             model_name='newsletterspage',
             name='content',
-            field=wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock())]))]),
+            field=wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock())]))]),
         ),
         migrations.AlterField(
             model_name='newsletterspage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())])), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))]))], required=False))]),
+            field=wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())])), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))]))], required=False))]),
         ),
         migrations.DeleteModel(
             name='SessionIndexPage',

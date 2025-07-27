@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import redirect, render, get_object_or_404
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.utils.text import capfirst
 from django.urls import reverse
@@ -9,9 +9,9 @@ from django.template.response import TemplateResponse
 from functools import lru_cache
 
 from wagtail.admin import messages
-from wagtail.admin.edit_handlers import (ObjectList, extract_panel_definitions_from_model_class)
-from wagtail.core import hooks
-from wagtail.core.models import Page
+from wagtail.admin.panels import (ObjectList, extract_panel_definitions_from_model_class)
+from wagtail import hooks
+from wagtail.models import Page
 from wagtail.snippets.permissions import get_permission_name, user_can_edit_snippet_type
 
 def get_snippet_model_from_url_params(app_name, model_name):

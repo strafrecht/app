@@ -5,7 +5,7 @@ from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.contrib.taggit
 import modelcluster.fields
-import wagtail.core.fields
+import wagtail.fields
 
 
 class Migration(migrations.Migration):
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ('date', models.DateField(verbose_name='Post date')),
                 ('subtitle', models.CharField(blank=True, max_length=255, null=True)),
                 ('intro', models.CharField(blank=True, max_length=250, null=True)),
-                ('body', wagtail.core.fields.RichTextField(blank=True)),
+                ('body', wagtail.fields.RichTextField(blank=True)),
                 ('is_evaluation', models.BooleanField(default=False)),
                 ('cover_caption', models.CharField(blank=True, max_length=255, null=True)),
                 ('author', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
