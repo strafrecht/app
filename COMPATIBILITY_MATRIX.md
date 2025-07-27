@@ -23,7 +23,7 @@ This matrix tracks compatibility of all dependencies across the planned Wagtail/
 
 | Package | Current | 2.14 | 2.15 | 3.0 | 4.0 | 5.0 | 6.0 | Latest | Notes |
 |---------|---------|------|------|-----|-----|-----|-----|---------|-------|
-| **wagtail-birdsong** | 0.2.0 | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | Newsletter system - may need fork |
+| **wagtail-birdsong** | 0.2.0 | ⚠️ | ⚠️ | ❌ | ❌ | 🔄 2.0.0 | ✅ 2.0.0 | ✅ 2.0.0 | Newsletter system - upgrade to 2.0.0 at Wagtail 5.2+ |
 | **wagtailmenus** | 3.0.2 | ✅ | ✅ | ⚠️ | 🔄 | 🔄 | 🔄 | 🔄 | Navigation - critical functionality |
 | **wagtailnews** | 2.7.1 | ✅ | ✅ | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | News system - may need replacement |
 | **wagtail-autocomplete** | 0.6.3 | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | May need modern alternative |
@@ -38,7 +38,7 @@ This matrix tracks compatibility of all dependencies across the planned Wagtail/
 
 | Package | Current | Django 3.2 | Django 4.0 | Django 4.1 | Django 4.2 | Django 5.0 | Django 5.1 | Notes |
 |---------|---------|-------------|-------------|-------------|-------------|-------------|-------------|-------|
-| **django-wiki** | 0.7.10 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | Wiki - major compatibility issues |
+| **django-wiki** | 0.7.10 | ✅ | 🔄 0.11.x | 🔄 0.11.x | 🔄 0.11.x | 🔄 0.12.0 | ✅ 0.12.0 | Wiki - upgrade path available |
 | **channels** | 3.0.3 | ✅ | 🔄 | 🔄 | 🔄 | 🔄 | 🔄 | WebSocket support |
 | **django-admin-interface** | 0.16.3 | ✅ | ⚠️ | ⚠️ | ⚠️ | 🔄 | 🔄 | Admin theming |
 | **django-comments-xtd** | 2.9.1 | ✅ | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | Comment system |
@@ -102,10 +102,12 @@ This matrix tracks compatibility of all dependencies across the planned Wagtail/
 
 ## Action Plan for Incompatible Dependencies
 
+### Packages with Upgrade Paths Available ✅
+1. **wagtail-birdsong**: 0.2.0 → 2.0.0 (supports Wagtail 5.2+)
+2. **django-wiki**: 0.7.10 → 0.12.0 (supports Django 4.0+ and 5.x)
+
 ### Immediate Forks Required
-1. **wagtail-birdsong**: Newsletter functionality critical
-2. **django-wiki**: Wiki functionality essential
-3. **wagtail-autocomplete**: Admin interface dependency
+1. **wagtail-autocomplete**: Admin interface dependency
 
 ### Alternative Packages to Research
 1. **wagtail-birdsong** → Modern newsletter solution
