@@ -1,0 +1,3 @@
+[submodule "wagtail-birdsong-fork"]
+	path = wagtail-birdsong-fork
+	url = https://github.com/strafrecht-admin/wagtail-birdsong-fork.git
