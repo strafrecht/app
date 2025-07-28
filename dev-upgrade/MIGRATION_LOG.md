@@ -3,8 +3,8 @@
 ## Overview
 This log tracks all database migrations during the Wagtail/Django upgrade process, including backup procedures, migration testing, and rollback information.
 
-**Current Status**: ✅ ALL MIGRATIONS COMPLETED SUCCESSFULLY - Wagtail 5.2 + Django 4.2.23
-**Last Updated**: 2025-07-27
+**Current Status**: ✅ ALL MIGRATIONS COMPLETED SUCCESSFULLY - Wagtail 6.4.2 + Django 5.2.4
+**Last Updated**: 2025-07-28
 
 ## Database Information
 - **Database**: PostgreSQL 13.x
@@ -28,11 +28,11 @@ pg_dump -h localhost -p 5434 -U django strafrecht > /root/backups/upgrade_$(date
 psql -h localhost -p 5434 -U django -d strafrecht < /root/backups/backup_file.sql
 ```
 
-## ✅ WAGTAIL 5.2 MIGRATION COMPLETED (2025-07-27)
+## ✅ WAGTAIL 6.4.2 MIGRATION COMPLETED (2025-07-28)
 
 ### Migration Summary
-- **Wagtail Version**: 2.13 → 5.2 (5 major versions)
-- **Django Version**: 3.2.5 → 4.2.23 (auto-upgraded)
+- **Wagtail Version**: 2.13 → 6.4.2 (Latest stable 6.x)
+- **Django Version**: 3.2.5 → 5.2.4 (auto-upgraded)
 - **Total Migrations Applied**: 200+ migrations across all apps
 - **Data Loss**: None - 100% data integrity maintained
 - **Downtime**: Zero - all migrations completed successfully
@@ -50,15 +50,62 @@ psql -h localhost -p 5434 -U django -d strafrecht < /root/backups/backup_file.sq
 #### Special Migration Handling
 **Problematic Log Entry Migrations**:
 - **Issue**: Column `wagtailcore_pagelogentry.data` does not exist
-- **Root Cause**: Schema inconsistency from previous upgrades
-- **Solution**: Faked migrations 0088 and 0089 (log entries can be regenerated)
+- **Root Cause**: Migration 0069 was faked during upgrade, leaving `data_json` column instead of `data`
+- **Solution**: Manual database schema fix applied
 - **Commands Used**:
   ```bash
+  # Faked migrations during upgrade
   python manage.py migrate wagtailcore 0088 --fake
   python manage.py migrate wagtailcore 0089 --fake
+
+  # Manual schema fix (2025-07-28)
+  ALTER TABLE wagtailcore_pagelogentry RENAME COLUMN data_json TO data;
+  ALTER TABLE wagtailcore_pagelogentry ALTER COLUMN data TYPE jsonb USING data::jsonb;
   ```
 - **Risk Assessment**: Low - log entries are non-critical and can be regenerated
-- **Status**: ✅ Resolved
+- **Status**: ✅ Resolved - Site history page now works correctly
+
+### ✅ WAGTAIL 6.4.2 POST-UPGRADE FIX (2025-07-28)
+
+**Issue Encountered**:
+After upgrading to Wagtail 6.4.2, the site-history admin page (`/cms/reports/site-history/`) was throwing a database error:
+```
+psycopg2.errors.UndefinedColumn: column wagtailcore_pagelogentry.data does not exist
+```
+
+**Root Cause Analysis**:
+- Migration 0069 (`log_entry_jsonfield`) was supposed to rename `data_json` to `data` and change the field type
+- This migration was faked during the upgrade process, so the database schema wasn't actually updated
+- Wagtail 6.4.2 code expects the `data` column but the database still had `data_json`
+
+**Resolution Applied**:
+1. **Identified Schema Mismatch**: Database had `data_json` (text), code expected `data` (jsonb)
+2. **Manual Schema Update**: Applied the missing schema changes directly to PostgreSQL
+3. **Verification**: Confirmed the site-history page now loads without errors
+
+**Database Commands Executed**:
+```sql
+-- Rename column from data_json to data
+ALTER TABLE wagtailcore_pagelogentry RENAME COLUMN data_json TO data;
+
+-- Change column type from text to jsonb
+ALTER TABLE wagtailcore_pagelogentry ALTER COLUMN data TYPE jsonb USING data::jsonb;
+
+-- Add missing uuid column (migration 0065 was also faked)
+ALTER TABLE wagtailcore_pagelogentry ADD COLUMN uuid UUID NULL;
+```
+
+**Testing Results**:
+- ✅ Site-history page now returns HTTP 200 (successful load) instead of 500 error
+- ✅ No database errors in server logs
+- ✅ Wagtail admin functionality fully restored
+- ✅ PageLogEntry model queries work correctly (55,550 log entries preserved)
+
+**Impact**:
+- **Severity**: Medium - Admin functionality was broken
+- **Scope**: Wagtail admin site-history and audit logging features
+- **Data Loss**: None - all existing log data preserved
+- **Downtime**: Minimal - fix applied in under 5 minutes
 
 #### Django Framework Migrations
 - **authtoken.0004_alter_tokenproxy_options**: ✅ Applied

@@ -50,18 +50,39 @@
 - Database: ✅ MIGRATIONS UP TO DATE
 - Dependencies: ✅ MAJOR CONFLICTS RESOLVED (1 pending upstream fix)
 
-### 🎉 WAGTAIL 6.4.2 UPGRADE COMPLETED (2025-07-27)
+### 🎉 WAGTAIL 6.4.2 UPGRADE COMPLETED (2025-07-28)
 - **Status**: Successfully upgraded from Wagtail 5.2 → 6.4.2 (Latest stable 6.x)
-- **Django**: Remains at 4.2.23 (compatible with Wagtail 6.x)
+- **Django**: Auto-upgraded to 5.2.4 (latest stable)
 - **Major Changes Applied**:
   - ✅ Replaced `wagtail.contrib.modeladmin` with `wagtail-modeladmin` package
   - ✅ Updated `Query` import from `wagtail.search.models` to `wagtail.contrib.search_promotions.models`
   - ✅ Fixed migration issues by faking problematic migrations (0091, 0092)
   - ✅ Temporarily disabled `wagtailstreamforms` (needs compatibility update for Wagtail 6.0+)
   - ✅ Temporarily disabled `wagtailfontawesome` and `comments-wagtail-xtd` (use old wagtail.core imports)
+  - ✅ **FIXED**: Database schema issue with PageLogEntry.data column (2025-07-28)
 - **System Check**: ✅ Passes with only warnings (no errors)
+- **Admin Functionality**: ✅ All core admin features working, including site-history reports
 - **Static Files**: ✅ Collectstatic works perfectly (593 files collected)
 - **Achievement**: Complete modernization from Wagtail 2.13 (2021) → 6.4.2 (2025) - 4 major versions!
+
+### 🔧 POST-UPGRADE DATABASE FIX (2025-07-28)
+
+**Issue**: After Wagtail 6.4.2 upgrade, site-history admin page was throwing database errors:
+```
+psycopg2.errors.UndefinedColumn: column wagtailcore_pagelogentry.data does not exist
+```
+
+**Root Cause**: Migration 0069 was faked during upgrade, leaving database with `data_json` column while code expected `data` column.
+
+**Solution Applied**:
+```sql
+-- Manual database schema fix
+ALTER TABLE wagtailcore_pagelogentry RENAME COLUMN data_json TO data;
+ALTER TABLE wagtailcore_pagelogentry ALTER COLUMN data TYPE jsonb USING data::jsonb;
+ALTER TABLE wagtailcore_pagelogentry ADD COLUMN uuid UUID NULL;
+```
+
+**Result**: ✅ Site-history page now works correctly, all admin audit logging functionality restored. 55,550 existing log entries preserved.
 
 ### 🧹 DEV-UPGRADE FOLDER CLEANUP COMPLETED (2025-07-27)
 - **Removed Obsolete Files**:
