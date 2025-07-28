@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('wagtailredirects', '0006_redirect_increase_max_length'),
         ('wagtailcore', '0062_comment_models_and_pagesubscription'),
-        ('wagtailmenus', '0023_remove_use_specific'),
+        # ('wagtailmenus', '0023_remove_use_specific'),  # Already applied - removing dependency
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('wagtailforms', '0004_add_verbose_name_plural'),
         ('pages', '0011_auto_20210709_1452'),

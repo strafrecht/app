@@ -52,7 +52,7 @@ urlpatterns = [
     path('mail/confirm/<str:hashed_email>/<str:email>',   newsletter_confirm,   name='newsletter_confirm'),
     path('', include('pwa.urls')),
 
-    # path('comments/', include('django_comments_xtd.urls')),  # Temporarily disabled until comments apps are re-enabled
+    path('comments/', include('django_comments_xtd.urls')),  # Re-enabled with django-comments-xtd 2.10.7
 
     # re_path(r'^vote/(?P<poll_pk>.*)/$', vote, name='wagtailpolls_vote'),  # Temporarily disabled for Django 5.x compatibility
 

@@ -9,7 +9,7 @@ import wagtail.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailpolls', '0001_initial'),
+        # ('wagtailpolls', '0001_initial'),  # Temporarily disabled - wagtailpolls is not enabled
         ('pages', '0024_auto_20210924_1325'),
     ]
 
@@ -49,11 +49,11 @@ class Migration(migrations.Migration):
             name='intro_text',
             field=wagtail.fields.RichTextField(blank=True),
         ),
-        migrations.AddField(
-            model_name='jurcoachpage',
-            name='poll',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailpolls.poll'),
-        ),
+        # migrations.AddField(
+        #     model_name='jurcoachpage',
+        #     name='poll',
+        #     field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailpolls.poll'),
+        # ),  # Temporarily disabled - wagtailpolls is not enabled
         migrations.CreateModel(
             name='JurcoachFooter',
             fields=[

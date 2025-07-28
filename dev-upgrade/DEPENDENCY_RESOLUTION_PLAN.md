@@ -24,29 +24,41 @@ Based on codebase analysis, this document outlines the specific actions needed t
 **Process**: Clone → Update → Test → Push to GitHub → Add as submodule → Re-enable
 **Benefits**: Version control, team collaboration, production-ready deployment
 
-### 2. wagtailstreamforms (Form Builder) - NEXT PRIORITY
-**Status**: 🔴 DISABLED - Form functionality missing
-**Impact**: StreamField-based form building unavailable
-**Original Version**: Last working with older Wagtail versions
-**Fork Strategy**: Clone → Update for Wagtail 6.x → Test → Deploy
-**Timeline**: 1-2 days
-**Risk**: Medium - StreamField API changes may require updates
+### 2. wagtailstreamforms (Form Builder) - ✅ COMPLETED
+**Status**: ✅ RESOLVED - Migrated to wagtail-flexible-forms
+**Impact**: StreamField-based form building now available with modern alternative
+**Solution**: wagtail-flexible-forms v2.1.0 (future official Wagtail form builder)
+**Migration Strategy**: Complete replacement with modern package
+**Timeline**: ✅ COMPLETED (1 day)
+**Risk**: ✅ RESOLVED - No data migration needed, seamless integration
 
-### 3. wagtailfontawesome (FontAwesome Integration) - HIGH PRIORITY
-**Status**: 🔴 DISABLED - Icon functionality missing
-**Impact**: FontAwesome icons not available in admin/frontend
-**Original Issue**: Uses deprecated `wagtail.core` imports
-**Fork Strategy**: Simple import updates for Wagtail 6.x
-**Timeline**: 1 day
-**Risk**: Low - straightforward import fixes
+### 3. wagtailfontawesome (FontAwesome Integration) - ✅ COMPLETED
+**Status**: ✅ RESOLVED - Migrated to wagtail-font-awesome-svg
+**Impact**: FontAwesome icons now available in admin and frontend
+**Solution**: wagtail-font-awesome-svg v1.1 (modern SVG-based FontAwesome)
+**Migration Strategy**: Modern alternative with enhanced functionality
+**Changes Made**:
+- Added `wagtailfontawesomesvg` to INSTALLED_APPS
+- Updated wagtailcolumnblocks icon reference to use SVG path
+- Registered 22 commonly used FontAwesome SVG icons for admin interface
+- Frontend FontAwesome CSS continues working via webpack (@fortawesome/fontawesome-free)
+**Timeline**: ✅ COMPLETED (1 day)
+**Risk**: ✅ RESOLVED - No compatibility issues, improved performance with SVG icons
 
-### 4. comments-wagtail-xtd (Wagtail Comments) - MEDIUM PRIORITY
-**Status**: 🔴 DISABLED - Comment integration missing
-**Impact**: Wagtail-specific comment functionality unavailable
-**Dependencies**: Requires django-comments-xtd to be re-enabled first
-**Fork Strategy**: Update imports + test integration
-**Timeline**: 2-3 days
-**Risk**: Medium - depends on django-comments-xtd compatibility
+### 4. comments-wagtail-xtd (Wagtail Comments) - ✅ COMPLETED
+**Status**: ✅ FORKED and RE-ENABLED - Fully functional
+**Impact**: Wagtail admin comment management now available
+**GitHub Fork**: https://github.com/strafrecht-admin/strafrecht-wagtailcomments_xtd.git
+**Integration**: Git submodule + editable installation (following wagtail-birdsong pattern)
+**Version**: 1.0.0 (forked and updated from 0.0.2)
+**Changes Made**:
+- Updated all deprecated Wagtail imports for 6.x compatibility
+- Fixed URL patterns and translation functions
+- Removed FontAwesome dependency (uses built-in Wagtail icons)
+- Updated setup.py for modern Django/Wagtail versions
+- Comprehensive README with installation instructions
+**Testing**: ✅ URL routing, template tags, comment model access, and system check passing
+**Dependencies**: ✅ django-comments-xtd 2.10.7 re-enabled and working
 
 ### 5. wagtail-markdown (Markdown Support) - MEDIUM PRIORITY
 **Status**: 🔴 DISABLED - Markdown functionality missing
@@ -56,7 +68,7 @@ Based on codebase analysis, this document outlines the specific actions needed t
 **Timeline**: 2-3 days
 **Risk**: Medium - dependency resolution required
 
-### 2. wagtail-treemodeladmin (Tree Admin Interface) - HIGH PRIORITY
+### 6. wagtail-treemodeladmin (Tree Admin Interface) - HIGH PRIORITY
 **Status**: 🔴 DISABLED - Admin interface degraded  
 **Impact**: Flashcard deck management using basic ModelAdmin  
 **Usage Found**:
@@ -69,22 +81,9 @@ Based on codebase analysis, this document outlines the specific actions needed t
 - **Timeline**: 2-3 days
 - **Risk**: Medium - may need custom implementation
 
-### 3. wagtailstreamforms (Form Builder) - HIGH PRIORITY  
-**Status**: 🔴 DISABLED - Form functionality missing  
-**Impact**: StreamField-based form building unavailable  
-**Usage Found**:
-- Previously upgraded to 3.17 during Wagtail 2.15 upgrade
-- Disabled for Wagtail 3.0 due to StreamField API changes
-
-**Resolution Strategy**: Version Research
-- **Action**: Research wagtailstreamforms versions compatible with Wagtail 3.0
-- **Alternative**: Use wagtail.contrib.forms for basic form functionality
-- **Timeline**: 1-2 days
-- **Risk**: Low - likely has compatible version
-
 ## Priority 2: Important Dependencies (Address Soon)
 
-### 4. wagtail-modelchooser (Model Selection Widgets) - MEDIUM PRIORITY
+### 7. wagtail-modelchooser (Model Selection Widgets) - MEDIUM PRIORITY
 **Status**: 🔴 DISABLED - Admin widgets degraded  
 **Impact**: Model chooser panels replaced with CharBlock workarounds  
 **Usage Found**:
@@ -97,9 +96,9 @@ Based on codebase analysis, this document outlines the specific actions needed t
 - **Timeline**: 2-3 days
 - **Risk**: Low - likely replaceable with native features
 
-### 5. wagtail-color-panel (Color Picker) - MEDIUM PRIORITY
-**Status**: 🔴 DISABLED - Color picker unavailable  
-**Impact**: Color selection replaced with CharBlock workarounds  
+### 8. wagtail-color-panel (Color Picker) - MEDIUM PRIORITY
+**Status**: 🔴 DISABLED - Color picker unavailable
+**Impact**: Color selection replaced with CharBlock workarounds
 **Usage Found**:
 - Mentioned in upgrade log as replaced with CharBlock for color fields
 - `django-colorfield` already installed as alternative
@@ -110,7 +109,7 @@ Based on codebase analysis, this document outlines the specific actions needed t
 - **Timeline**: 1 day
 - **Risk**: Very Low - direct replacement available
 
-### 6. wagtail-autocomplete (Autocomplete Widgets) - MEDIUM PRIORITY
+### 9. wagtail-autocomplete (Autocomplete Widgets) - MEDIUM PRIORITY
 **Status**: 🔴 DISABLED - Autocomplete functionality missing  
 **Impact**: Admin interface autocomplete widgets unavailable  
 
@@ -122,15 +121,19 @@ Based on codebase analysis, this document outlines the specific actions needed t
 
 ## Priority 3: Lower Priority Dependencies
 
-### 7. wagtailfontawesome (FontAwesome Integration) - LOW PRIORITY
-**Status**: 🔴 DISABLED - Icon integration missing  
-**Impact**: FontAwesome icons not available in admin  
+### 7. wagtailfontawesome (FontAwesome Integration) - ✅ COMPLETED
+**Status**: ✅ RESOLVED - Migrated to wagtail-font-awesome-svg
+**Impact**: FontAwesome icons now available in admin and frontend
 
-**Resolution Strategy**: Direct Integration
-- **Action**: Include FontAwesome CSS/JS directly in templates
-- **Remove**: wagtailfontawesome dependency entirely
-- **Timeline**: 1 day
-- **Risk**: Very Low - simple CSS/JS inclusion
+**Resolution Strategy**: Modern Alternative Migration
+- **Action**: ✅ COMPLETED - Migrated to wagtail-font-awesome-svg v1.1
+- **Changes Made**:
+  - Added `wagtailfontawesomesvg` to INSTALLED_APPS
+  - Updated wagtailcolumnblocks icon reference
+  - Registered 22 commonly used FontAwesome SVG icons for admin
+  - Frontend FontAwesome CSS continues working via webpack
+- **Timeline**: ✅ COMPLETED (1 day)
+- **Risk**: ✅ RESOLVED - No compatibility issues
 
 ### 8. wagtail-markdown (Markdown Support) - MEDIUM PRIORITY
 **Status**: 🔴 DISABLED - Markdown editing unavailable  
@@ -142,15 +145,13 @@ Based on codebase analysis, this document outlines the specific actions needed t
 - **Timeline**: 1-2 days
 - **Risk**: Low - alternatives available
 
-### 9. comments-wagtail-xtd (Comments Integration) - MEDIUM PRIORITY
-**Status**: 🔴 DISABLED - Wagtail-specific comment features missing  
-**Impact**: django-comments-xtd still works, but no Wagtail integration  
-
-**Resolution Strategy**: Evaluate Necessity
-- **Action**: Check if Wagtail-specific features are needed
-- **Keep**: django-comments-xtd (already working)
-- **Timeline**: 1 day
-- **Risk**: Very Low - base functionality preserved
+### 9. comments-wagtail-xtd (Comments Integration) - ✅ COMPLETED
+**Status**: ✅ FORKED and RE-ENABLED - Wagtail admin integration working
+**Impact**: Full Wagtail admin comment management functionality restored
+**Solution**: Created updated fork with Wagtail 6.x compatibility
+**Changes Made**: Complete modernization of codebase for current versions
+**Timeline**: ✅ COMPLETED (1 day)
+**Risk**: ✅ RESOLVED - Full functionality restored with modern codebase
 
 ## Dependencies Already Working
 
@@ -169,7 +170,7 @@ Based on codebase analysis, this document outlines the specific actions needed t
 ### Week 1 (Days 1-3)
 1. **Day 1**: Fork wagtail-birdsong and update for Wagtail 3.0
 2. **Day 2**: Test birdsong fork and re-enable newsletter functionality
-3. **Day 3**: Research and fix wagtailstreamforms compatibility
+3. **Day 3**: ✅ COMPLETED - Migrated wagtailstreamforms to wagtail-flexible-forms
 
 ### Week 1 (Days 4-5)
 4. **Day 4**: Replace wagtail-color-panel with django-colorfield
@@ -183,22 +184,27 @@ Based on codebase analysis, this document outlines the specific actions needed t
 ## Success Criteria
 
 ### Phase 1 Complete (Critical Dependencies)
-- [ ] Newsletter system fully functional
-- [ ] Form building capabilities restored
+- [x] Newsletter system fully functional (wagtail-birdsong)
+- [x] Form building capabilities restored (wagtail-flexible-forms)
+- [x] FontAwesome icons working in admin and frontend (wagtail-font-awesome-svg)
+- [x] Comment system fully functional (django-comments-xtd + wagtailcomments_xtd)
 - [ ] Tree admin interface working for flashcards
 - [ ] No critical functionality missing
 
 ### Phase 2 Complete (All Dependencies)
+- [x] FontAwesome icons working in admin interface
 - [ ] All admin interface features working
 - [ ] Color picker functionality restored
 - [ ] Autocomplete features working
 - [ ] No disabled dependencies remaining
 
 ### Final Validation
+- [x] FontAwesome functionality tested and working
+- [x] Comment system functionality tested and working
 - [ ] All tests passing
 - [ ] Admin interface fully functional
-- [ ] Newsletter sending working
-- [ ] Form creation working
+- [x] Newsletter sending working
+- [x] Form creation working
 - [ ] No deprecation warnings
 - [ ] Performance maintained
 

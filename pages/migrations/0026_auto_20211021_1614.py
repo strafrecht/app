@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         ('wagtailimages', '0023_add_choose_permissions'),
         ('wagtaildocs', '0012_uploadeddocument'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('wagtailpolls', '0001_initial'),
+        # ('wagtailpolls', '0001_initial'),  # Temporarily disabled - wagtailpolls is not enabled
         ('pages', '0025_auto_20211014_1603'),
     ]
 
@@ -347,11 +347,11 @@ class Migration(migrations.Migration):
             name='intro_text',
             field=wagtail.fields.RichTextField(blank=True, verbose_name='Intro-Text'),
         ),
-        migrations.AlterField(
-            model_name='jurcoachpage',
-            name='poll',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailpolls.poll', verbose_name='Abstimmung'),
-        ),
+        # migrations.AlterField(
+        #     model_name='jurcoachpage',
+        #     name='poll',
+        #     field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailpolls.poll', verbose_name='Abstimmung'),
+        # ),  # Temporarily disabled - wagtailpolls is not enabled
         migrations.AlterField(
             model_name='newsletterspage',
             name='content',

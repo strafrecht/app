@@ -18,7 +18,7 @@ channels==3.0.3
 channels-redis==3.2.0
 chardet==4.0.0
 ciso8601==2.1.3
-# comments-wagtail-xtd>=1.0.4  # Temporarily disabled - uses old wagtail.core imports incompatible with Wagtail 6.x
+# wagtailcomments_xtd - Re-enabled via git submodule (installed as editable package from ./strafrecht-wagtailcomments-xtd-fork)
 constantly==15.1.0
 cryptography==3.4.7
 daphne==3.0.2
@@ -29,7 +29,7 @@ django-avatar==7.0.1
 django-classy-tags==2.0.0
 django-cogwheels==0.3
 django-colorfield==0.4.1
-django-comments-xtd==2.9.1
+django-comments-xtd==2.10.7
 django-contrib-comments==2.1.0
 django-cors-headers==3.7.0
 django-crispy-forms==1.14.0
@@ -102,7 +102,7 @@ wagtail-font-awesome-svg>=1.1  # Re-enabled for Wagtail 5.2 - Modern FontAwesome
 # wagtailfontawesome>=1.2.1  # Temporarily disabled - uses old wagtail.core imports incompatible with Wagtail 6.x
 wagtailmenus==3.1.9
 wagtailnews>=3.0.0  # Re-enabled for Wagtail 5.2 - News/blog functionality
-# wagtailstreamforms==4.1.0  # Temporarily disabled for Wagtail 6.0 upgrade - needs compatibility update
+wagtail-flexible-forms>=2.1.0  # Modern StreamField-based form builder - replacement for wagtailstreamforms
 wagtail-treemodeladmin>=1.9.2  # Re-enabled for Wagtail 5.2 - Tree-like navigation for ModelAdmin
 wagtail-modeladmin>=2.2.0  # Required for Wagtail 6.0+ - Replaces wagtail.contrib.modeladmin
 webencodings==0.5.1

@@ -111,6 +111,7 @@ INSTALLED_APPS = [
     'wagtailcolumnblocks',
     # 'wagtail_color_panel',  # Temporarily disabled for Wagtail 3.0 upgrade
     # 'wagtailfontawesome',  # Temporarily disabled - uses old wagtail.core imports incompatible with Wagtail 6.x
+    'wagtailfontawesomesvg',  # Modern FontAwesome SVG icons for Wagtail 6.x
     # 'wagtailautocomplete',  # Temporarily disabled for Wagtail 3.0 upgrade
     # 'wagtailmarkdown',  # Temporarily disabled due to bleach dependency conflict with wiki package
 
@@ -146,9 +147,9 @@ INSTALLED_APPS = [
     # 'avatar',  # Temporarily disabled for Django 5.x compatibility
 
     # Comments
-    # 'django_comments_xtd',  # Temporarily disabled for Django 5.x compatibility
-    # 'django_comments',  # Temporarily disabled for Django 5.x compatibility
-    # 'comments_wagtail_xtd',  # Temporarily disabled - uses old wagtail.core imports incompatible with Wagtail 6.x
+    'django_comments_xtd',  # Re-enabled with version 2.10.7 - Django 5.x compatible
+    'django_comments',  # Re-enabled - required by django_comments_xtd
+    'wagtailcomments_xtd',  # Re-enabled with forked version - Wagtail 6.x compatible
 
     # Wagtail News
     # 'wagtailnews',  # Temporarily disabled for Wagtail 3.0 upgrade
@@ -166,7 +167,7 @@ INSTALLED_APPS = [
     # Wagtail Polls
     # 'wagtailpolls',  # Temporarily disabled for Django 5.x compatibility
     'wagtail_modeladmin',  # Replaced wagtail.contrib.modeladmin for Wagtail 6.0+ compatibility
-    # 'wagtailstreamforms',  # Temporarily disabled for Wagtail 6.0 upgrade - needs compatibility update
+    'wagtail_flexible_forms',  # Modern StreamField-based form builder - replacement for wagtailstreamforms
     # 'treemodeladmin',  # Temporarily disabled for Wagtail 3.0 upgrade
 
     # DRF
@@ -217,7 +218,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
-                'wagtailmenus.context_processors.wagtailmenus',
+                # 'wagtailmenus.context_processors.wagtailmenus',  # Temporarily disabled - wagtailmenus is not enabled
             ],
         },
     },

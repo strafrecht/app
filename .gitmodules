@@ -1,3 +1,6 @@
 [submodule "wagtail-birdsong-fork"]
 	path = wagtail-birdsong-fork
 	url = https://github.com/strafrecht-admin/wagtail-birdsong-fork.git
+[submodule "strafrecht-wagtailcomments-xtd-fork"]
+	path = strafrecht-wagtailcomments-xtd-fork
+	url = git@github.com:strafrecht-admin/strafrecht-wagtailcomments_xtd.git
