@@ -170,43 +170,45 @@ def register_underline_feature(features):
 
 
 # Register FontAwesome SVG icons for admin interface
-@hooks.register("register_icons")
-def register_fontawesome_icons(icons):
-    """Register commonly used FontAwesome icons for Wagtail admin interface."""
-    fontawesome_icons = [
-        # Navigation and UI icons
-        'wagtailfontawesomesvg/solid/arrow-left.svg',
-        'wagtailfontawesomesvg/solid/arrow-up.svg',
-        'wagtailfontawesomesvg/solid/home.svg',
-        'wagtailfontawesomesvg/solid/cogs.svg',
-        'wagtailfontawesomesvg/solid/wrench.svg',
-
-        # Content management icons
-        'wagtailfontawesomesvg/solid/edit.svg',
-        'wagtailfontawesomesvg/solid/eye.svg',
-        'wagtailfontawesomesvg/solid/file.svg',
-        'wagtailfontawesomesvg/solid/plus.svg',
-        'wagtailfontawesomesvg/solid/check.svg',
-
-        # Status and action icons
-        'wagtailfontawesomesvg/solid/star.svg',
-        'wagtailfontawesomesvg/solid/trash.svg',
-        'wagtailfontawesomesvg/solid/lock.svg',
-        'wagtailfontawesomesvg/solid/clock.svg',
-        'wagtailfontawesomesvg/solid/flag.svg',
-
-        # Social media icons (brands)
-        'wagtailfontawesomesvg/brands/github.svg',
-        'wagtailfontawesomesvg/brands/instagram.svg',
-        'wagtailfontawesomesvg/brands/facebook-square.svg',
-
-        # User interface icons
-        'wagtailfontawesomesvg/solid/user-circle.svg',
-        'wagtailfontawesomesvg/solid/info-circle.svg',
-        'wagtailfontawesomesvg/solid/minus-circle.svg',
-
-        # Column layout icon (for wagtailcolumnblocks)
-        'wagtailfontawesomesvg/solid/columns.svg',
-    ]
-
-    return icons + fontawesome_icons
+# Temporarily disabled due to FontAwesome 6 compatibility issues
+# TODO: Update icon names to FontAwesome 6 naming conventions
+# @hooks.register("register_icons")
+# def register_fontawesome_icons(icons):
+#     """Register commonly used FontAwesome icons for Wagtail admin interface."""
+#     fontawesome_icons = [
+#         # Navigation and UI icons
+#         'wagtailfontawesomesvg/solid/arrow-left.svg',
+#         'wagtailfontawesomesvg/solid/arrow-up.svg',
+#         'wagtailfontawesomesvg/solid/home.svg',
+#         'wagtailfontawesomesvg/solid/gears.svg',
+#         'wagtailfontawesomesvg/solid/wrench.svg',
+#
+#         # Content management icons
+#         'wagtailfontawesomesvg/solid/edit.svg',
+#         'wagtailfontawesomesvg/solid/eye.svg',
+#         'wagtailfontawesomesvg/solid/file.svg',
+#         'wagtailfontawesomesvg/solid/plus.svg',
+#         'wagtailfontawesomesvg/solid/check.svg',
+#
+#         # Status and action icons
+#         'wagtailfontawesomesvg/solid/star.svg',
+#         'wagtailfontawesomesvg/solid/trash.svg',
+#         'wagtailfontawesomesvg/solid/lock.svg',
+#         'wagtailfontawesomesvg/solid/clock.svg',
+#         'wagtailfontawesomesvg/solid/flag.svg',
+#
+#         # Social media icons (brands)
+#         'wagtailfontawesomesvg/brands/github.svg',
+#         'wagtailfontawesomesvg/brands/instagram.svg',
+#         'wagtailfontawesomesvg/brands/facebook.svg',
+#
+#         # User interface icons
+#         'wagtailfontawesomesvg/solid/user-circle.svg',
+#         'wagtailfontawesomesvg/solid/info-circle.svg',
+#         'wagtailfontawesomesvg/solid/minus-circle.svg',
+#
+#         # Column layout icon (for wagtailcolumnblocks)
+#         'wagtailfontawesomesvg/solid/table-columns.svg',
+#     ]
+#
+#     return icons + fontawesome_icons
