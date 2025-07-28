@@ -418,6 +418,9 @@ PWA_APP_SPLASH_SCREEN = [
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-US'
 
+# Custom service worker to use correct static URL
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'templates', 'serviceworker.js')
+
 AVATAR_GRAVATAR_DEFAULT = 'identicon'
 AVATAR_EXPOSE_USERNAMES = False
 AVATAR_MAX_AVATARS_PER_USER = '1'
