@@ -9,6 +9,21 @@
 
 ## Upgrade Progress
 
+### 🔧 DEPENDENCY FORKING & RE-ENABLEMENT (2025-07-28)
+- **Status**: ✅ FIRST FORK COMPLETED - wagtail-birdsong successfully forked and re-enabled
+- **Approach**: Professional git submodule + GitHub fork management
+- **Completed Forks**:
+  - ✅ **wagtail-birdsong v2.0.1**: Newsletter system fully functional
+    - GitHub Fork: https://github.com/strafrecht-admin/wagtail-birdsong-fork.git
+    - Integration: Git submodule with editable installation
+    - Compatibility: Wagtail 6.4.2 + Django 5.2.4
+    - Status: Newsletter system, admin interface, and subscription functionality working
+- **Additional Fixes**:
+  - ✅ **django-pwa**: Upgraded 1.0.10 → 2.0.1 for Django 5.x compatibility
+  - ✅ **django-mjml**: Upgraded 0.12.0 → 1.4 for modern email templates
+- **System Status**: ✅ Application passes all system checks with forked dependencies
+- **Next**: Continue systematic forking of remaining disabled dependencies
+
 ### 🎉 WAGTAIL 6.4.2 UPGRADE COMPLETED (2025-07-27)
 - **Status**: Successfully upgraded from Wagtail 5.2 → 6.4.2 (Latest stable 6.x)
 - **Django**: Remains at 4.2.23 (compatible with Wagtail 6.x)

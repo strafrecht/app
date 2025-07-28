@@ -12,8 +12,9 @@ This document tracks all custom modifications, patches, and workarounds implemen
 
 #### wagtail-birdsong (Newsletter System) - FORKED
 - **Original Version**: 2.0.0 (neon-jungle/wagtail-birdsong)
-- **Fork Location**: `/root/strafrecht-online/wagtail-birdsong-fork/`
+- **GitHub Fork**: https://github.com/strafrecht-admin/wagtail-birdsong-fork.git
 - **Fork Version**: 2.0.1
+- **Integration**: Git submodule at `wagtail-birdsong-fork/`
 - **Installation**: `pip install -e ./wagtail-birdsong-fork`
 - **Status**: ✅ COMPLETED and WORKING
 
@@ -34,7 +35,19 @@ This document tracks all custom modifications, patches, and workarounds implemen
 - ✅ Birdsong URLs: `/mail/` endpoints
 - ✅ Newsletter subscription functionality in core/views.py
 
+**Git Submodule Management**:
+- ✅ Added as git submodule: `git submodule add https://github.com/strafrecht-admin/wagtail-birdsong-fork.git wagtail-birdsong-fork`
+- ✅ Fork changes pushed to GitHub repository
+- ✅ Submodule properly integrated with main project
+- ✅ `.gitmodules` file created for submodule tracking
+
 **Testing**: ✅ Application passes `python manage.py check --deploy` with no errors
+
+**Fork Management Benefits**:
+- Version control for fork changes
+- Easy collaboration and updates
+- Production-ready deployment approach
+- Clear separation from main project code
 
 ## ✅ COMPLETED CHANGES (Previous Wagtail 5.2 Upgrade)
 

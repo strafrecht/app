@@ -1,30 +1,60 @@
 # Dependency Resolution Action Plan
 
 ## Overview
-Based on codebase analysis, this document outlines the specific actions needed to resolve each disabled dependency for Wagtail 3.0 compatibility.
+Based on codebase analysis, this document outlines the specific actions needed to resolve each disabled dependency for Wagtail 6.4.2 and Django 5.2.4 compatibility.
 
-**Date**: 2025-07-27  
-**Current State**: Wagtail 3.0, Django 3.2.5  
-**Status**: Implementation in progress
+**Date**: 2025-07-28
+**Current State**: Wagtail 6.4.2, Django 5.2.4
+**Status**: Fork management approach established - systematic implementation in progress
 
-## Priority 1: Critical Dependencies (Immediate Action)
+## ✅ COMPLETED FORKS
 
-### 1. wagtail-birdsong (Newsletter System) - HIGH PRIORITY
-**Status**: 🔴 DISABLED - Critical functionality broken  
-**Impact**: Newsletter system completely non-functional  
-**Usage Found**:
-- `emails/models.py` - NewsletterEmail and LSHNewsletter models
-- `emails/templates/mail/` - Email templates using birdsong base
-- `app/birdsong_patch.py` - Custom background email sending
-- `app/settings.py` - BIRDSONG_FROM_EMAIL configuration
+### 1. wagtail-birdsong (Newsletter System) - ✅ COMPLETED
+**Status**: ✅ FORKED and RE-ENABLED - Fully functional
+**GitHub Fork**: https://github.com/strafrecht-admin/wagtail-birdsong-fork.git
+**Integration**: Git submodule + editable installation
+**Version**: 2.0.1 (forked from 2.0.0)
+**Changes Made**: Updated setup.py requirements for Wagtail 6.x/Django 5.x
+**Testing**: ✅ Newsletter system, admin interface, and subscription functionality working
 
-**Resolution Strategy**: Fork and Update
-- **Action**: Create fork of wagtail-birdsong 0.2.0
-- **Changes Needed**: Update deprecated API imports
-  - `wagtail.core.*` → `wagtail.*`
-  - `wagtail.admin.edit_handlers` → `wagtail.admin.panels`
-- **Timeline**: Immediate (1-2 days)
-- **Risk**: Medium - well-defined API changes
+## 🔄 NEXT PRIORITY: Remaining Dependencies (Systematic Fork Approach)
+
+### Fork Management Strategy Established
+**Approach**: Professional git submodule + GitHub fork management
+**Process**: Clone → Update → Test → Push to GitHub → Add as submodule → Re-enable
+**Benefits**: Version control, team collaboration, production-ready deployment
+
+### 2. wagtailstreamforms (Form Builder) - NEXT PRIORITY
+**Status**: 🔴 DISABLED - Form functionality missing
+**Impact**: StreamField-based form building unavailable
+**Original Version**: Last working with older Wagtail versions
+**Fork Strategy**: Clone → Update for Wagtail 6.x → Test → Deploy
+**Timeline**: 1-2 days
+**Risk**: Medium - StreamField API changes may require updates
+
+### 3. wagtailfontawesome (FontAwesome Integration) - HIGH PRIORITY
+**Status**: 🔴 DISABLED - Icon functionality missing
+**Impact**: FontAwesome icons not available in admin/frontend
+**Original Issue**: Uses deprecated `wagtail.core` imports
+**Fork Strategy**: Simple import updates for Wagtail 6.x
+**Timeline**: 1 day
+**Risk**: Low - straightforward import fixes
+
+### 4. comments-wagtail-xtd (Wagtail Comments) - MEDIUM PRIORITY
+**Status**: 🔴 DISABLED - Comment integration missing
+**Impact**: Wagtail-specific comment functionality unavailable
+**Dependencies**: Requires django-comments-xtd to be re-enabled first
+**Fork Strategy**: Update imports + test integration
+**Timeline**: 2-3 days
+**Risk**: Medium - depends on django-comments-xtd compatibility
+
+### 5. wagtail-markdown (Markdown Support) - MEDIUM PRIORITY
+**Status**: 🔴 DISABLED - Markdown functionality missing
+**Impact**: Markdown fields not available
+**Original Issue**: bleach dependency conflicts
+**Fork Strategy**: Update dependencies + resolve conflicts
+**Timeline**: 2-3 days
+**Risk**: Medium - dependency resolution required
 
 ### 2. wagtail-treemodeladmin (Tree Admin Interface) - HIGH PRIORITY
 **Status**: 🔴 DISABLED - Admin interface degraded  
