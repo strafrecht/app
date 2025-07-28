@@ -1,0 +1,44 @@
+{% extends "birdsong/mail/base_email.html" %}
+
+{% block email_body %}
+    <mj-section>
+       <mj-column>
+         <mj-image src="https://strafrecht-online.org/media/images/Banner_Rabe_Logo.original.png" />
+       </mj-column>
+     </mj-section>
+    <mj-section>
+      <mj-column >
+        <mj-text align="center" font-weight="700" padding="0" font-size="24px">
+        {% block email_name %}{% endblock %}
+        {{ self.name }}
+        </mj-text>
+        <mj-divider border-width="2px" border-color="#616161"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text>
+        {% if self.body %}
+			{% for b in self.body %}
+				{{ b }}
+			{% endfor %}
+        {% else %}
+            <p>This is a generic campaign template. The campaign content should be displayed here.</p>
+            <p>Campaign: {{ self.name }}</p>
+            <p>Subject: {{ self.subject }}</p>
+        {% endif %}
+        </mj-text>
+    	<mj-divider border-width="2px" border-color="#616161"></mj-divider>
+      </mj-column >
+    </mj-section>
+    <mj-section>
+      <mj-column >
+        <mj-text>
+          <p style="line-height: 1em; margin-top: 0;">Bisherige Newsletter finden Sie hier:</p>
+          <p style="line-height: 1em; margin-top: 0;"><a href="https://strafrecht-online.org/newsletter/">https://strafrecht-online.org/newsletter/</a></p>
+          <p style="line-height: 1em; margin-top: 0;">Abmelden können Sie sich hier:</p>
+          <p style="line-height: 1em; margin-top: 0;"><a href="https://strafrecht-online.org/newsletter/unsubscribe/">https://strafrecht-online.org/newsletter/unsubscribe/</a></p>
+        </mj-text>
+      </mj-column >
+    </mj-section>
+{% endblock email_body %}
