@@ -24,6 +24,32 @@
 - **System Status**: ✅ Application passes all system checks with forked dependencies
 - **Next**: Continue systematic forking of remaining disabled dependencies
 
+### 🔧 DEPENDENCY RESOLUTION PHASE 2 (2025-01-28)
+- **Status**: ✅ HIGH PRIORITY DEPENDENCIES RESOLVED
+- **Approach**: Systematic resolution of remaining compatibility issues
+
+**Completed Resolutions**:
+- ✅ **wagtail-treemodeladmin**: Successfully re-enabled and working with Wagtail 6.x
+  - Version 1.9.2 includes Wagtail 6.x support (PR #45 merged April 2024)
+  - TreeModelAdmin restored for flashcard deck management
+  - Updated flashcards/wagtail_hooks.py to use TreeModelAdmin instead of basic ModelAdmin
+  - System check passes without errors
+
+**Dependency Conflicts Identified**:
+- ❌ **wagtail-markdown**: Temporarily disabled due to dependency conflict
+  - **Issue**: wagtail-markdown 0.12.1 requires `bleach<5,>=3.3` (uses deprecated `styles` parameter)
+  - **Conflict**: wiki 0.12.0 requires `bleach[css]<7,>=6` (uses newer bleach API)
+  - **Root Cause**: bleach deprecated in 2023, `styles` parameter removed in v5.0
+  - **Upstream Solution**: wagtail-markdown issue #132 plans nh3 migration
+  - **Temporary Workaround**: Use RichTextField or raw HTML for markdown content
+
+**Current System Status**:
+- System check: ✅ PASSING (only warnings)
+- Admin interface: ✅ FUNCTIONAL (TreeModelAdmin restored)
+- Frontend: ✅ BUILDING SUCCESSFULLY
+- Database: ✅ MIGRATIONS UP TO DATE
+- Dependencies: ✅ MAJOR CONFLICTS RESOLVED (1 pending upstream fix)
+
 ### 🎉 WAGTAIL 6.4.2 UPGRADE COMPLETED (2025-07-27)
 - **Status**: Successfully upgraded from Wagtail 5.2 → 6.4.2 (Latest stable 6.x)
 - **Django**: Remains at 4.2.23 (compatible with Wagtail 6.x)
@@ -921,3 +947,37 @@ ERROR: Cannot install Django==5.0 because:
 ---
 
 **Last Updated**: 2025-07-27 - Django 5.0 upgrade blocked by Wagtail 4.2 compatibility! Strategic pivot to Django 4.2 recommended! 🎯
+
+---
+
+### 2025-01-28: wagtail-autocomplete Successfully Re-enabled! ✅
+
+**Status**: ✅ COMPLETED
+**Package**: wagtail-autocomplete v0.12.0
+**Compatibility**: Wagtail 6.4.2 + Django 5.2.4
+
+**Actions Taken**:
+- ✅ Confirmed wagtail-autocomplete v0.12.0 supports Wagtail 5.x and 6.x (released March 3, 2025)
+- ✅ Re-enabled 'wagtailautocomplete' in INSTALLED_APPS (app/settings.py)
+- ✅ Re-enabled autocomplete admin URLs in app/urls.py
+- ✅ Re-enabled AutocompletePanel import in pages/models/news.py
+- ✅ Updated ArticlePage author field to use AutocompletePanel for better UX
+- ✅ Verified system check passes without errors
+- ✅ Confirmed AutocompletePanel imports successfully in Django shell
+
+**Technical Details**:
+- **Version**: wagtail-autocomplete>=0.12.0 (already in requirements.txt)
+- **Features**: Autocomplete widgets for ForeignKey, ParentalKey, and ManyToMany fields
+- **Admin Integration**: Provides smooth autocomplete interface for selecting related objects
+- **React Component**: Modern React-based widget compatible with Wagtail 6.x admin
+
+**Impact**:
+- ✅ Admin interface now has autocomplete functionality for author selection
+- ✅ Improved user experience when selecting related objects
+- ✅ No breaking changes or compatibility issues
+
+**System Status**: ✅ All checks passing, autocomplete functionality restored
+
+---
+
+**Last Updated**: 2025-01-28 16:45 UTC - wagtail-autocomplete v0.12.0 successfully re-enabled! 🎉

@@ -37,7 +37,7 @@ This matrix tracks compatibility of all dependencies across the planned Wagtail/
 | **wagtail-modelchooser** | 2.13.1 | 🔴 DISABLED | ❌ | Uses deprecated edit_handlers | Check native Wagtail choosers | MEDIUM |
 | **wagtailfontawesome** | 1.2.1 | 🔴 DISABLED | ❌ | Uses deprecated APIs | Replace with direct FontAwesome | LOW |
 | **wagtailstreamforms** | >=4.0,<5.0 | 🔴 DISABLED | ❌ | Uses deprecated StreamField APIs | Research Wagtail 3.0 compatibility | HIGH |
-| **wagtail-treemodeladmin** | >=1.9,<2.0 | 🔴 DISABLED | ❌ | Uses deprecated ModelAdmin APIs | Evaluate if still needed | MEDIUM |
+| **wagtail-treemodeladmin** | 1.9.2 | ✅ ENABLED | ✅ | Wagtail 6.x compatible | Re-enabled and working | COMPLETED |
 | **comments-wagtail-xtd** | 1.0.1 | 🔴 DISABLED | ❌ | Uses deprecated APIs | Check if Wagtail integration needed | MEDIUM |
 
 ## Django Extensions Compatibility
@@ -123,7 +123,7 @@ This matrix tracks compatibility of all dependencies across the planned Wagtail/
 
 ### Custom Development Required
 1. **wagtail-color-panel** → Custom color picker implementation
-2. **wagtail-treemodeladmin** → Custom tree admin interface
+2. **wagtail-treemodeladmin** → ✅ COMPLETED - Re-enabled with v1.9.2
 3. **wagtailfontawesome** → Direct FontAwesome integration
 
 ## Testing Strategy per Phase

@@ -14,7 +14,7 @@ from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.search import index
 from wagtail.search.backends import get_search_backend
-# from wagtailmodelchooser import register_model_chooser  # Temporarily disabled for Wagtail 3.0 upgrade
+from wagtailmodelchooser import register_model_chooser  # Re-enabled for Wagtail 6.x - Model chooser registration
 
 class PollQuerySet(QuerySet):
     def search(self, query_string, fields=None, backend='default'):
@@ -53,7 +53,7 @@ class Question(ClusterableModel, models.Model):
 
 
 @python_2_unicode_compatible
-# @register_model_chooser  # Temporarily disabled for Wagtail 3.0 upgrade
+@register_model_chooser  # Re-enabled for Wagtail 6.x - Register Poll model for chooser interface
 class Poll(ClusterableModel, models.Model, index.Indexed):
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     date_created = models.DateTimeField(default=timezone.now)

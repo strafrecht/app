@@ -12,7 +12,7 @@ from wagtail import urls as wagtail_urls
 from core.views import exams, api_exams, newsletter_subscribe, newsletter_confirm
 
 # from wagtailpolls.views.vote import vote  # Temporarily disabled for Django 5.x compatibility
-# from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls  # Temporarily disabled for Wagtail 3.0 upgrade
+from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls  # Re-enabled for Wagtail 6.x
 from birdsong.urls import urlpatterns as birdsong_urls  # Re-enabled with forked wagtail-birdsong
 
 urlpatterns = [
@@ -27,7 +27,7 @@ urlpatterns = [
          auth_views.PasswordResetDoneView.as_view(template_name='password_reset/password_reset_done.html'), name='password_reset_done'),
 
     path('admin/', admin.site.urls),
-    # path('cms/autocomplete/', include(autocomplete_admin_urls)),  # Temporarily disabled for Wagtail 3.0 upgrade
+    path('cms/autocomplete/', include(autocomplete_admin_urls)),  # Re-enabled for Wagtail 6.x
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('search/', include('pages.urls')),

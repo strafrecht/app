@@ -5,9 +5,9 @@ from wagtail.fields import RichTextField
 from wagtail.images.models import Image
 # ImageChooserPanel replaced with FieldPanel for Wagtail 4.0 compatibility
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
-# from wagtailmodelchooser.edit_handlers import ModelChooserPanel  # Temporarily disabled for Wagtail 3.0 upgrade
+# ModelChooserPanel no longer needed in wagtail-modelchooser 4.x - use FieldPanel instead
 from modelcluster.fields import ParentalKey
-# from wagtailpolls.models import Poll  # Temporarily disabled for Django 5.x compatibility
+from wagtailpolls.models import Poll  # Re-enabled for Wagtail 6.x - Poll model for chooser
 
 class JurcoachFooter(Orderable):
     page = ParentalKey('pages.JurcoachPage', related_name='jurcoachfooter')
@@ -69,13 +69,13 @@ class JurcoachPage(Page):
     contribution_headline = models.CharField('Mitmachfunktionen-Überschrift', max_length=200, null=True, blank=True)
     contribution_description = RichTextField(null=True, blank=True, verbose_name='Mitmachfunktionen-Beschreibung')
 
-    # poll = models.ForeignKey(  # Temporarily disabled for Django 5.x compatibility
-    #     Poll,
-    #     null=True,
-    #     on_delete=models.SET_NULL,
-    #     related_name='+',
-    #     verbose_name='Abstimmung'
-    # )
+    poll = models.ForeignKey(  # Re-enabled for Wagtail 6.x - Poll selection for jurcoach page
+        Poll,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Abstimmung'
+    )
 
     def get_context(self, request):
         context = super().get_context(request)
@@ -106,7 +106,7 @@ class JurcoachPage(Page):
         ),
         MultiFieldPanel(
             [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column'),
-             # ModelChooserPanel('poll')  # Temporarily disabled for Wagtail 3.0 upgrade
+             FieldPanel('poll')  # Re-enabled for Wagtail 6.x - Poll chooser (FieldPanel auto-detects chooser widget)
              ],
             heading='Footer',
         ),

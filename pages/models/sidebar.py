@@ -1,15 +1,8 @@
 from wagtail import blocks, fields
 from wagtail.images.blocks import ImageChooserBlock
-from colorfield.widgets import ColorWidget  # Replacement for wagtail_color_panel
-# from wagtailmodelchooser.blocks import ModelChooserBlock  # Temporarily disabled for Wagtail 3.0 upgrade
-# from wagtailmodelchooser.edit_handlers import ModelChooserPanel  # Temporarily disabled for Wagtail 3.0 upgrade
-# from wagtailpolls.models import Poll  # Temporarily disabled for Django 5.x compatibility
-
-# Custom color block using django-colorfield widget
-class ColorBlock(blocks.CharBlock):
-    def __init__(self, **kwargs):
-        self.widget = ColorWidget()
-        super().__init__(**kwargs)
+from wagtail_color_panel.blocks import NativeColorBlock  # Re-enabled for Wagtail 6.x - Native color picker
+from wagtailmodelchooser.blocks import ModelChooserBlock  # Re-enabled for Wagtail 6.x - Model choosers
+from wagtailpolls.models import Poll  # Re-enabled for Wagtail 6.x - Poll model for chooser
 
 class SidebarTitleBlock(blocks.StructBlock):
     content = blocks.RichTextBlock()
@@ -45,7 +38,7 @@ class SidebarCalendarTextBlock(blocks.StructBlock):
 
 class SidebarHeaderBlock(blocks.StructBlock):
     title = blocks.CharBlock()
-    color = ColorBlock(default="#333d44")  # Replaced wagtail_color_panel with django-colorfield
+    color = NativeColorBlock(default="#333d44")  # Re-enabled wagtail-color-panel for native color picker
     image = ImageChooserBlock()
     content = blocks.RichTextBlock(required=False)
 
@@ -53,8 +46,7 @@ class SidebarHeaderBlock(blocks.StructBlock):
         template = 'blocks/sidebar/header.html'
 
 class SidebarPollChooser(blocks.StructBlock):
-    # poll = ModelChooserBlock('wagtailpolls.Poll')  # Temporarily disabled for Wagtail 3.0 upgrade
-    poll = blocks.CharBlock(help_text="Poll ID (temporary replacement)")  # Temporary replacement
+    poll = ModelChooserBlock('wagtailpolls.Poll')  # Re-enabled for Wagtail 6.x - Model chooser for polls
 
     class Meta:
         template = 'blocks/sidebar/poll.html'

@@ -214,10 +214,10 @@ This document tracks all custom modifications, patches, and workarounds implemen
 - **Replacement**: Custom color picker field
 - **Implementation Status**: TBD
 
-**wagtail-treemodeladmin** → Native Wagtail Admin
-- **Reason**: Incompatible with newer Wagtail versions
-- **Replacement**: Native Wagtail admin with custom tree functionality
-- **Implementation Status**: TBD
+**wagtail-treemodeladmin** → ✅ COMPLETED - Re-enabled
+- **Reason**: Initially incompatible with newer Wagtail versions
+- **Resolution**: Updated to v1.9.2 which supports Wagtail 6.x
+- **Implementation Status**: ✅ COMPLETED - TreeModelAdmin restored for flashcard management
 
 **django-comments-xtd** → Modern Comment System
 - **Reason**: Incompatible with Django 4.0+

@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     #'debug_toolbar',
 
     # Assets
-    # 'pipeline',  # Temporarily disabled for Django 5.x compatibility
+    'pipeline',  # Re-enabled for Django 5.x - testing compatibility
     'pwa',
 
     # Pages
@@ -107,13 +107,13 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail',
-    # 'wagtailmodelchooser',  # Temporarily disabled for Wagtail 3.0 upgrade
+    'wagtailmodelchooser',  # Re-enabled for Wagtail 6.x - Model choosers for admin interface
     'wagtailcolumnblocks',
-    # 'wagtail_color_panel',  # Temporarily disabled for Wagtail 3.0 upgrade
+    'wagtail_color_panel',  # Re-enabled for Wagtail 6.x - Native color picker functionality
     # 'wagtailfontawesome',  # Temporarily disabled - uses old wagtail.core imports incompatible with Wagtail 6.x
     'wagtailfontawesomesvg',  # Modern FontAwesome SVG icons for Wagtail 6.x
-    # 'wagtailautocomplete',  # Temporarily disabled for Wagtail 3.0 upgrade
-    # 'wagtailmarkdown',  # Temporarily disabled due to bleach dependency conflict with wiki package
+    'wagtailautocomplete',  # Re-enabled for Wagtail 6.x - Autocomplete edit handler v0.12.0
+    # 'wagtailmarkdown',  # TEMPORARILY DISABLED: Incompatible bleach requirements (needs <5, wiki needs >=6) - waiting for nh3 migration
 
     'modelcluster',
     'taggit',
@@ -155,7 +155,7 @@ INSTALLED_APPS = [
     # 'wagtailnews',  # Temporarily disabled for Wagtail 3.0 upgrade
 
     # Wagtail Menus
-    # 'wagtailmenus',  # Temporarily disabled for Django 5.x compatibility
+    'wagtailmenus',  # Re-enabled for Django 5.x - version 3.1.9 is compatible
 
     # Wagtail Newsletter
     'mjml',  # Re-enabled with django-mjml 1.4 - MJML email templates
@@ -165,10 +165,10 @@ INSTALLED_APPS = [
     #'wagtaillinkchecker',
 
     # Wagtail Polls
-    # 'wagtailpolls',  # Temporarily disabled for Django 5.x compatibility
+    'wagtailpolls',  # Re-enabled for Wagtail 6.x - Poll functionality with model chooser
     'wagtail_modeladmin',  # Replaced wagtail.contrib.modeladmin for Wagtail 6.0+ compatibility
     'wagtail_flexible_forms',  # Modern StreamField-based form builder - replacement for wagtailstreamforms
-    # 'treemodeladmin',  # Temporarily disabled for Wagtail 3.0 upgrade
+    'treemodeladmin',  # Re-enabled for Wagtail 6.x - Tree-like navigation for ModelAdmin
 
     # DRF
     'rest_framework',
@@ -218,7 +218,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
-                # 'wagtailmenus.context_processors.wagtailmenus',  # Temporarily disabled - wagtailmenus is not enabled
+                'wagtailmenus.context_processors.wagtailmenus',  # Re-enabled - wagtailmenus is now enabled
             ],
         },
     },
@@ -291,14 +291,14 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",  # Temporarily using default instead of pipeline
+        "BACKEND": "pipeline.storage.PipelineManifestStorage",  # Re-enabled pipeline storage for Django 5.x
     },
 }
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    # 'pipeline.finders.PipelineFinder',  # Temporarily disabled for Django 5.x compatibility
+    'pipeline.finders.PipelineFinder',  # Re-enabled for Django 5.x - testing compatibility
 )
 
 STATICFILES_DIRS = [

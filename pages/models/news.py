@@ -19,7 +19,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 from wagtailcolumnblocks.blocks import ColumnsBlock
-# from wagtailautocomplete.edit_handlers import AutocompletePanel  # Temporarily disabled for Wagtail 3.0 upgrade
+from wagtailautocomplete.edit_handlers import AutocompletePanel  # Re-enabled for Wagtail 6.x
 
 from pages.models.sidebar import (
     SidebarTitleBlock,
@@ -160,7 +160,7 @@ class ArticlePage(Page):
 
     content_panels = [
         FieldPanel('allow_comments'),
-        FieldPanel('author'),
+        AutocompletePanel('author'),  # Use autocomplete for better UX when selecting authors
         FieldPanel('date'),
         FieldPanel('is_evaluation'),
         FieldPanel('tags'),
