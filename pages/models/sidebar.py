@@ -4,6 +4,11 @@ from wagtail_color_panel.blocks import NativeColorBlock  # Re-enabled for Wagtai
 from wagtailmodelchooser.blocks import ModelChooserBlock  # Re-enabled for Wagtail 6.x - Model choosers
 from wagtailpolls.models import Poll  # Re-enabled for Wagtail 6.x - Poll model for chooser
 
+# Legacy ColorBlock for migration compatibility
+class ColorBlock(NativeColorBlock):
+    """Legacy ColorBlock for migration compatibility - maps to NativeColorBlock"""
+    pass
+
 class SidebarTitleBlock(blocks.StructBlock):
     content = blocks.RichTextBlock()
 
