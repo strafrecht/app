@@ -291,7 +291,7 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "pipeline.storage.PipelineManifestStorage",  # Re-enabled pipeline storage for Django 5.x
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",  # Temporarily disabled pipeline storage
     },
 }
 
@@ -462,3 +462,8 @@ LOGGING = {
         },
     },
 }
+
+# MJML Configuration
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MJML_EXEC_CMD = os.path.join(BASE_DIR, 'node_modules', '.bin', 'mjml')
