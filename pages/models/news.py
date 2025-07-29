@@ -188,11 +188,26 @@ class ArticlePage(Page):
         context = super().get_context(request)
         context['request'] = request
         context['poll'] = False
-        for block in self.sidebar.stream_data:
-            for child in block['value']:
-                print(child)
-                if child == 'sidebar_poll':
-                    context['poll'] = int(child['value']['poll'])
+
+        # Iterate through sidebar blocks to find poll blocks
+        for block in self.sidebar:
+            if block.block_type == 'sidebar_poll':
+                try:
+                    poll_value = block.value.get('poll')
+                    if poll_value:
+                        # Handle different types of poll values
+                        if isinstance(poll_value, str):
+                            context['poll'] = int(poll_value)
+                        elif isinstance(poll_value, int):
+                            context['poll'] = poll_value
+                        else:
+                            # Assume it's a model instance with an id attribute
+                            context['poll'] = poll_value.id
+                        break  # Found a poll, no need to continue
+                except (ValueError, AttributeError, TypeError):
+                    # If there's any error getting the poll value, continue
+                    continue
+
         return context
 
     @classmethod

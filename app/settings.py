@@ -298,7 +298,7 @@ STORAGES = {
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'pipeline.finders.PipelineFinder',  # Re-enabled for Django 5.x - testing compatibility
+    # 'pipeline.finders.PipelineFinder',  # Temporarily disabled due to Django 5.x compatibility issues
 )
 
 STATICFILES_DIRS = [
