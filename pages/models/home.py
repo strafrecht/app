@@ -22,6 +22,8 @@ from pages.models.sidebar import (
     SidebarEventBlock,
     SidebarSearchBlock
 )
+from wagtailmodelchooser.blocks import ModelChooserBlock
+from wagtailpolls.models import Poll
 from wagtail.contrib.table_block.blocks import TableBlock
 
 from wagtail.images.models import Image
@@ -43,6 +45,29 @@ class HomeNewsBlock(blocks.StructBlock):
 class HomeJurcoachBlock(blocks.StructBlock):
     class Meta:
         template = 'blocks/widgets/home_jurcoach.html'
+
+class HomePollBlock(blocks.StructBlock):
+    poll = ModelChooserBlock('wagtailpolls.Poll')
+
+    class Meta:
+        template = 'blocks/widgets/home_poll.html'
+        label = 'Abstimmung'
+
+    def get_context(self, value, parent_context=None):
+        ctx = super().get_context(value, parent_context=parent_context)
+        # Handle different types of poll values after Wagtail upgrade
+        try:
+            if isinstance(value['poll'], str):
+                poll_id = int(value['poll'])
+            elif isinstance(value['poll'], int):
+                poll_id = value['poll']
+            else:
+                # Assume it's a model instance with an id attribute
+                poll_id = value['poll'].id
+            ctx['poll'] = Poll.objects.get(id=poll_id)
+        except (ValueError, AttributeError, Poll.DoesNotExist):
+            ctx['poll'] = None
+        return ctx
 
 
 class CollapseBlock(blocks.StructBlock):
@@ -68,6 +93,7 @@ class ContentBlocks(blocks.StreamBlock):
     flipcard_block = FlipcardBlock(label="Flipcard")
     home_news_block = HomeNewsBlock(label="Vier letzte News-Beiträge")
     home_jurcoach_block = HomeJurcoachBlock(label="Jurcoach-Startseiten-Widget")
+    home_poll_block = HomePollBlock(label="Abstimmung")
     table = TableBlock()
 
 class SidebarBlocks(blocks.StreamBlock):
