@@ -11,87 +11,95 @@
   });
 </script>
 <div class="home-poll poll">
-  <h2>{{ poll.title }}</h2>
+  <h3>{{ poll.title }}</h3>
   <form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' poll.id %}'>
     {% csrf_token %}
     {{ poll.form }}
-    
-    <input type="submit" value="Abstimmen" class="poll-vote-button">
-    <small>Startdatum: {{poll.date_created.date.day}}.{{poll.date_created.date.month}}.{{poll.date_created.date.year}}</small>
-    
-   
-</div>
 
+    <div class="poll-buttons">
+      <input type="submit" value="Abstimmen" class="poll-vote-button">
+      <a href="{% url 'wagtailpolls_results_2' poll.id %}" target="_blank" class="poll-results-button">Ergebnis</a>
+    </div>
+    <small>Startdatum: {{poll.date_created.date.day|stringformat:"02d"}}.{{poll.date_created.date.month|stringformat:"02d"}}.{{poll.date_created.date.year}}</small>
   </form>
 </div>
+
 <style>
   .home-poll {
-    background: #f8f9fa;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
     padding: 20px;
-    border-radius: 8px;
     margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 600px;
   }
-  .home-poll h2 {
+
+  .home-poll h3 {
     color: #333;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .home-poll ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+
+  .home-poll li {
     margin-bottom: 15px;
   }
-  .poll-vote-button {
-    background: #007bff;
-    color: white;
+
+  .home-poll label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .home-poll input[type="radio"] {
+    margin-right: 12px;
+    margin-top: 2px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .poll-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .poll-vote-button, .poll-results-button {
+    background: #ffd700;
+    color: #333;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
   }
-  .poll-vote-button:hover {
-    background: #0056b3;
+
+  .poll-vote-button:hover, .poll-results-button:hover {
+    background: #ffed4e;
   }
-  .popup-container{
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color:white;
-    border: 1px solid #ccc;
-    box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-  }
-  .overlay{
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index:900;
+
+  .home-poll small {
+    color: #666;
+    font-size: 0.85rem;
   }
 </style>
-<script>
-    const popupLink = document.getElementById('popupLink');
-    const popupContainer = document.getElementById('popupContainer');
-    const closePopup = document.getElementById('closePopup');
-    const overlay = document.getElementById('overlay');
-
-    if (popupLink && popupContainer && closePopup && overlay) {
-        popupLink.addEventListener('click', function(event){
-          event.preventDefault();
-          popupContainer.style.display = 'block';
-          overlay.style.display = 'block';
-        });
-
-        closePopup.addEventListener('click', function() {
-          popupContainer.style.display = 'none';
-          overlay.style.display = 'none';
-        });
-    }
-</script>
 {% else %}
 <div class="home-poll-empty">
-  <h2>Abstimmung</h2>
+  <h3>Abstimmung</h3>
   <p>Keine Abstimmung ausgewählt.</p>
 </div>
 {% endif %}
