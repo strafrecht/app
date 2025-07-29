@@ -29,7 +29,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.models import User
 from django.core import serializers
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from wiki.models import Article, ArticleRevision, URLPath
 from wiki.plugins.notifications.models import ArticleSubscription
@@ -48,12 +48,12 @@ from .scrape.lehre import get_json as get_lehre_json
 from .scrape.events import get_json as get_events_json
 
 logger = logging.getLogger('django')
-from wagtail.core.blocks import StreamValue
-from wagtail.core.rich_text import RichText
+from wagtail.blocks import StreamValue
+from wagtail.rich_text import RichText
 from wagtail.contrib.redirects.models import Redirect
 from wagtail.images.models import Image
 from wagtail.documents.models import Document
-from wagtail.core.models import Collection, CollectionManager
+from wagtail.models import Collection, CollectionManager
 
 # image upload
 import willow

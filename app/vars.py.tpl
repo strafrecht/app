@@ -31,9 +31,9 @@ vars = {
     	"django_extensions",
     ],
     "EMAIL": {
-    	"host": "server address",
-    	"port": "25",
-    	"login": "your@email.address",
-    	"password": "password",
+    	"host": "localhost",
+    	"port": "1025",
+    	"login": "",
+    	"password": "",
     },
 }

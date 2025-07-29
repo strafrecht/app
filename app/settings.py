@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     #'debug_toolbar',
 
     # Assets
-    'pipeline',
+    'pipeline',  # Re-enabled for Django 5.x - testing compatibility
     'pwa',
 
     # Pages
@@ -84,7 +84,7 @@ INSTALLED_APPS = [
     'tandem_exams',
     'pages',
     #'news',
-    'emails',
+    'emails',  # Re-enabled with forked wagtail-birdsong
     'profiles',
     #'leaflet',
     'feedback',
@@ -106,13 +106,14 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
-    'wagtail.core',
-    'wagtailmodelchooser',
+    'wagtail',
+    'wagtailmodelchooser',  # Re-enabled for Wagtail 6.x - Model choosers for admin interface
     'wagtailcolumnblocks',
-    'wagtail_color_panel',
-    'wagtailfontawesome',
-    'wagtailautocomplete',
-    'wagtailmarkdown',
+    'wagtail_color_panel',  # Re-enabled for Wagtail 6.x - Native color picker functionality
+    # 'wagtailfontawesome',  # Temporarily disabled - uses old wagtail.core imports incompatible with Wagtail 6.x
+    'wagtailfontawesomesvg',  # Modern FontAwesome SVG icons for Wagtail 6.x
+    'wagtailautocomplete',  # Re-enabled for Wagtail 6.x - Autocomplete edit handler v0.12.0
+    # 'wagtailmarkdown',  # TEMPORARILY DISABLED: Incompatible bleach requirements (needs <5, wiki needs >=6) - waiting for nh3 migration
 
     'modelcluster',
     'taggit',
@@ -143,31 +144,31 @@ INSTALLED_APPS = [
     #'django_chatter',
 
     # User Profile
-    'avatar',
+    # 'avatar',  # Temporarily disabled for Django 5.x compatibility
 
     # Comments
-    'django_comments_xtd',
-    'django_comments',
-    'comments_wagtail_xtd',
+    'django_comments_xtd',  # Re-enabled with version 2.10.7 - Django 5.x compatible
+    'django_comments',  # Re-enabled - required by django_comments_xtd
+    'wagtailcomments_xtd',  # Re-enabled with forked version - Wagtail 6.x compatible
 
     # Wagtail News
-    'wagtailnews',
+    # 'wagtailnews',  # Temporarily disabled for Wagtail 3.0 upgrade
 
     # Wagtail Menus
-    'wagtailmenus',
+    'wagtailmenus',  # Re-enabled for Django 5.x - version 3.1.9 is compatible
 
     # Wagtail Newsletter
-    'mjml',
-    'birdsong',
+    'mjml',  # Re-enabled with django-mjml 1.4 - MJML email templates
+    'birdsong',  # Re-enabled with forked version - Newsletter system
 
     # Link Checker
     #'wagtaillinkchecker',
 
     # Wagtail Polls
-    'wagtailpolls',
-    'wagtail.contrib.modeladmin',
-    'wagtailstreamforms',
-    'treemodeladmin',
+    'wagtailpolls',  # Re-enabled for Wagtail 6.x - Poll functionality with model chooser
+    'wagtail_modeladmin',  # Replaced wagtail.contrib.modeladmin for Wagtail 6.0+ compatibility
+    'wagtail_flexible_forms',  # Modern StreamField-based form builder - replacement for wagtailstreamforms
+    'treemodeladmin',  # Re-enabled for Wagtail 6.x - Tree-like navigation for ModelAdmin
 
     # DRF
     'rest_framework',
@@ -192,7 +193,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'wagtail.core.middleware.SiteMiddleware',
+    #'wagtail.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     #'livereload.middleware.LiveReloadScript',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -217,7 +218,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
-                'wagtailmenus.context_processors.wagtailmenus',
+                'wagtailmenus.context_processors.wagtailmenus',  # Re-enabled - wagtailmenus is now enabled
             ],
         },
     },
@@ -284,12 +285,20 @@ STATIC_URL = '/assets/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
+# Django 5.0+ STORAGES setting (STATICFILES_STORAGE is deprecated)
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",  # Temporarily disabled pipeline storage
+    },
+}
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'pipeline.finders.PipelineFinder',
+    'pipeline.finders.PipelineFinder',  # Re-enabled for Django 5.x - testing compatibility
 )
 
 STATICFILES_DIRS = [
@@ -409,6 +418,9 @@ PWA_APP_SPLASH_SCREEN = [
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-US'
 
+# Custom service worker to use correct static URL
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'templates', 'serviceworker.js')
+
 AVATAR_GRAVATAR_DEFAULT = 'identicon'
 AVATAR_EXPOSE_USERNAMES = False
 AVATAR_MAX_AVATARS_PER_USER = '1'
@@ -450,3 +462,8 @@ LOGGING = {
         },
     },
 }
+
+# MJML Configuration
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MJML_EXEC_CMD = os.path.join(BASE_DIR, 'node_modules', '.bin', 'mjml')

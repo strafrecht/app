@@ -3,11 +3,11 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
-import wagtail_color_panel.blocks
-import wagtailmodelchooser.blocks
+# import wagtail_color_panel.blocks  # Temporarily disabled for Wagtail 3.0 upgrade
+# import wagtailmodelchooser.blocks  # Temporarily disabled for Wagtail 3.0 upgrade
 
 
 class Migration(migrations.Migration):
@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         ('wagtailimages', '0023_add_choose_permissions'),
         ('wagtaildocs', '0012_uploadeddocument'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('wagtailpolls', '0001_initial'),
+        # ('wagtailpolls', '0001_initial'),  # Temporarily disabled - wagtailpolls is not enabled
         ('pages', '0025_auto_20211014_1603'),
     ]
 
@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='articlepage',
             name='body',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='News-Artikel-Text'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='News-Artikel-Text'),
         ),
         migrations.AlterField(
             model_name='articlepage',
@@ -100,27 +100,27 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='articlepage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))], label='Abstimmung'))], blank=True, verbose_name='Seitenleiste'),
+            field=wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))], label='Abstimmung'))], blank=True, verbose_name='Seitenleiste'),
         ),
         migrations.AlterField(
             model_name='articlespage',
             name='content',
-            field=wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock(label='Formatierter Text')), ('article_list_block', wagtail.core.blocks.StructBlock([], label='Auflistung aller News-Artikel')), ('evaluation_list_block', wagtail.core.blocks.StructBlock([], label='Auflistung aller Abstimmungsauswertungen'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
+            field=wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock(label='Formatierter Text')), ('article_list_block', wagtail.blocks.StructBlock([], label='Auflistung aller News-Artikel')), ('evaluation_list_block', wagtail.blocks.StructBlock([], label='Auflistung aller Abstimmungsauswertungen'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
         ),
         migrations.AlterField(
             model_name='articlespage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))], label='Abstimmung'))], verbose_name='Seitenleiste'),
+            field=wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))], label='Abstimmung'))], verbose_name='Seitenleiste'),
         ),
         migrations.AlterField(
             model_name='evaluationspage',
             name='content',
-            field=wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock(label='Formatierter Text')), ('evaluation_list_block', wagtail.core.blocks.StructBlock([], label='Auflistung aller Abstimmungsauswertungen'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
+            field=wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock(label='Formatierter Text')), ('evaluation_list_block', wagtail.blocks.StructBlock([], label='Auflistung aller Abstimmungsauswertungen'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
         ),
         migrations.AlterField(
             model_name='evaluationspage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))], label='Abstimmung'))], label='Seitenleiste', required=False))], verbose_name='Seitenleiste'),
+            field=wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))], label='Abstimmung'))], label='Seitenleiste', required=False))], verbose_name='Seitenleiste'),
         ),
         migrations.AlterField(
             model_name='eventpage',
@@ -130,7 +130,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='eventpage',
             name='description',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Vortragsankündidungstext'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Vortragsankündidungstext'),
         ),
         migrations.AlterField(
             model_name='eventpage',
@@ -175,7 +175,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='eventpage',
             name='speaker_description',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Referent*in'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Referent*in'),
         ),
         migrations.AlterField(
             model_name='eventpage',
@@ -195,12 +195,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='eventspage',
             name='content',
-            field=wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock(label='Formatierter Text')), ('events_block', wagtail.core.blocks.StructBlock([], label='Auflistung aller Tacheles-Events nach Semestern'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
+            field=wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock(label='Formatierter Text')), ('events_block', wagtail.blocks.StructBlock([], label='Auflistung aller Tacheles-Events nach Semestern'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
         ),
         migrations.AlterField(
             model_name='eventspage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts'))], blank=True, verbose_name='Seitenleiste'),
+            field=wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts'))], blank=True, verbose_name='Seitenleiste'),
         ),
         migrations.AlterField(
             model_name='exams',
@@ -220,12 +220,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='exams',
             name='paragraphs',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Paragraphen/Strafbarkeiten in der Klausur'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Paragraphen/Strafbarkeiten in der Klausur'),
         ),
         migrations.AlterField(
             model_name='exams',
             name='problems',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Problemschwerpunkte der Klausur'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Problemschwerpunkte der Klausur'),
         ),
         migrations.AlterField(
             model_name='exams',
@@ -240,7 +240,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='genericpage',
             name='content',
-            field=wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock(label='Formatierter Text')), ('home_news_block', wagtail.core.blocks.StructBlock([], label='Vier letzte News-Beiträge')), ('home_jurcoach_block', wagtail.core.blocks.StructBlock([], label='Jurcoach-Startseiten-Widget'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
+            field=wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock(label='Formatierter Text')), ('home_news_block', wagtail.blocks.StructBlock([], label='Vier letzte News-Beiträge')), ('home_jurcoach_block', wagtail.blocks.StructBlock([], label='Jurcoach-Startseiten-Widget'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
         ),
         migrations.AlterField(
             model_name='genericpage',
@@ -250,12 +250,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='genericpage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_calendar_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('calendar', wagtail.core.blocks.DateBlock(format='%Y-%m-%d'))], label='Kalender links, Text rechts')), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))], label='Abstimmung')), ('sidebar_subscribe', wagtail.core.blocks.StructBlock([])), ('sidebar_event', wagtail.core.blocks.StructBlock([]))], label='Seitenleiste', required=False))], verbose_name='Seitenleiste'),
+            field=wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_calendar_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('calendar', wagtail.blocks.DateBlock(format='%Y-%m-%d'))], label='Kalender links, Text rechts')), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))], label='Abstimmung')), ('sidebar_subscribe', wagtail.blocks.StructBlock([])), ('sidebar_event', wagtail.blocks.StructBlock([]))], label='Seitenleiste', required=False))], verbose_name='Seitenleiste'),
         ),
         migrations.AlterField(
             model_name='homepage',
             name='content',
-            field=wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock(label='Formatierter Text')), ('home_news_block', wagtail.core.blocks.StructBlock([], label='Vier letzte News-Beiträge')), ('home_jurcoach_block', wagtail.core.blocks.StructBlock([], label='Jurcoach-Startseiten-Widget'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
+            field=wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock(label='Formatierter Text')), ('home_news_block', wagtail.blocks.StructBlock([], label='Vier letzte News-Beiträge')), ('home_jurcoach_block', wagtail.blocks.StructBlock([], label='Jurcoach-Startseiten-Widget'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
         ),
         migrations.AlterField(
             model_name='homepage',
@@ -265,12 +265,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='homepage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_calendar_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('calendar', wagtail.core.blocks.DateBlock(format='%Y-%m-%d'))], label='Kalender links, Text rechts')), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))], label='Abstimmung')), ('sidebar_subscribe', wagtail.core.blocks.StructBlock([])), ('sidebar_event', wagtail.core.blocks.StructBlock([]))], label='Seitenleiste', required=False))], verbose_name='Seitenleiste'),
+            field=wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts')), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_calendar_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('calendar', wagtail.blocks.DateBlock(format='%Y-%m-%d'))], label='Kalender links, Text rechts')), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))], label='Abstimmung')), ('sidebar_subscribe', wagtail.blocks.StructBlock([])), ('sidebar_event', wagtail.blocks.StructBlock([]))], label='Seitenleiste', required=False))], verbose_name='Seitenleiste'),
         ),
         migrations.AlterField(
             model_name='jurcoachcarousel',
             name='carousel_description',
-            field=wagtail.core.fields.RichTextField(blank=True, null=True, verbose_name='Text'),
+            field=wagtail.fields.RichTextField(blank=True, null=True, verbose_name='Text'),
         ),
         migrations.AlterField(
             model_name='jurcoachcarousel',
@@ -305,7 +305,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='jurcoachfooter',
             name='footeritem_text',
-            field=wagtail.core.fields.RichTextField(blank=True, null=True, verbose_name='Text'),
+            field=wagtail.fields.RichTextField(blank=True, null=True, verbose_name='Text'),
         ),
         migrations.AlterField(
             model_name='jurcoachpage',
@@ -315,7 +315,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='jurcoachpage',
             name='contribution_description',
-            field=wagtail.core.fields.RichTextField(blank=True, null=True, verbose_name='Mitmachfunktionen-Beschreibung'),
+            field=wagtail.fields.RichTextField(blank=True, null=True, verbose_name='Mitmachfunktionen-Beschreibung'),
         ),
         migrations.AlterField(
             model_name='jurcoachpage',
@@ -330,12 +330,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='jurcoachpage',
             name='header_headline',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Mit Graffito unterlegte Überschrift'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Mit Graffito unterlegte Überschrift'),
         ),
         migrations.AlterField(
             model_name='jurcoachpage',
             name='header_slogan',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Mit Graffito unterlegter Untertitel'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Mit Graffito unterlegter Untertitel'),
         ),
         migrations.AlterField(
             model_name='jurcoachpage',
@@ -345,27 +345,27 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='jurcoachpage',
             name='intro_text',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Intro-Text'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Intro-Text'),
         ),
-        migrations.AlterField(
-            model_name='jurcoachpage',
-            name='poll',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailpolls.poll', verbose_name='Abstimmung'),
-        ),
+        # migrations.AlterField(
+        #     model_name='jurcoachpage',
+        #     name='poll',
+        #     field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailpolls.poll', verbose_name='Abstimmung'),
+        # ),  # Temporarily disabled - wagtailpolls is not enabled
         migrations.AlterField(
             model_name='newsletterspage',
             name='content',
-            field=wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock(label='Formatierter Text'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
+            field=wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock(label='Formatierter Text'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
         ),
         migrations.AlterField(
             model_name='newsletterspage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar', wagtail.core.blocks.StreamBlock([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_poll', wagtail.core.blocks.StructBlock([('poll', wagtailmodelchooser.blocks.ModelChooserBlock(target_model='wagtailpolls.poll'))], label='Abstimmung'))], label='Seitenleiste', required=False))], verbose_name='Seitenleiste'),
+            field=wagtail.fields.StreamField([('sidebar', wagtail.blocks.StreamBlock([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_poll', wagtail.blocks.StructBlock([('poll', wagtail.blocks.CharBlock(help_text='Poll ID'))], label='Abstimmung'))], label='Seitenleiste', required=False))], verbose_name='Seitenleiste'),
         ),
         migrations.AlterField(
             model_name='people',
             name='description',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Beschreibung/Weitere Informationen'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Beschreibung/Weitere Informationen'),
         ),
         migrations.AlterField(
             model_name='people',
@@ -385,17 +385,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sessionpage',
             name='assessment',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Datum/Zeit'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Datum/Zeit'),
         ),
         migrations.AlterField(
             model_name='sessionpage',
             name='date',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Datum/Zeit'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Datum/Zeit'),
         ),
         migrations.AlterField(
             model_name='sessionpage',
             name='description',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Veranstaltungsbeschreibung'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Veranstaltungsbeschreibung'),
         ),
         migrations.AlterField(
             model_name='sessionpage',
@@ -405,7 +405,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sessionpage',
             name='location',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Ort'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Ort'),
         ),
         migrations.AlterField(
             model_name='sessionpage',
@@ -415,7 +415,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sessionpage',
             name='material',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Materialien'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Materialien'),
         ),
         migrations.AlterField(
             model_name='sessionpage',
@@ -430,7 +430,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sessionpage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts'))], blank=True, verbose_name='Seitenleiste'),
+            field=wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts'))], blank=True, verbose_name='Seitenleiste'),
         ),
         migrations.AlterField(
             model_name='sessionpage',
@@ -440,7 +440,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sessionpage',
             name='speaker_description',
-            field=wagtail.core.fields.RichTextField(blank=True, verbose_name='Beschreibung des*der Dozent*in'),
+            field=wagtail.fields.RichTextField(blank=True, verbose_name='Beschreibung des*der Dozent*in'),
         ),
         migrations.AlterField(
             model_name='sessionpage',
@@ -455,11 +455,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sessionspage',
             name='content',
-            field=wagtail.core.fields.StreamField([('content', wagtail.core.blocks.StreamBlock([('richtext', wagtail.core.blocks.RichTextBlock(label='Formatierter Text')), ('semester_block', wagtail.core.blocks.StructBlock([('semester', wagtail.core.blocks.ChoiceBlock(choices=[('ss-2022', 'Sommersemester 2022'), ('ws-2022', 'Wintersemester 2022'), ('ss-2021', 'Sommersemester 2021'), ('ws-2021', 'Wintersemester 2021'), ('ss-2020', 'Sommersemester 2020'), ('ws-2020', 'Wintersemester 2020'), ('ss-2019', 'Sommersemester 2019'), ('ws-2019', 'Wintersemester 2019'), ('ss-2018', 'Sommersemester 2018'), ('ws-2018', 'Wintersemester 2018')], icon='calendar'))], label='Auflistung der Lehrveranstaltungen für ein bestimmtes Semester'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
+            field=wagtail.fields.StreamField([('content', wagtail.blocks.StreamBlock([('richtext', wagtail.blocks.RichTextBlock(label='Formatierter Text')), ('semester_block', wagtail.blocks.StructBlock([('semester', wagtail.blocks.ChoiceBlock(choices=[('ss-2022', 'Sommersemester 2022'), ('ws-2022', 'Wintersemester 2022'), ('ss-2021', 'Sommersemester 2021'), ('ws-2021', 'Wintersemester 2021'), ('ss-2020', 'Sommersemester 2020'), ('ws-2020', 'Wintersemester 2020'), ('ss-2019', 'Sommersemester 2019'), ('ws-2019', 'Wintersemester 2019'), ('ss-2018', 'Sommersemester 2018'), ('ws-2018', 'Wintersemester 2018')], icon='calendar'))], label='Auflistung der Lehrveranstaltungen für ein bestimmtes Semester'))], label='Hauptspalte'))], verbose_name='Hauptspalte'),
         ),
         migrations.AlterField(
             model_name='sessionspage',
             name='sidebar',
-            field=wagtail.core.fields.StreamField([('sidebar_title', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_header', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('color', wagtail_color_panel.blocks.NativeColorBlock('color', default='#333d44')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.core.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_border', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_simple', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.core.blocks.StructBlock([('content', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts'))], blank=True, verbose_name='Seitenleiste'),
+            field=wagtail.fields.StreamField([('sidebar_title', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau unterlegte Überschrift')), ('sidebar_header', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('color', wagtail.blocks.CharBlock(default='#333d44', help_text='Color hex code')), ('image', wagtail.images.blocks.ImageChooserBlock()), ('content', wagtail.blocks.RichTextBlock(required=False))], label='Bild oben, Text darunter')), ('sidebar_border', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Grau umrandeter Kasten')), ('sidebar_simple', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock())], label='Schlichter Text')), ('sidebar_image_text', wagtail.blocks.StructBlock([('content', wagtail.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock())], label='Bild links, Text rechts'))], blank=True, verbose_name='Seitenleiste'),
         ),
     ]

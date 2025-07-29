@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core import mail
 from django.db import models, transaction, IntegrityError
 from django.utils.translation import gettext_lazy as _
-from wagtail.core.fields import RichTextField
+from wagtail.fields import RichTextField
 import uuid
 
 class TandemExam(models.Model):

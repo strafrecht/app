@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import permission_required
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from wagtailpolls.forms import VoteForm
 from wagtailpolls.models import Poll, Vote
 

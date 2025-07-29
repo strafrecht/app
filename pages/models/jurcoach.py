@@ -1,13 +1,13 @@
 from django.db import models
 
-from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
+from wagtail.models import Page, Orderable
+from wagtail.fields import RichTextField
 from wagtail.images.models import Image
-from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel
-from wagtailmodelchooser.edit_handlers import ModelChooserPanel
+# ImageChooserPanel replaced with FieldPanel for Wagtail 4.0 compatibility
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
+# ModelChooserPanel no longer needed in wagtail-modelchooser 4.x - use FieldPanel instead
 from modelcluster.fields import ParentalKey
-from wagtailpolls.models import Poll
+from wagtailpolls.models import Poll  # Re-enabled for Wagtail 6.x - Poll model for chooser
 
 class JurcoachFooter(Orderable):
     page = ParentalKey('pages.JurcoachPage', related_name='jurcoachfooter')
@@ -69,7 +69,7 @@ class JurcoachPage(Page):
     contribution_headline = models.CharField('Mitmachfunktionen-Überschrift', max_length=200, null=True, blank=True)
     contribution_description = RichTextField(null=True, blank=True, verbose_name='Mitmachfunktionen-Beschreibung')
 
-    poll = models.ForeignKey(
+    poll = models.ForeignKey(  # Re-enabled for Wagtail 6.x - Poll selection for jurcoach page
         Poll,
         null=True,
         on_delete=models.SET_NULL,
@@ -84,7 +84,7 @@ class JurcoachPage(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
-            [ImageChooserPanel('header'),
+            [FieldPanel('header'),
             FieldPanel('header_headline', classname="col-12"),
             FieldPanel('header_slogan', classname="col-12")],
             heading='Header',
@@ -106,7 +106,8 @@ class JurcoachPage(Page):
         ),
         MultiFieldPanel(
             [InlinePanel('jurcoachfooter', max_num=3, min_num=0, label='Footer Column'),
-             ModelChooserPanel('poll')],
+             FieldPanel('poll')  # Re-enabled for Wagtail 6.x - Poll chooser (FieldPanel auto-detects chooser widget)
+             ],
             heading='Footer',
         ),
     ]

@@ -1,10 +1,10 @@
 from __future__ import unicode_literals, absolute_import
 
-from django.conf.urls import include, url
+from django.urls import include, re_path
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
-from wagtail.core import hooks
+from wagtail import hooks
 from . import urls
 from wagtail.admin.menu import MenuItem
 
@@ -12,7 +12,7 @@ from wagtail.admin.menu import MenuItem
 @hooks.register('register_admin_urls')
 def register_admin_urls():
     return [
-        url(r'^polls/', include(urls)),
+        re_path(r'^polls/', include(urls)),
     ]
 
 

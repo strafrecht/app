@@ -8,13 +8,13 @@ from django.utils import timezone
 #from django.utils.encoding import python_2_unicode_compatible
 from six import python_2_unicode_compatible
 from django.utils.text import slugify
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.search import index
 from wagtail.search.backends import get_search_backend
-from wagtailmodelchooser import register_model_chooser
+from wagtailmodelchooser import register_model_chooser  # Re-enabled for Wagtail 6.x - Model chooser registration
 
 class PollQuerySet(QuerySet):
     def search(self, query_string, fields=None, backend='default'):
@@ -53,7 +53,7 @@ class Question(ClusterableModel, models.Model):
 
 
 @python_2_unicode_compatible
-@register_model_chooser
+@register_model_chooser  # Re-enabled for Wagtail 6.x - Register Poll model for chooser interface
 class Poll(ClusterableModel, models.Model, index.Indexed):
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     date_created = models.DateTimeField(default=timezone.now)

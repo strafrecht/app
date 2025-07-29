@@ -1,7 +1,7 @@
-from django.conf.urls import url
-from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
-from wagtail.contrib.modeladmin.options import ModelAdminGroup, modeladmin_register
-from treemodeladmin.options import TreeModelAdmin
+from django.urls import re_path
+from wagtail_modeladmin.helpers import AdminURLHelper, ButtonHelper
+from wagtail_modeladmin.options import ModelAdminGroup, ModelAdmin, modeladmin_register
+# from treemodeladmin.options import TreeModelAdmin  # Temporarily disabled for Wagtail 3.0 upgrade
 from django.shortcuts import redirect
 
 from .models import Question, QuestionVersion
@@ -29,11 +29,11 @@ class QuestionVersionButtonHelper(ButtonHelper):
         return buttons
 
 
-class QuestionVersionAdmin(TreeModelAdmin):
+class QuestionVersionAdmin(ModelAdmin):  # Temporarily changed from TreeModelAdmin for Wagtail 3.0 upgrade
     model = QuestionVersion
     menu_label = 'Fragen Versionen'
     menu_icon = 'list-ul'
-    parent_field = 'question'
+    # parent_field = 'question'  # TreeModelAdmin specific - temporarily disabled
     list_display = ('id', 'question', 'is_current', 'user', 'created', 'title', 'description')
     search_fields = ('id',)
     ordering = ['-id']
@@ -45,7 +45,7 @@ class QuestionVersionAdmin(TreeModelAdmin):
         def gen_url(pattern, view, name=None):
             if not name:
                 name = pattern
-            return url(
+            return re_path(
                 self.url_helper.get_action_url_pattern(pattern),
                 view,
                 name=self.url_helper.get_action_url_name(name)
@@ -62,12 +62,12 @@ class QuestionVersionAdmin(TreeModelAdmin):
 
         return redirect(request.META.get('HTTP_REFERER'))
 
-class QuestionAdmin(TreeModelAdmin):
+class QuestionAdmin(ModelAdmin):  # Temporarily changed from TreeModelAdmin for Wagtail 3.0 upgrade
     model = Question
     menu_label = 'Fragen Index'
     menu_icon = 'list-ul'
-    child_field = 'questionversion_set'
-    child_model_admin = QuestionVersionAdmin
+    # child_field = 'questionversion_set'  # TreeModelAdmin specific - temporarily disabled
+    # child_model_admin = QuestionVersionAdmin  # TreeModelAdmin specific - temporarily disabled
     list_display = ('id', 'category', 'order', 'user', 'approved', 'created', 'updated')
     search_fields = ('id',)
     list_filter = ('category',)

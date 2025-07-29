@@ -1,34 +1,25 @@
-{% extends "wagtailadmin/base.html" %}
+{% extends "wagtailadmin/generic/create.html" %}
 {% load i18n %}
-{% block titletag %}{% trans "Polls" %}{% endblock %}
-{% block bodyclass %}menu-poll{% endblock %}
-{% block content %}
 
-	{% trans "Edit" as new_str %}
-	{% include "wagtailadmin/shared/header.html" with title=new_str subtitle=poll icon="group" %}
+{% block titletag %}{% trans "Edit Poll" %}{% endblock %}
+
+{% block content %}
+	{% trans "Edit" as edit_str %}
+	{% include "wagtailadmin/shared/header.html" with title=edit_str subtitle=poll icon="group" %}
 
 	<form action="{% url 'wagtailpolls_edit' poll_pk=poll.pk %}" method="POST">
 		{% csrf_token %}
 		{{ edit_handler.render_form_content }}
 
-<footer>
+		<footer class="footer">
 			<ul>
 				<li class="actions">
-					<div class="dropdown dropup dropdown-button match-width">
-							<button class='button button button-longrunning' data-clicked-text="{% trans 'Updating...' %}" type="submit">
-							<span class="icon icon-spinner"></span>
-							<em>{% trans 'Update' %}</em>
-							</button>
-					</div>
+					<button class='button button-longrunning' data-clicked-text="{% trans 'Updating...' %}" type="submit">
+						<span class="icon icon-spinner"></span>
+						<em>{% trans 'Update' %}</em>
+					</button>
 				</li>
 			</ul>
 		</footer>
 	</form>
-{% endblock %}
-
-{% block extra_css %}
-	{% include "wagtailadmin/pages/_editor_css.html" %}
-{% endblock %}
-{% block extra_js %}
-	{% include "wagtailadmin/pages/_editor_js.html" %}
 {% endblock %}

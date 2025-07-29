@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 import tandem_exams.models
-import wagtail.core.fields
+import wagtail.fields
 
 
 class Migration(migrations.Migration):
@@ -39,6 +39,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tandemexam',
             name='description',
-            field=wagtail.core.fields.RichTextField(default=''),
+            field=wagtail.fields.RichTextField(default=''),
         ),
     ]

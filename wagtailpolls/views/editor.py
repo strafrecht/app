@@ -1,7 +1,9 @@
+from django.apps import apps
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
+from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.utils.text import capfirst
 from django.urls import reverse
@@ -9,10 +11,12 @@ from django.template.response import TemplateResponse
 from functools import lru_cache
 
 from wagtail.admin import messages
-from wagtail.admin.edit_handlers import (ObjectList, extract_panel_definitions_from_model_class)
-from wagtail.core import hooks
-from wagtail.core.models import Page
+from wagtail.admin.auth import permission_denied
+from wagtail.admin.panels import ObjectList, extract_panel_definitions_from_model_class
+from wagtail import hooks
+from wagtail.models import Page
 from wagtail.snippets.permissions import get_permission_name, user_can_edit_snippet_type
+from wagtail.snippets.models import get_snippet_models
 
 def get_snippet_model_from_url_params(app_name, model_name):
 	"""
@@ -39,7 +43,9 @@ def get_poll_edit_handler(model):
 			panels = extract_panel_definitions_from_model_class(model)
 			edit_handler = ObjectList(panels)
 
-		SNIPPET_EDIT_HANDLERS[model] = edit_handler.bind_to(model=model)
+		# In modern Wagtail, we need to bind to model first, then get the bound panel
+		bound_edit_handler = edit_handler.bind_to_model(model)
+		SNIPPET_EDIT_HANDLERS[model] = bound_edit_handler
 	return SNIPPET_EDIT_HANDLERS[model]
 
 @permission_required('wagtailadmin.access_admin')  # further permissions are enforced within the view
@@ -58,7 +64,6 @@ def create(request):
 
 	instance = model()
 	edit_handler = get_poll_edit_handler(model)
-	edit_handler = edit_handler.bind_to(request=request)
 	form_class = edit_handler.get_form_class()
 
 	if request.method == 'POST':
@@ -94,7 +99,7 @@ def create(request):
 	else:
 		form = form_class(instance=instance)
 
-	edit_handler = edit_handler.bind_to(instance=instance, form=form)
+	edit_handler = edit_handler.get_bound_panel(instance=instance, request=request, form=form)
 
 	return TemplateResponse(request, 'wagtailpolls/create.html', {
 		'model_opts': model._meta,
@@ -121,7 +126,6 @@ def edit(request, poll_pk):
 			return result
 
 	edit_handler = get_poll_edit_handler(Poll)
-	edit_handler = edit_handler.bind_to(instance=instance, request=request)
 	form_class = edit_handler.get_form_class()
 
 	if request.method == 'POST':
@@ -157,7 +161,7 @@ def edit(request, poll_pk):
 	else:
 		form = form_class(instance=instance)
 
-	edit_handler = edit_handler.bind_to(form=form)
+	edit_handler = edit_handler.get_bound_panel(instance=instance, request=request, form=form)
 
 	return TemplateResponse(request, 'wagtailpolls/edit.html', {
 		'modal_opts': model._meta,

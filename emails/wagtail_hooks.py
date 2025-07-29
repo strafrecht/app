@@ -1,6 +1,6 @@
-from wagtail.contrib.modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
-from birdsong.options import CampaignAdmin
-from birdsong.models import Contact
+from wagtail_modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
+from birdsong.options import CampaignAdmin  # Re-enabled with forked wagtail-birdsong
+from birdsong.models import Contact  # Re-enabled with forked wagtail-birdsong
 
 from .filters import ContactFilter
 from .models import NewsletterEmail, LSHNewsletter
@@ -12,7 +12,7 @@ class ContactAdmin(ModelAdmin):
     #list_diplay = ('email')
 
 class LSHNewsletterAdmin(CampaignAdmin):
-    campaign = LSHNewsletter
+    model = LSHNewsletter
     menu_label = 'LSH'
     menu_icon = 'mail'
     contact_class = Contact

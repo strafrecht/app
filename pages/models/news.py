@@ -7,19 +7,19 @@ from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
-from wagtail.core import blocks
-from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, FieldRowPanel, MultiFieldPanel, InlinePanel, TabbedInterface, ObjectList
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail import blocks
+from wagtail.models import Page, Orderable
+from wagtail.fields import RichTextField, StreamField
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, ObjectList, TabbedInterface
+# ImageChooserPanel replaced with FieldPanel for Wagtail 4.0 compatibility
 from wagtail.documents.models import Document
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
+# SnippetChooserPanel replaced with FieldPanel for Wagtail 4.0 compatibility
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 from wagtailcolumnblocks.blocks import ColumnsBlock
-from wagtailautocomplete.edit_handlers import AutocompletePanel
+from wagtailautocomplete.edit_handlers import AutocompletePanel  # Re-enabled for Wagtail 6.x
 
 from pages.models.sidebar import (
     SidebarTitleBlock,
@@ -109,13 +109,13 @@ class ArticlesPage(RoutablePageMixin, Page):
         ('content', ArticlesContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    }, verbose_name="Hauptspalte")
+    }, use_json_field=True, verbose_name="Hauptspalte")
 
-    sidebar = StreamField(ArticleSidebarBlocks(required=False), verbose_name="Seitenleiste")
+    sidebar = StreamField(ArticleSidebarBlocks(required=False), use_json_field=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
-        FieldRowPanel([
+        MultiFieldPanel([
             FieldPanel('content', classname='col8'),
             FieldPanel('sidebar', classname='col4'),
         ], classname='full')
@@ -156,16 +156,16 @@ class ArticlePage(Page):
     #], block_counts={
     #    'sidebar': {'min_num': 0, 'max_num': 1},
     #})
-    sidebar = StreamField(ArticleSidebarBlocks(required=False), blank=True, verbose_name="Seitenleiste")
+    sidebar = StreamField(ArticleSidebarBlocks(required=False), blank=True, use_json_field=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('allow_comments'),
-        FieldPanel('author'),
+        AutocompletePanel('author'),  # Use autocomplete for better UX when selecting authors
         FieldPanel('date'),
         FieldPanel('is_evaluation'),
         FieldPanel('tags'),
         FieldPanel('title'),
-        FieldRowPanel([
+        MultiFieldPanel([
             FieldPanel('body', classname='col8'),
             FieldPanel('sidebar', classname='col4'),
         ], classname='full'),
@@ -236,17 +236,17 @@ class EvaluationsPage(Page):
         ('content', EvaluationsContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    }, verbose_name="Hauptspalte")
+    }, use_json_field=True, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
         ('sidebar', ArticleSidebarBlocks(required=False, label="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    }, verbose_name="Seitenleiste")
+    }, use_json_field=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
-        FieldRowPanel([
+        MultiFieldPanel([
             FieldPanel('content', classname='col8'),
             FieldPanel('sidebar', classname='col4'),
         ], classname='full')
@@ -261,17 +261,17 @@ class NewslettersPage(Page):
         ('content', NewslettersContentBlocks(label="Hauptspalte")),
     ], block_counts={
         'content': {'min_num': 1, 'max_num': 1},
-    }, verbose_name="Hauptspalte")
+    }, use_json_field=True, verbose_name="Hauptspalte")
 
     sidebar = StreamField([
         ('sidebar', NewsletterSidebarBlocks(required=False, label="Seitenleiste")),
     ], block_counts={
         'sidebar': {'min_num': 0, 'max_num': 1},
-    }, verbose_name="Seitenleiste")
+    }, use_json_field=True, verbose_name="Seitenleiste")
 
     content_panels = [
         FieldPanel('title'),
-        FieldRowPanel([
+        MultiFieldPanel([
             FieldPanel('content', classname='col8'),
             FieldPanel('sidebar', classname='col4'),
         ], classname='full')

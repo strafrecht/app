@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import wagtail.contrib.routable_page.models
-import wagtail.core.fields
+import wagtail.fields
 
 
 class Migration(migrations.Migration):
@@ -67,14 +67,14 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('subtitle', models.CharField(max_length=255)),
-                ('date', wagtail.core.fields.RichTextField(blank=True)),
+                ('date', wagtail.fields.RichTextField(blank=True)),
                 ('type', models.CharField(blank=True, choices=[('lecture', 'Vorlesung'), ('exercise', 'Übung'), ('study_group', 'Arbeitsgemeinschaft'), ('exam_prep', 'Klausurenkurs'), ('seminar', 'Seminar')], default='lecture', max_length=255)),
                 ('semester', models.CharField(blank=True, choices=[('ss2022', 'Sommersemester 2022'), ('ws2022', 'Wintersemester 2022'), ('ss2021', 'Sommersemester 2021'), ('ws2021', 'Wintersemester 2021'), ('ss2020', 'Sommersemester 2020'), ('ws2020', 'Wintersemester 2020'), ('ss2019', 'Sommersemester 2019'), ('ws2019', 'Wintersemester 2019'), ('ss2018', 'Sommersemester 2018'), ('ws2018', 'Wintersemester 2018')], default='ws2020', max_length=255)),
-                ('assessment', wagtail.core.fields.RichTextField(blank=True)),
-                ('description', wagtail.core.fields.RichTextField(blank=True)),
-                ('speaker_description', wagtail.core.fields.RichTextField(blank=True)),
-                ('content', wagtail.core.fields.RichTextField(blank=True)),
-                ('location', wagtail.core.fields.RichTextField(blank=True)),
+                ('assessment', wagtail.fields.RichTextField(blank=True)),
+                ('description', wagtail.fields.RichTextField(blank=True)),
+                ('speaker_description', wagtail.fields.RichTextField(blank=True)),
+                ('content', wagtail.fields.RichTextField(blank=True)),
+                ('location', wagtail.fields.RichTextField(blank=True)),
                 ('lat', models.FloatField(blank=True, null=True)),
                 ('lon', models.FloatField(blank=True, null=True)),
                 ('speaker', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
@@ -95,7 +95,7 @@ class Migration(migrations.Migration):
                 ('telephone', models.CharField(blank=True, max_length=255, verbose_name='Telefonnummer')),
                 ('email', models.CharField(blank=True, max_length=255, verbose_name='Mailadresse')),
                 ('room', models.CharField(blank=True, max_length=255, verbose_name='Raumnummer')),
-                ('description', wagtail.core.fields.RichTextField(blank=True)),
+                ('description', wagtail.fields.RichTextField(blank=True)),
                 ('image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.image')),
                 ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
             ],

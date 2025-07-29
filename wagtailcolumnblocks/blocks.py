@@ -7,7 +7,7 @@ from django.apps import apps
 #from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.templatetags.static import static
 
-from wagtail.core import blocks
+from wagtail import blocks
 
 
 class ColumnsBlock(blocks.StructBlock):
@@ -98,8 +98,8 @@ class ColumnsBlock(blocks.StructBlock):
 
         grid_width = 12  # 12 columns in the grid
 
-        if apps.is_installed('wagtailfontawesome'):
-            icon = 'fa-columns'
+        if apps.is_installed('wagtailfontawesomesvg'):
+            icon = 'wagtailfontawesomesvg/solid/columns.svg'
 
     @property
     def media(self):

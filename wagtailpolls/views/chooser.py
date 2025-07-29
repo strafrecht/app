@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.core.paginator import Paginator
 from six import text_type
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from wagtail.admin.forms.search import SearchForm as AdminSearchForm
 from wagtail.admin.modal_workflow import render_modal_workflow
 from wagtail.search.backends import get_search_backend
