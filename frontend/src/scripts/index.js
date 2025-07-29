@@ -1,14 +1,6 @@
 import "../styles/index.scss"
-// FIXME: check sizes and styles of fonts
-// @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
-// <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,500|Roboto:400,500,600,700&display=swap" rel="stylesheet">
-// <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
-// <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-import "@fontsource/crimson-text";
-import "@fontsource/roboto";
-import "@fontsource/roboto-slab";
-import "@fontsource/source-serif-pro";
+// Using system fonts for Roboto and sans-serif, custom Corporal font for branding
+// Removed external @fontsource imports to avoid hashed font files
 // import Vue from "vue";
 // import full Vue build
 import LVue from 'vue/dist/vue.min.js';
