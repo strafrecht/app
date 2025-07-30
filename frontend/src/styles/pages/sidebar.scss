@@ -108,7 +108,7 @@ div[class^='block-sidebar']:first-child .sidebar {
   display: flex;
   flex-direction: column;
   flex: 1; // Take full height
-  min-height: 320px; // Minimum height for consistency
+  min-height: 280px; // Reduced height since no comments
 }
 
 .news-widget .date {
@@ -122,14 +122,16 @@ div[class^='block-sidebar']:first-child .sidebar {
   color: #000000;
   font-size: 1rem;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 12px; // Consistent spacing regardless of line count
   line-height: 1.3;
+  min-height: 1.3em; // Ensure consistent height for single/multi-line titles
 }
 
 .news-widget .title a {
   color: inherit;
   text-decoration: none;
   transition: color 0.2s ease;
+  display: block; // Ensure consistent block behavior
 }
 
 .news-widget .title a:hover {
@@ -141,15 +143,8 @@ div[class^='block-sidebar']:first-child .sidebar {
   font-size: 0.9rem;
   line-height: 1.5;
   flex: 1; // Take remaining space
-  margin-bottom: 15px;
   overflow: hidden;
-}
-
-.news-widget .comments {
-  border-top: 1px solid #ddd;
-  font-size: 0.8rem;
-  padding: 10px 0 0 0;
-  margin-top: auto; // Push to bottom
+  padding-bottom: 5px; // Small bottom padding for visual balance
 }
 
 .sidebar-border {
