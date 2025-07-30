@@ -146,8 +146,18 @@ div[class^='block-sidebar']:first-child .sidebar {
   padding-bottom: 5px; // Small bottom padding for visual balance
 }
 
+// Remove all margins from richtext content to ensure consistent spacing
+.news-widget .body * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+// Specifically target common richtext elements
+.news-widget .body p,
+.news-widget .body div,
 .news-widget .body [data-block-key] {
-  margin-top: 0 !important; // Remove margin-top from content blocks for tighter spacing
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .sidebar-border {

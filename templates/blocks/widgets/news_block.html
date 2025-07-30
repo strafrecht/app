@@ -16,7 +16,7 @@
 				<div class="title">
 					<a href="{% routablepageurl article.articles_page 'article_by_date' article.date.year article.date.month article.date.day article.slug %}">{{ article.title }}</a>
 				</div>
-				<div class="body">{{ article.body | richtext | truncatewords:40 }} <a href="{% routablepageurl article.articles_page 'article_by_date' article.date.year article.date.month article.date.day article.slug %}">weiterlesen</a></div>
+				<div class="body">{{ article.body | richtext | truncatechars:280 }} <a href="{% routablepageurl article.articles_page 'article_by_date' article.date.year article.date.month article.date.day article.slug %}">weiterlesen</a></div>
 			</div>
 		</div>
 	{% endfor %}
