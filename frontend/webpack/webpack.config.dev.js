@@ -13,19 +13,25 @@ module.exports = merge(common, {
     chunkFilename: 'js/[name].chunk.js',
   },
   devServer: {
-    inline: true,
     hot: true,
+    liveReload: true,
+    open: true,
+    port: 8080,
+    static: {
+      directory: require('path').join(__dirname, '../build'),
+    },
   },
   plugins: [
     new Webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
-    new ESLintPlugin({
-      extensions: ['js', 'vue'],
-      files: 'src',
-    }),
-    new StylelintPlugin({
-      files: Path.join('src', '**/*.s?(a|c)ss'),
-    }),
+    // Temporarily disabled for development - uncomment to enable linting
+    // new ESLintPlugin({
+    //   extensions: ['js', 'vue'],
+    //   files: 'src',
+    // }),
+    // new StylelintPlugin({
+    //   files: Path.join('src', '**/*.s?(a|c)ss'),
+    // }),
   ],
 });

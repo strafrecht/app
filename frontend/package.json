@@ -7,7 +7,9 @@
     "lint:styles": "stylelint src",
     "lint:scripts": "eslint src",
     "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.prod.js",
-    "start": "webpack --watch --config webpack/webpack.config.dev.js"
+    "start": "webpack --watch --config webpack/webpack.config.dev.js",
+    "dev": "webpack serve --config webpack/webpack.config.dev.js",
+    "dev:fast": "webpack serve --config webpack/webpack.config.dev.js --no-stats"
   },
   "author": "",
   "license": "",
