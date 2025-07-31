@@ -20,5 +20,5 @@ def register_admin_urls():
 def construct_main_menu(request, menu_items):
     menu_items.append(
         MenuItem(_('Polls'), reverse('wagtailpolls_index'),
-                 classnames='icon icon-group', order=250)
+                 classname='icon icon-group', order=250)
     )

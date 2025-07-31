@@ -21,7 +21,7 @@ $container-width: 960px;
 body {
   background: #fafafa;
   color: $body-color;
-  font-family: sans-serif;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .breadcrumb-new {
@@ -39,7 +39,7 @@ body {
 h2 {
   font-size: 28px;
   font-weight: 1000 !important;
-  font-family: 'Roboto Slab';
+  font-family: $serif-font;
   background-image: linear-gradient(90deg, #ffe100, #ffe100);
   background-position: bottom;
   background-size: 100% 50%;
@@ -50,7 +50,7 @@ h2 {
 h3,
 h3 b {
   color: rgb(0, 0, 0) !important;
-  font-family: 'Roboto Slab';
+  font-family: $serif-font;
   font-size: 23px !important;
   font-weight: 1000 !important;
 }
@@ -58,7 +58,7 @@ h3 b {
 h4,
 h4 b {
   color: rgb(90, 90, 90) !important;
-  font-family: 'Roboto Slab';
+  font-family: $serif-font;
   font-size: 16px !important;
   font-weight: 600 !important;
   margin-top: 15px !important;

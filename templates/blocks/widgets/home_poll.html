@@ -1,0 +1,106 @@
+{% extends "blocks/widget.html" %}
+
+{% load wagtailimages_tags %}
+{% load wagtailpolls_tags %}
+
+{% block widget %}
+{% if poll %}
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    init_poll("{% url "wagtailpolls_vote" poll.id %}");
+  });
+</script>
+<div class="home-poll poll">
+  <h3>{{ poll.title }}</h3>
+  <form id="poll" class='poll' method='POST' action='{% url 'wagtailpolls_vote' poll.id %}'>
+    {% csrf_token %}
+    {{ poll.form }}
+
+    <div class="poll-buttons">
+      <input type="submit" value="Abstimmen" class="poll-vote-button">
+      <a href="{% url 'wagtailpolls_results_2' poll.id %}" target="_blank" class="poll-results-button">Ergebnis</a>
+    </div>
+    <small>Startdatum: {{poll.date_created.date.day|stringformat:"02d"}}.{{poll.date_created.date.month|stringformat:"02d"}}.{{poll.date_created.date.year}}</small>
+  </form>
+</div>
+
+<style>
+  .home-poll {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 600px;
+  }
+
+  .home-poll h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .home-poll ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+
+  .home-poll li {
+    margin-bottom: 15px;
+  }
+
+  .home-poll label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .home-poll input[type="radio"] {
+    margin-right: 12px;
+    margin-top: 2px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .poll-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .poll-vote-button, .poll-results-button {
+    background: #ffd700;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+  }
+
+  .poll-vote-button:hover, .poll-results-button:hover {
+    background: #ffed4e;
+  }
+
+  .home-poll small {
+    color: #666;
+    font-size: 0.85rem;
+  }
+</style>
+{% else %}
+<div class="home-poll-empty">
+  <h3>Abstimmung</h3>
+  <p>Keine Abstimmung ausgewählt.</p>
+</div>
+{% endif %}
+{% endblock %}

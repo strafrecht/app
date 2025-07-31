@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load comments %}
 {% load wagtailcore_tags %}
 {# {% load wagtailnews_admin_tags %}  Temporarily disabled for Wagtail 3.0 upgrade #}
 {% load wagtailroutablepage_tags %}
@@ -14,18 +13,10 @@
 		<div class="news-widget">
 			<div class="news-widget-inner">
 				<div class="date">{{ article.date|date:"d.m.Y" }}</div>
-				<div class="title">{{ article.title }}</div>
-				<div class="body">{{ article.body | richtext | truncatechars:300 }} <a href="{% routablepageurl article.articles_page 'article_by_date' article.date.year article.date.month article.date.day article.slug %}">weiterlesen</a></div>
-				{% get_comment_count for article as comment_count %}
-				<div class="comments">
-					{% if comment_count == 0 %}
-						Noch keine Kommentare.
-					{% elif comment_count == 1 %}
-						Ein Kommentar zu diesem Beitrag.
-					{% else %}
-						{{ comment_count }} Kommentar{{ comment_count|pluralize:"e"}} zu diesem Beitrag.
-					{% endif %}
+				<div class="title">
+					<a href="{% routablepageurl article.articles_page 'article_by_date' article.date.year article.date.month article.date.day article.slug %}">{{ article.title }}</a>
 				</div>
+				<div class="body">{{ article.body | richtext | truncatechars:320 }} <a href="{% routablepageurl article.articles_page 'article_by_date' article.date.year article.date.month article.date.day article.slug %}">weiterlesen</a></div>
 			</div>
 		</div>
 	{% endfor %}

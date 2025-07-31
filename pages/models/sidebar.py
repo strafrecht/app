@@ -58,9 +58,9 @@ class SidebarPollChooser(blocks.StructBlock):
 
     def get_context(self, value, parent_context=None):
         ctx = super().get_context(value, parent_context=parent_context)
-        # Temporary implementation for Wagtail 3.0 upgrade
+        # Re-enabled poll functionality for Wagtail 6.x
         try:
-            # Handle different types of poll values after Wagtail 3.0 upgrade
+            # Handle different types of poll values after Wagtail upgrade
             if isinstance(value['poll'], str):
                 poll_id = int(value['poll'])
             elif isinstance(value['poll'], int):
@@ -68,9 +68,8 @@ class SidebarPollChooser(blocks.StructBlock):
             else:
                 # Assume it's a model instance with an id attribute
                 poll_id = value['poll'].id
-            # ctx['page'] = {'poll': Poll.objects.get(id=poll_id)}  # Temporarily disabled for Django 5.x compatibility
-            ctx['page'] = {'poll': None}  # Temporary fallback
-        except (ValueError, AttributeError):  # Poll.DoesNotExist temporarily removed
+            ctx['page'] = {'poll': Poll.objects.get(id=poll_id)}
+        except (ValueError, AttributeError, Poll.DoesNotExist):
             ctx['page'] = {'poll': None}
         return ctx
 

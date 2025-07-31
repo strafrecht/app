@@ -2,5 +2,9 @@
   font-family: 'Corporal';
   font-style: normal;
   font-weight: normal;
-  src: local('Corporal'), url('fonts/corporal/corporal-webfont.ttf') format('truetype');
+  src: url('fonts/corporal/corporal-webfont.woff2') format('woff2'),
+       url('fonts/corporal/corporal-webfont.woff') format('woff'),
+       url('fonts/corporal/corporal-webfont.ttf') format('truetype'),
+       url('fonts/corporal/corporal-webfont.eot') format('embedded-opentype');
+  font-display: swap;
 }

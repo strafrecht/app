@@ -247,6 +247,23 @@ else:
     #EMAIL_USE_TLS = True
     #EMAIL_USE_SSL = False
 
+# AWS SES Configuration
+AWS_ACCESS_KEY_ID = vars.vars.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = vars.vars.get("AWS_SECRET_ACCESS_KEY")
+AWS_SES_REGION = vars.vars.get("AWS_SES_REGION", "eu-west-1")
+AWS_SES_BATCH_SIZE = vars.vars.get("AWS_SES_BATCH_SIZE", 10)
+AWS_SES_RATE_LIMIT = vars.vars.get("AWS_SES_RATE_LIMIT", 14)
+
+# Newsletter Backend Configuration
+USE_SES_BACKEND = vars.vars.get("USE_SES_BACKEND", False)
+BIRDSONG_BACKEND_CLASS = vars.vars.get("BIRDSONG_BACKEND_CLASS", "birdsong.backends.smtp.SMTPEmailBackend")
+BIRDSONG_FALLBACK_BACKEND = vars.vars.get("BIRDSONG_FALLBACK_BACKEND", "birdsong.backends.smtp.SMTPEmailBackend")
+
+# SES Monitoring
+SES_ENABLE_CLOUDWATCH = vars.vars.get("SES_ENABLE_CLOUDWATCH", False)
+SES_BOUNCE_TOPIC_ARN = vars.vars.get("SES_BOUNCE_TOPIC_ARN")
+SES_COMPLAINT_TOPIC_ARN = vars.vars.get("SES_COMPLAINT_TOPIC_ARN")
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -298,7 +315,7 @@ STORAGES = {
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'pipeline.finders.PipelineFinder',  # Re-enabled for Django 5.x - testing compatibility
+    # 'pipeline.finders.PipelineFinder',  # Temporarily disabled due to Django 5.x compatibility issues
 )
 
 STATICFILES_DIRS = [
@@ -458,6 +475,21 @@ LOGGING = {
         '': {
             'handlers': ['file'],
             'level': vars.vars["LOGGING"]["level"],
+            'propagate': True,
+        },
+        'birdsong.backends.ses': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'boto3': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'botocore': {
+            'handlers': ['file'],
+            'level': 'WARNING',
             'propagate': True,
         },
     },

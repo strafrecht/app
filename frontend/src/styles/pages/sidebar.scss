@@ -89,6 +89,7 @@ div[class^='block-sidebar']:first-child .sidebar {
   display: flex;
   flex-wrap: wrap;
   margin-top: 15px;
+  align-items: stretch; // Ensure equal heights
 }
 
 .news-widget {
@@ -96,6 +97,7 @@ div[class^='block-sidebar']:first-child .sidebar {
   width: 50%;
   padding-right: 20px;
   margin-bottom: 20px;
+  display: flex; // Make container flexible
 }
 
 .news-widget-inner {
@@ -103,6 +105,10 @@ div[class^='block-sidebar']:first-child .sidebar {
   padding: 20px;
   border: 1.5px solid rgb(220,220,220);
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1; // Take full height
+  min-height: 280px; // Reduced height since no comments
 }
 
 .news-widget .date {
@@ -116,20 +122,42 @@ div[class^='block-sidebar']:first-child .sidebar {
   color: #000000;
   font-size: 1rem;
   font-weight: bold;
-  height: 40px;
-  margin-bottom: 20px;
+  line-height: 1.3;
+  min-height: 1.3em; // Ensure consistent height for single/multi-line titles
+}
+
+.news-widget .title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: block; // Ensure consistent block behavior
+}
+
+.news-widget .title a:hover {
+  color: #007cba;
+  text-decoration: none;
 }
 
 .news-widget .body {
   font-size: 0.9rem;
-  height: 200px;
-  line-height: 22px;
+  line-height: 1.5;
+  flex: 1; // Take remaining space
+  overflow: hidden;
+  padding-bottom: 5px; // Small bottom padding for visual balance
 }
 
-.news-widget .comments {
-  border-top: 1px solid #ddd;
-  font-size: 0.8rem;
-  padding: 10px 0 0 0;
+// Remove all margins from richtext content to ensure consistent spacing
+.news-widget .body * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+// Specifically target common richtext elements
+.news-widget .body p,
+.news-widget .body div,
+.news-widget .body [data-block-key] {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .sidebar-border {

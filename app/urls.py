@@ -8,10 +8,10 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail import urls as wagtail_urls
 
-# from wagtailpolls.views.results2 import results2  # Temporarily disabled for Django 5.x compatibility
+from wagtailpolls.views.results2 import results2  # Re-enabled for Django 5.x compatibility
 from core.views import exams, api_exams, newsletter_subscribe, newsletter_confirm
 
-# from wagtailpolls.views.vote import vote  # Temporarily disabled for Django 5.x compatibility
+from wagtailpolls.views.vote import vote  # Re-enabled for Django 5.x compatibility
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls  # Re-enabled for Wagtail 6.x
 from birdsong.urls import urlpatterns as birdsong_urls  # Re-enabled with forked wagtail-birdsong
 
@@ -54,9 +54,9 @@ urlpatterns = [
 
     path('comments/', include('django_comments_xtd.urls')),  # Re-enabled with django-comments-xtd 2.10.7
 
-    # re_path(r'^vote/(?P<poll_pk>.*)/$', vote, name='wagtailpolls_vote'),  # Temporarily disabled for Django 5.x compatibility
+    re_path(r'^vote/(?P<poll_pk>.*)/$', vote, name='wagtailpolls_vote'),  # Re-enabled for Django 5.x compatibility
 
-    # re_path(r'^results2/(?P<poll_pk>.*)/$', results2, name='wagtailpolls_results_2'),  # Temporarily disabled for Django 5.x compatibility
+    re_path(r'^results2/(?P<poll_pk>.*)/$', results2, name='wagtailpolls_results_2'),  # Re-enabled for Django 5.x compatibility
     path('problemfelder/', include('wiki.urls')),
     path('', include(wagtail_urls)),
     # path('avatar/', include('avatar.urls')),  # Temporarily disabled until avatar app is re-enabled

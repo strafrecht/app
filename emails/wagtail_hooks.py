@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.utils.module_loading import import_string
 from wagtail_modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
 from birdsong.options import CampaignAdmin  # Re-enabled with forked wagtail-birdsong
 from birdsong.models import Contact  # Re-enabled with forked wagtail-birdsong
@@ -17,6 +19,17 @@ class LSHNewsletterAdmin(CampaignAdmin):
     menu_icon = 'mail'
     contact_class = Contact
     contact_filter_class = ContactFilter
+
+    # Use configured backend class with fallback
+    @property
+    def backend_class(self):
+        backend_class_path = getattr(settings, 'BIRDSONG_BACKEND_CLASS', 'birdsong.backends.smtp.SMTPEmailBackend')
+        try:
+            return import_string(backend_class_path)
+        except ImportError:
+            # Fallback to SMTP backend if SES backend fails to import
+            fallback_path = getattr(settings, 'BIRDSONG_FALLBACK_BACKEND', 'birdsong.backends.smtp.SMTPEmailBackend')
+            return import_string(fallback_path)
 
 @modeladmin_register
 class NewsletterMenuAdmin(ModelAdminGroup):
