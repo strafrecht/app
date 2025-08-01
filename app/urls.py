@@ -13,7 +13,7 @@ from core.views import exams, api_exams, newsletter_subscribe, newsletter_confir
 
 from wagtailpolls.views.vote import vote  # Re-enabled for Django 5.x compatibility
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls  # Re-enabled for Wagtail 6.x
-from birdsong.urls import urlpatterns as birdsong_urls  # Re-enabled with forked wagtail-birdsong
+from birdsong import urls as birdsong_urls  # Re-enabled with forked wagtail-birdsong
 
 urlpatterns = [
     #path('accounts/', include('django.contrib.auth.urls')),

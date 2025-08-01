@@ -1,0 +1,123 @@
+"""
+Management command to set up Wagtail sites for development and production
+Usage: python manage.py setup_sites
+"""
+
+from django.core.management.base import BaseCommand
+from django.conf import settings
+from wagtail.models import Site, Page
+
+
+class Command(BaseCommand):
+    help = 'Set up Wagtail sites for development and production environments'
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            help='Force update existing site configurations'
+        )
+
+    def handle(self, *args, **options):
+        try:
+            # Get the root page
+            root_page = Page.objects.filter(depth=1).first()
+            if not root_page:
+                self.stdout.write(
+                    self.style.ERROR("❌ No root page found. Please run migrations first.")
+                )
+                return
+
+            # Determine if we're in development mode
+            is_debug = getattr(settings, 'DEBUG', False)
+            site_url = getattr(settings, 'SITE_URL', 'http://localhost:8000')
+            
+            self.stdout.write(f"🔧 Setting up sites (DEBUG={is_debug}, SITE_URL={site_url})")
+
+            if is_debug:
+                self._setup_development_site(root_page, options['force'])
+            else:
+                self._setup_production_site(root_page, options['force'])
+
+            self.stdout.write(self.style.SUCCESS("✅ Site configuration completed"))
+
+        except Exception as e:
+            self.stdout.write(
+                self.style.ERROR(f"❌ Failed to set up sites: {e}")
+            )
+
+    def _setup_development_site(self, root_page, force=False):
+        """Set up development site configuration"""
+        
+        # Create or update localhost site
+        dev_site, created = Site.objects.get_or_create(
+            hostname='localhost',
+            port=8000,
+            defaults={
+                'site_name': 'Strafrecht Online (Development)',
+                'root_page': root_page,
+                'is_default_site': True
+            }
+        )
+
+        if created:
+            self.stdout.write("🆕 Created development site: localhost:8000")
+        elif force:
+            dev_site.site_name = 'Strafrecht Online (Development)'
+            dev_site.is_default_site = True
+            dev_site.save()
+            self.stdout.write("🔄 Updated development site: localhost:8000")
+        else:
+            self.stdout.write("ℹ️  Development site already exists: localhost:8000")
+
+        # Make sure development site is default
+        if not dev_site.is_default_site:
+            dev_site.is_default_site = True
+            dev_site.save()
+            self.stdout.write("✅ Set development site as default")
+
+        # Make production site non-default if it exists
+        prod_sites = Site.objects.filter(hostname='strafrecht-online.org')
+        for prod_site in prod_sites:
+            if prod_site.is_default_site:
+                prod_site.is_default_site = False
+                prod_site.save()
+                self.stdout.write("🔄 Set production site as non-default")
+
+    def _setup_production_site(self, root_page, force=False):
+        """Set up production site configuration"""
+        
+        # Create or update production site
+        prod_site, created = Site.objects.get_or_create(
+            hostname='strafrecht-online.org',
+            port=443,
+            defaults={
+                'site_name': 'Strafrecht Online',
+                'root_page': root_page,
+                'is_default_site': True
+            }
+        )
+
+        if created:
+            self.stdout.write("🆕 Created production site: strafrecht-online.org")
+        elif force:
+            prod_site.site_name = 'Strafrecht Online'
+            prod_site.is_default_site = True
+            prod_site.save()
+            self.stdout.write("🔄 Updated production site: strafrecht-online.org")
+        else:
+            self.stdout.write("ℹ️  Production site already exists: strafrecht-online.org")
+
+        # Make sure production site is default
+        if not prod_site.is_default_site:
+            prod_site.is_default_site = True
+            prod_site.save()
+            self.stdout.write("✅ Set production site as default")
+
+        # Make development sites non-default if they exist
+        dev_sites = Site.objects.filter(hostname='localhost')
+        for dev_site in dev_sites:
+            if dev_site.is_default_site:
+                dev_site.is_default_site = False
+                dev_site.save()
+                self.stdout.write("🔄 Set development site as non-default")

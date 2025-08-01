@@ -169,6 +169,9 @@ python manage.py test
 # Create migrations
 python manage.py makemigrations
 
+# Set up Wagtail sites for development/production
+python manage.py setup_sites
+
 # Frontend development
 cd frontend && npm run start
 
