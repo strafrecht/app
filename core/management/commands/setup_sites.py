@@ -104,6 +104,70 @@ class Command(BaseCommand):
                 prod_site.save()
                 self.stdout.write("🔄 Set production site as non-default")
 
+        # Ensure development site has menu items
+        self._ensure_dev_menu_items(dev_site, force)
+
+    def _ensure_dev_menu_items(self, dev_site, force=False):
+        """Ensure development site has menu items copied from production"""
+        try:
+            from wagtailmenus.models import MainMenu, MainMenuItem
+
+            # Get or create development menu
+            dev_menu, created = MainMenu.objects.get_or_create(
+                site=dev_site,
+                defaults={'max_levels': 3}
+            )
+
+            # Check if dev menu has items
+            dev_items_count = MainMenuItem.objects.filter(menu=dev_menu).count()
+
+            if dev_items_count == 0 or force:
+                # Try to copy from production site
+                prod_site = Site.objects.filter(hostname='strafrecht-online.org').first()
+                if prod_site:
+                    try:
+                        prod_menu = MainMenu.objects.get(site=prod_site)
+                        prod_items = MainMenuItem.objects.filter(menu=prod_menu).order_by('sort_order')
+
+                        if prod_items.exists():
+                            # Clear existing dev menu items if force
+                            if force:
+                                MainMenuItem.objects.filter(menu=dev_menu).delete()
+
+                            # Copy items
+                            copied_count = 0
+                            for prod_item in prod_items:
+                                if not MainMenuItem.objects.filter(
+                                    menu=dev_menu,
+                                    link_page=prod_item.link_page,
+                                    link_url=prod_item.link_url
+                                ).exists():
+                                    MainMenuItem.objects.create(
+                                        menu=dev_menu,
+                                        link_page=prod_item.link_page,
+                                        link_url=prod_item.link_url,
+                                        link_text=prod_item.link_text,
+                                        sort_order=prod_item.sort_order,
+                                        allow_subnav=prod_item.allow_subnav
+                                    )
+                                    copied_count += 1
+
+                            if copied_count > 0:
+                                self.stdout.write(f"📋 Copied {copied_count} menu items from production to development")
+                            else:
+                                self.stdout.write("ℹ️  Development menu items already up to date")
+                        else:
+                            self.stdout.write("⚠️  No menu items found in production site to copy")
+                    except MainMenu.DoesNotExist:
+                        self.stdout.write("⚠️  No MainMenu found for production site")
+                else:
+                    self.stdout.write("⚠️  Production site not found, cannot copy menu items")
+            else:
+                self.stdout.write(f"✅ Development site already has {dev_items_count} menu items")
+
+        except ImportError:
+            self.stdout.write("⚠️  wagtailmenus not available, skipping menu setup")
+
     def _setup_production_site(self, root_page, force=False):
         """Set up production site configuration"""
         
