@@ -19,9 +19,9 @@ This document summarizes the comprehensive AWS SES migration implementation for 
   - Support for both HTML and text email formats
 
 #### 2. **Configuration Management**
-- **Files**: 
+- **Files**:
   - `app/settings.py` (updated with SES configuration)
-  - `app/vars_ses.py.tpl` (configuration template)
+  - `app/vars.py.tpl` (configuration template with AWS SES settings)
 - **Features**:
   - Environment-based configuration
   - Feature flag for gradual rollout (`USE_SES_BACKEND`)
