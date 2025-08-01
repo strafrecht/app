@@ -1,0 +1,139 @@
+# Development overrides for docker-compose.yml
+# This file is automatically loaded by docker-compose for development
+version: '3.8'
+
+services:
+  # Development overrides for Django web application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=app.settings
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,web
+    volumes:
+      # Mount source code for live editing
+      - .:/app
+      - /app/venv
+      - /app/node_modules
+      - /app/frontend/node_modules
+      # Override static and media volumes for development
+      - ./staticfiles:/app/staticfiles
+      - ./media:/app/media
+      - ./log:/app/log
+    ports:
+      - "8000:8000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - postgres
+      - redis
+
+  # Development overrides for Celery worker
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    command: celery -A app worker -l debug --reload
+    environment:
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=app.settings
+    volumes:
+      - .:/app
+      - /app/venv
+      - ./log:/app/log
+    depends_on:
+      - postgres
+      - redis
+
+  # Development overrides for Celery beat
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    command: celery -A app beat -l debug --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    environment:
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=app.settings
+    volumes:
+      - .:/app
+      - /app/venv
+      - ./log:/app/log
+    depends_on:
+      - postgres
+      - redis
+
+  # Frontend development server (optional)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: strafrecht_frontend_dev
+    command: npm run dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+      - "3001:3001"  # For webpack dev server
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - strafrecht_network
+    stdin_open: true
+    tty: true
+
+  # PostgreSQL with development settings
+  postgres:
+    environment:
+      - POSTGRES_DB=strafrecht_dev
+      - POSTGRES_USER=django_dev
+      - POSTGRES_PASSWORD=postgres_dev
+    ports:
+      - "5434:5432"  # Different port to avoid conflicts with local PostgreSQL
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./backups:/backups
+      # Mount init scripts for development data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
+
+  # Redis with development settings
+  redis:
+    command: redis-server --appendonly yes --requirepass redis_dev_password
+    environment:
+      - REDIS_PASSWORD=redis_dev_password
+    ports:
+      - "6380:6379"  # Different port to avoid conflicts with local Redis
+
+  # MailHog for email testing in development
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: strafrecht_mailhog
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    networks:
+      - strafrecht_network
+
+  # Adminer for database management
+  adminer:
+    image: adminer:latest
+    container_name: strafrecht_adminer
+    ports:
+      - "8080:8080"
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
+    networks:
+      - strafrecht_network
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_dev_data:
+    driver: local

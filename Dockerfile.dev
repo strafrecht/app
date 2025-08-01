@@ -1,0 +1,60 @@
+# Development Dockerfile for Strafrecht Online Django Application
+FROM python:3.10-slim as base
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app \
+    DJANGO_SETTINGS_MODULE=app.settings
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    libgdal-dev \
+    gdal-bin \
+    gettext \
+    curl \
+    git \
+    libffi-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set work directory
+WORKDIR /app
+
+# Development stage
+FROM base as development
+
+# Install development tools
+RUN apt-get update && apt-get install -y \
+    vim \
+    htop \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements files
+COPY requirements/ ./requirements/
+
+# Install Python dependencies including development packages
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements/dev.txt
+
+# Copy forked dependencies and install them in development mode
+COPY wagtail-birdsong-fork/ ./wagtail-birdsong-fork/
+COPY strafrecht-wagtailcomments-xtd-fork/ ./strafrecht-wagtailcomments-xtd-fork/
+
+RUN pip install -e ./wagtail-birdsong-fork && \
+    pip install -e ./strafrecht-wagtailcomments-xtd-fork
+
+# Create necessary directories
+RUN mkdir -p /app/staticfiles /app/media /app/log
+
+# Copy application code (this will be overridden by volume mount in development)
+COPY . .
+
+# Expose port
+EXPOSE 8000
+
+# Default command for development
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

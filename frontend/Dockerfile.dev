@@ -1,0 +1,23 @@
+# Development Dockerfile for Frontend
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies for development
+RUN apk add --no-cache git
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including dev dependencies)
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose ports for webpack dev server
+EXPOSE 3000 3001
+
+# Default command for development
+CMD ["npm", "run", "dev"]

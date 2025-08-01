@@ -1,0 +1,149 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:14-alpine
+    container_name: strafrecht_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-strafrecht}
+      POSTGRES_USER: ${POSTGRES_USER:-django}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    networks:
+      - strafrecht_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-django} -d ${POSTGRES_DB:-strafrecht}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Redis Cache and Session Store
+  redis:
+    image: redis:7-alpine
+    container_name: strafrecht_redis
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_password}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - strafrecht_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Django Web Application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: strafrecht_web
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.settings
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-strafrecht}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - DEBUG=${DEBUG:-False}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      - AWS_SES_REGION=${AWS_SES_REGION:-eu-central-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL:-webmaster@localhost}
+      - BIRDSONG_FROM_EMAIL=${BIRDSONG_FROM_EMAIL:-newsletter@localhost}
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - ./log:/app/log
+    ports:
+      - "${WEB_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - strafrecht_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/admin/login/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Celery Worker for Background Tasks
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: strafrecht_celery
+    command: celery -A app worker -l info
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.settings
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-strafrecht}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - SECRET_KEY=${SECRET_KEY}
+      - AWS_SES_REGION=${AWS_SES_REGION:-eu-central-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    volumes:
+      - media_volume:/app/media
+      - ./log:/app/log
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - strafrecht_network
+    restart: unless-stopped
+
+  # Celery Beat for Scheduled Tasks
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: strafrecht_celery_beat
+    command: celery -A app beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.settings
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-strafrecht}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - SECRET_KEY=${SECRET_KEY}
+    volumes:
+      - ./log:/app/log
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - strafrecht_network
+    restart: unless-stopped
+
+# Named volumes for data persistence
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  static_volume:
+    driver: local
+  media_volume:
+    driver: local
+
+# Custom network
+networks:
+  strafrecht_network:
+    driver: bridge
