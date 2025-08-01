@@ -119,7 +119,4 @@ zope.interface==5.4.0
 # AWS SES Integration
 boto3>=1.26.0
 botocore>=1.29.0
-
-# AWS SES Integration
-boto3>=1.26.0
-botocore>=1.29.0
+django-ses>=4.4.0

@@ -232,20 +232,12 @@ SERVER_EMAIL = vars.vars["SERVER_EMAIL"]
 DEFAULT_FROM_EMAIL = vars.vars["DEFAULT_FROM_EMAIL"]
 BIRDSONG_FROM_EMAIL = vars.vars["BIRDSONG_FROM_EMAIL"]
 
-if DEBUG:
-    # use mailcatcher for development
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = "localhost"
-    EMAIL_PORT = "1025"
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = vars.vars["EMAIL"]["host"]
-    EMAIL_PORT = vars.vars["EMAIL"]["port"]
-    # We use localhost as mail relay
-    #EMAIL_HOST_USER = vars.vars["EMAIL"]["login"]
-    #EMAIL_HOST_PASSWORD = vars.vars["EMAIL"]["password"]
-    #EMAIL_USE_TLS = True
-    #EMAIL_USE_SSL = False
+# Use AWS SES for all emails (both development and production)
+EMAIL_BACKEND = 'django_ses.SESBackend'
+
+# AWS SES Configuration for Django email backend
+AWS_SES_REGION_NAME = vars.vars.get("AWS_SES_REGION", "eu-central-1")
+AWS_SES_REGION_ENDPOINT = f'email.{AWS_SES_REGION_NAME}.amazonaws.com'
 
 # AWS SES Configuration
 AWS_ACCESS_KEY_ID = vars.vars.get("AWS_ACCESS_KEY_ID")
