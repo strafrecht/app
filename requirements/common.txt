@@ -123,7 +123,7 @@ wagtail-treemodeladmin==1.9.2  # Re-enabled for Wagtail 5.2 - Tree-like navigati
 # wagtailfontawesome>=1.2.1  # Temporarily disabled - uses old wagtail.core imports incompatible with Wagtail 6.x
 wagtailmenus==3.1.9
 wagtailnews==5.2.0  # Re-enabled for Wagtail 5.2 - News/blog functionality
-wagtailstreamforms==4.1.0  # StreamField-based form builder
+# wagtailstreamforms==4.1.0  # REPLACED by wagtail-flexible-forms - StreamField-based form builder
 webencodings==0.5.1
 wget==3.2
 wiki==0.12.0
