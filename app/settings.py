@@ -251,6 +251,9 @@ USE_SES_BACKEND = vars.vars.get("USE_SES_BACKEND", False)
 BIRDSONG_BACKEND_CLASS = vars.vars.get("BIRDSONG_BACKEND_CLASS", "birdsong.backends.smtp.SMTPEmailBackend")
 BIRDSONG_FALLBACK_BACKEND = vars.vars.get("BIRDSONG_FALLBACK_BACKEND", "birdsong.backends.smtp.SMTPEmailBackend")
 
+# Disable default birdsong admin group to prevent duplicate menu entries
+BIRDSONG_ADMIN_GROUP = False
+
 # SES Monitoring
 SES_ENABLE_CLOUDWATCH = vars.vars.get("SES_ENABLE_CLOUDWATCH", False)
 SES_BOUNCE_TOPIC_ARN = vars.vars.get("SES_BOUNCE_TOPIC_ARN")
