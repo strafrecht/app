@@ -1,0 +1,181 @@
+{% extends "modeladmin/index.html" %}
+{% load i18n %}
+
+{% block extra_css %}
+{{ block.super }}
+<style>
+.bulk-actions {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.bulk-actions .button {
+    margin-right: 10px;
+}
+
+.select-all-checkbox {
+    margin-right: 10px;
+}
+
+.contact-checkbox {
+    margin-right: 10px;
+}
+
+.bulk-delete-button {
+    background-color: #cd3238;
+    color: white;
+}
+
+.bulk-delete-button:hover {
+    background-color: #b02a30;
+}
+
+.bulk-delete-button:disabled {
+    background-color: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed;
+}
+
+.bulk-actions-form {
+    display: inline-block;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('select-all-contacts');
+    const contactCheckboxes = document.querySelectorAll('.contact-checkbox');
+    const bulkDeleteButton = document.getElementById('bulk-delete-button');
+    const bulkDeleteForm = document.getElementById('bulk-delete-form');
+
+    // Handle select all functionality
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+            contactCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+            updateBulkDeleteButton();
+        });
+    }
+
+    // Handle individual checkbox changes
+    contactCheckboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            updateSelectAllCheckbox();
+            updateBulkDeleteButton();
+        });
+    });
+
+    // Update select all checkbox state
+    function updateSelectAllCheckbox() {
+        if (selectAllCheckbox) {
+            const checkedCount = document.querySelectorAll('.contact-checkbox:checked').length;
+            const totalCount = contactCheckboxes.length;
+
+            selectAllCheckbox.checked = checkedCount === totalCount;
+            selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCount;
+        }
+    }
+
+    // Update bulk delete button state
+    function updateBulkDeleteButton() {
+        const checkedCount = document.querySelectorAll('.contact-checkbox:checked').length;
+        if (bulkDeleteButton) {
+            bulkDeleteButton.disabled = checkedCount === 0;
+            bulkDeleteButton.textContent = checkedCount > 0 ?
+                '{% trans "Delete selected" %} (' + checkedCount + ')' :
+                '{% trans "Delete selected" %}';
+        }
+    }
+
+    // Handle bulk delete form submission
+    if (bulkDeleteForm) {
+        bulkDeleteForm.addEventListener('submit', function(e) {
+            const checkedCount = document.querySelectorAll('.contact-checkbox:checked').length;
+            if (checkedCount === 0) {
+                e.preventDefault();
+                alert('{% trans "Please select at least one contact to delete." %}');
+                return false;
+            }
+
+            const confirmMessage = checkedCount === 1 ?
+                '{% trans "Are you sure you want to delete this contact?" %}' :
+                '{% trans "Are you sure you want to delete these " %}' + checkedCount + '{% trans " contacts?" %}';
+
+            if (!confirm(confirmMessage)) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Add selected contact IDs to form
+            const selectedIds = [];
+            document.querySelectorAll('.contact-checkbox:checked').forEach(function(checkbox) {
+                selectedIds.push(checkbox.value);
+            });
+
+            // Remove existing contact_ids inputs
+            const existingInputs = bulkDeleteForm.querySelectorAll('input[name="contact_ids"]');
+            existingInputs.forEach(function(input) {
+                input.remove();
+            });
+
+            // Add new contact_ids inputs
+            selectedIds.forEach(function(id) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'contact_ids';
+                input.value = id;
+                bulkDeleteForm.appendChild(input);
+            });
+        });
+    }
+
+    // Initial state
+    updateSelectAllCheckbox();
+    updateBulkDeleteButton();
+});
+</script>
+{% endblock %}
+
+{% block listing %}
+{% if object_list %}
+    <div class="bulk-actions">
+        <label class="select-all-label">
+            <input type="checkbox" id="select-all-contacts" class="select-all-checkbox">
+            {% trans "Select all" %}
+        </label>
+
+        <form method="post" action="bulk_delete/" class="bulk-actions-form" id="bulk-delete-form">
+            {% csrf_token %}
+            <button type="submit" id="bulk-delete-button" class="button bulk-delete-button" disabled>
+                {% trans "Delete selected" %}
+            </button>
+        </form>
+    </div>
+{% endif %}
+
+{{ block.super }}
+{% endblock %}
+
+{% block table_headers %}
+<th class="bulk-select">
+    {% trans "Select" %}
+</th>
+{{ block.super }}
+{% endblock %}
+
+{% block table_row_content %}
+<td class="bulk-select">
+    <input type="checkbox" class="contact-checkbox" value="{{ instance.pk }}">
+</td>
+{{ block.super }}
+{% endblock %}
