@@ -69,7 +69,9 @@ services:
       - redis
 
   # Frontend development server (optional)
+  # Use: docker-compose --profile frontend up to include this service
   frontend:
+    profiles: ["frontend"]
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev

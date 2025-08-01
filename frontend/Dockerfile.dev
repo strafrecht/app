@@ -5,13 +5,16 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Install dependencies for development
-RUN apk add --no-cache git
+RUN apk add --no-cache git python3 make g++
 
 # Copy package files
 COPY package*.json ./
 
 # Install all dependencies (including dev dependencies)
-RUN npm install
+# Use legacy peer deps to handle dependency conflicts
+RUN npm install --legacy-peer-deps || \
+    (echo "npm install failed, trying with force flag..." && \
+     npm install --legacy-peer-deps --force)
 
 # Copy source code
 COPY . .

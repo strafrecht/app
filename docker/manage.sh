@@ -39,7 +39,7 @@ show_usage() {
     echo "Commands:"
     echo "  setup [dev|prod]     - Initial setup (default: dev)"
     echo "  build                - Build all Docker images"
-    echo "  up [dev|prod]        - Start services (default: dev)"
+    echo "  up [dev|prod] [frontend] - Start services (default: dev, add 'frontend' to include frontend dev server)"
     echo "  down                 - Stop services"
     echo "  restart              - Restart services"
     echo "  logs [service]       - View logs (all services or specific)"
@@ -54,6 +54,8 @@ show_usage() {
     echo ""
     echo "Examples:"
     echo "  $0 setup dev         - Setup for development"
+    echo "  $0 up dev            - Start development services (without frontend)"
+    echo "  $0 up dev frontend   - Start development services (with frontend dev server)"
     echo "  $0 up prod           - Start production services"
     echo "  $0 logs web          - View web service logs"
     echo "  $0 shell celery      - Access celery container shell"
@@ -95,16 +97,23 @@ build_images() {
 # Function to start services
 start_services() {
     local env_type=${1:-dev}
+    local include_frontend=${2:-false}
     cd "$PROJECT_DIR"
-    
+
     if [ "$env_type" = "prod" ]; then
         log_info "Starting production services..."
         docker-compose -f docker-compose.yml up -d
     else
         log_info "Starting development services..."
-        docker-compose up -d
+        if [ "$include_frontend" = "frontend" ]; then
+            log_info "Including frontend development server..."
+            docker-compose --profile frontend up -d
+        else
+            log_info "Starting without frontend (use 'frontend' as second argument to include it)..."
+            docker-compose up -d
+        fi
     fi
-    
+
     log_success "Services started"
 }
 
@@ -118,9 +127,11 @@ stop_services() {
 
 # Function to restart services
 restart_services() {
+    local env_type=${1:-dev}
+    local include_frontend=${2:-false}
     log_info "Restarting services..."
     stop_services
-    start_services
+    start_services "$env_type" "$include_frontend"
     log_success "Services restarted"
 }
 
@@ -243,13 +254,13 @@ case "${1:-help}" in
         build_images
         ;;
     up|start)
-        start_services "$2"
+        start_services "$2" "$3"
         ;;
     down|stop)
         stop_services
         ;;
     restart)
-        restart_services
+        restart_services "$2" "$3"
         ;;
     logs)
         view_logs "$2"
