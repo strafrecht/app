@@ -492,5 +492,28 @@ LOGGING = {
 
 # MJML Configuration
 import os
+import shutil
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MJML_EXEC_CMD = os.path.join(BASE_DIR, 'node_modules', '.bin', 'mjml')
+
+# Try to find MJML in different locations
+mjml_paths = [
+    '/usr/local/bin/mjml',  # Global npm install location
+    '/usr/bin/mjml',        # Alternative global location
+    os.path.join(BASE_DIR, 'node_modules', '.bin', 'mjml'),  # Local install
+]
+
+MJML_EXEC_CMD = None
+for path in mjml_paths:
+    if os.path.exists(path):
+        MJML_EXEC_CMD = path
+        break
+
+# Fallback: try to find mjml using which command
+if not MJML_EXEC_CMD:
+    mjml_which = shutil.which('mjml')
+    if mjml_which:
+        MJML_EXEC_CMD = mjml_which
+
+# If still not found, use the default path (will cause error if not installed)
+if not MJML_EXEC_CMD:
+    MJML_EXEC_CMD = os.path.join(BASE_DIR, 'node_modules', '.bin', 'mjml')

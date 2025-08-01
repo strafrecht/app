@@ -98,7 +98,7 @@ services:
       - POSTGRES_USER=django_dev
       - POSTGRES_PASSWORD=postgres_dev
     ports:
-      - "5434:5432"  # Different port to avoid conflicts with local PostgreSQL
+      - "5435:5432"  # Different port to avoid conflicts with local PostgreSQL
     volumes:
       - postgres_dev_data:/var/lib/postgresql/data
       - ./backups:/backups

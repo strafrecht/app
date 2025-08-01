@@ -29,7 +29,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Create app user for security
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
-# Install system dependencies
+# Install system dependencies including Node.js
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
@@ -39,6 +39,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     libffi-dev \
     pkg-config \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Set work directory
@@ -50,6 +52,9 @@ COPY requirements/ ./requirements/
 # Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements/production.txt
+
+# Install MJML for email templates
+RUN npm install -g mjml
 
 # Copy forked dependencies and install them
 COPY wagtail-birdsong-fork/ ./wagtail-birdsong-fork/
