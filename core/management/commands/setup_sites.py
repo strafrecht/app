@@ -48,14 +48,28 @@ class Command(BaseCommand):
 
     def _setup_development_site(self, root_page, force=False):
         """Set up development site configuration"""
-        
+
+        # Try to find the actual HomePage instead of using root page
+        from pages.models.home import HomePage
+        try:
+            home_page = HomePage.objects.first()
+            if home_page:
+                site_root_page = home_page
+                self.stdout.write(f"🏠 Using HomePage: {home_page.title} (ID: {home_page.id})")
+            else:
+                site_root_page = root_page
+                self.stdout.write(f"⚠️  No HomePage found, using root page: {root_page.title}")
+        except Exception as e:
+            site_root_page = root_page
+            self.stdout.write(f"⚠️  Error finding HomePage: {e}, using root page")
+
         # Create or update localhost site
         dev_site, created = Site.objects.get_or_create(
             hostname='localhost',
             port=8000,
             defaults={
                 'site_name': 'Strafrecht Online (Development)',
-                'root_page': root_page,
+                'root_page': site_root_page,
                 'is_default_site': True
             }
         )
@@ -64,11 +78,17 @@ class Command(BaseCommand):
             self.stdout.write("🆕 Created development site: localhost:8000")
         elif force:
             dev_site.site_name = 'Strafrecht Online (Development)'
+            dev_site.root_page = site_root_page
             dev_site.is_default_site = True
             dev_site.save()
             self.stdout.write("🔄 Updated development site: localhost:8000")
         else:
             self.stdout.write("ℹ️  Development site already exists: localhost:8000")
+            # Check if we need to update the root page even without force
+            if dev_site.root_page != site_root_page:
+                dev_site.root_page = site_root_page
+                dev_site.save()
+                self.stdout.write(f"🔄 Updated root page to: {site_root_page.title}")
 
         # Make sure development site is default
         if not dev_site.is_default_site:
